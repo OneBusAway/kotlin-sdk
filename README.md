@@ -75,7 +75,7 @@ import com.open_transit.api.models.CurrentTimeRetrieveParams
 import com.open_transit.api.models.CurrentTimeRetrieveResponse
 
 val params = CurrentTimeRetrieveParams.builder().build()
-val currentTimeRetrieveResponse = client.currentTime().retrieve(params)
+val currentTime = client.currentTime().retrieve(params)
 ```
 
 ---
@@ -107,7 +107,7 @@ val params = CurrentTimeRetrieveParams.builder()
 When receiving a response, the Onebusaway SDK Kotlin SDK will deserialize it into instances of the typed model classes. In rare cases, the API may return a response property that doesn't match the expected Kotlin type. If you directly access the mistaken property, the SDK will throw an unchecked `OnebusawaySdkInvalidDataException` at runtime. If you would prefer to check in advance that that response is completely well-typed, call `.validate()` on the returned model.
 
 ```kotlin
-val currentTimeRetrieveResponse = client.currentTime().retrieve().validate()
+val currentTime = client.currentTime().retrieve().validate()
 ```
 
 ### Response properties as JSON
@@ -137,7 +137,7 @@ if (field.isMissing()) {
 Sometimes, the server response may include additional properties that are not yet available in this library's types. You can access them using the model's `_additionalProperties` method:
 
 ```kotlin
-val secret = currentTimeRetrieveResponse._additionalProperties().get("secret_field")
+val secret = currentTime._additionalProperties().get("secret_field")
 ```
 
 ---
