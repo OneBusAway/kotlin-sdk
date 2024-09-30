@@ -19,14 +19,14 @@ The REST API documentation can be found on [developer.onebusaway.org](https://d
 #### Gradle
 
 ```kotlin
-implementation("com.open_transit.api:onebusaway-sdk-kotlin:0.0.1-alpha.0")
+implementation("org.onebusaway:onebusaway-sdk-kotlin:0.0.1-alpha.0")
 ```
 
 #### Maven
 
 ```xml
 <dependency>
-    <groupId>com.open_transit.api</groupId>
+    <groupId>org.onebusaway</groupId>
     <artifactId>onebusaway-sdk-kotlin</artifactId>
     <version>0.0.1-alpha.0</version>
 </dependency>
@@ -37,8 +37,8 @@ implementation("com.open_transit.api:onebusaway-sdk-kotlin:0.0.1-alpha.0")
 Use `OnebusawaySdkOkHttpClient.builder()` to configure the client. At a minimum you need to set `.apiKey()`:
 
 ```kotlin
-import com.open_transit.api.client.OnebusawaySdkClient
-import com.open_transit.api.client.okhttp.OnebusawaySdkOkHttpClient
+import org.onebusaway.client.OnebusawaySdkClient
+import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
 
 val client = OnebusawaySdkOkHttpClient.builder()
     .apiKey("My API Key")
@@ -71,8 +71,8 @@ To create a new current time, first use the `CurrentTimeRetrieveParams` builder 
 then pass that to the `retrieve` method of the `currentTime` service.
 
 ```kotlin
-import com.open_transit.api.models.CurrentTimeRetrieveParams
-import com.open_transit.api.models.CurrentTimeRetrieveResponse
+import org.onebusaway.models.CurrentTimeRetrieveParams
+import org.onebusaway.models.CurrentTimeRetrieveResponse
 
 val params = CurrentTimeRetrieveParams.builder().build()
 val currentTime = client.currentTime().retrieve(params)
@@ -93,7 +93,7 @@ Sometimes, the API may support other properties that are not yet supported in th
 you can attach them using the `putAdditionalProperty` method.
 
 ```kotlin
-import com.open_transit.api.models.core.JsonValue
+import org.onebusaway.models.core.JsonValue
 val params = CurrentTimeRetrieveParams.builder()
     // ... normal properties
     .putAdditionalProperty("secret_param", JsonValue.from("4242"))
