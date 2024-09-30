@@ -3,7 +3,7 @@ plugins {
 }
 
 allprojects {
-    group = "com.open_transit.api"
+    group = "org.onebusaway"
     version = "0.0.1-alpha.0" 
 }
 
