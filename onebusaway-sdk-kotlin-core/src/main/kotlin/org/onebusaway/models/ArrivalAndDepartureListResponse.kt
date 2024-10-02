@@ -28,8 +28,6 @@ private constructor(
 
     private var validated: Boolean = false
 
-    private var hashCode: Int = 0
-
     fun code(): Long = code.getRequired("code")
 
     fun currentTime(): Long = currentTime.getRequired("currentTime")
@@ -74,38 +72,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is ArrivalAndDepartureListResponse &&
-            this.code == other.code &&
-            this.currentTime == other.currentTime &&
-            this.text == other.text &&
-            this.version == other.version &&
-            this.data == other.data &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    code,
-                    currentTime,
-                    text,
-                    version,
-                    data,
-                    additionalProperties,
-                )
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "ArrivalAndDepartureListResponse{code=$code, currentTime=$currentTime, text=$text, version=$version, data=$data, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -197,8 +163,6 @@ private constructor(
 
         private var validated: Boolean = false
 
-        private var hashCode: Int = 0
-
         fun entry(): Entry = entry.getRequired("entry")
 
         fun references(): References = references.getRequired("references")
@@ -220,32 +184,6 @@ private constructor(
         }
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is Data &&
-                this.entry == other.entry &&
-                this.references == other.references &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        entry,
-                        references,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "Data{entry=$entry, references=$references, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -310,8 +248,6 @@ private constructor(
 
             private var validated: Boolean = false
 
-            private var hashCode: Int = 0
-
             fun arrivalsAndDepartures(): List<ArrivalsAndDeparture> =
                 arrivalsAndDepartures.getRequired("arrivalsAndDepartures")
 
@@ -331,26 +267,6 @@ private constructor(
             }
 
             fun toBuilder() = Builder().from(this)
-
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return other is Entry &&
-                    this.arrivalsAndDepartures == other.arrivalsAndDepartures &&
-                    this.additionalProperties == other.additionalProperties
-            }
-
-            override fun hashCode(): Int {
-                if (hashCode == 0) {
-                    hashCode = Objects.hash(arrivalsAndDepartures, additionalProperties)
-                }
-                return hashCode
-            }
-
-            override fun toString() =
-                "Entry{arrivalsAndDepartures=$arrivalsAndDepartures, additionalProperties=$additionalProperties}"
 
             companion object {
 
@@ -441,8 +357,6 @@ private constructor(
             ) {
 
                 private var validated: Boolean = false
-
-                private var hashCode: Int = 0
 
                 /** The actual track information of the arriving transit vehicle. */
                 fun actualTrack(): String? = actualTrack.getNullable("actualTrack")
@@ -791,96 +705,6 @@ private constructor(
                 }
 
                 fun toBuilder() = Builder().from(this)
-
-                override fun equals(other: Any?): Boolean {
-                    if (this === other) {
-                        return true
-                    }
-
-                    return other is ArrivalsAndDeparture &&
-                        this.actualTrack == other.actualTrack &&
-                        this.arrivalEnabled == other.arrivalEnabled &&
-                        this.blockTripSequence == other.blockTripSequence &&
-                        this.departureEnabled == other.departureEnabled &&
-                        this.distanceFromStop == other.distanceFromStop &&
-                        this.frequency == other.frequency &&
-                        this.historicalOccupancy == other.historicalOccupancy &&
-                        this.lastUpdateTime == other.lastUpdateTime &&
-                        this.numberOfStopsAway == other.numberOfStopsAway &&
-                        this.occupancyStatus == other.occupancyStatus &&
-                        this.predicted == other.predicted &&
-                        this.predictedArrivalInterval == other.predictedArrivalInterval &&
-                        this.predictedArrivalTime == other.predictedArrivalTime &&
-                        this.predictedDepartureInterval == other.predictedDepartureInterval &&
-                        this.predictedDepartureTime == other.predictedDepartureTime &&
-                        this.predictedOccupancy == other.predictedOccupancy &&
-                        this.routeId == other.routeId &&
-                        this.routeLongName == other.routeLongName &&
-                        this.routeShortName == other.routeShortName &&
-                        this.scheduledArrivalInterval == other.scheduledArrivalInterval &&
-                        this.scheduledArrivalTime == other.scheduledArrivalTime &&
-                        this.scheduledDepartureInterval == other.scheduledDepartureInterval &&
-                        this.scheduledDepartureTime == other.scheduledDepartureTime &&
-                        this.scheduledTrack == other.scheduledTrack &&
-                        this.serviceDate == other.serviceDate &&
-                        this.situationIds == other.situationIds &&
-                        this.status == other.status &&
-                        this.stopId == other.stopId &&
-                        this.stopSequence == other.stopSequence &&
-                        this.totalStopsInTrip == other.totalStopsInTrip &&
-                        this.tripHeadsign == other.tripHeadsign &&
-                        this.tripId == other.tripId &&
-                        this.tripStatus == other.tripStatus &&
-                        this.vehicleId == other.vehicleId &&
-                        this.additionalProperties == other.additionalProperties
-                }
-
-                override fun hashCode(): Int {
-                    if (hashCode == 0) {
-                        hashCode =
-                            Objects.hash(
-                                actualTrack,
-                                arrivalEnabled,
-                                blockTripSequence,
-                                departureEnabled,
-                                distanceFromStop,
-                                frequency,
-                                historicalOccupancy,
-                                lastUpdateTime,
-                                numberOfStopsAway,
-                                occupancyStatus,
-                                predicted,
-                                predictedArrivalInterval,
-                                predictedArrivalTime,
-                                predictedDepartureInterval,
-                                predictedDepartureTime,
-                                predictedOccupancy,
-                                routeId,
-                                routeLongName,
-                                routeShortName,
-                                scheduledArrivalInterval,
-                                scheduledArrivalTime,
-                                scheduledDepartureInterval,
-                                scheduledDepartureTime,
-                                scheduledTrack,
-                                serviceDate,
-                                situationIds,
-                                status,
-                                stopId,
-                                stopSequence,
-                                totalStopsInTrip,
-                                tripHeadsign,
-                                tripId,
-                                tripStatus,
-                                vehicleId,
-                                additionalProperties,
-                            )
-                    }
-                    return hashCode
-                }
-
-                override fun toString() =
-                    "ArrivalsAndDeparture{actualTrack=$actualTrack, arrivalEnabled=$arrivalEnabled, blockTripSequence=$blockTripSequence, departureEnabled=$departureEnabled, distanceFromStop=$distanceFromStop, frequency=$frequency, historicalOccupancy=$historicalOccupancy, lastUpdateTime=$lastUpdateTime, numberOfStopsAway=$numberOfStopsAway, occupancyStatus=$occupancyStatus, predicted=$predicted, predictedArrivalInterval=$predictedArrivalInterval, predictedArrivalTime=$predictedArrivalTime, predictedDepartureInterval=$predictedDepartureInterval, predictedDepartureTime=$predictedDepartureTime, predictedOccupancy=$predictedOccupancy, routeId=$routeId, routeLongName=$routeLongName, routeShortName=$routeShortName, scheduledArrivalInterval=$scheduledArrivalInterval, scheduledArrivalTime=$scheduledArrivalTime, scheduledDepartureInterval=$scheduledDepartureInterval, scheduledDepartureTime=$scheduledDepartureTime, scheduledTrack=$scheduledTrack, serviceDate=$serviceDate, situationIds=$situationIds, status=$status, stopId=$stopId, stopSequence=$stopSequence, totalStopsInTrip=$totalStopsInTrip, tripHeadsign=$tripHeadsign, tripId=$tripId, tripStatus=$tripStatus, vehicleId=$vehicleId, additionalProperties=$additionalProperties}"
 
                 companion object {
 
@@ -1470,8 +1294,6 @@ private constructor(
 
                     private var validated: Boolean = false
 
-                    private var hashCode: Int = 0
-
                     /** Trip ID of the trip the vehicle is actively serving. */
                     fun activeTripId(): String = activeTripId.getRequired("activeTripId")
 
@@ -1766,82 +1588,6 @@ private constructor(
                     }
 
                     fun toBuilder() = Builder().from(this)
-
-                    override fun equals(other: Any?): Boolean {
-                        if (this === other) {
-                            return true
-                        }
-
-                        return other is TripStatus &&
-                            this.activeTripId == other.activeTripId &&
-                            this.blockTripSequence == other.blockTripSequence &&
-                            this.closestStop == other.closestStop &&
-                            this.closestStopTimeOffset == other.closestStopTimeOffset &&
-                            this.distanceAlongTrip == other.distanceAlongTrip &&
-                            this.frequency == other.frequency &&
-                            this.lastKnownDistanceAlongTrip == other.lastKnownDistanceAlongTrip &&
-                            this.lastKnownLocation == other.lastKnownLocation &&
-                            this.lastKnownOrientation == other.lastKnownOrientation &&
-                            this.lastLocationUpdateTime == other.lastLocationUpdateTime &&
-                            this.lastUpdateTime == other.lastUpdateTime &&
-                            this.nextStop == other.nextStop &&
-                            this.nextStopTimeOffset == other.nextStopTimeOffset &&
-                            this.occupancyCapacity == other.occupancyCapacity &&
-                            this.occupancyCount == other.occupancyCount &&
-                            this.occupancyStatus == other.occupancyStatus &&
-                            this.orientation == other.orientation &&
-                            this.phase == other.phase &&
-                            this.position == other.position &&
-                            this.predicted == other.predicted &&
-                            this.scheduleDeviation == other.scheduleDeviation &&
-                            this.scheduledDistanceAlongTrip == other.scheduledDistanceAlongTrip &&
-                            this.serviceDate == other.serviceDate &&
-                            this.situationIds == other.situationIds &&
-                            this.status == other.status &&
-                            this.totalDistanceAlongTrip == other.totalDistanceAlongTrip &&
-                            this.vehicleId == other.vehicleId &&
-                            this.additionalProperties == other.additionalProperties
-                    }
-
-                    override fun hashCode(): Int {
-                        if (hashCode == 0) {
-                            hashCode =
-                                Objects.hash(
-                                    activeTripId,
-                                    blockTripSequence,
-                                    closestStop,
-                                    closestStopTimeOffset,
-                                    distanceAlongTrip,
-                                    frequency,
-                                    lastKnownDistanceAlongTrip,
-                                    lastKnownLocation,
-                                    lastKnownOrientation,
-                                    lastLocationUpdateTime,
-                                    lastUpdateTime,
-                                    nextStop,
-                                    nextStopTimeOffset,
-                                    occupancyCapacity,
-                                    occupancyCount,
-                                    occupancyStatus,
-                                    orientation,
-                                    phase,
-                                    position,
-                                    predicted,
-                                    scheduleDeviation,
-                                    scheduledDistanceAlongTrip,
-                                    serviceDate,
-                                    situationIds,
-                                    status,
-                                    totalDistanceAlongTrip,
-                                    vehicleId,
-                                    additionalProperties,
-                                )
-                        }
-                        return hashCode
-                    }
-
-                    override fun toString() =
-                        "TripStatus{activeTripId=$activeTripId, blockTripSequence=$blockTripSequence, closestStop=$closestStop, closestStopTimeOffset=$closestStopTimeOffset, distanceAlongTrip=$distanceAlongTrip, frequency=$frequency, lastKnownDistanceAlongTrip=$lastKnownDistanceAlongTrip, lastKnownLocation=$lastKnownLocation, lastKnownOrientation=$lastKnownOrientation, lastLocationUpdateTime=$lastLocationUpdateTime, lastUpdateTime=$lastUpdateTime, nextStop=$nextStop, nextStopTimeOffset=$nextStopTimeOffset, occupancyCapacity=$occupancyCapacity, occupancyCount=$occupancyCount, occupancyStatus=$occupancyStatus, orientation=$orientation, phase=$phase, position=$position, predicted=$predicted, scheduleDeviation=$scheduleDeviation, scheduledDistanceAlongTrip=$scheduledDistanceAlongTrip, serviceDate=$serviceDate, situationIds=$situationIds, status=$status, totalDistanceAlongTrip=$totalDistanceAlongTrip, vehicleId=$vehicleId, additionalProperties=$additionalProperties}"
 
                     companion object {
 
@@ -2334,8 +2080,6 @@ private constructor(
 
                         private var validated: Boolean = false
 
-                        private var hashCode: Int = 0
-
                         /** Latitude of the last known location of the transit vehicle. */
                         fun lat(): Double? = lat.getNullable("lat")
 
@@ -2361,32 +2105,6 @@ private constructor(
                         }
 
                         fun toBuilder() = Builder().from(this)
-
-                        override fun equals(other: Any?): Boolean {
-                            if (this === other) {
-                                return true
-                            }
-
-                            return other is LastKnownLocation &&
-                                this.lat == other.lat &&
-                                this.lon == other.lon &&
-                                this.additionalProperties == other.additionalProperties
-                        }
-
-                        override fun hashCode(): Int {
-                            if (hashCode == 0) {
-                                hashCode =
-                                    Objects.hash(
-                                        lat,
-                                        lon,
-                                        additionalProperties,
-                                    )
-                            }
-                            return hashCode
-                        }
-
-                        override fun toString() =
-                            "LastKnownLocation{lat=$lat, lon=$lon, additionalProperties=$additionalProperties}"
 
                         companion object {
 
@@ -2444,6 +2162,34 @@ private constructor(
                                     additionalProperties.toUnmodifiable(),
                                 )
                         }
+
+                        override fun equals(other: Any?): Boolean {
+                            if (this === other) {
+                                return true
+                            }
+
+                            return other is LastKnownLocation &&
+                                this.lat == other.lat &&
+                                this.lon == other.lon &&
+                                this.additionalProperties == other.additionalProperties
+                        }
+
+                        private var hashCode: Int = 0
+
+                        override fun hashCode(): Int {
+                            if (hashCode == 0) {
+                                hashCode =
+                                    Objects.hash(
+                                        lat,
+                                        lon,
+                                        additionalProperties,
+                                    )
+                            }
+                            return hashCode
+                        }
+
+                        override fun toString() =
+                            "LastKnownLocation{lat=$lat, lon=$lon, additionalProperties=$additionalProperties}"
                     }
 
                     /** Current position of the transit vehicle. */
@@ -2457,8 +2203,6 @@ private constructor(
                     ) {
 
                         private var validated: Boolean = false
-
-                        private var hashCode: Int = 0
 
                         /** Latitude of the current position of the transit vehicle. */
                         fun lat(): Double? = lat.getNullable("lat")
@@ -2485,32 +2229,6 @@ private constructor(
                         }
 
                         fun toBuilder() = Builder().from(this)
-
-                        override fun equals(other: Any?): Boolean {
-                            if (this === other) {
-                                return true
-                            }
-
-                            return other is Position &&
-                                this.lat == other.lat &&
-                                this.lon == other.lon &&
-                                this.additionalProperties == other.additionalProperties
-                        }
-
-                        override fun hashCode(): Int {
-                            if (hashCode == 0) {
-                                hashCode =
-                                    Objects.hash(
-                                        lat,
-                                        lon,
-                                        additionalProperties,
-                                    )
-                            }
-                            return hashCode
-                        }
-
-                        override fun toString() =
-                            "Position{lat=$lat, lon=$lon, additionalProperties=$additionalProperties}"
 
                         companion object {
 
@@ -2568,9 +2286,291 @@ private constructor(
                                     additionalProperties.toUnmodifiable(),
                                 )
                         }
+
+                        override fun equals(other: Any?): Boolean {
+                            if (this === other) {
+                                return true
+                            }
+
+                            return other is Position &&
+                                this.lat == other.lat &&
+                                this.lon == other.lon &&
+                                this.additionalProperties == other.additionalProperties
+                        }
+
+                        private var hashCode: Int = 0
+
+                        override fun hashCode(): Int {
+                            if (hashCode == 0) {
+                                hashCode =
+                                    Objects.hash(
+                                        lat,
+                                        lon,
+                                        additionalProperties,
+                                    )
+                            }
+                            return hashCode
+                        }
+
+                        override fun toString() =
+                            "Position{lat=$lat, lon=$lon, additionalProperties=$additionalProperties}"
                     }
+
+                    override fun equals(other: Any?): Boolean {
+                        if (this === other) {
+                            return true
+                        }
+
+                        return other is TripStatus &&
+                            this.activeTripId == other.activeTripId &&
+                            this.blockTripSequence == other.blockTripSequence &&
+                            this.closestStop == other.closestStop &&
+                            this.closestStopTimeOffset == other.closestStopTimeOffset &&
+                            this.distanceAlongTrip == other.distanceAlongTrip &&
+                            this.frequency == other.frequency &&
+                            this.lastKnownDistanceAlongTrip == other.lastKnownDistanceAlongTrip &&
+                            this.lastKnownLocation == other.lastKnownLocation &&
+                            this.lastKnownOrientation == other.lastKnownOrientation &&
+                            this.lastLocationUpdateTime == other.lastLocationUpdateTime &&
+                            this.lastUpdateTime == other.lastUpdateTime &&
+                            this.nextStop == other.nextStop &&
+                            this.nextStopTimeOffset == other.nextStopTimeOffset &&
+                            this.occupancyCapacity == other.occupancyCapacity &&
+                            this.occupancyCount == other.occupancyCount &&
+                            this.occupancyStatus == other.occupancyStatus &&
+                            this.orientation == other.orientation &&
+                            this.phase == other.phase &&
+                            this.position == other.position &&
+                            this.predicted == other.predicted &&
+                            this.scheduleDeviation == other.scheduleDeviation &&
+                            this.scheduledDistanceAlongTrip == other.scheduledDistanceAlongTrip &&
+                            this.serviceDate == other.serviceDate &&
+                            this.situationIds == other.situationIds &&
+                            this.status == other.status &&
+                            this.totalDistanceAlongTrip == other.totalDistanceAlongTrip &&
+                            this.vehicleId == other.vehicleId &&
+                            this.additionalProperties == other.additionalProperties
+                    }
+
+                    private var hashCode: Int = 0
+
+                    override fun hashCode(): Int {
+                        if (hashCode == 0) {
+                            hashCode =
+                                Objects.hash(
+                                    activeTripId,
+                                    blockTripSequence,
+                                    closestStop,
+                                    closestStopTimeOffset,
+                                    distanceAlongTrip,
+                                    frequency,
+                                    lastKnownDistanceAlongTrip,
+                                    lastKnownLocation,
+                                    lastKnownOrientation,
+                                    lastLocationUpdateTime,
+                                    lastUpdateTime,
+                                    nextStop,
+                                    nextStopTimeOffset,
+                                    occupancyCapacity,
+                                    occupancyCount,
+                                    occupancyStatus,
+                                    orientation,
+                                    phase,
+                                    position,
+                                    predicted,
+                                    scheduleDeviation,
+                                    scheduledDistanceAlongTrip,
+                                    serviceDate,
+                                    situationIds,
+                                    status,
+                                    totalDistanceAlongTrip,
+                                    vehicleId,
+                                    additionalProperties,
+                                )
+                        }
+                        return hashCode
+                    }
+
+                    override fun toString() =
+                        "TripStatus{activeTripId=$activeTripId, blockTripSequence=$blockTripSequence, closestStop=$closestStop, closestStopTimeOffset=$closestStopTimeOffset, distanceAlongTrip=$distanceAlongTrip, frequency=$frequency, lastKnownDistanceAlongTrip=$lastKnownDistanceAlongTrip, lastKnownLocation=$lastKnownLocation, lastKnownOrientation=$lastKnownOrientation, lastLocationUpdateTime=$lastLocationUpdateTime, lastUpdateTime=$lastUpdateTime, nextStop=$nextStop, nextStopTimeOffset=$nextStopTimeOffset, occupancyCapacity=$occupancyCapacity, occupancyCount=$occupancyCount, occupancyStatus=$occupancyStatus, orientation=$orientation, phase=$phase, position=$position, predicted=$predicted, scheduleDeviation=$scheduleDeviation, scheduledDistanceAlongTrip=$scheduledDistanceAlongTrip, serviceDate=$serviceDate, situationIds=$situationIds, status=$status, totalDistanceAlongTrip=$totalDistanceAlongTrip, vehicleId=$vehicleId, additionalProperties=$additionalProperties}"
                 }
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is ArrivalsAndDeparture &&
+                        this.actualTrack == other.actualTrack &&
+                        this.arrivalEnabled == other.arrivalEnabled &&
+                        this.blockTripSequence == other.blockTripSequence &&
+                        this.departureEnabled == other.departureEnabled &&
+                        this.distanceFromStop == other.distanceFromStop &&
+                        this.frequency == other.frequency &&
+                        this.historicalOccupancy == other.historicalOccupancy &&
+                        this.lastUpdateTime == other.lastUpdateTime &&
+                        this.numberOfStopsAway == other.numberOfStopsAway &&
+                        this.occupancyStatus == other.occupancyStatus &&
+                        this.predicted == other.predicted &&
+                        this.predictedArrivalInterval == other.predictedArrivalInterval &&
+                        this.predictedArrivalTime == other.predictedArrivalTime &&
+                        this.predictedDepartureInterval == other.predictedDepartureInterval &&
+                        this.predictedDepartureTime == other.predictedDepartureTime &&
+                        this.predictedOccupancy == other.predictedOccupancy &&
+                        this.routeId == other.routeId &&
+                        this.routeLongName == other.routeLongName &&
+                        this.routeShortName == other.routeShortName &&
+                        this.scheduledArrivalInterval == other.scheduledArrivalInterval &&
+                        this.scheduledArrivalTime == other.scheduledArrivalTime &&
+                        this.scheduledDepartureInterval == other.scheduledDepartureInterval &&
+                        this.scheduledDepartureTime == other.scheduledDepartureTime &&
+                        this.scheduledTrack == other.scheduledTrack &&
+                        this.serviceDate == other.serviceDate &&
+                        this.situationIds == other.situationIds &&
+                        this.status == other.status &&
+                        this.stopId == other.stopId &&
+                        this.stopSequence == other.stopSequence &&
+                        this.totalStopsInTrip == other.totalStopsInTrip &&
+                        this.tripHeadsign == other.tripHeadsign &&
+                        this.tripId == other.tripId &&
+                        this.tripStatus == other.tripStatus &&
+                        this.vehicleId == other.vehicleId &&
+                        this.additionalProperties == other.additionalProperties
+                }
+
+                private var hashCode: Int = 0
+
+                override fun hashCode(): Int {
+                    if (hashCode == 0) {
+                        hashCode =
+                            Objects.hash(
+                                actualTrack,
+                                arrivalEnabled,
+                                blockTripSequence,
+                                departureEnabled,
+                                distanceFromStop,
+                                frequency,
+                                historicalOccupancy,
+                                lastUpdateTime,
+                                numberOfStopsAway,
+                                occupancyStatus,
+                                predicted,
+                                predictedArrivalInterval,
+                                predictedArrivalTime,
+                                predictedDepartureInterval,
+                                predictedDepartureTime,
+                                predictedOccupancy,
+                                routeId,
+                                routeLongName,
+                                routeShortName,
+                                scheduledArrivalInterval,
+                                scheduledArrivalTime,
+                                scheduledDepartureInterval,
+                                scheduledDepartureTime,
+                                scheduledTrack,
+                                serviceDate,
+                                situationIds,
+                                status,
+                                stopId,
+                                stopSequence,
+                                totalStopsInTrip,
+                                tripHeadsign,
+                                tripId,
+                                tripStatus,
+                                vehicleId,
+                                additionalProperties,
+                            )
+                    }
+                    return hashCode
+                }
+
+                override fun toString() =
+                    "ArrivalsAndDeparture{actualTrack=$actualTrack, arrivalEnabled=$arrivalEnabled, blockTripSequence=$blockTripSequence, departureEnabled=$departureEnabled, distanceFromStop=$distanceFromStop, frequency=$frequency, historicalOccupancy=$historicalOccupancy, lastUpdateTime=$lastUpdateTime, numberOfStopsAway=$numberOfStopsAway, occupancyStatus=$occupancyStatus, predicted=$predicted, predictedArrivalInterval=$predictedArrivalInterval, predictedArrivalTime=$predictedArrivalTime, predictedDepartureInterval=$predictedDepartureInterval, predictedDepartureTime=$predictedDepartureTime, predictedOccupancy=$predictedOccupancy, routeId=$routeId, routeLongName=$routeLongName, routeShortName=$routeShortName, scheduledArrivalInterval=$scheduledArrivalInterval, scheduledArrivalTime=$scheduledArrivalTime, scheduledDepartureInterval=$scheduledDepartureInterval, scheduledDepartureTime=$scheduledDepartureTime, scheduledTrack=$scheduledTrack, serviceDate=$serviceDate, situationIds=$situationIds, status=$status, stopId=$stopId, stopSequence=$stopSequence, totalStopsInTrip=$totalStopsInTrip, tripHeadsign=$tripHeadsign, tripId=$tripId, tripStatus=$tripStatus, vehicleId=$vehicleId, additionalProperties=$additionalProperties}"
             }
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is Entry &&
+                    this.arrivalsAndDepartures == other.arrivalsAndDepartures &&
+                    this.additionalProperties == other.additionalProperties
+            }
+
+            private var hashCode: Int = 0
+
+            override fun hashCode(): Int {
+                if (hashCode == 0) {
+                    hashCode = Objects.hash(arrivalsAndDepartures, additionalProperties)
+                }
+                return hashCode
+            }
+
+            override fun toString() =
+                "Entry{arrivalsAndDepartures=$arrivalsAndDepartures, additionalProperties=$additionalProperties}"
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is Data &&
+                this.entry == other.entry &&
+                this.references == other.references &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        private var hashCode: Int = 0
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        entry,
+                        references,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "Data{entry=$entry, references=$references, additionalProperties=$additionalProperties}"
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return other is ArrivalAndDepartureListResponse &&
+            this.code == other.code &&
+            this.currentTime == other.currentTime &&
+            this.text == other.text &&
+            this.version == other.version &&
+            this.data == other.data &&
+            this.additionalProperties == other.additionalProperties
+    }
+
+    private var hashCode: Int = 0
+
+    override fun hashCode(): Int {
+        if (hashCode == 0) {
+            hashCode =
+                Objects.hash(
+                    code,
+                    currentTime,
+                    text,
+                    version,
+                    data,
+                    additionalProperties,
+                )
+        }
+        return hashCode
+    }
+
+    override fun toString() =
+        "ArrivalAndDepartureListResponse{code=$code, currentTime=$currentTime, text=$text, version=$version, data=$data, additionalProperties=$additionalProperties}"
 }

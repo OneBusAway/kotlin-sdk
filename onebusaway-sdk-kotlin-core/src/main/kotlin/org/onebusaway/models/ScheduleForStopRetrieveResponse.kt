@@ -28,8 +28,6 @@ private constructor(
 
     private var validated: Boolean = false
 
-    private var hashCode: Int = 0
-
     fun code(): Long = code.getRequired("code")
 
     fun currentTime(): Long = currentTime.getRequired("currentTime")
@@ -74,38 +72,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is ScheduleForStopRetrieveResponse &&
-            this.code == other.code &&
-            this.currentTime == other.currentTime &&
-            this.text == other.text &&
-            this.version == other.version &&
-            this.data == other.data &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    code,
-                    currentTime,
-                    text,
-                    version,
-                    data,
-                    additionalProperties,
-                )
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "ScheduleForStopRetrieveResponse{code=$code, currentTime=$currentTime, text=$text, version=$version, data=$data, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -197,8 +163,6 @@ private constructor(
 
         private var validated: Boolean = false
 
-        private var hashCode: Int = 0
-
         fun entry(): Entry = entry.getRequired("entry")
 
         fun references(): References = references.getRequired("references")
@@ -220,32 +184,6 @@ private constructor(
         }
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is Data &&
-                this.entry == other.entry &&
-                this.references == other.references &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        entry,
-                        references,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "Data{entry=$entry, references=$references, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -312,8 +250,6 @@ private constructor(
 
             private var validated: Boolean = false
 
-            private var hashCode: Int = 0
-
             fun date(): Long = date.getRequired("date")
 
             fun stopId(): String = stopId.getRequired("stopId")
@@ -343,34 +279,6 @@ private constructor(
             }
 
             fun toBuilder() = Builder().from(this)
-
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return other is Entry &&
-                    this.date == other.date &&
-                    this.stopId == other.stopId &&
-                    this.stopRouteSchedules == other.stopRouteSchedules &&
-                    this.additionalProperties == other.additionalProperties
-            }
-
-            override fun hashCode(): Int {
-                if (hashCode == 0) {
-                    hashCode =
-                        Objects.hash(
-                            date,
-                            stopId,
-                            stopRouteSchedules,
-                            additionalProperties,
-                        )
-                }
-                return hashCode
-            }
-
-            override fun toString() =
-                "Entry{date=$date, stopId=$stopId, stopRouteSchedules=$stopRouteSchedules, additionalProperties=$additionalProperties}"
 
             companion object {
 
@@ -450,8 +358,6 @@ private constructor(
 
                 private var validated: Boolean = false
 
-                private var hashCode: Int = 0
-
                 fun routeId(): String = routeId.getRequired("routeId")
 
                 fun stopRouteDirectionSchedules(): List<StopRouteDirectionSchedule> =
@@ -476,32 +382,6 @@ private constructor(
                 }
 
                 fun toBuilder() = Builder().from(this)
-
-                override fun equals(other: Any?): Boolean {
-                    if (this === other) {
-                        return true
-                    }
-
-                    return other is StopRouteSchedule &&
-                        this.routeId == other.routeId &&
-                        this.stopRouteDirectionSchedules == other.stopRouteDirectionSchedules &&
-                        this.additionalProperties == other.additionalProperties
-                }
-
-                override fun hashCode(): Int {
-                    if (hashCode == 0) {
-                        hashCode =
-                            Objects.hash(
-                                routeId,
-                                stopRouteDirectionSchedules,
-                                additionalProperties,
-                            )
-                    }
-                    return hashCode
-                }
-
-                override fun toString() =
-                    "StopRouteSchedule{routeId=$routeId, stopRouteDirectionSchedules=$stopRouteDirectionSchedules, additionalProperties=$additionalProperties}"
 
                 companion object {
 
@@ -574,8 +454,6 @@ private constructor(
 
                     private var validated: Boolean = false
 
-                    private var hashCode: Int = 0
-
                     fun scheduleFrequencies(): List<ScheduleFrequency>? =
                         scheduleFrequencies.getNullable("scheduleFrequencies")
 
@@ -608,34 +486,6 @@ private constructor(
                     }
 
                     fun toBuilder() = Builder().from(this)
-
-                    override fun equals(other: Any?): Boolean {
-                        if (this === other) {
-                            return true
-                        }
-
-                        return other is StopRouteDirectionSchedule &&
-                            this.scheduleFrequencies == other.scheduleFrequencies &&
-                            this.scheduleStopTimes == other.scheduleStopTimes &&
-                            this.tripHeadsign == other.tripHeadsign &&
-                            this.additionalProperties == other.additionalProperties
-                    }
-
-                    override fun hashCode(): Int {
-                        if (hashCode == 0) {
-                            hashCode =
-                                Objects.hash(
-                                    scheduleFrequencies,
-                                    scheduleStopTimes,
-                                    tripHeadsign,
-                                    additionalProperties,
-                                )
-                        }
-                        return hashCode
-                    }
-
-                    override fun toString() =
-                        "StopRouteDirectionSchedule{scheduleFrequencies=$scheduleFrequencies, scheduleStopTimes=$scheduleStopTimes, tripHeadsign=$tripHeadsign, additionalProperties=$additionalProperties}"
 
                     companion object {
 
@@ -731,8 +581,6 @@ private constructor(
 
                         private var validated: Boolean = false
 
-                        private var hashCode: Int = 0
-
                         fun arrivalEnabled(): Boolean = arrivalEnabled.getRequired("arrivalEnabled")
 
                         fun arrivalTime(): Long = arrivalTime.getRequired("arrivalTime")
@@ -790,42 +638,6 @@ private constructor(
                         }
 
                         fun toBuilder() = Builder().from(this)
-
-                        override fun equals(other: Any?): Boolean {
-                            if (this === other) {
-                                return true
-                            }
-
-                            return other is ScheduleStopTime &&
-                                this.arrivalEnabled == other.arrivalEnabled &&
-                                this.arrivalTime == other.arrivalTime &&
-                                this.departureEnabled == other.departureEnabled &&
-                                this.departureTime == other.departureTime &&
-                                this.serviceId == other.serviceId &&
-                                this.stopHeadsign == other.stopHeadsign &&
-                                this.tripId == other.tripId &&
-                                this.additionalProperties == other.additionalProperties
-                        }
-
-                        override fun hashCode(): Int {
-                            if (hashCode == 0) {
-                                hashCode =
-                                    Objects.hash(
-                                        arrivalEnabled,
-                                        arrivalTime,
-                                        departureEnabled,
-                                        departureTime,
-                                        serviceId,
-                                        stopHeadsign,
-                                        tripId,
-                                        additionalProperties,
-                                    )
-                            }
-                            return hashCode
-                        }
-
-                        override fun toString() =
-                            "ScheduleStopTime{arrivalEnabled=$arrivalEnabled, arrivalTime=$arrivalTime, departureEnabled=$departureEnabled, departureTime=$departureTime, serviceId=$serviceId, stopHeadsign=$stopHeadsign, tripId=$tripId, additionalProperties=$additionalProperties}"
 
                         companion object {
 
@@ -941,6 +753,44 @@ private constructor(
                                     additionalProperties.toUnmodifiable(),
                                 )
                         }
+
+                        override fun equals(other: Any?): Boolean {
+                            if (this === other) {
+                                return true
+                            }
+
+                            return other is ScheduleStopTime &&
+                                this.arrivalEnabled == other.arrivalEnabled &&
+                                this.arrivalTime == other.arrivalTime &&
+                                this.departureEnabled == other.departureEnabled &&
+                                this.departureTime == other.departureTime &&
+                                this.serviceId == other.serviceId &&
+                                this.stopHeadsign == other.stopHeadsign &&
+                                this.tripId == other.tripId &&
+                                this.additionalProperties == other.additionalProperties
+                        }
+
+                        private var hashCode: Int = 0
+
+                        override fun hashCode(): Int {
+                            if (hashCode == 0) {
+                                hashCode =
+                                    Objects.hash(
+                                        arrivalEnabled,
+                                        arrivalTime,
+                                        departureEnabled,
+                                        departureTime,
+                                        serviceId,
+                                        stopHeadsign,
+                                        tripId,
+                                        additionalProperties,
+                                    )
+                            }
+                            return hashCode
+                        }
+
+                        override fun toString() =
+                            "ScheduleStopTime{arrivalEnabled=$arrivalEnabled, arrivalTime=$arrivalTime, departureEnabled=$departureEnabled, departureTime=$departureTime, serviceId=$serviceId, stopHeadsign=$stopHeadsign, tripId=$tripId, additionalProperties=$additionalProperties}"
                     }
 
                     @JsonDeserialize(builder = ScheduleFrequency.Builder::class)
@@ -957,8 +807,6 @@ private constructor(
                     ) {
 
                         private var validated: Boolean = false
-
-                        private var hashCode: Int = 0
 
                         fun serviceDate(): Long = serviceDate.getRequired("serviceDate")
 
@@ -1003,40 +851,6 @@ private constructor(
                         }
 
                         fun toBuilder() = Builder().from(this)
-
-                        override fun equals(other: Any?): Boolean {
-                            if (this === other) {
-                                return true
-                            }
-
-                            return other is ScheduleFrequency &&
-                                this.serviceDate == other.serviceDate &&
-                                this.startTime == other.startTime &&
-                                this.endTime == other.endTime &&
-                                this.headway == other.headway &&
-                                this.serviceId == other.serviceId &&
-                                this.tripId == other.tripId &&
-                                this.additionalProperties == other.additionalProperties
-                        }
-
-                        override fun hashCode(): Int {
-                            if (hashCode == 0) {
-                                hashCode =
-                                    Objects.hash(
-                                        serviceDate,
-                                        startTime,
-                                        endTime,
-                                        headway,
-                                        serviceId,
-                                        tripId,
-                                        additionalProperties,
-                                    )
-                            }
-                            return hashCode
-                        }
-
-                        override fun toString() =
-                            "ScheduleFrequency{serviceDate=$serviceDate, startTime=$startTime, endTime=$endTime, headway=$headway, serviceId=$serviceId, tripId=$tripId, additionalProperties=$additionalProperties}"
 
                         companion object {
 
@@ -1133,9 +947,195 @@ private constructor(
                                     additionalProperties.toUnmodifiable(),
                                 )
                         }
+
+                        override fun equals(other: Any?): Boolean {
+                            if (this === other) {
+                                return true
+                            }
+
+                            return other is ScheduleFrequency &&
+                                this.serviceDate == other.serviceDate &&
+                                this.startTime == other.startTime &&
+                                this.endTime == other.endTime &&
+                                this.headway == other.headway &&
+                                this.serviceId == other.serviceId &&
+                                this.tripId == other.tripId &&
+                                this.additionalProperties == other.additionalProperties
+                        }
+
+                        private var hashCode: Int = 0
+
+                        override fun hashCode(): Int {
+                            if (hashCode == 0) {
+                                hashCode =
+                                    Objects.hash(
+                                        serviceDate,
+                                        startTime,
+                                        endTime,
+                                        headway,
+                                        serviceId,
+                                        tripId,
+                                        additionalProperties,
+                                    )
+                            }
+                            return hashCode
+                        }
+
+                        override fun toString() =
+                            "ScheduleFrequency{serviceDate=$serviceDate, startTime=$startTime, endTime=$endTime, headway=$headway, serviceId=$serviceId, tripId=$tripId, additionalProperties=$additionalProperties}"
                     }
+
+                    override fun equals(other: Any?): Boolean {
+                        if (this === other) {
+                            return true
+                        }
+
+                        return other is StopRouteDirectionSchedule &&
+                            this.scheduleFrequencies == other.scheduleFrequencies &&
+                            this.scheduleStopTimes == other.scheduleStopTimes &&
+                            this.tripHeadsign == other.tripHeadsign &&
+                            this.additionalProperties == other.additionalProperties
+                    }
+
+                    private var hashCode: Int = 0
+
+                    override fun hashCode(): Int {
+                        if (hashCode == 0) {
+                            hashCode =
+                                Objects.hash(
+                                    scheduleFrequencies,
+                                    scheduleStopTimes,
+                                    tripHeadsign,
+                                    additionalProperties,
+                                )
+                        }
+                        return hashCode
+                    }
+
+                    override fun toString() =
+                        "StopRouteDirectionSchedule{scheduleFrequencies=$scheduleFrequencies, scheduleStopTimes=$scheduleStopTimes, tripHeadsign=$tripHeadsign, additionalProperties=$additionalProperties}"
                 }
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is StopRouteSchedule &&
+                        this.routeId == other.routeId &&
+                        this.stopRouteDirectionSchedules == other.stopRouteDirectionSchedules &&
+                        this.additionalProperties == other.additionalProperties
+                }
+
+                private var hashCode: Int = 0
+
+                override fun hashCode(): Int {
+                    if (hashCode == 0) {
+                        hashCode =
+                            Objects.hash(
+                                routeId,
+                                stopRouteDirectionSchedules,
+                                additionalProperties,
+                            )
+                    }
+                    return hashCode
+                }
+
+                override fun toString() =
+                    "StopRouteSchedule{routeId=$routeId, stopRouteDirectionSchedules=$stopRouteDirectionSchedules, additionalProperties=$additionalProperties}"
             }
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is Entry &&
+                    this.date == other.date &&
+                    this.stopId == other.stopId &&
+                    this.stopRouteSchedules == other.stopRouteSchedules &&
+                    this.additionalProperties == other.additionalProperties
+            }
+
+            private var hashCode: Int = 0
+
+            override fun hashCode(): Int {
+                if (hashCode == 0) {
+                    hashCode =
+                        Objects.hash(
+                            date,
+                            stopId,
+                            stopRouteSchedules,
+                            additionalProperties,
+                        )
+                }
+                return hashCode
+            }
+
+            override fun toString() =
+                "Entry{date=$date, stopId=$stopId, stopRouteSchedules=$stopRouteSchedules, additionalProperties=$additionalProperties}"
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is Data &&
+                this.entry == other.entry &&
+                this.references == other.references &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        private var hashCode: Int = 0
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        entry,
+                        references,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "Data{entry=$entry, references=$references, additionalProperties=$additionalProperties}"
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return other is ScheduleForStopRetrieveResponse &&
+            this.code == other.code &&
+            this.currentTime == other.currentTime &&
+            this.text == other.text &&
+            this.version == other.version &&
+            this.data == other.data &&
+            this.additionalProperties == other.additionalProperties
+    }
+
+    private var hashCode: Int = 0
+
+    override fun hashCode(): Int {
+        if (hashCode == 0) {
+            hashCode =
+                Objects.hash(
+                    code,
+                    currentTime,
+                    text,
+                    version,
+                    data,
+                    additionalProperties,
+                )
+        }
+        return hashCode
+    }
+
+    override fun toString() =
+        "ScheduleForStopRetrieveResponse{code=$code, currentTime=$currentTime, text=$text, version=$version, data=$data, additionalProperties=$additionalProperties}"
 }
