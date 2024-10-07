@@ -21,7 +21,7 @@ The REST API documentation can be found on [developer.onebusaway.org](https://d
 <!-- x-release-please-start-version -->
 
 ```kotlin
-implementation("org.onebusaway:onebusaway-sdk-kotlin:0.0.1-alpha.0")
+implementation("org.onebusaway:onebusaway-sdk-kotlin:0.1.0-alpha.1")
 ```
 
 #### Maven
@@ -30,7 +30,7 @@ implementation("org.onebusaway:onebusaway-sdk-kotlin:0.0.1-alpha.0")
 <dependency>
     <groupId>org.onebusaway</groupId>
     <artifactId>onebusaway-sdk-kotlin</artifactId>
-    <version>0.0.1-alpha.0</version>
+    <version>0.1.0-alpha.1</version>
 </dependency>
 ```
 
