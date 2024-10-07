@@ -18,6 +18,8 @@ The REST API documentation can be found on [developer.onebusaway.org](https://d
 
 #### Gradle
 
+<!-- x-release-please-start-version -->
+
 ```kotlin
 implementation("org.onebusaway:onebusaway-sdk-kotlin:0.0.1-alpha.0")
 ```
@@ -31,6 +33,8 @@ implementation("org.onebusaway:onebusaway-sdk-kotlin:0.0.1-alpha.0")
     <version>0.0.1-alpha.0</version>
 </dependency>
 ```
+
+<!-- x-release-please-end -->
 
 ### Configure the client
 
@@ -215,7 +219,7 @@ This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) con
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-We are keen for your feedback; please open an [issue](https://www.github.com/stainless-sdks/open-transit-kotlin/issues) with questions, bugs, or suggestions.
+We are keen for your feedback; please open an [issue](https://www.github.com/OneBusAway/kotlin-sdk/issues) with questions, bugs, or suggestions.
 
 ## Requirements
 
