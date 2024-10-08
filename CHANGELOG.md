@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.3 (2024-10-08)
+
+Full Changelog: [v0.1.0-alpha.2...v0.1.0-alpha.3](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.2...v0.1.0-alpha.3)
+
+### Features
+
+* refactor: build with --stacktrace ([29f63e6](https://github.com/OneBusAway/kotlin-sdk/commit/29f63e657652e07651243c9b6c86aed8059bcdb1))
+
 ## 0.1.0-alpha.2 (2024-10-07)
 
 Full Changelog: [v0.1.0-alpha.1...v0.1.0-alpha.2](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.1...v0.1.0-alpha.2)
