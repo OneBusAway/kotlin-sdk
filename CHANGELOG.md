@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.7 (2024-10-22)
+
+Full Changelog: [v0.1.0-alpha.6...v0.1.0-alpha.7](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.6...v0.1.0-alpha.7)
+
+### Features
+
+* **api:** api update ([#15](https://github.com/OneBusAway/kotlin-sdk/issues/15)) ([1fef2a8](https://github.com/OneBusAway/kotlin-sdk/commit/1fef2a8ad8b8a5241a4aff8f4600b9fe7e7f9d22))
+
 ## 0.1.0-alpha.6 (2024-10-08)
 
 Full Changelog: [v0.1.0-alpha.5...v0.1.0-alpha.6](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.5...v0.1.0-alpha.6)
