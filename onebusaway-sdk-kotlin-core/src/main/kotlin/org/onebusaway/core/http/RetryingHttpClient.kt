@@ -1,5 +1,3 @@
-@file:JvmSynthetic
-
 package org.onebusaway.core.http
 
 import java.io.IOException
