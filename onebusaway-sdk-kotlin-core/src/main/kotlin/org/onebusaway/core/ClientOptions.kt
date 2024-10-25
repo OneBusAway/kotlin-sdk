@@ -11,6 +11,7 @@ import org.onebusaway.core.http.RetryingHttpClient
 
 class ClientOptions
 private constructor(
+    private val originalHttpClient: HttpClient,
     val httpClient: HttpClient,
     val jsonMapper: JsonMapper,
     val clock: Clock,
@@ -46,7 +47,7 @@ private constructor(
         private var apiKey: String? = null
 
         internal fun from(clientOptions: ClientOptions) = apply {
-            httpClient = clientOptions.httpClient
+            httpClient = clientOptions.originalHttpClient
             jsonMapper = clientOptions.jsonMapper
             clock = clientOptions.clock
             baseUrl = clientOptions.baseUrl
@@ -139,6 +140,7 @@ private constructor(
             this.queryParams.forEach(queryParams::replaceValues)
 
             return ClientOptions(
+                httpClient!!,
                 RetryingHttpClient.builder()
                     .httpClient(httpClient!!)
                     .clock(clock)
