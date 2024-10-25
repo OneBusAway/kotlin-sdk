@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.13 (2024-10-25)
+
+Full Changelog: [v0.1.0-alpha.12...v0.1.0-alpha.13](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.12...v0.1.0-alpha.13)
+
+### Features
+
+* fix: revert custom code override for maven publishing ([12e5007](https://github.com/OneBusAway/kotlin-sdk/commit/12e500760fd1cea679d8b467e3740c9f1e3a9895))
+
 ## 0.1.0-alpha.12 (2024-10-25)
 
 Full Changelog: [v0.1.0-alpha.11...v0.1.0-alpha.12](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.11...v0.1.0-alpha.12)
