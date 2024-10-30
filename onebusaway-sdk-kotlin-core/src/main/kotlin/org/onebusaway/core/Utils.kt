@@ -8,13 +8,8 @@ import com.google.common.collect.Multimaps
 import java.util.Collections
 import org.onebusaway.errors.OnebusawaySdkInvalidDataException
 
-internal fun <T : Any> T?.getOrThrow(name: String): T {
-    if (this == null) {
-        throw OnebusawaySdkInvalidDataException("'${name}' is not present")
-    }
-
-    return this
-}
+internal fun <T : Any> T?.getOrThrow(name: String): T =
+    this ?: throw OnebusawaySdkInvalidDataException("`${name}` is not present")
 
 internal fun <T> List<T>.toUnmodifiable(): List<T> {
     if (isEmpty()) {
