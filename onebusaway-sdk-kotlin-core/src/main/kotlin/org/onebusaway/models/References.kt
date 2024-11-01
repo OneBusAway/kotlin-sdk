@@ -14,7 +14,7 @@ import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonMissing
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.NoAutoDetect
-import org.onebusaway.core.toUnmodifiable
+import org.onebusaway.core.toImmutable
 import org.onebusaway.errors.OnebusawaySdkInvalidDataException
 
 @JsonDeserialize(builder = References.Builder::class)
@@ -153,13 +153,13 @@ private constructor(
 
         fun build(): References =
             References(
-                agencies.map { it.toUnmodifiable() },
-                routes.map { it.toUnmodifiable() },
-                situations.map { it.toUnmodifiable() },
-                stopTimes.map { it.toUnmodifiable() },
-                stops.map { it.toUnmodifiable() },
-                trips.map { it.toUnmodifiable() },
-                additionalProperties.toUnmodifiable(),
+                agencies.map { it.toImmutable() },
+                routes.map { it.toImmutable() },
+                situations.map { it.toImmutable() },
+                stopTimes.map { it.toImmutable() },
+                stops.map { it.toImmutable() },
+                trips.map { it.toImmutable() },
+                additionalProperties.toImmutable(),
             )
     }
 
@@ -366,7 +366,7 @@ private constructor(
                     privateService,
                     timezone,
                     url,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -598,7 +598,7 @@ private constructor(
                     textColor,
                     type,
                     url,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -890,13 +890,13 @@ private constructor(
                     summary,
                     description,
                     url,
-                    activeWindows.map { it.toUnmodifiable() },
-                    allAffects.map { it.toUnmodifiable() },
-                    consequences.map { it.toUnmodifiable() },
-                    publicationWindows.map { it.toUnmodifiable() },
+                    activeWindows.map { it.toImmutable() },
+                    allAffects.map { it.toImmutable() },
+                    consequences.map { it.toImmutable() },
+                    publicationWindows.map { it.toImmutable() },
                     severity,
                     consequenceMessage,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -989,7 +989,7 @@ private constructor(
                     ActiveWindow(
                         from,
                         to,
-                        additionalProperties.toUnmodifiable(),
+                        additionalProperties.toImmutable(),
                     )
             }
 
@@ -1184,7 +1184,7 @@ private constructor(
                         routeId,
                         stopId,
                         tripId,
-                        additionalProperties.toUnmodifiable(),
+                        additionalProperties.toImmutable(),
                     )
             }
 
@@ -1300,7 +1300,7 @@ private constructor(
                     Consequence(
                         condition,
                         conditionDetails,
-                        additionalProperties.toUnmodifiable(),
+                        additionalProperties.toImmutable(),
                     )
             }
 
@@ -1393,8 +1393,8 @@ private constructor(
                     fun build(): ConditionDetails =
                         ConditionDetails(
                             diversionPath,
-                            diversionStopIds.map { it.toUnmodifiable() },
-                            additionalProperties.toUnmodifiable(),
+                            diversionStopIds.map { it.toImmutable() },
+                            additionalProperties.toImmutable(),
                         )
                 }
 
@@ -1507,7 +1507,7 @@ private constructor(
                                 length,
                                 levels,
                                 points,
-                                additionalProperties.toUnmodifiable(),
+                                additionalProperties.toImmutable(),
                             )
                     }
 
@@ -1663,7 +1663,7 @@ private constructor(
                     Description(
                         lang,
                         value,
-                        additionalProperties.toUnmodifiable(),
+                        additionalProperties.toImmutable(),
                     )
             }
 
@@ -1777,7 +1777,7 @@ private constructor(
                     PublicationWindow(
                         from,
                         to,
-                        additionalProperties.toUnmodifiable(),
+                        additionalProperties.toImmutable(),
                     )
             }
 
@@ -1966,7 +1966,7 @@ private constructor(
                     Summary(
                         lang,
                         value,
-                        additionalProperties.toUnmodifiable(),
+                        additionalProperties.toImmutable(),
                     )
             }
 
@@ -2080,7 +2080,7 @@ private constructor(
                     Url(
                         lang,
                         value,
-                        additionalProperties.toUnmodifiable(),
+                        additionalProperties.toImmutable(),
                     )
             }
 
@@ -2348,10 +2348,10 @@ private constructor(
                     lon,
                     name,
                     parent,
-                    routeIds.map { it.toUnmodifiable() },
-                    staticRouteIds.map { it.toUnmodifiable() },
+                    routeIds.map { it.toImmutable() },
+                    staticRouteIds.map { it.toImmutable() },
                     wheelchairBoarding,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -2530,7 +2530,7 @@ private constructor(
                     historicalOccupancy,
                     stopHeadsign,
                     stopId,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -2779,7 +2779,7 @@ private constructor(
                     timeZone,
                     tripHeadsign,
                     tripShortName,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 

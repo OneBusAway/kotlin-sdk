@@ -8,7 +8,7 @@ import org.onebusaway.core.Enum
 import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.NoAutoDetect
-import org.onebusaway.core.toUnmodifiable
+import org.onebusaway.core.toImmutable
 import org.onebusaway.errors.OnebusawaySdkInvalidDataException
 import org.onebusaway.models.*
 
@@ -44,7 +44,7 @@ constructor(
         this.userLocationAccuracy?.let { params.put("userLocationAccuracy", listOf(it.toString())) }
         this.userLon?.let { params.put("userLon", listOf(it.toString())) }
         params.putAll(additionalQueryParams)
-        return params.toUnmodifiable()
+        return params.toImmutable()
     }
 
     internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
@@ -174,8 +174,8 @@ constructor(
                 userLat,
                 userLocationAccuracy,
                 userLon,
-                additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-                additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
+                additionalQueryParams.mapValues { it.value.toImmutable() }.toImmutable(),
+                additionalHeaders.mapValues { it.value.toImmutable() }.toImmutable(),
             )
     }
 

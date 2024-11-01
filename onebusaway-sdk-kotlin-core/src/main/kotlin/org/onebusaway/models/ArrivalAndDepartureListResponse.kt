@@ -12,7 +12,7 @@ import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonMissing
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.NoAutoDetect
-import org.onebusaway.core.toUnmodifiable
+import org.onebusaway.core.toImmutable
 
 @JsonDeserialize(builder = ArrivalAndDepartureListResponse.Builder::class)
 @NoAutoDetect
@@ -148,7 +148,7 @@ private constructor(
                 text,
                 version,
                 data,
-                additionalProperties.toUnmodifiable(),
+                additionalProperties.toImmutable(),
             )
     }
 
@@ -234,7 +234,7 @@ private constructor(
                 Data(
                     entry,
                     references,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -310,8 +310,8 @@ private constructor(
 
                 fun build(): Entry =
                     Entry(
-                        arrivalsAndDepartures.map { it.toUnmodifiable() },
-                        additionalProperties.toUnmodifiable()
+                        arrivalsAndDepartures.map { it.toImmutable() },
+                        additionalProperties.toImmutable()
                     )
             }
 
@@ -1244,7 +1244,7 @@ private constructor(
                             scheduledDepartureTime,
                             scheduledTrack,
                             serviceDate,
-                            situationIds.map { it.toUnmodifiable() },
+                            situationIds.map { it.toImmutable() },
                             status,
                             stopId,
                             stopSequence,
@@ -1253,7 +1253,7 @@ private constructor(
                             tripId,
                             tripStatus,
                             vehicleId,
-                            additionalProperties.toUnmodifiable(),
+                            additionalProperties.toImmutable(),
                         )
                 }
 
@@ -2060,11 +2060,11 @@ private constructor(
                                 scheduleDeviation,
                                 scheduledDistanceAlongTrip,
                                 serviceDate,
-                                situationIds.map { it.toUnmodifiable() },
+                                situationIds.map { it.toImmutable() },
                                 status,
                                 totalDistanceAlongTrip,
                                 vehicleId,
-                                additionalProperties.toUnmodifiable(),
+                                additionalProperties.toImmutable(),
                             )
                     }
 
@@ -2159,7 +2159,7 @@ private constructor(
                                 LastKnownLocation(
                                     lat,
                                     lon,
-                                    additionalProperties.toUnmodifiable(),
+                                    additionalProperties.toImmutable(),
                                 )
                         }
 
@@ -2275,7 +2275,7 @@ private constructor(
                                 Position(
                                     lat,
                                     lon,
-                                    additionalProperties.toUnmodifiable(),
+                                    additionalProperties.toImmutable(),
                                 )
                         }
 

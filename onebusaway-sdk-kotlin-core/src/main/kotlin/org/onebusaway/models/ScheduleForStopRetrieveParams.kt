@@ -5,7 +5,7 @@ package org.onebusaway.models
 import java.time.LocalDate
 import java.util.Objects
 import org.onebusaway.core.NoAutoDetect
-import org.onebusaway.core.toUnmodifiable
+import org.onebusaway.core.toImmutable
 import org.onebusaway.models.*
 
 class ScheduleForStopRetrieveParams
@@ -24,7 +24,7 @@ constructor(
         val params = mutableMapOf<String, List<String>>()
         this.date?.let { params.put("date", listOf(it.toString())) }
         params.putAll(additionalQueryParams)
-        return params.toUnmodifiable()
+        return params.toImmutable()
     }
 
     internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
@@ -129,8 +129,8 @@ constructor(
             ScheduleForStopRetrieveParams(
                 checkNotNull(stopId) { "`stopId` is required but was not set" },
                 date,
-                additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-                additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
+                additionalQueryParams.mapValues { it.value.toImmutable() }.toImmutable(),
+                additionalHeaders.mapValues { it.value.toImmutable() }.toImmutable(),
             )
     }
 }
