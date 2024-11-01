@@ -12,7 +12,7 @@ import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonMissing
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.NoAutoDetect
-import org.onebusaway.core.toUnmodifiable
+import org.onebusaway.core.toImmutable
 
 @JsonDeserialize(builder = ScheduleForRouteRetrieveResponse.Builder::class)
 @NoAutoDetect
@@ -148,7 +148,7 @@ private constructor(
                 text,
                 version,
                 data,
-                additionalProperties.toUnmodifiable(),
+                additionalProperties.toImmutable(),
             )
     }
 
@@ -214,7 +214,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): Data = Data(entry, additionalProperties.toUnmodifiable())
+            fun build(): Data = Data(entry, additionalProperties.toImmutable())
         }
 
         @JsonDeserialize(builder = Entry.Builder::class)
@@ -365,11 +365,11 @@ private constructor(
                     Entry(
                         routeId,
                         scheduleDate,
-                        serviceIds.map { it.toUnmodifiable() },
-                        stopTripGroupings.map { it.toUnmodifiable() },
-                        stops.map { it.toUnmodifiable() },
-                        trips.map { it.toUnmodifiable() },
-                        additionalProperties.toUnmodifiable(),
+                        serviceIds.map { it.toImmutable() },
+                        stopTripGroupings.map { it.toImmutable() },
+                        stops.map { it.toImmutable() },
+                        trips.map { it.toImmutable() },
+                        additionalProperties.toImmutable(),
                     )
             }
 
@@ -603,10 +603,10 @@ private constructor(
                             lon,
                             name,
                             parent,
-                            routeIds.map { it.toUnmodifiable() },
-                            staticRouteIds.map { it.toUnmodifiable() },
+                            routeIds.map { it.toImmutable() },
+                            staticRouteIds.map { it.toImmutable() },
                             wheelchairBoarding,
-                            additionalProperties.toUnmodifiable(),
+                            additionalProperties.toImmutable(),
                         )
                 }
 
@@ -766,11 +766,11 @@ private constructor(
                     fun build(): StopTripGrouping =
                         StopTripGrouping(
                             directionId,
-                            stopIds.map { it.toUnmodifiable() },
-                            tripHeadsigns.map { it.toUnmodifiable() },
-                            tripIds.map { it.toUnmodifiable() },
-                            tripsWithStopTimes.map { it.toUnmodifiable() },
-                            additionalProperties.toUnmodifiable(),
+                            stopIds.map { it.toImmutable() },
+                            tripHeadsigns.map { it.toImmutable() },
+                            tripIds.map { it.toImmutable() },
+                            tripsWithStopTimes.map { it.toImmutable() },
+                            additionalProperties.toImmutable(),
                         )
                 }
 
@@ -858,8 +858,8 @@ private constructor(
                         fun build(): TripsWithStopTime =
                             TripsWithStopTime(
                                 tripId,
-                                stopTimes.map { it.toUnmodifiable() },
-                                additionalProperties.toUnmodifiable(),
+                                stopTimes.map { it.toImmutable() },
+                                additionalProperties.toImmutable(),
                             )
                     }
 
@@ -1063,7 +1063,7 @@ private constructor(
                                     stopHeadsign,
                                     stopId,
                                     tripId,
-                                    additionalProperties.toUnmodifiable(),
+                                    additionalProperties.toImmutable(),
                                 )
                         }
 
@@ -1363,7 +1363,7 @@ private constructor(
                             timeZone,
                             tripHeadsign,
                             tripShortName,
-                            additionalProperties.toUnmodifiable(),
+                            additionalProperties.toImmutable(),
                         )
                 }
 

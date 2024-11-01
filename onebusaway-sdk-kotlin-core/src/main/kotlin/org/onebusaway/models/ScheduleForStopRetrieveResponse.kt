@@ -12,7 +12,7 @@ import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonMissing
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.NoAutoDetect
-import org.onebusaway.core.toUnmodifiable
+import org.onebusaway.core.toImmutable
 
 @JsonDeserialize(builder = ScheduleForStopRetrieveResponse.Builder::class)
 @NoAutoDetect
@@ -148,7 +148,7 @@ private constructor(
                 text,
                 version,
                 data,
-                additionalProperties.toUnmodifiable(),
+                additionalProperties.toImmutable(),
             )
     }
 
@@ -234,7 +234,7 @@ private constructor(
                 Data(
                     entry,
                     references,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -341,8 +341,8 @@ private constructor(
                     Entry(
                         date,
                         stopId,
-                        stopRouteSchedules.map { it.toUnmodifiable() },
-                        additionalProperties.toUnmodifiable(),
+                        stopRouteSchedules.map { it.toImmutable() },
+                        additionalProperties.toImmutable(),
                     )
             }
 
@@ -437,8 +437,8 @@ private constructor(
                     fun build(): StopRouteSchedule =
                         StopRouteSchedule(
                             routeId,
-                            stopRouteDirectionSchedules.map { it.toUnmodifiable() },
-                            additionalProperties.toUnmodifiable(),
+                            stopRouteDirectionSchedules.map { it.toImmutable() },
+                            additionalProperties.toImmutable(),
                         )
                 }
 
@@ -558,10 +558,10 @@ private constructor(
 
                         fun build(): StopRouteDirectionSchedule =
                             StopRouteDirectionSchedule(
-                                scheduleFrequencies.map { it.toUnmodifiable() },
-                                scheduleStopTimes.map { it.toUnmodifiable() },
+                                scheduleFrequencies.map { it.toImmutable() },
+                                scheduleStopTimes.map { it.toImmutable() },
                                 tripHeadsign,
-                                additionalProperties.toUnmodifiable(),
+                                additionalProperties.toImmutable(),
                             )
                     }
 
@@ -750,7 +750,7 @@ private constructor(
                                     serviceId,
                                     stopHeadsign,
                                     tripId,
-                                    additionalProperties.toUnmodifiable(),
+                                    additionalProperties.toImmutable(),
                                 )
                         }
 
@@ -926,7 +926,7 @@ private constructor(
                                     headway,
                                     serviceId,
                                     tripId,
-                                    additionalProperties.toUnmodifiable(),
+                                    additionalProperties.toImmutable(),
                                 )
                         }
 

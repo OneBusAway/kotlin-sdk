@@ -12,7 +12,7 @@ import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonMissing
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.NoAutoDetect
-import org.onebusaway.core.toUnmodifiable
+import org.onebusaway.core.toImmutable
 
 @JsonDeserialize(builder = BlockRetrieveResponse.Builder::class)
 @NoAutoDetect
@@ -147,7 +147,7 @@ private constructor(
                 text,
                 version,
                 data,
-                additionalProperties.toUnmodifiable(),
+                additionalProperties.toImmutable(),
             )
     }
 
@@ -233,7 +233,7 @@ private constructor(
                 Data(
                     entry,
                     references,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -320,8 +320,8 @@ private constructor(
                 fun build(): Entry =
                     Entry(
                         id,
-                        configurations.map { it.toUnmodifiable() },
-                        additionalProperties.toUnmodifiable(),
+                        configurations.map { it.toImmutable() },
+                        additionalProperties.toImmutable(),
                     )
             }
 
@@ -430,10 +430,10 @@ private constructor(
 
                     fun build(): Configuration =
                         Configuration(
-                            activeServiceIds.map { it.toUnmodifiable() },
-                            inactiveServiceIds.map { it.toUnmodifiable() },
-                            trips.map { it.toUnmodifiable() },
-                            additionalProperties.toUnmodifiable(),
+                            activeServiceIds.map { it.toImmutable() },
+                            inactiveServiceIds.map { it.toImmutable() },
+                            trips.map { it.toImmutable() },
+                            additionalProperties.toImmutable(),
                         )
                 }
 
@@ -567,8 +567,8 @@ private constructor(
                                 tripId,
                                 distanceAlongBlock,
                                 accumulatedSlackTime,
-                                blockStopTimes.map { it.toUnmodifiable() },
-                                additionalProperties.toUnmodifiable(),
+                                blockStopTimes.map { it.toImmutable() },
+                                additionalProperties.toImmutable(),
                             )
                     }
 
@@ -704,7 +704,7 @@ private constructor(
                                     distanceAlongBlock,
                                     accumulatedSlackTime,
                                     stopTime,
-                                    additionalProperties.toUnmodifiable(),
+                                    additionalProperties.toImmutable(),
                                 )
                         }
 
@@ -859,7 +859,7 @@ private constructor(
                                         departureTime,
                                         pickupType,
                                         dropOffType,
-                                        additionalProperties.toUnmodifiable(),
+                                        additionalProperties.toImmutable(),
                                     )
                             }
 
