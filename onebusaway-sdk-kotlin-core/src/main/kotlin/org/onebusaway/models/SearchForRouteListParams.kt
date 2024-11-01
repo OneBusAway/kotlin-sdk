@@ -4,7 +4,7 @@ package org.onebusaway.models
 
 import java.util.Objects
 import org.onebusaway.core.NoAutoDetect
-import org.onebusaway.core.toUnmodifiable
+import org.onebusaway.core.toImmutable
 import org.onebusaway.models.*
 
 class SearchForRouteListParams
@@ -24,7 +24,7 @@ constructor(
         this.input.let { params.put("input", listOf(it.toString())) }
         this.maxCount?.let { params.put("maxCount", listOf(it.toString())) }
         params.putAll(additionalQueryParams)
-        return params.toUnmodifiable()
+        return params.toImmutable()
     }
 
     internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
@@ -120,8 +120,8 @@ constructor(
             SearchForRouteListParams(
                 checkNotNull(input) { "`input` is required but was not set" },
                 maxCount,
-                additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-                additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
+                additionalQueryParams.mapValues { it.value.toImmutable() }.toImmutable(),
+                additionalHeaders.mapValues { it.value.toImmutable() }.toImmutable(),
             )
     }
 }

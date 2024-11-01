@@ -12,7 +12,7 @@ import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonMissing
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.NoAutoDetect
-import org.onebusaway.core.toUnmodifiable
+import org.onebusaway.core.toImmutable
 
 @JsonDeserialize(builder = TripRetrieveResponse.Builder::class)
 @NoAutoDetect
@@ -147,7 +147,7 @@ private constructor(
                 text,
                 version,
                 data,
-                additionalProperties.toUnmodifiable(),
+                additionalProperties.toImmutable(),
             )
     }
 
@@ -233,7 +233,7 @@ private constructor(
                 Data(
                     entry,
                     references,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -465,7 +465,7 @@ private constructor(
                         timeZone,
                         tripHeadsign,
                         tripShortName,
-                        additionalProperties.toUnmodifiable(),
+                        additionalProperties.toImmutable(),
                     )
             }
 
