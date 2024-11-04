@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.21 (2024-11-04)
+
+Full Changelog: [v0.1.0-alpha.20...v0.1.0-alpha.21](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.20...v0.1.0-alpha.21)
+
+### Chores
+
+* rebuild project due to codegen change ([#56](https://github.com/OneBusAway/kotlin-sdk/issues/56)) ([b24c9a0](https://github.com/OneBusAway/kotlin-sdk/commit/b24c9a0e55485a09a2b7cee573ab360cd1687681))
+
 ## 0.1.0-alpha.20 (2024-11-01)
 
 Full Changelog: [v0.1.0-alpha.19...v0.1.0-alpha.20](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.19...v0.1.0-alpha.20)
