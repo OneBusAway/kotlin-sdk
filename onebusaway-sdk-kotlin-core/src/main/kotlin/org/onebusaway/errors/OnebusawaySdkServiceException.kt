@@ -1,10 +1,10 @@
 package org.onebusaway.errors
 
-import com.google.common.collect.ListMultimap
+import org.onebusaway.core.http.Headers
 
 abstract class OnebusawaySdkServiceException(
     private val statusCode: Int,
-    private val headers: ListMultimap<String, String>,
+    private val headers: Headers,
     private val body: String,
     private val error: OnebusawaySdkError,
     message: String = "$statusCode: $error",
@@ -13,7 +13,7 @@ abstract class OnebusawaySdkServiceException(
 
     fun statusCode(): Int = statusCode
 
-    fun headers(): ListMultimap<String, String> = headers
+    fun headers(): Headers = headers
 
     fun body(): String = body
 
