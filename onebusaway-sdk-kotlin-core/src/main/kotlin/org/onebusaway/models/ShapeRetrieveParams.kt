@@ -37,12 +37,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is ShapeRetrieveParams && this.shapeId == other.shapeId && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is ShapeRetrieveParams && shapeId == other.shapeId && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(shapeId, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(shapeId, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
         "ShapeRetrieveParams{shapeId=$shapeId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

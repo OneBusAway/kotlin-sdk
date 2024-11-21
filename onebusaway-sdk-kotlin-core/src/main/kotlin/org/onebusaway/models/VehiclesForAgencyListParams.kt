@@ -45,12 +45,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is VehiclesForAgencyListParams && this.agencyId == other.agencyId && this.time == other.time && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is VehiclesForAgencyListParams && agencyId == other.agencyId && time == other.time && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(agencyId, time, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(agencyId, time, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
         "VehiclesForAgencyListParams{agencyId=$agencyId, time=$time, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

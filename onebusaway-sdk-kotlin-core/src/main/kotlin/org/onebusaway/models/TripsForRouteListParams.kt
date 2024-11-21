@@ -53,12 +53,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is TripsForRouteListParams && this.routeId == other.routeId && this.includeSchedule == other.includeSchedule && this.includeStatus == other.includeStatus && this.time == other.time && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is TripsForRouteListParams && routeId == other.routeId && includeSchedule == other.includeSchedule && includeStatus == other.includeStatus && time == other.time && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(routeId, includeSchedule, includeStatus, time, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(routeId, includeSchedule, includeStatus, time, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
         "TripsForRouteListParams{routeId=$routeId, includeSchedule=$includeSchedule, includeStatus=$includeStatus, time=$time, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
