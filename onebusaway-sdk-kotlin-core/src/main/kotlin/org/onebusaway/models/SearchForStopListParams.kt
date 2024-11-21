@@ -39,12 +39,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is SearchForStopListParams && this.input == other.input && this.maxCount == other.maxCount && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is SearchForStopListParams && input == other.input && maxCount == other.maxCount && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(input, maxCount, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(input, maxCount, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
         "SearchForStopListParams{input=$input, maxCount=$maxCount, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
