@@ -57,12 +57,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is TripForVehicleRetrieveParams && this.vehicleId == other.vehicleId && this.includeSchedule == other.includeSchedule && this.includeStatus == other.includeStatus && this.includeTrip == other.includeTrip && this.time == other.time && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is TripForVehicleRetrieveParams && vehicleId == other.vehicleId && includeSchedule == other.includeSchedule && includeStatus == other.includeStatus && includeTrip == other.includeTrip && time == other.time && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(vehicleId, includeSchedule, includeStatus, includeTrip, time, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(vehicleId, includeSchedule, includeStatus, includeTrip, time, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
         "TripForVehicleRetrieveParams{vehicleId=$vehicleId, includeSchedule=$includeSchedule, includeStatus=$includeStatus, includeTrip=$includeTrip, time=$time, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

@@ -37,12 +37,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is StopIdsForAgencyListParams && this.agencyId == other.agencyId && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is StopIdsForAgencyListParams && agencyId == other.agencyId && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(agencyId, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(agencyId, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
         "StopIdsForAgencyListParams{agencyId=$agencyId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
