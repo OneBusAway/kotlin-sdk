@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.27 (2024-11-21)
+
+Full Changelog: [v0.1.0-alpha.26...v0.1.0-alpha.27](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.26...v0.1.0-alpha.27)
+
+### Chores
+
+* **deps:** bump jackson to 2.18.1 ([#74](https://github.com/OneBusAway/kotlin-sdk/issues/74)) ([f0c914d](https://github.com/OneBusAway/kotlin-sdk/commit/f0c914d6c7037d0a196d4e013ce88c4cc700d9bb))
+
 ## 0.1.0-alpha.26 (2024-11-19)
 
 Full Changelog: [v0.1.0-alpha.25...v0.1.0-alpha.26](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.25...v0.1.0-alpha.26)
