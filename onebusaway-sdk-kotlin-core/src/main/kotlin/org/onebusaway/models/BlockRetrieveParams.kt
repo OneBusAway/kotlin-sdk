@@ -37,12 +37,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is BlockRetrieveParams && this.blockId == other.blockId && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is BlockRetrieveParams && blockId == other.blockId && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(blockId, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(blockId, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
         "BlockRetrieveParams{blockId=$blockId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
