@@ -17,6 +17,10 @@ constructor(
 
     fun blockId(): String = blockId
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
     internal fun getHeaders(): Headers = additionalHeaders
 
     internal fun getQueryParams(): QueryParams = additionalQueryParams
@@ -27,23 +31,6 @@ constructor(
             else -> ""
         }
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is BlockRetrieveParams && blockId == other.blockId && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(blockId, additionalHeaders, additionalQueryParams) /* spotless:on */
-
-    override fun toString() =
-        "BlockRetrieveParams{blockId=$blockId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -60,9 +47,9 @@ constructor(
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
         internal fun from(blockRetrieveParams: BlockRetrieveParams) = apply {
-            this.blockId = blockRetrieveParams.blockId
-            additionalHeaders(blockRetrieveParams.additionalHeaders)
-            additionalQueryParams(blockRetrieveParams.additionalQueryParams)
+            blockId = blockRetrieveParams.blockId
+            additionalHeaders = blockRetrieveParams.additionalHeaders.toBuilder()
+            additionalQueryParams = blockRetrieveParams.additionalQueryParams.toBuilder()
         }
 
         fun blockId(blockId: String) = apply { this.blockId = blockId }
@@ -172,4 +159,17 @@ constructor(
                 additionalQueryParams.build(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is BlockRetrieveParams && blockId == other.blockId && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(blockId, additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "BlockRetrieveParams{blockId=$blockId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

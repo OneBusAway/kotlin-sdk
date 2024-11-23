@@ -37,6 +37,10 @@ constructor(
 
     fun userLon(): Double? = userLon
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
     internal fun getHeaders(): Headers = additionalHeaders
 
     internal fun getQueryParams(): QueryParams {
@@ -58,23 +62,6 @@ constructor(
             else -> ""
         }
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is ReportProblemWithStopRetrieveParams && stopId == other.stopId && code == other.code && userComment == other.userComment && userLat == other.userLat && userLocationAccuracy == other.userLocationAccuracy && userLon == other.userLon && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(stopId, code, userComment, userLat, userLocationAccuracy, userLon, additionalHeaders, additionalQueryParams) /* spotless:on */
-
-    override fun toString() =
-        "ReportProblemWithStopRetrieveParams{stopId=$stopId, code=$code, userComment=$userComment, userLat=$userLat, userLocationAccuracy=$userLocationAccuracy, userLon=$userLon, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -98,14 +85,15 @@ constructor(
         internal fun from(
             reportProblemWithStopRetrieveParams: ReportProblemWithStopRetrieveParams
         ) = apply {
-            this.stopId = reportProblemWithStopRetrieveParams.stopId
-            this.code = reportProblemWithStopRetrieveParams.code
-            this.userComment = reportProblemWithStopRetrieveParams.userComment
-            this.userLat = reportProblemWithStopRetrieveParams.userLat
-            this.userLocationAccuracy = reportProblemWithStopRetrieveParams.userLocationAccuracy
-            this.userLon = reportProblemWithStopRetrieveParams.userLon
-            additionalHeaders(reportProblemWithStopRetrieveParams.additionalHeaders)
-            additionalQueryParams(reportProblemWithStopRetrieveParams.additionalQueryParams)
+            stopId = reportProblemWithStopRetrieveParams.stopId
+            code = reportProblemWithStopRetrieveParams.code
+            userComment = reportProblemWithStopRetrieveParams.userComment
+            userLat = reportProblemWithStopRetrieveParams.userLat
+            userLocationAccuracy = reportProblemWithStopRetrieveParams.userLocationAccuracy
+            userLon = reportProblemWithStopRetrieveParams.userLon
+            additionalHeaders = reportProblemWithStopRetrieveParams.additionalHeaders.toBuilder()
+            additionalQueryParams =
+                reportProblemWithStopRetrieveParams.additionalQueryParams.toBuilder()
         }
 
         fun stopId(stopId: String) = apply { this.stopId = stopId }
@@ -312,4 +300,17 @@ constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is ReportProblemWithStopRetrieveParams && stopId == other.stopId && code == other.code && userComment == other.userComment && userLat == other.userLat && userLocationAccuracy == other.userLocationAccuracy && userLon == other.userLon && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(stopId, code, userComment, userLat, userLocationAccuracy, userLon, additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "ReportProblemWithStopRetrieveParams{stopId=$stopId, code=$code, userComment=$userComment, userLat=$userLat, userLocationAccuracy=$userLocationAccuracy, userLon=$userLon, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

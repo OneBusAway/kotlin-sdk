@@ -28,6 +28,10 @@ constructor(
 
     fun time(): OffsetDateTime? = time
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
     internal fun getHeaders(): Headers = additionalHeaders
 
     internal fun getQueryParams(): QueryParams {
@@ -48,23 +52,6 @@ constructor(
         }
     }
 
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is ArrivalAndDepartureListParams && stopId == other.stopId && minutesAfter == other.minutesAfter && minutesBefore == other.minutesBefore && time == other.time && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(stopId, minutesAfter, minutesBefore, time, additionalHeaders, additionalQueryParams) /* spotless:on */
-
-    override fun toString() =
-        "ArrivalAndDepartureListParams{stopId=$stopId, minutesAfter=$minutesAfter, minutesBefore=$minutesBefore, time=$time, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -83,12 +70,12 @@ constructor(
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
         internal fun from(arrivalAndDepartureListParams: ArrivalAndDepartureListParams) = apply {
-            this.stopId = arrivalAndDepartureListParams.stopId
-            this.minutesAfter = arrivalAndDepartureListParams.minutesAfter
-            this.minutesBefore = arrivalAndDepartureListParams.minutesBefore
-            this.time = arrivalAndDepartureListParams.time
-            additionalHeaders(arrivalAndDepartureListParams.additionalHeaders)
-            additionalQueryParams(arrivalAndDepartureListParams.additionalQueryParams)
+            stopId = arrivalAndDepartureListParams.stopId
+            minutesAfter = arrivalAndDepartureListParams.minutesAfter
+            minutesBefore = arrivalAndDepartureListParams.minutesBefore
+            time = arrivalAndDepartureListParams.time
+            additionalHeaders = arrivalAndDepartureListParams.additionalHeaders.toBuilder()
+            additionalQueryParams = arrivalAndDepartureListParams.additionalQueryParams.toBuilder()
         }
 
         fun stopId(stopId: String) = apply { this.stopId = stopId }
@@ -210,4 +197,17 @@ constructor(
                 additionalQueryParams.build(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is ArrivalAndDepartureListParams && stopId == other.stopId && minutesAfter == other.minutesAfter && minutesBefore == other.minutesBefore && time == other.time && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(stopId, minutesAfter, minutesBefore, time, additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "ArrivalAndDepartureListParams{stopId=$stopId, minutesAfter=$minutesAfter, minutesBefore=$minutesBefore, time=$time, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

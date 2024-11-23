@@ -17,6 +17,10 @@ constructor(
 
     fun tripId(): String = tripId
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
     internal fun getHeaders(): Headers = additionalHeaders
 
     internal fun getQueryParams(): QueryParams = additionalQueryParams
@@ -27,23 +31,6 @@ constructor(
             else -> ""
         }
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is TripRetrieveParams && tripId == other.tripId && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(tripId, additionalHeaders, additionalQueryParams) /* spotless:on */
-
-    override fun toString() =
-        "TripRetrieveParams{tripId=$tripId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -60,9 +47,9 @@ constructor(
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
         internal fun from(tripRetrieveParams: TripRetrieveParams) = apply {
-            this.tripId = tripRetrieveParams.tripId
-            additionalHeaders(tripRetrieveParams.additionalHeaders)
-            additionalQueryParams(tripRetrieveParams.additionalQueryParams)
+            tripId = tripRetrieveParams.tripId
+            additionalHeaders = tripRetrieveParams.additionalHeaders.toBuilder()
+            additionalQueryParams = tripRetrieveParams.additionalQueryParams.toBuilder()
         }
 
         fun tripId(tripId: String) = apply { this.tripId = tripId }
@@ -172,4 +159,17 @@ constructor(
                 additionalQueryParams.build(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is TripRetrieveParams && tripId == other.tripId && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(tripId, additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "TripRetrieveParams{tripId=$tripId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

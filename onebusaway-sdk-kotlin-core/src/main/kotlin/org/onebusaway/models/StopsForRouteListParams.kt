@@ -23,6 +23,10 @@ constructor(
 
     fun time(): String? = time
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
     internal fun getHeaders(): Headers = additionalHeaders
 
     internal fun getQueryParams(): QueryParams {
@@ -39,23 +43,6 @@ constructor(
             else -> ""
         }
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is StopsForRouteListParams && routeId == other.routeId && includePolylines == other.includePolylines && time == other.time && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(routeId, includePolylines, time, additionalHeaders, additionalQueryParams) /* spotless:on */
-
-    override fun toString() =
-        "StopsForRouteListParams{routeId=$routeId, includePolylines=$includePolylines, time=$time, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -74,11 +61,11 @@ constructor(
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
         internal fun from(stopsForRouteListParams: StopsForRouteListParams) = apply {
-            this.routeId = stopsForRouteListParams.routeId
-            this.includePolylines = stopsForRouteListParams.includePolylines
-            this.time = stopsForRouteListParams.time
-            additionalHeaders(stopsForRouteListParams.additionalHeaders)
-            additionalQueryParams(stopsForRouteListParams.additionalQueryParams)
+            routeId = stopsForRouteListParams.routeId
+            includePolylines = stopsForRouteListParams.includePolylines
+            time = stopsForRouteListParams.time
+            additionalHeaders = stopsForRouteListParams.additionalHeaders.toBuilder()
+            additionalQueryParams = stopsForRouteListParams.additionalQueryParams.toBuilder()
         }
 
         fun routeId(routeId: String) = apply { this.routeId = routeId }
@@ -198,4 +185,17 @@ constructor(
                 additionalQueryParams.build(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is StopsForRouteListParams && routeId == other.routeId && includePolylines == other.includePolylines && time == other.time && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(routeId, includePolylines, time, additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "StopsForRouteListParams{routeId=$routeId, includePolylines=$includePolylines, time=$time, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

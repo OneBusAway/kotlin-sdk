@@ -20,6 +20,10 @@ constructor(
 
     fun time(): String? = time
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
     internal fun getHeaders(): Headers = additionalHeaders
 
     internal fun getQueryParams(): QueryParams {
@@ -35,23 +39,6 @@ constructor(
             else -> ""
         }
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is VehiclesForAgencyListParams && agencyId == other.agencyId && time == other.time && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(agencyId, time, additionalHeaders, additionalQueryParams) /* spotless:on */
-
-    override fun toString() =
-        "VehiclesForAgencyListParams{agencyId=$agencyId, time=$time, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -69,10 +56,10 @@ constructor(
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
         internal fun from(vehiclesForAgencyListParams: VehiclesForAgencyListParams) = apply {
-            this.agencyId = vehiclesForAgencyListParams.agencyId
-            this.time = vehiclesForAgencyListParams.time
-            additionalHeaders(vehiclesForAgencyListParams.additionalHeaders)
-            additionalQueryParams(vehiclesForAgencyListParams.additionalQueryParams)
+            agencyId = vehiclesForAgencyListParams.agencyId
+            time = vehiclesForAgencyListParams.time
+            additionalHeaders = vehiclesForAgencyListParams.additionalHeaders.toBuilder()
+            additionalQueryParams = vehiclesForAgencyListParams.additionalQueryParams.toBuilder()
         }
 
         fun agencyId(agencyId: String) = apply { this.agencyId = agencyId }
@@ -186,4 +173,17 @@ constructor(
                 additionalQueryParams.build(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is VehiclesForAgencyListParams && agencyId == other.agencyId && time == other.time && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(agencyId, time, additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "VehiclesForAgencyListParams{agencyId=$agencyId, time=$time, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }
