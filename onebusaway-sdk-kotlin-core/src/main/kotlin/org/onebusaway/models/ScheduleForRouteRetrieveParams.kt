@@ -21,6 +21,10 @@ constructor(
 
     fun date(): LocalDate? = date
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
     internal fun getHeaders(): Headers = additionalHeaders
 
     internal fun getQueryParams(): QueryParams {
@@ -36,23 +40,6 @@ constructor(
             else -> ""
         }
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is ScheduleForRouteRetrieveParams && routeId == other.routeId && date == other.date && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(routeId, date, additionalHeaders, additionalQueryParams) /* spotless:on */
-
-    override fun toString() =
-        "ScheduleForRouteRetrieveParams{routeId=$routeId, date=$date, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -70,10 +57,10 @@ constructor(
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
         internal fun from(scheduleForRouteRetrieveParams: ScheduleForRouteRetrieveParams) = apply {
-            this.routeId = scheduleForRouteRetrieveParams.routeId
-            this.date = scheduleForRouteRetrieveParams.date
-            additionalHeaders(scheduleForRouteRetrieveParams.additionalHeaders)
-            additionalQueryParams(scheduleForRouteRetrieveParams.additionalQueryParams)
+            routeId = scheduleForRouteRetrieveParams.routeId
+            date = scheduleForRouteRetrieveParams.date
+            additionalHeaders = scheduleForRouteRetrieveParams.additionalHeaders.toBuilder()
+            additionalQueryParams = scheduleForRouteRetrieveParams.additionalQueryParams.toBuilder()
         }
 
         fun routeId(routeId: String) = apply { this.routeId = routeId }
@@ -190,4 +177,17 @@ constructor(
                 additionalQueryParams.build(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is ScheduleForRouteRetrieveParams && routeId == other.routeId && date == other.date && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(routeId, date, additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "ScheduleForRouteRetrieveParams{routeId=$routeId, date=$date, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

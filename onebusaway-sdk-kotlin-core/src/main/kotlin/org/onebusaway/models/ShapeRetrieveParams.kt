@@ -17,6 +17,10 @@ constructor(
 
     fun shapeId(): String = shapeId
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
     internal fun getHeaders(): Headers = additionalHeaders
 
     internal fun getQueryParams(): QueryParams = additionalQueryParams
@@ -27,23 +31,6 @@ constructor(
             else -> ""
         }
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is ShapeRetrieveParams && shapeId == other.shapeId && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(shapeId, additionalHeaders, additionalQueryParams) /* spotless:on */
-
-    override fun toString() =
-        "ShapeRetrieveParams{shapeId=$shapeId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -60,9 +47,9 @@ constructor(
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
         internal fun from(shapeRetrieveParams: ShapeRetrieveParams) = apply {
-            this.shapeId = shapeRetrieveParams.shapeId
-            additionalHeaders(shapeRetrieveParams.additionalHeaders)
-            additionalQueryParams(shapeRetrieveParams.additionalQueryParams)
+            shapeId = shapeRetrieveParams.shapeId
+            additionalHeaders = shapeRetrieveParams.additionalHeaders.toBuilder()
+            additionalQueryParams = shapeRetrieveParams.additionalQueryParams.toBuilder()
         }
 
         fun shapeId(shapeId: String) = apply { this.shapeId = shapeId }
@@ -172,4 +159,17 @@ constructor(
                 additionalQueryParams.build(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is ShapeRetrieveParams && shapeId == other.shapeId && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(shapeId, additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "ShapeRetrieveParams{shapeId=$shapeId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

@@ -26,6 +26,10 @@ constructor(
 
     fun time(): Long? = time
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
     internal fun getHeaders(): Headers = additionalHeaders
 
     internal fun getQueryParams(): QueryParams {
@@ -43,23 +47,6 @@ constructor(
             else -> ""
         }
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is TripsForRouteListParams && routeId == other.routeId && includeSchedule == other.includeSchedule && includeStatus == other.includeStatus && time == other.time && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(routeId, includeSchedule, includeStatus, time, additionalHeaders, additionalQueryParams) /* spotless:on */
-
-    override fun toString() =
-        "TripsForRouteListParams{routeId=$routeId, includeSchedule=$includeSchedule, includeStatus=$includeStatus, time=$time, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -79,12 +66,12 @@ constructor(
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
         internal fun from(tripsForRouteListParams: TripsForRouteListParams) = apply {
-            this.routeId = tripsForRouteListParams.routeId
-            this.includeSchedule = tripsForRouteListParams.includeSchedule
-            this.includeStatus = tripsForRouteListParams.includeStatus
-            this.time = tripsForRouteListParams.time
-            additionalHeaders(tripsForRouteListParams.additionalHeaders)
-            additionalQueryParams(tripsForRouteListParams.additionalQueryParams)
+            routeId = tripsForRouteListParams.routeId
+            includeSchedule = tripsForRouteListParams.includeSchedule
+            includeStatus = tripsForRouteListParams.includeStatus
+            time = tripsForRouteListParams.time
+            additionalHeaders = tripsForRouteListParams.additionalHeaders.toBuilder()
+            additionalQueryParams = tripsForRouteListParams.additionalQueryParams.toBuilder()
         }
 
         fun routeId(routeId: String) = apply { this.routeId = routeId }
@@ -211,4 +198,17 @@ constructor(
                 additionalQueryParams.build(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is TripsForRouteListParams && routeId == other.routeId && includeSchedule == other.includeSchedule && includeStatus == other.includeStatus && time == other.time && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(routeId, includeSchedule, includeStatus, time, additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "TripsForRouteListParams{routeId=$routeId, includeSchedule=$includeSchedule, includeStatus=$includeStatus, time=$time, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }
