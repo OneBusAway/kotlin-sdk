@@ -35,6 +35,10 @@ constructor(
 
     fun time(): Long? = time
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
     internal fun getHeaders(): Headers = additionalHeaders
 
     internal fun getQueryParams(): QueryParams {
@@ -49,23 +53,6 @@ constructor(
         queryParams.putAll(additionalQueryParams)
         return queryParams.build()
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is TripsForLocationListParams && lat == other.lat && latSpan == other.latSpan && lon == other.lon && lonSpan == other.lonSpan && includeSchedule == other.includeSchedule && includeTrip == other.includeTrip && time == other.time && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(lat, latSpan, lon, lonSpan, includeSchedule, includeTrip, time, additionalHeaders, additionalQueryParams) /* spotless:on */
-
-    override fun toString() =
-        "TripsForLocationListParams{lat=$lat, latSpan=$latSpan, lon=$lon, lonSpan=$lonSpan, includeSchedule=$includeSchedule, includeTrip=$includeTrip, time=$time, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -88,15 +75,15 @@ constructor(
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
         internal fun from(tripsForLocationListParams: TripsForLocationListParams) = apply {
-            this.lat = tripsForLocationListParams.lat
-            this.latSpan = tripsForLocationListParams.latSpan
-            this.lon = tripsForLocationListParams.lon
-            this.lonSpan = tripsForLocationListParams.lonSpan
-            this.includeSchedule = tripsForLocationListParams.includeSchedule
-            this.includeTrip = tripsForLocationListParams.includeTrip
-            this.time = tripsForLocationListParams.time
-            additionalHeaders(tripsForLocationListParams.additionalHeaders)
-            additionalQueryParams(tripsForLocationListParams.additionalQueryParams)
+            lat = tripsForLocationListParams.lat
+            latSpan = tripsForLocationListParams.latSpan
+            lon = tripsForLocationListParams.lon
+            lonSpan = tripsForLocationListParams.lonSpan
+            includeSchedule = tripsForLocationListParams.includeSchedule
+            includeTrip = tripsForLocationListParams.includeTrip
+            time = tripsForLocationListParams.time
+            additionalHeaders = tripsForLocationListParams.additionalHeaders.toBuilder()
+            additionalQueryParams = tripsForLocationListParams.additionalQueryParams.toBuilder()
         }
 
         /** The latitude coordinate of the search center */
@@ -235,4 +222,17 @@ constructor(
                 additionalQueryParams.build(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is TripsForLocationListParams && lat == other.lat && latSpan == other.latSpan && lon == other.lon && lonSpan == other.lonSpan && includeSchedule == other.includeSchedule && includeTrip == other.includeTrip && time == other.time && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(lat, latSpan, lon, lonSpan, includeSchedule, includeTrip, time, additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "TripsForLocationListParams{lat=$lat, latSpan=$latSpan, lon=$lon, lonSpan=$lonSpan, includeSchedule=$includeSchedule, includeTrip=$includeTrip, time=$time, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

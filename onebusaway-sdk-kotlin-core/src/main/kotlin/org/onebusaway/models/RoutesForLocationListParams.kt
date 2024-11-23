@@ -32,6 +32,10 @@ constructor(
 
     fun radius(): Double? = radius
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
     internal fun getHeaders(): Headers = additionalHeaders
 
     internal fun getQueryParams(): QueryParams {
@@ -45,23 +49,6 @@ constructor(
         queryParams.putAll(additionalQueryParams)
         return queryParams.build()
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is RoutesForLocationListParams && lat == other.lat && lon == other.lon && latSpan == other.latSpan && lonSpan == other.lonSpan && query == other.query && radius == other.radius && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(lat, lon, latSpan, lonSpan, query, radius, additionalHeaders, additionalQueryParams) /* spotless:on */
-
-    override fun toString() =
-        "RoutesForLocationListParams{lat=$lat, lon=$lon, latSpan=$latSpan, lonSpan=$lonSpan, query=$query, radius=$radius, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -83,14 +70,14 @@ constructor(
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
         internal fun from(routesForLocationListParams: RoutesForLocationListParams) = apply {
-            this.lat = routesForLocationListParams.lat
-            this.lon = routesForLocationListParams.lon
-            this.latSpan = routesForLocationListParams.latSpan
-            this.lonSpan = routesForLocationListParams.lonSpan
-            this.query = routesForLocationListParams.query
-            this.radius = routesForLocationListParams.radius
-            additionalHeaders(routesForLocationListParams.additionalHeaders)
-            additionalQueryParams(routesForLocationListParams.additionalQueryParams)
+            lat = routesForLocationListParams.lat
+            lon = routesForLocationListParams.lon
+            latSpan = routesForLocationListParams.latSpan
+            lonSpan = routesForLocationListParams.lonSpan
+            query = routesForLocationListParams.query
+            radius = routesForLocationListParams.radius
+            additionalHeaders = routesForLocationListParams.additionalHeaders.toBuilder()
+            additionalQueryParams = routesForLocationListParams.additionalQueryParams.toBuilder()
         }
 
         fun lat(lat: Double) = apply { this.lat = lat }
@@ -215,4 +202,17 @@ constructor(
                 additionalQueryParams.build(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is RoutesForLocationListParams && lat == other.lat && lon == other.lon && latSpan == other.latSpan && lonSpan == other.lonSpan && query == other.query && radius == other.radius && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(lat, lon, latSpan, lonSpan, query, radius, additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "RoutesForLocationListParams{lat=$lat, lon=$lon, latSpan=$latSpan, lonSpan=$lonSpan, query=$query, radius=$radius, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

@@ -20,6 +20,10 @@ constructor(
 
     fun maxCount(): Long? = maxCount
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
     internal fun getHeaders(): Headers = additionalHeaders
 
     internal fun getQueryParams(): QueryParams {
@@ -29,23 +33,6 @@ constructor(
         queryParams.putAll(additionalQueryParams)
         return queryParams.build()
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is SearchForRouteListParams && input == other.input && maxCount == other.maxCount && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(input, maxCount, additionalHeaders, additionalQueryParams) /* spotless:on */
-
-    override fun toString() =
-        "SearchForRouteListParams{input=$input, maxCount=$maxCount, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -63,10 +50,10 @@ constructor(
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
         internal fun from(searchForRouteListParams: SearchForRouteListParams) = apply {
-            this.input = searchForRouteListParams.input
-            this.maxCount = searchForRouteListParams.maxCount
-            additionalHeaders(searchForRouteListParams.additionalHeaders)
-            additionalQueryParams(searchForRouteListParams.additionalQueryParams)
+            input = searchForRouteListParams.input
+            maxCount = searchForRouteListParams.maxCount
+            additionalHeaders = searchForRouteListParams.additionalHeaders.toBuilder()
+            additionalQueryParams = searchForRouteListParams.additionalQueryParams.toBuilder()
         }
 
         /** The string to search for. */
@@ -181,4 +168,17 @@ constructor(
                 additionalQueryParams.build(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is SearchForRouteListParams && input == other.input && maxCount == other.maxCount && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(input, maxCount, additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "SearchForRouteListParams{input=$input, maxCount=$maxCount, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

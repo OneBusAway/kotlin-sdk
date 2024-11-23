@@ -21,6 +21,10 @@ constructor(
 
     fun date(): LocalDate? = date
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
     internal fun getHeaders(): Headers = additionalHeaders
 
     internal fun getQueryParams(): QueryParams {
@@ -36,23 +40,6 @@ constructor(
             else -> ""
         }
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is ScheduleForStopRetrieveParams && stopId == other.stopId && date == other.date && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(stopId, date, additionalHeaders, additionalQueryParams) /* spotless:on */
-
-    override fun toString() =
-        "ScheduleForStopRetrieveParams{stopId=$stopId, date=$date, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -70,10 +57,10 @@ constructor(
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
         internal fun from(scheduleForStopRetrieveParams: ScheduleForStopRetrieveParams) = apply {
-            this.stopId = scheduleForStopRetrieveParams.stopId
-            this.date = scheduleForStopRetrieveParams.date
-            additionalHeaders(scheduleForStopRetrieveParams.additionalHeaders)
-            additionalQueryParams(scheduleForStopRetrieveParams.additionalQueryParams)
+            stopId = scheduleForStopRetrieveParams.stopId
+            date = scheduleForStopRetrieveParams.date
+            additionalHeaders = scheduleForStopRetrieveParams.additionalHeaders.toBuilder()
+            additionalQueryParams = scheduleForStopRetrieveParams.additionalQueryParams.toBuilder()
         }
 
         fun stopId(stopId: String) = apply { this.stopId = stopId }
@@ -190,4 +177,17 @@ constructor(
                 additionalQueryParams.build(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is ScheduleForStopRetrieveParams && stopId == other.stopId && date == other.date && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(stopId, date, additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "ScheduleForStopRetrieveParams{stopId=$stopId, date=$date, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }
