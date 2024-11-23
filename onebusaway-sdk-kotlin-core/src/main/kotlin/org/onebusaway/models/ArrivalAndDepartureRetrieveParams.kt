@@ -32,6 +32,10 @@ constructor(
 
     fun vehicleId(): String? = vehicleId
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
     internal fun getHeaders(): Headers = additionalHeaders
 
     internal fun getQueryParams(): QueryParams {
@@ -51,23 +55,6 @@ constructor(
             else -> ""
         }
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is ArrivalAndDepartureRetrieveParams && stopId == other.stopId && serviceDate == other.serviceDate && tripId == other.tripId && stopSequence == other.stopSequence && time == other.time && vehicleId == other.vehicleId && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(stopId, serviceDate, tripId, stopSequence, time, vehicleId, additionalHeaders, additionalQueryParams) /* spotless:on */
-
-    override fun toString() =
-        "ArrivalAndDepartureRetrieveParams{stopId=$stopId, serviceDate=$serviceDate, tripId=$tripId, stopSequence=$stopSequence, time=$time, vehicleId=$vehicleId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -90,14 +77,15 @@ constructor(
 
         internal fun from(arrivalAndDepartureRetrieveParams: ArrivalAndDepartureRetrieveParams) =
             apply {
-                this.stopId = arrivalAndDepartureRetrieveParams.stopId
-                this.serviceDate = arrivalAndDepartureRetrieveParams.serviceDate
-                this.tripId = arrivalAndDepartureRetrieveParams.tripId
-                this.stopSequence = arrivalAndDepartureRetrieveParams.stopSequence
-                this.time = arrivalAndDepartureRetrieveParams.time
-                this.vehicleId = arrivalAndDepartureRetrieveParams.vehicleId
-                additionalHeaders(arrivalAndDepartureRetrieveParams.additionalHeaders)
-                additionalQueryParams(arrivalAndDepartureRetrieveParams.additionalQueryParams)
+                stopId = arrivalAndDepartureRetrieveParams.stopId
+                serviceDate = arrivalAndDepartureRetrieveParams.serviceDate
+                tripId = arrivalAndDepartureRetrieveParams.tripId
+                stopSequence = arrivalAndDepartureRetrieveParams.stopSequence
+                time = arrivalAndDepartureRetrieveParams.time
+                vehicleId = arrivalAndDepartureRetrieveParams.vehicleId
+                additionalHeaders = arrivalAndDepartureRetrieveParams.additionalHeaders.toBuilder()
+                additionalQueryParams =
+                    arrivalAndDepartureRetrieveParams.additionalQueryParams.toBuilder()
             }
 
         fun stopId(stopId: String) = apply { this.stopId = stopId }
@@ -222,4 +210,17 @@ constructor(
                 additionalQueryParams.build(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is ArrivalAndDepartureRetrieveParams && stopId == other.stopId && serviceDate == other.serviceDate && tripId == other.tripId && stopSequence == other.stopSequence && time == other.time && vehicleId == other.vehicleId && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(stopId, serviceDate, tripId, stopSequence, time, vehicleId, additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "ArrivalAndDepartureRetrieveParams{stopId=$stopId, serviceDate=$serviceDate, tripId=$tripId, stopSequence=$stopSequence, time=$time, vehicleId=$vehicleId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

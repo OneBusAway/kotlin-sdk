@@ -52,6 +52,10 @@ constructor(
 
     fun vehicleId(): String? = vehicleId
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
     internal fun getHeaders(): Headers = additionalHeaders
 
     internal fun getQueryParams(): QueryParams {
@@ -78,23 +82,6 @@ constructor(
             else -> ""
         }
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is ReportProblemWithTripRetrieveParams && tripId == other.tripId && code == other.code && serviceDate == other.serviceDate && stopId == other.stopId && userComment == other.userComment && userLat == other.userLat && userLocationAccuracy == other.userLocationAccuracy && userLon == other.userLon && userOnVehicle == other.userOnVehicle && userVehicleNumber == other.userVehicleNumber && vehicleId == other.vehicleId && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(tripId, code, serviceDate, stopId, userComment, userLat, userLocationAccuracy, userLon, userOnVehicle, userVehicleNumber, vehicleId, additionalHeaders, additionalQueryParams) /* spotless:on */
-
-    override fun toString() =
-        "ReportProblemWithTripRetrieveParams{tripId=$tripId, code=$code, serviceDate=$serviceDate, stopId=$stopId, userComment=$userComment, userLat=$userLat, userLocationAccuracy=$userLocationAccuracy, userLon=$userLon, userOnVehicle=$userOnVehicle, userVehicleNumber=$userVehicleNumber, vehicleId=$vehicleId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -123,19 +110,20 @@ constructor(
         internal fun from(
             reportProblemWithTripRetrieveParams: ReportProblemWithTripRetrieveParams
         ) = apply {
-            this.tripId = reportProblemWithTripRetrieveParams.tripId
-            this.code = reportProblemWithTripRetrieveParams.code
-            this.serviceDate = reportProblemWithTripRetrieveParams.serviceDate
-            this.stopId = reportProblemWithTripRetrieveParams.stopId
-            this.userComment = reportProblemWithTripRetrieveParams.userComment
-            this.userLat = reportProblemWithTripRetrieveParams.userLat
-            this.userLocationAccuracy = reportProblemWithTripRetrieveParams.userLocationAccuracy
-            this.userLon = reportProblemWithTripRetrieveParams.userLon
-            this.userOnVehicle = reportProblemWithTripRetrieveParams.userOnVehicle
-            this.userVehicleNumber = reportProblemWithTripRetrieveParams.userVehicleNumber
-            this.vehicleId = reportProblemWithTripRetrieveParams.vehicleId
-            additionalHeaders(reportProblemWithTripRetrieveParams.additionalHeaders)
-            additionalQueryParams(reportProblemWithTripRetrieveParams.additionalQueryParams)
+            tripId = reportProblemWithTripRetrieveParams.tripId
+            code = reportProblemWithTripRetrieveParams.code
+            serviceDate = reportProblemWithTripRetrieveParams.serviceDate
+            stopId = reportProblemWithTripRetrieveParams.stopId
+            userComment = reportProblemWithTripRetrieveParams.userComment
+            userLat = reportProblemWithTripRetrieveParams.userLat
+            userLocationAccuracy = reportProblemWithTripRetrieveParams.userLocationAccuracy
+            userLon = reportProblemWithTripRetrieveParams.userLon
+            userOnVehicle = reportProblemWithTripRetrieveParams.userOnVehicle
+            userVehicleNumber = reportProblemWithTripRetrieveParams.userVehicleNumber
+            vehicleId = reportProblemWithTripRetrieveParams.vehicleId
+            additionalHeaders = reportProblemWithTripRetrieveParams.additionalHeaders.toBuilder()
+            additionalQueryParams =
+                reportProblemWithTripRetrieveParams.additionalQueryParams.toBuilder()
         }
 
         fun tripId(tripId: String) = apply { this.tripId = tripId }
@@ -370,4 +358,17 @@ constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is ReportProblemWithTripRetrieveParams && tripId == other.tripId && code == other.code && serviceDate == other.serviceDate && stopId == other.stopId && userComment == other.userComment && userLat == other.userLat && userLocationAccuracy == other.userLocationAccuracy && userLon == other.userLon && userOnVehicle == other.userOnVehicle && userVehicleNumber == other.userVehicleNumber && vehicleId == other.vehicleId && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(tripId, code, serviceDate, stopId, userComment, userLat, userLocationAccuracy, userLon, userOnVehicle, userVehicleNumber, vehicleId, additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "ReportProblemWithTripRetrieveParams{tripId=$tripId, code=$code, serviceDate=$serviceDate, stopId=$stopId, userComment=$userComment, userLat=$userLat, userLocationAccuracy=$userLocationAccuracy, userLon=$userLon, userOnVehicle=$userOnVehicle, userVehicleNumber=$userVehicleNumber, vehicleId=$vehicleId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

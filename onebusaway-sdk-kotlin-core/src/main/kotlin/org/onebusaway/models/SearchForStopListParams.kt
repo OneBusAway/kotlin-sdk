@@ -20,6 +20,10 @@ constructor(
 
     fun maxCount(): Long? = maxCount
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
     internal fun getHeaders(): Headers = additionalHeaders
 
     internal fun getQueryParams(): QueryParams {
@@ -29,23 +33,6 @@ constructor(
         queryParams.putAll(additionalQueryParams)
         return queryParams.build()
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is SearchForStopListParams && input == other.input && maxCount == other.maxCount && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(input, maxCount, additionalHeaders, additionalQueryParams) /* spotless:on */
-
-    override fun toString() =
-        "SearchForStopListParams{input=$input, maxCount=$maxCount, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -63,10 +50,10 @@ constructor(
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
         internal fun from(searchForStopListParams: SearchForStopListParams) = apply {
-            this.input = searchForStopListParams.input
-            this.maxCount = searchForStopListParams.maxCount
-            additionalHeaders(searchForStopListParams.additionalHeaders)
-            additionalQueryParams(searchForStopListParams.additionalQueryParams)
+            input = searchForStopListParams.input
+            maxCount = searchForStopListParams.maxCount
+            additionalHeaders = searchForStopListParams.additionalHeaders.toBuilder()
+            additionalQueryParams = searchForStopListParams.additionalQueryParams.toBuilder()
         }
 
         /** The string to search for. */
@@ -181,4 +168,17 @@ constructor(
                 additionalQueryParams.build(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is SearchForStopListParams && input == other.input && maxCount == other.maxCount && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(input, maxCount, additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "SearchForStopListParams{input=$input, maxCount=$maxCount, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }
