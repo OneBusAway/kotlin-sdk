@@ -32,7 +32,7 @@ class ReferencesTest {
                         References.Route.builder()
                             .id("id")
                             .agencyId("agencyId")
-                            .type(123L)
+                            .type(0L)
                             .color("color")
                             .description("description")
                             .longName("longName")
@@ -47,12 +47,12 @@ class ReferencesTest {
                     listOf(
                         References.Situation.builder()
                             .id("id")
-                            .creationTime(123L)
+                            .creationTime(0L)
                             .activeWindows(
                                 listOf(
                                     References.Situation.ActiveWindow.builder()
-                                        .from(123L)
-                                        .to(123L)
+                                        .from(0L)
+                                        .to(0L)
                                         .build()
                                 )
                             )
@@ -81,7 +81,7 @@ class ReferencesTest {
                                                         .ConditionDetails
                                                         .DiversionPath
                                                         .builder()
-                                                        .length(123L)
+                                                        .length(0L)
                                                         .levels("levels")
                                                         .points("points")
                                                         .build()
@@ -101,8 +101,8 @@ class ReferencesTest {
                             .publicationWindows(
                                 listOf(
                                     References.Situation.PublicationWindow.builder()
-                                        .from(123L)
-                                        .to(123L)
+                                        .from(0L)
+                                        .to(0L)
                                         .build()
                                 )
                             )
@@ -128,11 +128,11 @@ class ReferencesTest {
                         References.Stop.builder()
                             .id("id")
                             .code("code")
-                            .lat(42.23)
-                            .lon(42.23)
+                            .lat(0.0)
+                            .lon(0.0)
                             .name("name")
                             .direction("direction")
-                            .locationType(123L)
+                            .locationType(0L)
                             .parent("parent")
                             .routeIds(listOf("string"))
                             .staticRouteIds(listOf("string"))
@@ -143,9 +143,9 @@ class ReferencesTest {
                 .stopTimes(
                     listOf(
                         References.StopTime.builder()
-                            .arrivalTime(123L)
-                            .departureTime(123L)
-                            .distanceAlongTrip(42.23)
+                            .arrivalTime(0L)
+                            .departureTime(0L)
+                            .distanceAlongTrip(0.0)
                             .historicalOccupancy("historicalOccupancy")
                             .stopHeadsign("stopHeadsign")
                             .stopId("stopId")
@@ -160,7 +160,7 @@ class ReferencesTest {
                             .serviceId("serviceId")
                             .blockId("blockId")
                             .directionId("directionId")
-                            .peakOffpeak(123L)
+                            .peakOffpeak(0L)
                             .routeShortName("routeShortName")
                             .shapeId("shapeId")
                             .timeZone("timeZone")
@@ -191,7 +191,7 @@ class ReferencesTest {
                 References.Route.builder()
                     .id("id")
                     .agencyId("agencyId")
-                    .type(123L)
+                    .type(0L)
                     .color("color")
                     .description("description")
                     .longName("longName")
@@ -205,11 +205,9 @@ class ReferencesTest {
             .containsExactly(
                 References.Situation.builder()
                     .id("id")
-                    .creationTime(123L)
+                    .creationTime(0L)
                     .activeWindows(
-                        listOf(
-                            References.Situation.ActiveWindow.builder().from(123L).to(123L).build()
-                        )
+                        listOf(References.Situation.ActiveWindow.builder().from(0L).to(0L).build())
                     )
                     .allAffects(
                         listOf(
@@ -234,7 +232,7 @@ class ReferencesTest {
                                             References.Situation.Consequence.ConditionDetails
                                                 .DiversionPath
                                                 .builder()
-                                                .length(123L)
+                                                .length(0L)
                                                 .levels("levels")
                                                 .points("points")
                                                 .build()
@@ -253,10 +251,7 @@ class ReferencesTest {
                     )
                     .publicationWindows(
                         listOf(
-                            References.Situation.PublicationWindow.builder()
-                                .from(123L)
-                                .to(123L)
-                                .build()
+                            References.Situation.PublicationWindow.builder().from(0L).to(0L).build()
                         )
                     )
                     .reason(References.Situation.Reason.EQUIPMENT_REASON)
@@ -272,11 +267,11 @@ class ReferencesTest {
                 References.Stop.builder()
                     .id("id")
                     .code("code")
-                    .lat(42.23)
-                    .lon(42.23)
+                    .lat(0.0)
+                    .lon(0.0)
                     .name("name")
                     .direction("direction")
-                    .locationType(123L)
+                    .locationType(0L)
                     .parent("parent")
                     .routeIds(listOf("string"))
                     .staticRouteIds(listOf("string"))
@@ -286,9 +281,9 @@ class ReferencesTest {
         assertThat(references.stopTimes())
             .containsExactly(
                 References.StopTime.builder()
-                    .arrivalTime(123L)
-                    .departureTime(123L)
-                    .distanceAlongTrip(42.23)
+                    .arrivalTime(0L)
+                    .departureTime(0L)
+                    .distanceAlongTrip(0.0)
                     .historicalOccupancy("historicalOccupancy")
                     .stopHeadsign("stopHeadsign")
                     .stopId("stopId")
@@ -302,7 +297,7 @@ class ReferencesTest {
                     .serviceId("serviceId")
                     .blockId("blockId")
                     .directionId("directionId")
-                    .peakOffpeak(123L)
+                    .peakOffpeak(0L)
                     .routeShortName("routeShortName")
                     .shapeId("shapeId")
                     .timeZone("timeZone")
