@@ -393,7 +393,7 @@ private constructor(
 
                 private var validated: Boolean = false
 
-                fun code(): String = code.getRequired("code")
+                fun code(): String? = code.getNullable("code")
 
                 fun direction(): String? = direction.getNullable("direction")
 
@@ -407,11 +407,11 @@ private constructor(
 
                 fun name(): String = name.getRequired("name")
 
-                fun parent(): String? = parent.getNullable("parent")
+                fun parent(): String = parent.getRequired("parent")
 
-                fun routeIds(): List<String>? = routeIds.getNullable("routeIds")
+                fun routeIds(): List<String> = routeIds.getRequired("routeIds")
 
-                fun staticRouteIds(): List<String>? = staticRouteIds.getNullable("staticRouteIds")
+                fun staticRouteIds(): List<String> = staticRouteIds.getRequired("staticRouteIds")
 
                 fun wheelchairBoarding(): String? =
                     wheelchairBoarding.getNullable("wheelchairBoarding")
