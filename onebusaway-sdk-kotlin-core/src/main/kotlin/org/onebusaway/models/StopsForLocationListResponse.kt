@@ -156,6 +156,7 @@ private constructor(
     class Data
     private constructor(
         private val limitExceeded: JsonField<Boolean>,
+        private val outOfRange: JsonField<Boolean>,
         private val list: JsonField<kotlin.collections.List<List>>,
         private val references: JsonField<References>,
         private val additionalProperties: Map<String, JsonValue>,
@@ -165,11 +166,15 @@ private constructor(
 
         fun limitExceeded(): Boolean = limitExceeded.getRequired("limitExceeded")
 
+        fun outOfRange(): Boolean? = outOfRange.getNullable("outOfRange")
+
         fun list(): kotlin.collections.List<List> = list.getRequired("list")
 
         fun references(): References = references.getRequired("references")
 
         @JsonProperty("limitExceeded") @ExcludeMissing fun _limitExceeded() = limitExceeded
+
+        @JsonProperty("outOfRange") @ExcludeMissing fun _outOfRange() = outOfRange
 
         @JsonProperty("list") @ExcludeMissing fun _list() = list
 
@@ -182,6 +187,7 @@ private constructor(
         fun validate(): Data = apply {
             if (!validated) {
                 limitExceeded()
+                outOfRange()
                 list().forEach { it.validate() }
                 references().validate()
                 validated = true
@@ -198,12 +204,14 @@ private constructor(
         class Builder {
 
             private var limitExceeded: JsonField<Boolean> = JsonMissing.of()
+            private var outOfRange: JsonField<Boolean> = JsonMissing.of()
             private var list: JsonField<kotlin.collections.List<List>> = JsonMissing.of()
             private var references: JsonField<References> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             internal fun from(data: Data) = apply {
                 this.limitExceeded = data.limitExceeded
+                this.outOfRange = data.outOfRange
                 this.list = data.list
                 this.references = data.references
                 additionalProperties(data.additionalProperties)
@@ -216,6 +224,12 @@ private constructor(
             fun limitExceeded(limitExceeded: JsonField<Boolean>) = apply {
                 this.limitExceeded = limitExceeded
             }
+
+            fun outOfRange(outOfRange: Boolean) = outOfRange(JsonField.of(outOfRange))
+
+            @JsonProperty("outOfRange")
+            @ExcludeMissing
+            fun outOfRange(outOfRange: JsonField<Boolean>) = apply { this.outOfRange = outOfRange }
 
             fun list(list: kotlin.collections.List<List>) = list(JsonField.of(list))
 
@@ -248,6 +262,7 @@ private constructor(
             fun build(): Data =
                 Data(
                     limitExceeded,
+                    outOfRange,
                     list.map { it.toImmutable() },
                     references,
                     additionalProperties.toImmutable(),
@@ -513,17 +528,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Data && limitExceeded == other.limitExceeded && list == other.list && references == other.references && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Data && limitExceeded == other.limitExceeded && outOfRange == other.outOfRange && list == other.list && references == other.references && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(limitExceeded, list, references, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(limitExceeded, outOfRange, list, references, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Data{limitExceeded=$limitExceeded, list=$list, references=$references, additionalProperties=$additionalProperties}"
+            "Data{limitExceeded=$limitExceeded, outOfRange=$outOfRange, list=$list, references=$references, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {
