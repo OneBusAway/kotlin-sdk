@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import java.util.Objects
 import org.onebusaway.core.Enum
 import org.onebusaway.core.JsonField
-import org.onebusaway.core.JsonValue
 import org.onebusaway.core.NoAutoDetect
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.QueryParams
@@ -234,29 +233,17 @@ constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is Code && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            val STOP_NAME_WRONG = Code(JsonField.of("stop_name_wrong"))
+            val STOP_NAME_WRONG = of("stop_name_wrong")
 
-            val STOP_NUMBER_WRONG = Code(JsonField.of("stop_number_wrong"))
+            val STOP_NUMBER_WRONG = of("stop_number_wrong")
 
-            val STOP_LOCATION_WRONG = Code(JsonField.of("stop_location_wrong"))
+            val STOP_LOCATION_WRONG = of("stop_location_wrong")
 
-            val ROUTE_OR_TRIP_MISSING = Code(JsonField.of("route_or_trip_missing"))
+            val ROUTE_OR_TRIP_MISSING = of("route_or_trip_missing")
 
-            val OTHER = Code(JsonField.of("other"))
+            val OTHER = of("other")
 
             fun of(value: String) = Code(JsonField.of(value))
         }
@@ -299,6 +286,18 @@ constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is Code && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     override fun equals(other: Any?): Boolean {

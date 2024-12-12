@@ -1783,29 +1783,17 @@ private constructor(
 
             @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return /* spotless:off */ other is Reason && value == other.value /* spotless:on */
-            }
-
-            override fun hashCode() = value.hashCode()
-
-            override fun toString() = value.toString()
-
             companion object {
 
-                val EQUIPMENT_REASON = Reason(JsonField.of("equipmentReason"))
+                val EQUIPMENT_REASON = of("equipmentReason")
 
-                val ENVIRONMENT_REASON = Reason(JsonField.of("environmentReason"))
+                val ENVIRONMENT_REASON = of("environmentReason")
 
-                val PERSONNEL_REASON = Reason(JsonField.of("personnelReason"))
+                val PERSONNEL_REASON = of("personnelReason")
 
-                val MISCELLANEOUS_REASON = Reason(JsonField.of("miscellaneousReason"))
+                val MISCELLANEOUS_REASON = of("miscellaneousReason")
 
-                val SECURITY_ALERT = Reason(JsonField.of("securityAlert"))
+                val SECURITY_ALERT = of("securityAlert")
 
                 fun of(value: String) = Reason(JsonField.of(value))
             }
@@ -1848,6 +1836,18 @@ private constructor(
                 }
 
             fun asString(): String = _value().asStringOrThrow()
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return /* spotless:off */ other is Reason && value == other.value /* spotless:on */
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
         }
 
         @JsonDeserialize(builder = Summary.Builder::class)
