@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.json.JsonMapper
 import com.github.tomakehurst.wiremock.client.WireMock.anyUrl
 import com.github.tomakehurst.wiremock.client.WireMock.get
 import com.github.tomakehurst.wiremock.client.WireMock.ok
-import com.github.tomakehurst.wiremock.client.WireMock.put
 import com.github.tomakehurst.wiremock.client.WireMock.status
 import com.github.tomakehurst.wiremock.client.WireMock.stubFor
 import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo
@@ -18,7 +17,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.onebusaway.client.OnebusawaySdkClient
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
-import org.onebusaway.core.JsonString
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.jsonMapper
@@ -32,7 +30,8 @@ import org.onebusaway.errors.RateLimitException
 import org.onebusaway.errors.UnauthorizedException
 import org.onebusaway.errors.UnexpectedStatusCodeException
 import org.onebusaway.errors.UnprocessableEntityException
-import org.onebusaway.models.*
+import org.onebusaway.models.CurrentTimeRetrieveParams
+import org.onebusaway.models.CurrentTimeRetrieveResponse
 
 @WireMockTest
 class ErrorHandlingTest {
@@ -40,7 +39,7 @@ class ErrorHandlingTest {
     private val JSON_MAPPER: JsonMapper = jsonMapper()
 
     private val ONEBUSAWAY_SDK_ERROR: OnebusawaySdkError =
-        OnebusawaySdkError.builder().putAdditionalProperty("key", JsonString.of("value")).build()
+        OnebusawaySdkError.builder().putAdditionalProperty("key", JsonValue.from("value")).build()
 
     private lateinit var client: OnebusawaySdkClient
 
