@@ -8,7 +8,6 @@ import com.github.tomakehurst.wiremock.client.WireMock.equalTo
 import com.github.tomakehurst.wiremock.client.WireMock.get
 import com.github.tomakehurst.wiremock.client.WireMock.getRequestedFor
 import com.github.tomakehurst.wiremock.client.WireMock.ok
-import com.github.tomakehurst.wiremock.client.WireMock.put
 import com.github.tomakehurst.wiremock.client.WireMock.stubFor
 import com.github.tomakehurst.wiremock.client.WireMock.verify
 import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo
@@ -19,7 +18,8 @@ import org.onebusaway.client.OnebusawaySdkClient
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.jsonMapper
-import org.onebusaway.models.*
+import org.onebusaway.models.CurrentTimeRetrieveParams
+import org.onebusaway.models.CurrentTimeRetrieveResponse
 
 @WireMockTest
 class ServiceParamsTest {

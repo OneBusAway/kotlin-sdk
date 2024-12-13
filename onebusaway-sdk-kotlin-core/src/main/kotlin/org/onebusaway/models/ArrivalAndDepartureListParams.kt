@@ -8,7 +8,6 @@ import java.util.Objects
 import org.onebusaway.core.NoAutoDetect
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.QueryParams
-import org.onebusaway.models.*
 
 class ArrivalAndDepartureListParams
 constructor(
