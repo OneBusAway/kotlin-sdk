@@ -12,7 +12,7 @@ class ScheduleForRouteRetrieveParamsTest {
     @Test
     fun createScheduleForRouteRetrieveParams() {
         ScheduleForRouteRetrieveParams.builder()
-            .routeId("1_100223")
+            .routeId("routeID")
             .date(LocalDate.parse("2019-12-27"))
             .build()
     }
@@ -21,7 +21,7 @@ class ScheduleForRouteRetrieveParamsTest {
     fun getQueryParams() {
         val params =
             ScheduleForRouteRetrieveParams.builder()
-                .routeId("1_100223")
+                .routeId("routeID")
                 .date(LocalDate.parse("2019-12-27"))
                 .build()
         val expected = QueryParams.builder()
@@ -31,17 +31,17 @@ class ScheduleForRouteRetrieveParamsTest {
 
     @Test
     fun getQueryParamsWithoutOptionalFields() {
-        val params = ScheduleForRouteRetrieveParams.builder().routeId("1_100223").build()
+        val params = ScheduleForRouteRetrieveParams.builder().routeId("routeID").build()
         val expected = QueryParams.builder()
         assertThat(params.getQueryParams()).isEqualTo(expected.build())
     }
 
     @Test
     fun getPathParam() {
-        val params = ScheduleForRouteRetrieveParams.builder().routeId("1_100223").build()
+        val params = ScheduleForRouteRetrieveParams.builder().routeId("routeID").build()
         assertThat(params).isNotNull
         // path param "routeId"
-        assertThat(params.getPathParam(0)).isEqualTo("1_100223")
+        assertThat(params.getPathParam(0)).isEqualTo("routeID")
         // out-of-bound path param
         assertThat(params.getPathParam(1)).isEqualTo("")
     }
