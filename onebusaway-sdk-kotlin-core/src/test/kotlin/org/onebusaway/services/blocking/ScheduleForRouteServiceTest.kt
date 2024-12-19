@@ -23,7 +23,7 @@ class ScheduleForRouteServiceTest {
         val scheduleForRouteRetrieveResponse =
             scheduleForRouteService.retrieve(
                 ScheduleForRouteRetrieveParams.builder()
-                    .routeId("routeID")
+                    .routeId("1_100223")
                     .date(LocalDate.parse("2019-12-27"))
                     .build()
             )
