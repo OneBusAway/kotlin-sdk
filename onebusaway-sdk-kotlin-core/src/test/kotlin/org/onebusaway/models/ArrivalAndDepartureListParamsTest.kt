@@ -12,7 +12,7 @@ class ArrivalAndDepartureListParamsTest {
     @Test
     fun createArrivalAndDepartureListParams() {
         ArrivalAndDepartureListParams.builder()
-            .stopId("stopID")
+            .stopId("1_75403")
             .minutesAfter(0L)
             .minutesBefore(0L)
             .time(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
@@ -23,7 +23,7 @@ class ArrivalAndDepartureListParamsTest {
     fun getQueryParams() {
         val params =
             ArrivalAndDepartureListParams.builder()
-                .stopId("stopID")
+                .stopId("1_75403")
                 .minutesAfter(0L)
                 .minutesBefore(0L)
                 .time(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
@@ -37,17 +37,17 @@ class ArrivalAndDepartureListParamsTest {
 
     @Test
     fun getQueryParamsWithoutOptionalFields() {
-        val params = ArrivalAndDepartureListParams.builder().stopId("stopID").build()
+        val params = ArrivalAndDepartureListParams.builder().stopId("1_75403").build()
         val expected = QueryParams.builder()
         assertThat(params.getQueryParams()).isEqualTo(expected.build())
     }
 
     @Test
     fun getPathParam() {
-        val params = ArrivalAndDepartureListParams.builder().stopId("stopID").build()
+        val params = ArrivalAndDepartureListParams.builder().stopId("1_75403").build()
         assertThat(params).isNotNull
         // path param "stopId"
-        assertThat(params.getPathParam(0)).isEqualTo("stopID")
+        assertThat(params.getPathParam(0)).isEqualTo("1_75403")
         // out-of-bound path param
         assertThat(params.getPathParam(1)).isEqualTo("")
     }
