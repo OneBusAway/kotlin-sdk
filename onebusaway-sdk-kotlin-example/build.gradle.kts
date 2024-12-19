@@ -1,13 +1,6 @@
 plugins {
-    id("onebusaway-sdk.kotlin")
-    application
+    kotlin("jvm")
 }
-
-
-application {
-    mainClass = "org.onebusaway.example.MainKt"
-}
-
 
 group = "org.onebusaway.example"
 version = "0.0.1-alpha.0"
