@@ -44,7 +44,7 @@ Use `OnebusawaySdkOkHttpClient.builder()` to configure the client. At a minimum 
 import org.onebusaway.client.OnebusawaySdkClient
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
 
-val client = OnebusawaySdkOkHttpClient.builder()
+val client: OnebusawaySdkClient = OnebusawaySdkOkHttpClient.builder()
     .apiKey("My API Key")
     .build()
 ```
@@ -55,10 +55,10 @@ Alternately, set the environment with `ONEBUSAWAY_API_KEY`, and use `OnebusawayS
 import org.onebusaway.client.OnebusawaySdkClient
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
 
-val client = OnebusawaySdkOkHttpClient.fromEnv()
+val client: OnebusawaySdkClient = OnebusawaySdkOkHttpClient.fromEnv()
 
 // Note: you can also call fromEnv() from the client builder, for example if you need to set additional properties
-val client = OnebusawaySdkOkHttpClient.builder()
+val client: OnebusawaySdkClient = OnebusawaySdkOkHttpClient.builder()
     .fromEnv()
     // ... set properties on the builder
     .build()
@@ -80,8 +80,8 @@ To create a new current time, first use the `CurrentTimeRetrieveParams` builder 
 import org.onebusaway.models.CurrentTimeRetrieveParams
 import org.onebusaway.models.CurrentTimeRetrieveResponse
 
-val params = CurrentTimeRetrieveParams.builder().build()
-val currentTime = client.currentTime().retrieve(params)
+val params: CurrentTimeRetrieveParams = CurrentTimeRetrieveParams.builder().build()
+val currentTime: CurrentTimeRetrieveResponse = client.currentTime().retrieve(params)
 ```
 
 ---
@@ -100,7 +100,7 @@ Sometimes, the API may support other properties that are not yet supported in th
 import org.onebusaway.core.JsonValue
 import org.onebusaway.models.CurrentTimeRetrieveParams
 
-val params = CurrentTimeRetrieveParams.builder()
+val params: CurrentTimeRetrieveParams = CurrentTimeRetrieveParams.builder()
     // ... normal properties
     .putAdditionalProperty("secret_param", JsonValue.from("4242"))
     .build()
@@ -115,7 +115,7 @@ When receiving a response, the Onebusaway SDK Kotlin SDK will deserialize it int
 ```kotlin
 import org.onebusaway.models.CurrentTimeRetrieveResponse
 
-val currentTime = client.currentTime().retrieve().validate()
+val currentTime: CurrentTimeRetrieveResponse = client.currentTime().retrieve().validate()
 ```
 
 ### Response properties as JSON
@@ -126,7 +126,7 @@ In rare cases, you may want to access the underlying JSON value for a response p
 import java.util.Optional
 import org.onebusaway.core.JsonField
 
-val field = responseObj._field
+val field: JsonField = responseObj._field
 
 if (field.isMissing()) {
   // Value was not specified in the JSON response
@@ -138,7 +138,7 @@ if (field.isMissing()) {
 
   // If the value given by the API did not match the shape that the SDK expects
   // you can deserialise into a custom type
-  val myObj = responseObj._field.asUnknown()?.convert(MyClass.class)
+  val myObj: MyClass = responseObj._field.asUnknown()?.convert(MyClass.class)
 }
 ```
 
@@ -149,7 +149,7 @@ Sometimes, the server response may include additional properties that are not ye
 ```kotlin
 import org.onebusaway.core.JsonValue
 
-val secret = references._additionalProperties().get("secret_field")
+val secret: JsonValue = references._additionalProperties().get("secret_field")
 ```
 
 ---
@@ -189,7 +189,7 @@ Requests that experience certain errors are automatically retried 2 times by def
 import org.onebusaway.client.OnebusawaySdkClient
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
 
-val client = OnebusawaySdkOkHttpClient.builder()
+val client: OnebusawaySdkClient = OnebusawaySdkOkHttpClient.builder()
     .fromEnv()
     .maxRetries(4)
     .build()
@@ -204,7 +204,7 @@ import java.time.Duration
 import org.onebusaway.client.OnebusawaySdkClient
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
 
-val client = OnebusawaySdkOkHttpClient.builder()
+val client: OnebusawaySdkClient = OnebusawaySdkOkHttpClient.builder()
     .fromEnv()
     .timeout(Duration.ofSeconds(30))
     .build()
@@ -220,7 +220,7 @@ import java.net.Proxy
 import org.onebusaway.client.OnebusawaySdkClient
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
 
-val client = OnebusawaySdkOkHttpClient.builder()
+val client: OnebusawaySdkClient = OnebusawaySdkOkHttpClient.builder()
     .fromEnv()
     .proxy(Proxy(Proxy.Type.HTTP, InetSocketAddress("example.com", 8080)))
     .build()
