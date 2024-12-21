@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.37 (2024-12-21)
+
+Full Changelog: [v0.1.0-alpha.36...v0.1.0-alpha.37](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.36...v0.1.0-alpha.37)
+
+### Chores
+
+* **docs:** fix unused import ([#111](https://github.com/OneBusAway/kotlin-sdk/issues/111)) ([1e8383b](https://github.com/OneBusAway/kotlin-sdk/commit/1e8383b8b56bd8d877548d1eaf44dbbae790009a))
+
 ## 0.1.0-alpha.36 (2024-12-19)
 
 Full Changelog: [v0.1.0-alpha.35...v0.1.0-alpha.36](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.35...v0.1.0-alpha.36)
