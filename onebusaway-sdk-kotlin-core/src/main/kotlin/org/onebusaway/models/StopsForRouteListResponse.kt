@@ -4,29 +4,32 @@ package org.onebusaway.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import java.util.Objects
 import org.onebusaway.core.ExcludeMissing
 import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonMissing
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.NoAutoDetect
+import org.onebusaway.core.immutableEmptyMap
 import org.onebusaway.core.toImmutable
 
-@JsonDeserialize(builder = StopsForRouteListResponse.Builder::class)
 @NoAutoDetect
 class StopsForRouteListResponse
+@JsonCreator
 private constructor(
-    private val code: JsonField<Long>,
-    private val currentTime: JsonField<Long>,
-    private val text: JsonField<String>,
-    private val version: JsonField<Long>,
-    private val data: JsonField<Data>,
-    private val additionalProperties: Map<String, JsonValue>,
+    @JsonProperty("code") @ExcludeMissing private val code: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("currentTime")
+    @ExcludeMissing
+    private val currentTime: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("text") @ExcludeMissing private val text: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("version")
+    @ExcludeMissing
+    private val version: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("data") @ExcludeMissing private val data: JsonField<Data> = JsonMissing.of(),
+    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
-
-    private var validated: Boolean = false
 
     fun code(): Long = code.getRequired("code")
 
@@ -37,14 +40,6 @@ private constructor(
     fun version(): Long = version.getRequired("version")
 
     fun data(): Data = data.getRequired("data")
-
-    fun toResponseWrapper(): ResponseWrapper =
-        ResponseWrapper.builder()
-            .code(code)
-            .currentTime(currentTime)
-            .text(text)
-            .version(version)
-            .build()
 
     @JsonProperty("code") @ExcludeMissing fun _code() = code
 
@@ -59,6 +54,16 @@ private constructor(
     @JsonAnyGetter
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+    fun toResponseWrapper(): ResponseWrapper =
+        ResponseWrapper.builder()
+            .code(code)
+            .currentTime(currentTime)
+            .text(text)
+            .version(version)
+            .build()
+
+    private var validated: Boolean = false
 
     fun validate(): StopsForRouteListResponse = apply {
         if (!validated) {
@@ -88,56 +93,51 @@ private constructor(
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         internal fun from(stopsForRouteListResponse: StopsForRouteListResponse) = apply {
-            this.code = stopsForRouteListResponse.code
-            this.currentTime = stopsForRouteListResponse.currentTime
-            this.text = stopsForRouteListResponse.text
-            this.version = stopsForRouteListResponse.version
-            this.data = stopsForRouteListResponse.data
-            additionalProperties(stopsForRouteListResponse.additionalProperties)
+            code = stopsForRouteListResponse.code
+            currentTime = stopsForRouteListResponse.currentTime
+            text = stopsForRouteListResponse.text
+            version = stopsForRouteListResponse.version
+            data = stopsForRouteListResponse.data
+            additionalProperties = stopsForRouteListResponse.additionalProperties.toMutableMap()
         }
 
         fun code(code: Long) = code(JsonField.of(code))
 
-        @JsonProperty("code")
-        @ExcludeMissing
         fun code(code: JsonField<Long>) = apply { this.code = code }
 
         fun currentTime(currentTime: Long) = currentTime(JsonField.of(currentTime))
 
-        @JsonProperty("currentTime")
-        @ExcludeMissing
         fun currentTime(currentTime: JsonField<Long>) = apply { this.currentTime = currentTime }
 
         fun text(text: String) = text(JsonField.of(text))
 
-        @JsonProperty("text")
-        @ExcludeMissing
         fun text(text: JsonField<String>) = apply { this.text = text }
 
         fun version(version: Long) = version(JsonField.of(version))
 
-        @JsonProperty("version")
-        @ExcludeMissing
         fun version(version: JsonField<Long>) = apply { this.version = version }
 
         fun data(data: Data) = data(JsonField.of(data))
 
-        @JsonProperty("data")
-        @ExcludeMissing
         fun data(data: JsonField<Data>) = apply { this.data = data }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
-            this.additionalProperties.putAll(additionalProperties)
+            putAllAdditionalProperties(additionalProperties)
         }
 
-        @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-            this.additionalProperties.put(key, value)
+            additionalProperties.put(key, value)
         }
 
         fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.putAll(additionalProperties)
+        }
+
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+            keys.forEach(::removeAdditionalProperty)
         }
 
         fun build(): StopsForRouteListResponse =
@@ -151,16 +151,19 @@ private constructor(
             )
     }
 
-    @JsonDeserialize(builder = Data.Builder::class)
     @NoAutoDetect
     class Data
+    @JsonCreator
     private constructor(
-        private val entry: JsonField<Entry>,
-        private val references: JsonField<References>,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("entry")
+        @ExcludeMissing
+        private val entry: JsonField<Entry> = JsonMissing.of(),
+        @JsonProperty("references")
+        @ExcludeMissing
+        private val references: JsonField<References> = JsonMissing.of(),
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
-
-        private var validated: Boolean = false
 
         fun entry(): Entry = entry.getRequired("entry")
 
@@ -173,6 +176,8 @@ private constructor(
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
 
         fun validate(): Data = apply {
             if (!validated) {
@@ -196,37 +201,38 @@ private constructor(
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             internal fun from(data: Data) = apply {
-                this.entry = data.entry
-                this.references = data.references
-                additionalProperties(data.additionalProperties)
+                entry = data.entry
+                references = data.references
+                additionalProperties = data.additionalProperties.toMutableMap()
             }
 
             fun entry(entry: Entry) = entry(JsonField.of(entry))
 
-            @JsonProperty("entry")
-            @ExcludeMissing
             fun entry(entry: JsonField<Entry>) = apply { this.entry = entry }
 
             fun references(references: References) = references(JsonField.of(references))
 
-            @JsonProperty("references")
-            @ExcludeMissing
             fun references(references: JsonField<References>) = apply {
                 this.references = references
             }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): Data =
@@ -237,18 +243,25 @@ private constructor(
                 )
         }
 
-        @JsonDeserialize(builder = Entry.Builder::class)
         @NoAutoDetect
         class Entry
+        @JsonCreator
         private constructor(
-            private val polylines: JsonField<List<Polyline>>,
-            private val routeId: JsonField<String>,
-            private val stopGroupings: JsonField<List<StopGrouping>>,
-            private val stopIds: JsonField<List<String>>,
-            private val additionalProperties: Map<String, JsonValue>,
+            @JsonProperty("polylines")
+            @ExcludeMissing
+            private val polylines: JsonField<List<Polyline>> = JsonMissing.of(),
+            @JsonProperty("routeId")
+            @ExcludeMissing
+            private val routeId: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("stopGroupings")
+            @ExcludeMissing
+            private val stopGroupings: JsonField<List<StopGrouping>> = JsonMissing.of(),
+            @JsonProperty("stopIds")
+            @ExcludeMissing
+            private val stopIds: JsonField<List<String>> = JsonMissing.of(),
+            @JsonAnySetter
+            private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
         ) {
-
-            private var validated: Boolean = false
 
             fun polylines(): List<Polyline>? = polylines.getNullable("polylines")
 
@@ -269,6 +282,8 @@ private constructor(
             @JsonAnyGetter
             @ExcludeMissing
             fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+            private var validated: Boolean = false
 
             fun validate(): Entry = apply {
                 if (!validated) {
@@ -296,56 +311,55 @@ private constructor(
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 internal fun from(entry: Entry) = apply {
-                    this.polylines = entry.polylines
-                    this.routeId = entry.routeId
-                    this.stopGroupings = entry.stopGroupings
-                    this.stopIds = entry.stopIds
-                    additionalProperties(entry.additionalProperties)
+                    polylines = entry.polylines
+                    routeId = entry.routeId
+                    stopGroupings = entry.stopGroupings
+                    stopIds = entry.stopIds
+                    additionalProperties = entry.additionalProperties.toMutableMap()
                 }
 
                 fun polylines(polylines: List<Polyline>) = polylines(JsonField.of(polylines))
 
-                @JsonProperty("polylines")
-                @ExcludeMissing
                 fun polylines(polylines: JsonField<List<Polyline>>) = apply {
                     this.polylines = polylines
                 }
 
                 fun routeId(routeId: String) = routeId(JsonField.of(routeId))
 
-                @JsonProperty("routeId")
-                @ExcludeMissing
                 fun routeId(routeId: JsonField<String>) = apply { this.routeId = routeId }
 
                 fun stopGroupings(stopGroupings: List<StopGrouping>) =
                     stopGroupings(JsonField.of(stopGroupings))
 
-                @JsonProperty("stopGroupings")
-                @ExcludeMissing
                 fun stopGroupings(stopGroupings: JsonField<List<StopGrouping>>) = apply {
                     this.stopGroupings = stopGroupings
                 }
 
                 fun stopIds(stopIds: List<String>) = stopIds(JsonField.of(stopIds))
 
-                @JsonProperty("stopIds")
-                @ExcludeMissing
                 fun stopIds(stopIds: JsonField<List<String>>) = apply { this.stopIds = stopIds }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
-                    this.additionalProperties.putAll(additionalProperties)
+                    putAllAdditionalProperties(additionalProperties)
                 }
 
-                @JsonAnySetter
                 fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                    this.additionalProperties.put(key, value)
+                    additionalProperties.put(key, value)
                 }
 
                 fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
                     apply {
                         this.additionalProperties.putAll(additionalProperties)
                     }
+
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
+
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
 
                 fun build(): Entry =
                     Entry(
@@ -357,17 +371,22 @@ private constructor(
                     )
             }
 
-            @JsonDeserialize(builder = Polyline.Builder::class)
             @NoAutoDetect
             class Polyline
+            @JsonCreator
             private constructor(
-                private val length: JsonField<Long>,
-                private val levels: JsonField<String>,
-                private val points: JsonField<String>,
-                private val additionalProperties: Map<String, JsonValue>,
+                @JsonProperty("length")
+                @ExcludeMissing
+                private val length: JsonField<Long> = JsonMissing.of(),
+                @JsonProperty("levels")
+                @ExcludeMissing
+                private val levels: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("points")
+                @ExcludeMissing
+                private val points: JsonField<String> = JsonMissing.of(),
+                @JsonAnySetter
+                private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
             ) {
-
-                private var validated: Boolean = false
 
                 fun length(): Long? = length.getNullable("length")
 
@@ -384,6 +403,8 @@ private constructor(
                 @JsonAnyGetter
                 @ExcludeMissing
                 fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+                private var validated: Boolean = false
 
                 fun validate(): Polyline = apply {
                     if (!validated) {
@@ -409,44 +430,45 @@ private constructor(
                     private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                     internal fun from(polyline: Polyline) = apply {
-                        this.length = polyline.length
-                        this.levels = polyline.levels
-                        this.points = polyline.points
-                        additionalProperties(polyline.additionalProperties)
+                        length = polyline.length
+                        levels = polyline.levels
+                        points = polyline.points
+                        additionalProperties = polyline.additionalProperties.toMutableMap()
                     }
 
                     fun length(length: Long) = length(JsonField.of(length))
 
-                    @JsonProperty("length")
-                    @ExcludeMissing
                     fun length(length: JsonField<Long>) = apply { this.length = length }
 
                     fun levels(levels: String) = levels(JsonField.of(levels))
 
-                    @JsonProperty("levels")
-                    @ExcludeMissing
                     fun levels(levels: JsonField<String>) = apply { this.levels = levels }
 
                     fun points(points: String) = points(JsonField.of(points))
 
-                    @JsonProperty("points")
-                    @ExcludeMissing
                     fun points(points: JsonField<String>) = apply { this.points = points }
 
                     fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                         this.additionalProperties.clear()
-                        this.additionalProperties.putAll(additionalProperties)
+                        putAllAdditionalProperties(additionalProperties)
                     }
 
-                    @JsonAnySetter
                     fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                        this.additionalProperties.put(key, value)
+                        additionalProperties.put(key, value)
                     }
 
                     fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
                         apply {
                             this.additionalProperties.putAll(additionalProperties)
                         }
+
+                    fun removeAdditionalProperty(key: String) = apply {
+                        additionalProperties.remove(key)
+                    }
+
+                    fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                        keys.forEach(::removeAdditionalProperty)
+                    }
 
                     fun build(): Polyline =
                         Polyline(
@@ -475,18 +497,25 @@ private constructor(
                     "Polyline{length=$length, levels=$levels, points=$points, additionalProperties=$additionalProperties}"
             }
 
-            @JsonDeserialize(builder = StopGrouping.Builder::class)
             @NoAutoDetect
             class StopGrouping
+            @JsonCreator
             private constructor(
-                private val id: JsonField<String>,
-                private val name: JsonField<Name>,
-                private val polylines: JsonField<List<Polyline>>,
-                private val stopIds: JsonField<List<String>>,
-                private val additionalProperties: Map<String, JsonValue>,
+                @JsonProperty("id")
+                @ExcludeMissing
+                private val id: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("name")
+                @ExcludeMissing
+                private val name: JsonField<Name> = JsonMissing.of(),
+                @JsonProperty("polylines")
+                @ExcludeMissing
+                private val polylines: JsonField<List<Polyline>> = JsonMissing.of(),
+                @JsonProperty("stopIds")
+                @ExcludeMissing
+                private val stopIds: JsonField<List<String>> = JsonMissing.of(),
+                @JsonAnySetter
+                private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
             ) {
-
-                private var validated: Boolean = false
 
                 fun id(): String? = id.getNullable("id")
 
@@ -507,6 +536,8 @@ private constructor(
                 @JsonAnyGetter
                 @ExcludeMissing
                 fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+                private var validated: Boolean = false
 
                 fun validate(): StopGrouping = apply {
                     if (!validated) {
@@ -534,53 +565,52 @@ private constructor(
                     private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                     internal fun from(stopGrouping: StopGrouping) = apply {
-                        this.id = stopGrouping.id
-                        this.name = stopGrouping.name
-                        this.polylines = stopGrouping.polylines
-                        this.stopIds = stopGrouping.stopIds
-                        additionalProperties(stopGrouping.additionalProperties)
+                        id = stopGrouping.id
+                        name = stopGrouping.name
+                        polylines = stopGrouping.polylines
+                        stopIds = stopGrouping.stopIds
+                        additionalProperties = stopGrouping.additionalProperties.toMutableMap()
                     }
 
                     fun id(id: String) = id(JsonField.of(id))
 
-                    @JsonProperty("id")
-                    @ExcludeMissing
                     fun id(id: JsonField<String>) = apply { this.id = id }
 
                     fun name(name: Name) = name(JsonField.of(name))
 
-                    @JsonProperty("name")
-                    @ExcludeMissing
                     fun name(name: JsonField<Name>) = apply { this.name = name }
 
                     fun polylines(polylines: List<Polyline>) = polylines(JsonField.of(polylines))
 
-                    @JsonProperty("polylines")
-                    @ExcludeMissing
                     fun polylines(polylines: JsonField<List<Polyline>>) = apply {
                         this.polylines = polylines
                     }
 
                     fun stopIds(stopIds: List<String>) = stopIds(JsonField.of(stopIds))
 
-                    @JsonProperty("stopIds")
-                    @ExcludeMissing
                     fun stopIds(stopIds: JsonField<List<String>>) = apply { this.stopIds = stopIds }
 
                     fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                         this.additionalProperties.clear()
-                        this.additionalProperties.putAll(additionalProperties)
+                        putAllAdditionalProperties(additionalProperties)
                     }
 
-                    @JsonAnySetter
                     fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                        this.additionalProperties.put(key, value)
+                        additionalProperties.put(key, value)
                     }
 
                     fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
                         apply {
                             this.additionalProperties.putAll(additionalProperties)
                         }
+
+                    fun removeAdditionalProperty(key: String) = apply {
+                        additionalProperties.remove(key)
+                    }
+
+                    fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                        keys.forEach(::removeAdditionalProperty)
+                    }
 
                     fun build(): StopGrouping =
                         StopGrouping(
@@ -592,17 +622,22 @@ private constructor(
                         )
                 }
 
-                @JsonDeserialize(builder = Name.Builder::class)
                 @NoAutoDetect
                 class Name
+                @JsonCreator
                 private constructor(
-                    private val name: JsonField<String>,
-                    private val names: JsonField<List<String>>,
-                    private val type: JsonField<String>,
-                    private val additionalProperties: Map<String, JsonValue>,
+                    @JsonProperty("name")
+                    @ExcludeMissing
+                    private val name: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("names")
+                    @ExcludeMissing
+                    private val names: JsonField<List<String>> = JsonMissing.of(),
+                    @JsonProperty("type")
+                    @ExcludeMissing
+                    private val type: JsonField<String> = JsonMissing.of(),
+                    @JsonAnySetter
+                    private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
                 ) {
-
-                    private var validated: Boolean = false
 
                     fun name(): String? = name.getNullable("name")
 
@@ -619,6 +654,8 @@ private constructor(
                     @JsonAnyGetter
                     @ExcludeMissing
                     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+                    private var validated: Boolean = false
 
                     fun validate(): Name = apply {
                         if (!validated) {
@@ -646,43 +683,44 @@ private constructor(
 
                         internal fun from(name: Name) = apply {
                             this.name = name.name
-                            this.names = name.names
-                            this.type = name.type
-                            additionalProperties(name.additionalProperties)
+                            names = name.names
+                            type = name.type
+                            additionalProperties = name.additionalProperties.toMutableMap()
                         }
 
                         fun name(name: String) = name(JsonField.of(name))
 
-                        @JsonProperty("name")
-                        @ExcludeMissing
                         fun name(name: JsonField<String>) = apply { this.name = name }
 
                         fun names(names: List<String>) = names(JsonField.of(names))
 
-                        @JsonProperty("names")
-                        @ExcludeMissing
                         fun names(names: JsonField<List<String>>) = apply { this.names = names }
 
                         fun type(type: String) = type(JsonField.of(type))
 
-                        @JsonProperty("type")
-                        @ExcludeMissing
                         fun type(type: JsonField<String>) = apply { this.type = type }
 
                         fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
                             apply {
                                 this.additionalProperties.clear()
-                                this.additionalProperties.putAll(additionalProperties)
+                                putAllAdditionalProperties(additionalProperties)
                             }
 
-                        @JsonAnySetter
                         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                            this.additionalProperties.put(key, value)
+                            additionalProperties.put(key, value)
                         }
 
                         fun putAllAdditionalProperties(
                             additionalProperties: Map<String, JsonValue>
                         ) = apply { this.additionalProperties.putAll(additionalProperties) }
+
+                        fun removeAdditionalProperty(key: String) = apply {
+                            additionalProperties.remove(key)
+                        }
+
+                        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                            keys.forEach(::removeAdditionalProperty)
+                        }
 
                         fun build(): Name =
                             Name(
@@ -711,17 +749,22 @@ private constructor(
                         "Name{name=$name, names=$names, type=$type, additionalProperties=$additionalProperties}"
                 }
 
-                @JsonDeserialize(builder = Polyline.Builder::class)
                 @NoAutoDetect
                 class Polyline
+                @JsonCreator
                 private constructor(
-                    private val length: JsonField<Long>,
-                    private val levels: JsonField<String>,
-                    private val points: JsonField<String>,
-                    private val additionalProperties: Map<String, JsonValue>,
+                    @JsonProperty("length")
+                    @ExcludeMissing
+                    private val length: JsonField<Long> = JsonMissing.of(),
+                    @JsonProperty("levels")
+                    @ExcludeMissing
+                    private val levels: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("points")
+                    @ExcludeMissing
+                    private val points: JsonField<String> = JsonMissing.of(),
+                    @JsonAnySetter
+                    private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
                 ) {
-
-                    private var validated: Boolean = false
 
                     fun length(): Long? = length.getNullable("length")
 
@@ -738,6 +781,8 @@ private constructor(
                     @JsonAnyGetter
                     @ExcludeMissing
                     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+                    private var validated: Boolean = false
 
                     fun validate(): Polyline = apply {
                         if (!validated) {
@@ -764,44 +809,45 @@ private constructor(
                             mutableMapOf()
 
                         internal fun from(polyline: Polyline) = apply {
-                            this.length = polyline.length
-                            this.levels = polyline.levels
-                            this.points = polyline.points
-                            additionalProperties(polyline.additionalProperties)
+                            length = polyline.length
+                            levels = polyline.levels
+                            points = polyline.points
+                            additionalProperties = polyline.additionalProperties.toMutableMap()
                         }
 
                         fun length(length: Long) = length(JsonField.of(length))
 
-                        @JsonProperty("length")
-                        @ExcludeMissing
                         fun length(length: JsonField<Long>) = apply { this.length = length }
 
                         fun levels(levels: String) = levels(JsonField.of(levels))
 
-                        @JsonProperty("levels")
-                        @ExcludeMissing
                         fun levels(levels: JsonField<String>) = apply { this.levels = levels }
 
                         fun points(points: String) = points(JsonField.of(points))
 
-                        @JsonProperty("points")
-                        @ExcludeMissing
                         fun points(points: JsonField<String>) = apply { this.points = points }
 
                         fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
                             apply {
                                 this.additionalProperties.clear()
-                                this.additionalProperties.putAll(additionalProperties)
+                                putAllAdditionalProperties(additionalProperties)
                             }
 
-                        @JsonAnySetter
                         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                            this.additionalProperties.put(key, value)
+                            additionalProperties.put(key, value)
                         }
 
                         fun putAllAdditionalProperties(
                             additionalProperties: Map<String, JsonValue>
                         ) = apply { this.additionalProperties.putAll(additionalProperties) }
+
+                        fun removeAdditionalProperty(key: String) = apply {
+                            additionalProperties.remove(key)
+                        }
+
+                        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                            keys.forEach(::removeAdditionalProperty)
+                        }
 
                         fun build(): Polyline =
                             Polyline(
