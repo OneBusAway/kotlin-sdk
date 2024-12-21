@@ -44,7 +44,7 @@ Use `OnebusawaySdkOkHttpClient.builder()` to configure the client. At a minimum 
 import org.onebusaway.client.OnebusawaySdkClient
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
 
-val client = OnebusawaySdkOkHttpClient.builder()
+val client: OnebusawaySdkClient = OnebusawaySdkOkHttpClient.builder()
     .apiKey("My API Key")
     .build()
 ```
@@ -52,10 +52,14 @@ val client = OnebusawaySdkOkHttpClient.builder()
 Alternately, set the environment with `ONEBUSAWAY_API_KEY`, and use `OnebusawaySdkOkHttpClient.fromEnv()` to read from the environment.
 
 ```kotlin
-val client = OnebusawaySdkOkHttpClient.fromEnv()
+
+import org.onebusaway.client.OnebusawaySdkClient
+import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
+
+val client: OnebusawaySdkClient = OnebusawaySdkOkHttpClient.fromEnv()
 
 // Note: you can also call fromEnv() from the client builder, for example if you need to set additional properties
-val client = OnebusawaySdkOkHttpClient.builder()
+val client: OnebusawaySdkClient = OnebusawaySdkOkHttpClient.builder()
     .fromEnv()
     // ... set properties on the builder
     .build()
@@ -78,8 +82,8 @@ then pass that to the `retrieve` method of the `currentTime` service.
 import org.onebusaway.models.CurrentTimeRetrieveParams
 import org.onebusaway.models.CurrentTimeRetrieveResponse
 
-val params = CurrentTimeRetrieveParams.builder().build()
-val currentTime = client.currentTime().retrieve(params)
+val params: CurrentTimeRetrieveParams = CurrentTimeRetrieveParams.builder().build()
+val currentTime: CurrentTimeRetrieveResponse = client.currentTime().retrieve(params)
 ```
 
 ---
@@ -97,8 +101,11 @@ Sometimes, the API may support other properties that are not yet supported in th
 you can attach them using the `putAdditionalProperty` method.
 
 ```kotlin
-import org.onebusaway.models.core.JsonValue
-val params = CurrentTimeRetrieveParams.builder()
+
+import org.onebusaway.core.JsonValue
+import org.onebusaway.models.CurrentTimeRetrieveParams
+
+val params: CurrentTimeRetrieveParams = CurrentTimeRetrieveParams.builder()
     // ... normal properties
     .putAdditionalProperty("secret_param", JsonValue.from("4242"))
     .build()
@@ -111,7 +118,9 @@ val params = CurrentTimeRetrieveParams.builder()
 When receiving a response, the Onebusaway SDK Kotlin SDK will deserialize it into instances of the typed model classes. In rare cases, the API may return a response property that doesn't match the expected Kotlin type. If you directly access the mistaken property, the SDK will throw an unchecked `OnebusawaySdkInvalidDataException` at runtime. If you would prefer to check in advance that that response is completely well-typed, call `.validate()` on the returned model.
 
 ```kotlin
-val currentTime = client.currentTime().retrieve().validate()
+import org.onebusaway.models.CurrentTimeRetrieveResponse
+
+val currentTime: CurrentTimeRetrieveResponse = client.currentTime().retrieve().validate()
 ```
 
 ### Response properties as JSON
@@ -120,7 +129,10 @@ In rare cases, you may want to access the underlying JSON value for a response p
 this SDK. Each model property has a corresponding JSON version, with an underscore before the method name, which returns a `JsonField` value.
 
 ```kotlin
-val field = responseObj._field
+import java.util.Optional
+import org.onebusaway.core.JsonField
+
+val field: JsonField = responseObj._field
 
 if (field.isMissing()) {
   // Value was not specified in the JSON response
@@ -132,7 +144,7 @@ if (field.isMissing()) {
 
   // If the value given by the API did not match the shape that the SDK expects
   // you can deserialise into a custom type
-  val myObj = responseObj._field.asUnknown()?.convert(MyClass.class)
+  val myObj: MyClass = responseObj._field.asUnknown()?.convert(MyClass.class)
 }
 ```
 
@@ -141,7 +153,9 @@ if (field.isMissing()) {
 Sometimes, the server response may include additional properties that are not yet available in this library's types. You can access them using the model's `_additionalProperties` method:
 
 ```kotlin
-val secret = references._additionalProperties().get("secret_field")
+import org.onebusaway.core.JsonValue
+
+val secret: JsonValue = references._additionalProperties().get("secret_field")
 ```
 
 ---
@@ -152,24 +166,24 @@ val secret = references._additionalProperties().get("secret_field")
 
 This library throws exceptions in a single hierarchy for easy handling:
 
-- **`OnebusawaySdkException`** - Base exception for all exceptions
+-   **`OnebusawaySdkException`** - Base exception for all exceptions
 
-  - **`OnebusawaySdkServiceException`** - HTTP errors with a well-formed response body we were able to parse. The exception message and the `.debuggingRequestId()` will be set by the server.
+    -   **`OnebusawaySdkServiceException`** - HTTP errors with a well-formed response body we were able to parse. The exception message and the `.debuggingRequestId()` will be set by the server.
 
-    | 400    | BadRequestException           |
-    | ------ | ----------------------------- |
-    | 401    | AuthenticationException       |
-    | 403    | PermissionDeniedException     |
-    | 404    | NotFoundException             |
-    | 422    | UnprocessableEntityException  |
-    | 429    | RateLimitException            |
-    | 5xx    | InternalServerException       |
-    | others | UnexpectedStatusCodeException |
+        | 400    | BadRequestException           |
+        | ------ | ----------------------------- |
+        | 401    | AuthenticationException       |
+        | 403    | PermissionDeniedException     |
+        | 404    | NotFoundException             |
+        | 422    | UnprocessableEntityException  |
+        | 429    | RateLimitException            |
+        | 5xx    | InternalServerException       |
+        | others | UnexpectedStatusCodeException |
 
-  - **`OnebusawaySdkIoException`** - I/O networking errors
-  - **`OnebusawaySdkInvalidDataException`** - any other exceptions on the client side, e.g.:
-    - We failed to serialize the request body
-    - We failed to parse the response body (has access to response code and body)
+    -   **`OnebusawaySdkIoException`** - I/O networking errors
+    -   **`OnebusawaySdkInvalidDataException`** - any other exceptions on the client side, e.g.:
+        -   We failed to serialize the request body
+        -   We failed to parse the response body (has access to response code and body)
 
 ## Network options
 
@@ -179,7 +193,10 @@ Requests that experience certain errors are automatically retried 2 times by def
 You can provide a `maxRetries` on the client builder to configure this:
 
 ```kotlin
-val client = OnebusawaySdkOkHttpClient.builder()
+import org.onebusaway.client.OnebusawaySdkClient
+import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
+
+val client: OnebusawaySdkClient = OnebusawaySdkOkHttpClient.builder()
     .fromEnv()
     .maxRetries(4)
     .build()
@@ -190,7 +207,11 @@ val client = OnebusawaySdkOkHttpClient.builder()
 Requests time out after 1 minute by default. You can configure this on the client builder:
 
 ```kotlin
-val client = OnebusawaySdkOkHttpClient.builder()
+import java.time.Duration
+import org.onebusaway.client.OnebusawaySdkClient
+import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
+
+val client: OnebusawaySdkClient = OnebusawaySdkOkHttpClient.builder()
     .fromEnv()
     .timeout(Duration.ofSeconds(30))
     .build()
@@ -202,6 +223,12 @@ Requests can be routed through a proxy. You can configure this on the client bui
 
 ```kotlin
 val client = OnebusawaySdkOkHttpClient.builder()
+import java.net.InetSocketAddress
+import java.net.Proxy
+import org.onebusaway.client.OnebusawaySdkClient
+import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
+
+val client: OnebusawaySdkClient = OnebusawaySdkOkHttpClient.builder()
     .fromEnv()
     .proxy(new Proxy(
         Type.HTTP,
