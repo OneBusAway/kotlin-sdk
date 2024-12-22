@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.40 (2024-12-22)
+
+Full Changelog: [v0.1.0-alpha.39...v0.1.0-alpha.40](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.39...v0.1.0-alpha.40)
+
+### Features
+
+* chore: linting and formatting ([f955494](https://github.com/OneBusAway/kotlin-sdk/commit/f955494f1ee7e8f30e8105b40f43fabf7c414148))
+
 ## 0.1.0-alpha.39 (2024-12-22)
 
 Full Changelog: [v0.1.0-alpha.38...v0.1.0-alpha.39](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.38...v0.1.0-alpha.39)
