@@ -450,16 +450,19 @@ private constructor(
 
                 @JsonProperty("routeIds")
                 @ExcludeMissing
-                fun routeIds(routeIds: JsonField<kotlin.collections.List<String>>) = apply { this.routeIds = routeIds }
+                fun routeIds(routeIds: JsonField<kotlin.collections.List<String>>) = apply {
+                    this.routeIds = routeIds
+                }
 
                 fun staticRouteIds(staticRouteIds: kotlin.collections.List<String>) =
                     staticRouteIds(JsonField.of(staticRouteIds))
 
                 @JsonProperty("staticRouteIds")
                 @ExcludeMissing
-                fun staticRouteIds(staticRouteIds: JsonField<kotlin.collections.List<String>>) = apply {
-                    this.staticRouteIds = staticRouteIds
-                }
+                fun staticRouteIds(staticRouteIds: JsonField<kotlin.collections.List<String>>) =
+                    apply {
+                        this.staticRouteIds = staticRouteIds
+                    }
 
                 fun wheelchairBoarding(wheelchairBoarding: String) =
                     wheelchairBoarding(JsonField.of(wheelchairBoarding))

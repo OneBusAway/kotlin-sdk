@@ -379,7 +379,9 @@ private constructor(
 
             @JsonProperty("routeIds")
             @ExcludeMissing
-            fun routeIds(routeIds: JsonField<kotlin.collections.List<String>>) = apply { this.routeIds = routeIds }
+            fun routeIds(routeIds: JsonField<kotlin.collections.List<String>>) = apply {
+                this.routeIds = routeIds
+            }
 
             fun staticRouteIds(staticRouteIds: kotlin.collections.List<String>) =
                 staticRouteIds(JsonField.of(staticRouteIds))
