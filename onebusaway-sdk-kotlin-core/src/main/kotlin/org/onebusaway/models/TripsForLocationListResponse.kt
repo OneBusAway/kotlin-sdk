@@ -1463,9 +1463,10 @@ private constructor(
                     /** References to situation elements (if any) applicable to this trip. */
                     @JsonProperty("situationIds")
                     @ExcludeMissing
-                    fun situationIds(situationIds: JsonField<kotlin.collections.List<String>>) = apply {
-                        this.situationIds = situationIds
-                    }
+                    fun situationIds(situationIds: JsonField<kotlin.collections.List<String>>) =
+                        apply {
+                            this.situationIds = situationIds
+                        }
 
                     /** Current status modifiers for the trip. */
                     fun status(status: String) = status(JsonField.of(status))

@@ -735,7 +735,8 @@ private constructor(
                 fun serviceDate(): Long = serviceDate.getRequired("serviceDate")
 
                 /** References to situation elements (if any) applicable to this trip. */
-                fun situationIds(): kotlin.collections.List<String>? = situationIds.getNullable("situationIds")
+                fun situationIds(): kotlin.collections.List<String>? =
+                    situationIds.getNullable("situationIds")
 
                 /** Current status modifiers for the trip. */
                 fun status(): String = status.getRequired("status")
@@ -948,7 +949,8 @@ private constructor(
                     private var scheduleDeviation: JsonField<Long> = JsonMissing.of()
                     private var scheduledDistanceAlongTrip: JsonField<Double> = JsonMissing.of()
                     private var serviceDate: JsonField<Long> = JsonMissing.of()
-                    private var situationIds: JsonField<kotlin.collections.List<String>> = JsonMissing.of()
+                    private var situationIds: JsonField<kotlin.collections.List<String>> =
+                        JsonMissing.of()
                     private var status: JsonField<String> = JsonMissing.of()
                     private var totalDistanceAlongTrip: JsonField<Double> = JsonMissing.of()
                     private var vehicleId: JsonField<String> = JsonMissing.of()
@@ -1285,9 +1287,10 @@ private constructor(
                     /** References to situation elements (if any) applicable to this trip. */
                     @JsonProperty("situationIds")
                     @ExcludeMissing
-                    fun situationIds(situationIds: JsonField<kotlin.collections.List<String>>) = apply {
-                        this.situationIds = situationIds
-                    }
+                    fun situationIds(situationIds: JsonField<kotlin.collections.List<String>>) =
+                        apply {
+                            this.situationIds = situationIds
+                        }
 
                     /** Current status modifiers for the trip. */
                     fun status(status: String) = status(JsonField.of(status))
