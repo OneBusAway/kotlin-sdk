@@ -4,29 +4,32 @@ package org.onebusaway.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import java.util.Objects
 import org.onebusaway.core.ExcludeMissing
 import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonMissing
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.NoAutoDetect
+import org.onebusaway.core.immutableEmptyMap
 import org.onebusaway.core.toImmutable
 
-@JsonDeserialize(builder = ArrivalAndDepartureRetrieveResponse.Builder::class)
 @NoAutoDetect
 class ArrivalAndDepartureRetrieveResponse
+@JsonCreator
 private constructor(
-    private val code: JsonField<Long>,
-    private val currentTime: JsonField<Long>,
-    private val text: JsonField<String>,
-    private val version: JsonField<Long>,
-    private val data: JsonField<Data>,
-    private val additionalProperties: Map<String, JsonValue>,
+    @JsonProperty("code") @ExcludeMissing private val code: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("currentTime")
+    @ExcludeMissing
+    private val currentTime: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("text") @ExcludeMissing private val text: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("version")
+    @ExcludeMissing
+    private val version: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("data") @ExcludeMissing private val data: JsonField<Data> = JsonMissing.of(),
+    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
-
-    private var validated: Boolean = false
 
     fun code(): Long = code.getRequired("code")
 
@@ -37,14 +40,6 @@ private constructor(
     fun version(): Long = version.getRequired("version")
 
     fun data(): Data = data.getRequired("data")
-
-    fun toResponseWrapper(): ResponseWrapper =
-        ResponseWrapper.builder()
-            .code(code)
-            .currentTime(currentTime)
-            .text(text)
-            .version(version)
-            .build()
 
     @JsonProperty("code") @ExcludeMissing fun _code() = code
 
@@ -59,6 +54,16 @@ private constructor(
     @JsonAnyGetter
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+    fun toResponseWrapper(): ResponseWrapper =
+        ResponseWrapper.builder()
+            .code(code)
+            .currentTime(currentTime)
+            .text(text)
+            .version(version)
+            .build()
+
+    private var validated: Boolean = false
 
     fun validate(): ArrivalAndDepartureRetrieveResponse = apply {
         if (!validated) {
@@ -90,56 +95,52 @@ private constructor(
         internal fun from(
             arrivalAndDepartureRetrieveResponse: ArrivalAndDepartureRetrieveResponse
         ) = apply {
-            this.code = arrivalAndDepartureRetrieveResponse.code
-            this.currentTime = arrivalAndDepartureRetrieveResponse.currentTime
-            this.text = arrivalAndDepartureRetrieveResponse.text
-            this.version = arrivalAndDepartureRetrieveResponse.version
-            this.data = arrivalAndDepartureRetrieveResponse.data
-            additionalProperties(arrivalAndDepartureRetrieveResponse.additionalProperties)
+            code = arrivalAndDepartureRetrieveResponse.code
+            currentTime = arrivalAndDepartureRetrieveResponse.currentTime
+            text = arrivalAndDepartureRetrieveResponse.text
+            version = arrivalAndDepartureRetrieveResponse.version
+            data = arrivalAndDepartureRetrieveResponse.data
+            additionalProperties =
+                arrivalAndDepartureRetrieveResponse.additionalProperties.toMutableMap()
         }
 
         fun code(code: Long) = code(JsonField.of(code))
 
-        @JsonProperty("code")
-        @ExcludeMissing
         fun code(code: JsonField<Long>) = apply { this.code = code }
 
         fun currentTime(currentTime: Long) = currentTime(JsonField.of(currentTime))
 
-        @JsonProperty("currentTime")
-        @ExcludeMissing
         fun currentTime(currentTime: JsonField<Long>) = apply { this.currentTime = currentTime }
 
         fun text(text: String) = text(JsonField.of(text))
 
-        @JsonProperty("text")
-        @ExcludeMissing
         fun text(text: JsonField<String>) = apply { this.text = text }
 
         fun version(version: Long) = version(JsonField.of(version))
 
-        @JsonProperty("version")
-        @ExcludeMissing
         fun version(version: JsonField<Long>) = apply { this.version = version }
 
         fun data(data: Data) = data(JsonField.of(data))
 
-        @JsonProperty("data")
-        @ExcludeMissing
         fun data(data: JsonField<Data>) = apply { this.data = data }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
-            this.additionalProperties.putAll(additionalProperties)
+            putAllAdditionalProperties(additionalProperties)
         }
 
-        @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-            this.additionalProperties.put(key, value)
+            additionalProperties.put(key, value)
         }
 
         fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.putAll(additionalProperties)
+        }
+
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+            keys.forEach(::removeAdditionalProperty)
         }
 
         fun build(): ArrivalAndDepartureRetrieveResponse =
@@ -153,16 +154,19 @@ private constructor(
             )
     }
 
-    @JsonDeserialize(builder = Data.Builder::class)
     @NoAutoDetect
     class Data
+    @JsonCreator
     private constructor(
-        private val entry: JsonField<Entry>,
-        private val references: JsonField<References>,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("entry")
+        @ExcludeMissing
+        private val entry: JsonField<Entry> = JsonMissing.of(),
+        @JsonProperty("references")
+        @ExcludeMissing
+        private val references: JsonField<References> = JsonMissing.of(),
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
-
-        private var validated: Boolean = false
 
         fun entry(): Entry = entry.getRequired("entry")
 
@@ -175,6 +179,8 @@ private constructor(
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
 
         fun validate(): Data = apply {
             if (!validated) {
@@ -198,37 +204,38 @@ private constructor(
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             internal fun from(data: Data) = apply {
-                this.entry = data.entry
-                this.references = data.references
-                additionalProperties(data.additionalProperties)
+                entry = data.entry
+                references = data.references
+                additionalProperties = data.additionalProperties.toMutableMap()
             }
 
             fun entry(entry: Entry) = entry(JsonField.of(entry))
 
-            @JsonProperty("entry")
-            @ExcludeMissing
             fun entry(entry: JsonField<Entry>) = apply { this.entry = entry }
 
             fun references(references: References) = references(JsonField.of(references))
 
-            @JsonProperty("references")
-            @ExcludeMissing
             fun references(references: JsonField<References>) = apply {
                 this.references = references
             }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): Data =
@@ -239,48 +246,115 @@ private constructor(
                 )
         }
 
-        @JsonDeserialize(builder = Entry.Builder::class)
         @NoAutoDetect
         class Entry
+        @JsonCreator
         private constructor(
-            private val actualTrack: JsonField<String>,
-            private val arrivalEnabled: JsonField<Boolean>,
-            private val blockTripSequence: JsonField<Long>,
-            private val departureEnabled: JsonField<Boolean>,
-            private val distanceFromStop: JsonField<Double>,
-            private val frequency: JsonField<String>,
-            private val historicalOccupancy: JsonField<String>,
-            private val lastUpdateTime: JsonField<Long>,
-            private val numberOfStopsAway: JsonField<Long>,
-            private val occupancyStatus: JsonField<String>,
-            private val predicted: JsonField<Boolean>,
-            private val predictedArrivalInterval: JsonField<String>,
-            private val predictedArrivalTime: JsonField<Long>,
-            private val predictedDepartureInterval: JsonField<String>,
-            private val predictedDepartureTime: JsonField<Long>,
-            private val predictedOccupancy: JsonField<String>,
-            private val routeId: JsonField<String>,
-            private val routeLongName: JsonField<String>,
-            private val routeShortName: JsonField<String>,
-            private val scheduledArrivalInterval: JsonField<String>,
-            private val scheduledArrivalTime: JsonField<Long>,
-            private val scheduledDepartureInterval: JsonField<String>,
-            private val scheduledDepartureTime: JsonField<Long>,
-            private val scheduledTrack: JsonField<String>,
-            private val serviceDate: JsonField<Long>,
-            private val situationIds: JsonField<List<String>>,
-            private val status: JsonField<String>,
-            private val stopId: JsonField<String>,
-            private val stopSequence: JsonField<Long>,
-            private val totalStopsInTrip: JsonField<Long>,
-            private val tripHeadsign: JsonField<String>,
-            private val tripId: JsonField<String>,
-            private val tripStatus: JsonField<TripStatus>,
-            private val vehicleId: JsonField<String>,
-            private val additionalProperties: Map<String, JsonValue>,
+            @JsonProperty("actualTrack")
+            @ExcludeMissing
+            private val actualTrack: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("arrivalEnabled")
+            @ExcludeMissing
+            private val arrivalEnabled: JsonField<Boolean> = JsonMissing.of(),
+            @JsonProperty("blockTripSequence")
+            @ExcludeMissing
+            private val blockTripSequence: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("departureEnabled")
+            @ExcludeMissing
+            private val departureEnabled: JsonField<Boolean> = JsonMissing.of(),
+            @JsonProperty("distanceFromStop")
+            @ExcludeMissing
+            private val distanceFromStop: JsonField<Double> = JsonMissing.of(),
+            @JsonProperty("frequency")
+            @ExcludeMissing
+            private val frequency: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("historicalOccupancy")
+            @ExcludeMissing
+            private val historicalOccupancy: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("lastUpdateTime")
+            @ExcludeMissing
+            private val lastUpdateTime: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("numberOfStopsAway")
+            @ExcludeMissing
+            private val numberOfStopsAway: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("occupancyStatus")
+            @ExcludeMissing
+            private val occupancyStatus: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("predicted")
+            @ExcludeMissing
+            private val predicted: JsonField<Boolean> = JsonMissing.of(),
+            @JsonProperty("predictedArrivalInterval")
+            @ExcludeMissing
+            private val predictedArrivalInterval: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("predictedArrivalTime")
+            @ExcludeMissing
+            private val predictedArrivalTime: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("predictedDepartureInterval")
+            @ExcludeMissing
+            private val predictedDepartureInterval: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("predictedDepartureTime")
+            @ExcludeMissing
+            private val predictedDepartureTime: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("predictedOccupancy")
+            @ExcludeMissing
+            private val predictedOccupancy: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("routeId")
+            @ExcludeMissing
+            private val routeId: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("routeLongName")
+            @ExcludeMissing
+            private val routeLongName: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("routeShortName")
+            @ExcludeMissing
+            private val routeShortName: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("scheduledArrivalInterval")
+            @ExcludeMissing
+            private val scheduledArrivalInterval: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("scheduledArrivalTime")
+            @ExcludeMissing
+            private val scheduledArrivalTime: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("scheduledDepartureInterval")
+            @ExcludeMissing
+            private val scheduledDepartureInterval: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("scheduledDepartureTime")
+            @ExcludeMissing
+            private val scheduledDepartureTime: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("scheduledTrack")
+            @ExcludeMissing
+            private val scheduledTrack: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("serviceDate")
+            @ExcludeMissing
+            private val serviceDate: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("situationIds")
+            @ExcludeMissing
+            private val situationIds: JsonField<List<String>> = JsonMissing.of(),
+            @JsonProperty("status")
+            @ExcludeMissing
+            private val status: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("stopId")
+            @ExcludeMissing
+            private val stopId: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("stopSequence")
+            @ExcludeMissing
+            private val stopSequence: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("totalStopsInTrip")
+            @ExcludeMissing
+            private val totalStopsInTrip: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("tripHeadsign")
+            @ExcludeMissing
+            private val tripHeadsign: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("tripId")
+            @ExcludeMissing
+            private val tripId: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("tripStatus")
+            @ExcludeMissing
+            private val tripStatus: JsonField<TripStatus> = JsonMissing.of(),
+            @JsonProperty("vehicleId")
+            @ExcludeMissing
+            private val vehicleId: JsonField<String> = JsonMissing.of(),
+            @JsonAnySetter
+            private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
         ) {
-
-            private var validated: Boolean = false
 
             /** The actual track information of the arriving transit vehicle. */
             fun actualTrack(): String? = actualTrack.getNullable("actualTrack")
@@ -577,6 +651,8 @@ private constructor(
             @ExcludeMissing
             fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+            private var validated: Boolean = false
+
             fun validate(): Entry = apply {
                 if (!validated) {
                     actualTrack()
@@ -663,49 +739,47 @@ private constructor(
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 internal fun from(entry: Entry) = apply {
-                    this.actualTrack = entry.actualTrack
-                    this.arrivalEnabled = entry.arrivalEnabled
-                    this.blockTripSequence = entry.blockTripSequence
-                    this.departureEnabled = entry.departureEnabled
-                    this.distanceFromStop = entry.distanceFromStop
-                    this.frequency = entry.frequency
-                    this.historicalOccupancy = entry.historicalOccupancy
-                    this.lastUpdateTime = entry.lastUpdateTime
-                    this.numberOfStopsAway = entry.numberOfStopsAway
-                    this.occupancyStatus = entry.occupancyStatus
-                    this.predicted = entry.predicted
-                    this.predictedArrivalInterval = entry.predictedArrivalInterval
-                    this.predictedArrivalTime = entry.predictedArrivalTime
-                    this.predictedDepartureInterval = entry.predictedDepartureInterval
-                    this.predictedDepartureTime = entry.predictedDepartureTime
-                    this.predictedOccupancy = entry.predictedOccupancy
-                    this.routeId = entry.routeId
-                    this.routeLongName = entry.routeLongName
-                    this.routeShortName = entry.routeShortName
-                    this.scheduledArrivalInterval = entry.scheduledArrivalInterval
-                    this.scheduledArrivalTime = entry.scheduledArrivalTime
-                    this.scheduledDepartureInterval = entry.scheduledDepartureInterval
-                    this.scheduledDepartureTime = entry.scheduledDepartureTime
-                    this.scheduledTrack = entry.scheduledTrack
-                    this.serviceDate = entry.serviceDate
-                    this.situationIds = entry.situationIds
-                    this.status = entry.status
-                    this.stopId = entry.stopId
-                    this.stopSequence = entry.stopSequence
-                    this.totalStopsInTrip = entry.totalStopsInTrip
-                    this.tripHeadsign = entry.tripHeadsign
-                    this.tripId = entry.tripId
-                    this.tripStatus = entry.tripStatus
-                    this.vehicleId = entry.vehicleId
-                    additionalProperties(entry.additionalProperties)
+                    actualTrack = entry.actualTrack
+                    arrivalEnabled = entry.arrivalEnabled
+                    blockTripSequence = entry.blockTripSequence
+                    departureEnabled = entry.departureEnabled
+                    distanceFromStop = entry.distanceFromStop
+                    frequency = entry.frequency
+                    historicalOccupancy = entry.historicalOccupancy
+                    lastUpdateTime = entry.lastUpdateTime
+                    numberOfStopsAway = entry.numberOfStopsAway
+                    occupancyStatus = entry.occupancyStatus
+                    predicted = entry.predicted
+                    predictedArrivalInterval = entry.predictedArrivalInterval
+                    predictedArrivalTime = entry.predictedArrivalTime
+                    predictedDepartureInterval = entry.predictedDepartureInterval
+                    predictedDepartureTime = entry.predictedDepartureTime
+                    predictedOccupancy = entry.predictedOccupancy
+                    routeId = entry.routeId
+                    routeLongName = entry.routeLongName
+                    routeShortName = entry.routeShortName
+                    scheduledArrivalInterval = entry.scheduledArrivalInterval
+                    scheduledArrivalTime = entry.scheduledArrivalTime
+                    scheduledDepartureInterval = entry.scheduledDepartureInterval
+                    scheduledDepartureTime = entry.scheduledDepartureTime
+                    scheduledTrack = entry.scheduledTrack
+                    serviceDate = entry.serviceDate
+                    situationIds = entry.situationIds
+                    status = entry.status
+                    stopId = entry.stopId
+                    stopSequence = entry.stopSequence
+                    totalStopsInTrip = entry.totalStopsInTrip
+                    tripHeadsign = entry.tripHeadsign
+                    tripId = entry.tripId
+                    tripStatus = entry.tripStatus
+                    vehicleId = entry.vehicleId
+                    additionalProperties = entry.additionalProperties.toMutableMap()
                 }
 
                 /** The actual track information of the arriving transit vehicle. */
                 fun actualTrack(actualTrack: String) = actualTrack(JsonField.of(actualTrack))
 
                 /** The actual track information of the arriving transit vehicle. */
-                @JsonProperty("actualTrack")
-                @ExcludeMissing
                 fun actualTrack(actualTrack: JsonField<String>) = apply {
                     this.actualTrack = actualTrack
                 }
@@ -715,8 +789,6 @@ private constructor(
                     arrivalEnabled(JsonField.of(arrivalEnabled))
 
                 /** Indicates if riders can arrive on this transit vehicle. */
-                @JsonProperty("arrivalEnabled")
-                @ExcludeMissing
                 fun arrivalEnabled(arrivalEnabled: JsonField<Boolean>) = apply {
                     this.arrivalEnabled = arrivalEnabled
                 }
@@ -726,8 +798,6 @@ private constructor(
                     blockTripSequence(JsonField.of(blockTripSequence))
 
                 /** Index of this arrival’s trip into the sequence of trips for the active block. */
-                @JsonProperty("blockTripSequence")
-                @ExcludeMissing
                 fun blockTripSequence(blockTripSequence: JsonField<Long>) = apply {
                     this.blockTripSequence = blockTripSequence
                 }
@@ -737,8 +807,6 @@ private constructor(
                     departureEnabled(JsonField.of(departureEnabled))
 
                 /** Indicates if riders can depart from this transit vehicle. */
-                @JsonProperty("departureEnabled")
-                @ExcludeMissing
                 fun departureEnabled(departureEnabled: JsonField<Boolean>) = apply {
                     this.departureEnabled = departureEnabled
                 }
@@ -748,8 +816,6 @@ private constructor(
                     distanceFromStop(JsonField.of(distanceFromStop))
 
                 /** Distance of the arriving transit vehicle from the stop, in meters. */
-                @JsonProperty("distanceFromStop")
-                @ExcludeMissing
                 fun distanceFromStop(distanceFromStop: JsonField<Double>) = apply {
                     this.distanceFromStop = distanceFromStop
                 }
@@ -758,8 +824,6 @@ private constructor(
                 fun frequency(frequency: String) = frequency(JsonField.of(frequency))
 
                 /** Information about frequency-based scheduling, if applicable to the trip. */
-                @JsonProperty("frequency")
-                @ExcludeMissing
                 fun frequency(frequency: JsonField<String>) = apply { this.frequency = frequency }
 
                 /** Historical occupancy information of the transit vehicle. */
@@ -767,8 +831,6 @@ private constructor(
                     historicalOccupancy(JsonField.of(historicalOccupancy))
 
                 /** Historical occupancy information of the transit vehicle. */
-                @JsonProperty("historicalOccupancy")
-                @ExcludeMissing
                 fun historicalOccupancy(historicalOccupancy: JsonField<String>) = apply {
                     this.historicalOccupancy = historicalOccupancy
                 }
@@ -778,8 +840,6 @@ private constructor(
                     lastUpdateTime(JsonField.of(lastUpdateTime))
 
                 /** Timestamp of the last update time for this arrival. */
-                @JsonProperty("lastUpdateTime")
-                @ExcludeMissing
                 fun lastUpdateTime(lastUpdateTime: JsonField<Long>) = apply {
                     this.lastUpdateTime = lastUpdateTime
                 }
@@ -795,8 +855,6 @@ private constructor(
                  * Number of stops between the arriving transit vehicle and the current stop
                  * (excluding the current stop).
                  */
-                @JsonProperty("numberOfStopsAway")
-                @ExcludeMissing
                 fun numberOfStopsAway(numberOfStopsAway: JsonField<Long>) = apply {
                     this.numberOfStopsAway = numberOfStopsAway
                 }
@@ -806,8 +864,6 @@ private constructor(
                     occupancyStatus(JsonField.of(occupancyStatus))
 
                 /** Current occupancy status of the transit vehicle. */
-                @JsonProperty("occupancyStatus")
-                @ExcludeMissing
                 fun occupancyStatus(occupancyStatus: JsonField<String>) = apply {
                     this.occupancyStatus = occupancyStatus
                 }
@@ -816,8 +872,6 @@ private constructor(
                 fun predicted(predicted: Boolean) = predicted(JsonField.of(predicted))
 
                 /** Indicates if real-time arrival info is available for this trip. */
-                @JsonProperty("predicted")
-                @ExcludeMissing
                 fun predicted(predicted: JsonField<Boolean>) = apply { this.predicted = predicted }
 
                 /** Interval for predicted arrival time, if available. */
@@ -825,8 +879,6 @@ private constructor(
                     predictedArrivalInterval(JsonField.of(predictedArrivalInterval))
 
                 /** Interval for predicted arrival time, if available. */
-                @JsonProperty("predictedArrivalInterval")
-                @ExcludeMissing
                 fun predictedArrivalInterval(predictedArrivalInterval: JsonField<String>) = apply {
                     this.predictedArrivalInterval = predictedArrivalInterval
                 }
@@ -842,8 +894,6 @@ private constructor(
                  * Predicted arrival time, in milliseconds since Unix epoch (zero if no real-time
                  * available).
                  */
-                @JsonProperty("predictedArrivalTime")
-                @ExcludeMissing
                 fun predictedArrivalTime(predictedArrivalTime: JsonField<Long>) = apply {
                     this.predictedArrivalTime = predictedArrivalTime
                 }
@@ -853,8 +903,6 @@ private constructor(
                     predictedDepartureInterval(JsonField.of(predictedDepartureInterval))
 
                 /** Interval for predicted departure time, if available. */
-                @JsonProperty("predictedDepartureInterval")
-                @ExcludeMissing
                 fun predictedDepartureInterval(predictedDepartureInterval: JsonField<String>) =
                     apply {
                         this.predictedDepartureInterval = predictedDepartureInterval
@@ -871,8 +919,6 @@ private constructor(
                  * Predicted departure time, in milliseconds since Unix epoch (zero if no real-time
                  * available).
                  */
-                @JsonProperty("predictedDepartureTime")
-                @ExcludeMissing
                 fun predictedDepartureTime(predictedDepartureTime: JsonField<Long>) = apply {
                     this.predictedDepartureTime = predictedDepartureTime
                 }
@@ -882,8 +928,6 @@ private constructor(
                     predictedOccupancy(JsonField.of(predictedOccupancy))
 
                 /** Predicted occupancy status of the transit vehicle. */
-                @JsonProperty("predictedOccupancy")
-                @ExcludeMissing
                 fun predictedOccupancy(predictedOccupancy: JsonField<String>) = apply {
                     this.predictedOccupancy = predictedOccupancy
                 }
@@ -892,8 +936,6 @@ private constructor(
                 fun routeId(routeId: String) = routeId(JsonField.of(routeId))
 
                 /** The ID of the route for the arriving vehicle. */
-                @JsonProperty("routeId")
-                @ExcludeMissing
                 fun routeId(routeId: JsonField<String>) = apply { this.routeId = routeId }
 
                 /**
@@ -907,8 +949,6 @@ private constructor(
                  * Optional route long name that potentially overrides the route long name in the
                  * referenced route element.
                  */
-                @JsonProperty("routeLongName")
-                @ExcludeMissing
                 fun routeLongName(routeLongName: JsonField<String>) = apply {
                     this.routeLongName = routeLongName
                 }
@@ -924,8 +964,6 @@ private constructor(
                  * Optional route short name that potentially overrides the route short name in the
                  * referenced route element.
                  */
-                @JsonProperty("routeShortName")
-                @ExcludeMissing
                 fun routeShortName(routeShortName: JsonField<String>) = apply {
                     this.routeShortName = routeShortName
                 }
@@ -935,8 +973,6 @@ private constructor(
                     scheduledArrivalInterval(JsonField.of(scheduledArrivalInterval))
 
                 /** Interval for scheduled arrival time. */
-                @JsonProperty("scheduledArrivalInterval")
-                @ExcludeMissing
                 fun scheduledArrivalInterval(scheduledArrivalInterval: JsonField<String>) = apply {
                     this.scheduledArrivalInterval = scheduledArrivalInterval
                 }
@@ -946,8 +982,6 @@ private constructor(
                     scheduledArrivalTime(JsonField.of(scheduledArrivalTime))
 
                 /** Scheduled arrival time, in milliseconds since Unix epoch. */
-                @JsonProperty("scheduledArrivalTime")
-                @ExcludeMissing
                 fun scheduledArrivalTime(scheduledArrivalTime: JsonField<Long>) = apply {
                     this.scheduledArrivalTime = scheduledArrivalTime
                 }
@@ -957,8 +991,6 @@ private constructor(
                     scheduledDepartureInterval(JsonField.of(scheduledDepartureInterval))
 
                 /** Interval for scheduled departure time. */
-                @JsonProperty("scheduledDepartureInterval")
-                @ExcludeMissing
                 fun scheduledDepartureInterval(scheduledDepartureInterval: JsonField<String>) =
                     apply {
                         this.scheduledDepartureInterval = scheduledDepartureInterval
@@ -969,8 +1001,6 @@ private constructor(
                     scheduledDepartureTime(JsonField.of(scheduledDepartureTime))
 
                 /** Scheduled departure time, in milliseconds since Unix epoch. */
-                @JsonProperty("scheduledDepartureTime")
-                @ExcludeMissing
                 fun scheduledDepartureTime(scheduledDepartureTime: JsonField<Long>) = apply {
                     this.scheduledDepartureTime = scheduledDepartureTime
                 }
@@ -980,8 +1010,6 @@ private constructor(
                     scheduledTrack(JsonField.of(scheduledTrack))
 
                 /** Scheduled track information of the arriving transit vehicle. */
-                @JsonProperty("scheduledTrack")
-                @ExcludeMissing
                 fun scheduledTrack(scheduledTrack: JsonField<String>) = apply {
                     this.scheduledTrack = scheduledTrack
                 }
@@ -996,8 +1024,6 @@ private constructor(
                  * Time, in milliseconds since the Unix epoch, of midnight for the start of the
                  * service date for the trip.
                  */
-                @JsonProperty("serviceDate")
-                @ExcludeMissing
                 fun serviceDate(serviceDate: JsonField<Long>) = apply {
                     this.serviceDate = serviceDate
                 }
@@ -1007,8 +1033,6 @@ private constructor(
                     situationIds(JsonField.of(situationIds))
 
                 /** References to situation elements (if any) applicable to this arrival. */
-                @JsonProperty("situationIds")
-                @ExcludeMissing
                 fun situationIds(situationIds: JsonField<List<String>>) = apply {
                     this.situationIds = situationIds
                 }
@@ -1017,16 +1041,12 @@ private constructor(
                 fun status(status: String) = status(JsonField.of(status))
 
                 /** Current status of the arrival. */
-                @JsonProperty("status")
-                @ExcludeMissing
                 fun status(status: JsonField<String>) = apply { this.status = status }
 
                 /** The ID of the stop the vehicle is arriving at. */
                 fun stopId(stopId: String) = stopId(JsonField.of(stopId))
 
                 /** The ID of the stop the vehicle is arriving at. */
-                @JsonProperty("stopId")
-                @ExcludeMissing
                 fun stopId(stopId: JsonField<String>) = apply { this.stopId = stopId }
 
                 /**
@@ -1039,8 +1059,6 @@ private constructor(
                  * Index of the stop into the sequence of stops that make up the trip for this
                  * arrival.
                  */
-                @JsonProperty("stopSequence")
-                @ExcludeMissing
                 fun stopSequence(stopSequence: JsonField<Long>) = apply {
                     this.stopSequence = stopSequence
                 }
@@ -1050,8 +1068,6 @@ private constructor(
                     totalStopsInTrip(JsonField.of(totalStopsInTrip))
 
                 /** Total number of stops visited on the trip for this arrival. */
-                @JsonProperty("totalStopsInTrip")
-                @ExcludeMissing
                 fun totalStopsInTrip(totalStopsInTrip: JsonField<Long>) = apply {
                     this.totalStopsInTrip = totalStopsInTrip
                 }
@@ -1066,8 +1082,6 @@ private constructor(
                  * Optional trip headsign that potentially overrides the trip headsign in the
                  * referenced trip element.
                  */
-                @JsonProperty("tripHeadsign")
-                @ExcludeMissing
                 fun tripHeadsign(tripHeadsign: JsonField<String>) = apply {
                     this.tripHeadsign = tripHeadsign
                 }
@@ -1076,16 +1090,12 @@ private constructor(
                 fun tripId(tripId: String) = tripId(JsonField.of(tripId))
 
                 /** The ID of the trip for the arriving vehicle. */
-                @JsonProperty("tripId")
-                @ExcludeMissing
                 fun tripId(tripId: JsonField<String>) = apply { this.tripId = tripId }
 
                 /** Trip-specific status for the arriving transit vehicle. */
                 fun tripStatus(tripStatus: TripStatus) = tripStatus(JsonField.of(tripStatus))
 
                 /** Trip-specific status for the arriving transit vehicle. */
-                @JsonProperty("tripStatus")
-                @ExcludeMissing
                 fun tripStatus(tripStatus: JsonField<TripStatus>) = apply {
                     this.tripStatus = tripStatus
                 }
@@ -1094,24 +1104,29 @@ private constructor(
                 fun vehicleId(vehicleId: String) = vehicleId(JsonField.of(vehicleId))
 
                 /** ID of the transit vehicle serving this trip. */
-                @JsonProperty("vehicleId")
-                @ExcludeMissing
                 fun vehicleId(vehicleId: JsonField<String>) = apply { this.vehicleId = vehicleId }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
-                    this.additionalProperties.putAll(additionalProperties)
+                    putAllAdditionalProperties(additionalProperties)
                 }
 
-                @JsonAnySetter
                 fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                    this.additionalProperties.put(key, value)
+                    additionalProperties.put(key, value)
                 }
 
                 fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
                     apply {
                         this.additionalProperties.putAll(additionalProperties)
                     }
+
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
+
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
 
                 fun build(): Entry =
                     Entry(
@@ -1154,41 +1169,94 @@ private constructor(
             }
 
             /** Trip-specific status for the arriving transit vehicle. */
-            @JsonDeserialize(builder = TripStatus.Builder::class)
             @NoAutoDetect
             class TripStatus
+            @JsonCreator
             private constructor(
-                private val activeTripId: JsonField<String>,
-                private val blockTripSequence: JsonField<Long>,
-                private val closestStop: JsonField<String>,
-                private val closestStopTimeOffset: JsonField<Long>,
-                private val distanceAlongTrip: JsonField<Double>,
-                private val frequency: JsonField<String>,
-                private val lastKnownDistanceAlongTrip: JsonField<Double>,
-                private val lastKnownLocation: JsonField<LastKnownLocation>,
-                private val lastKnownOrientation: JsonField<Double>,
-                private val lastLocationUpdateTime: JsonField<Long>,
-                private val lastUpdateTime: JsonField<Long>,
-                private val nextStop: JsonField<String>,
-                private val nextStopTimeOffset: JsonField<Long>,
-                private val occupancyCapacity: JsonField<Long>,
-                private val occupancyCount: JsonField<Long>,
-                private val occupancyStatus: JsonField<String>,
-                private val orientation: JsonField<Double>,
-                private val phase: JsonField<String>,
-                private val position: JsonField<Position>,
-                private val predicted: JsonField<Boolean>,
-                private val scheduleDeviation: JsonField<Long>,
-                private val scheduledDistanceAlongTrip: JsonField<Double>,
-                private val serviceDate: JsonField<Long>,
-                private val situationIds: JsonField<List<String>>,
-                private val status: JsonField<String>,
-                private val totalDistanceAlongTrip: JsonField<Double>,
-                private val vehicleId: JsonField<String>,
-                private val additionalProperties: Map<String, JsonValue>,
+                @JsonProperty("activeTripId")
+                @ExcludeMissing
+                private val activeTripId: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("blockTripSequence")
+                @ExcludeMissing
+                private val blockTripSequence: JsonField<Long> = JsonMissing.of(),
+                @JsonProperty("closestStop")
+                @ExcludeMissing
+                private val closestStop: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("closestStopTimeOffset")
+                @ExcludeMissing
+                private val closestStopTimeOffset: JsonField<Long> = JsonMissing.of(),
+                @JsonProperty("distanceAlongTrip")
+                @ExcludeMissing
+                private val distanceAlongTrip: JsonField<Double> = JsonMissing.of(),
+                @JsonProperty("frequency")
+                @ExcludeMissing
+                private val frequency: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("lastKnownDistanceAlongTrip")
+                @ExcludeMissing
+                private val lastKnownDistanceAlongTrip: JsonField<Double> = JsonMissing.of(),
+                @JsonProperty("lastKnownLocation")
+                @ExcludeMissing
+                private val lastKnownLocation: JsonField<LastKnownLocation> = JsonMissing.of(),
+                @JsonProperty("lastKnownOrientation")
+                @ExcludeMissing
+                private val lastKnownOrientation: JsonField<Double> = JsonMissing.of(),
+                @JsonProperty("lastLocationUpdateTime")
+                @ExcludeMissing
+                private val lastLocationUpdateTime: JsonField<Long> = JsonMissing.of(),
+                @JsonProperty("lastUpdateTime")
+                @ExcludeMissing
+                private val lastUpdateTime: JsonField<Long> = JsonMissing.of(),
+                @JsonProperty("nextStop")
+                @ExcludeMissing
+                private val nextStop: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("nextStopTimeOffset")
+                @ExcludeMissing
+                private val nextStopTimeOffset: JsonField<Long> = JsonMissing.of(),
+                @JsonProperty("occupancyCapacity")
+                @ExcludeMissing
+                private val occupancyCapacity: JsonField<Long> = JsonMissing.of(),
+                @JsonProperty("occupancyCount")
+                @ExcludeMissing
+                private val occupancyCount: JsonField<Long> = JsonMissing.of(),
+                @JsonProperty("occupancyStatus")
+                @ExcludeMissing
+                private val occupancyStatus: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("orientation")
+                @ExcludeMissing
+                private val orientation: JsonField<Double> = JsonMissing.of(),
+                @JsonProperty("phase")
+                @ExcludeMissing
+                private val phase: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("position")
+                @ExcludeMissing
+                private val position: JsonField<Position> = JsonMissing.of(),
+                @JsonProperty("predicted")
+                @ExcludeMissing
+                private val predicted: JsonField<Boolean> = JsonMissing.of(),
+                @JsonProperty("scheduleDeviation")
+                @ExcludeMissing
+                private val scheduleDeviation: JsonField<Long> = JsonMissing.of(),
+                @JsonProperty("scheduledDistanceAlongTrip")
+                @ExcludeMissing
+                private val scheduledDistanceAlongTrip: JsonField<Double> = JsonMissing.of(),
+                @JsonProperty("serviceDate")
+                @ExcludeMissing
+                private val serviceDate: JsonField<Long> = JsonMissing.of(),
+                @JsonProperty("situationIds")
+                @ExcludeMissing
+                private val situationIds: JsonField<List<String>> = JsonMissing.of(),
+                @JsonProperty("status")
+                @ExcludeMissing
+                private val status: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("totalDistanceAlongTrip")
+                @ExcludeMissing
+                private val totalDistanceAlongTrip: JsonField<Double> = JsonMissing.of(),
+                @JsonProperty("vehicleId")
+                @ExcludeMissing
+                private val vehicleId: JsonField<String> = JsonMissing.of(),
+                @JsonAnySetter
+                private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
             ) {
-
-                private var validated: Boolean = false
 
                 /** Trip ID of the trip the vehicle is actively serving. */
                 fun activeTripId(): String = activeTripId.getRequired("activeTripId")
@@ -1436,6 +1504,8 @@ private constructor(
                 @ExcludeMissing
                 fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+                private var validated: Boolean = false
+
                 fun validate(): TripStatus = apply {
                     if (!validated) {
                         activeTripId()
@@ -1508,34 +1578,34 @@ private constructor(
                     private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                     internal fun from(tripStatus: TripStatus) = apply {
-                        this.activeTripId = tripStatus.activeTripId
-                        this.blockTripSequence = tripStatus.blockTripSequence
-                        this.closestStop = tripStatus.closestStop
-                        this.closestStopTimeOffset = tripStatus.closestStopTimeOffset
-                        this.distanceAlongTrip = tripStatus.distanceAlongTrip
-                        this.frequency = tripStatus.frequency
-                        this.lastKnownDistanceAlongTrip = tripStatus.lastKnownDistanceAlongTrip
-                        this.lastKnownLocation = tripStatus.lastKnownLocation
-                        this.lastKnownOrientation = tripStatus.lastKnownOrientation
-                        this.lastLocationUpdateTime = tripStatus.lastLocationUpdateTime
-                        this.lastUpdateTime = tripStatus.lastUpdateTime
-                        this.nextStop = tripStatus.nextStop
-                        this.nextStopTimeOffset = tripStatus.nextStopTimeOffset
-                        this.occupancyCapacity = tripStatus.occupancyCapacity
-                        this.occupancyCount = tripStatus.occupancyCount
-                        this.occupancyStatus = tripStatus.occupancyStatus
-                        this.orientation = tripStatus.orientation
-                        this.phase = tripStatus.phase
-                        this.position = tripStatus.position
-                        this.predicted = tripStatus.predicted
-                        this.scheduleDeviation = tripStatus.scheduleDeviation
-                        this.scheduledDistanceAlongTrip = tripStatus.scheduledDistanceAlongTrip
-                        this.serviceDate = tripStatus.serviceDate
-                        this.situationIds = tripStatus.situationIds
-                        this.status = tripStatus.status
-                        this.totalDistanceAlongTrip = tripStatus.totalDistanceAlongTrip
-                        this.vehicleId = tripStatus.vehicleId
-                        additionalProperties(tripStatus.additionalProperties)
+                        activeTripId = tripStatus.activeTripId
+                        blockTripSequence = tripStatus.blockTripSequence
+                        closestStop = tripStatus.closestStop
+                        closestStopTimeOffset = tripStatus.closestStopTimeOffset
+                        distanceAlongTrip = tripStatus.distanceAlongTrip
+                        frequency = tripStatus.frequency
+                        lastKnownDistanceAlongTrip = tripStatus.lastKnownDistanceAlongTrip
+                        lastKnownLocation = tripStatus.lastKnownLocation
+                        lastKnownOrientation = tripStatus.lastKnownOrientation
+                        lastLocationUpdateTime = tripStatus.lastLocationUpdateTime
+                        lastUpdateTime = tripStatus.lastUpdateTime
+                        nextStop = tripStatus.nextStop
+                        nextStopTimeOffset = tripStatus.nextStopTimeOffset
+                        occupancyCapacity = tripStatus.occupancyCapacity
+                        occupancyCount = tripStatus.occupancyCount
+                        occupancyStatus = tripStatus.occupancyStatus
+                        orientation = tripStatus.orientation
+                        phase = tripStatus.phase
+                        position = tripStatus.position
+                        predicted = tripStatus.predicted
+                        scheduleDeviation = tripStatus.scheduleDeviation
+                        scheduledDistanceAlongTrip = tripStatus.scheduledDistanceAlongTrip
+                        serviceDate = tripStatus.serviceDate
+                        situationIds = tripStatus.situationIds
+                        status = tripStatus.status
+                        totalDistanceAlongTrip = tripStatus.totalDistanceAlongTrip
+                        vehicleId = tripStatus.vehicleId
+                        additionalProperties = tripStatus.additionalProperties.toMutableMap()
                     }
 
                     /** Trip ID of the trip the vehicle is actively serving. */
@@ -1543,8 +1613,6 @@ private constructor(
                         activeTripId(JsonField.of(activeTripId))
 
                     /** Trip ID of the trip the vehicle is actively serving. */
-                    @JsonProperty("activeTripId")
-                    @ExcludeMissing
                     fun activeTripId(activeTripId: JsonField<String>) = apply {
                         this.activeTripId = activeTripId
                     }
@@ -1554,8 +1622,6 @@ private constructor(
                         blockTripSequence(JsonField.of(blockTripSequence))
 
                     /** Index of the active trip into the sequence of trips for the active block. */
-                    @JsonProperty("blockTripSequence")
-                    @ExcludeMissing
                     fun blockTripSequence(blockTripSequence: JsonField<Long>) = apply {
                         this.blockTripSequence = blockTripSequence
                     }
@@ -1564,8 +1630,6 @@ private constructor(
                     fun closestStop(closestStop: String) = closestStop(JsonField.of(closestStop))
 
                     /** ID of the closest stop to the current location of the transit vehicle. */
-                    @JsonProperty("closestStop")
-                    @ExcludeMissing
                     fun closestStop(closestStop: JsonField<String>) = apply {
                         this.closestStop = closestStop
                     }
@@ -1581,8 +1645,6 @@ private constructor(
                      * Time offset from the closest stop to the current position of the transit
                      * vehicle (in seconds).
                      */
-                    @JsonProperty("closestStopTimeOffset")
-                    @ExcludeMissing
                     fun closestStopTimeOffset(closestStopTimeOffset: JsonField<Long>) = apply {
                         this.closestStopTimeOffset = closestStopTimeOffset
                     }
@@ -1598,8 +1660,6 @@ private constructor(
                      * Distance, in meters, the transit vehicle has progressed along the active
                      * trip.
                      */
-                    @JsonProperty("distanceAlongTrip")
-                    @ExcludeMissing
                     fun distanceAlongTrip(distanceAlongTrip: JsonField<Double>) = apply {
                         this.distanceAlongTrip = distanceAlongTrip
                     }
@@ -1608,8 +1668,6 @@ private constructor(
                     fun frequency(frequency: String) = frequency(JsonField.of(frequency))
 
                     /** Information about frequency-based scheduling, if applicable to the trip. */
-                    @JsonProperty("frequency")
-                    @ExcludeMissing
                     fun frequency(frequency: JsonField<String>) = apply {
                         this.frequency = frequency
                     }
@@ -1625,8 +1683,6 @@ private constructor(
                      * Last known distance along the trip received in real-time from the transit
                      * vehicle.
                      */
-                    @JsonProperty("lastKnownDistanceAlongTrip")
-                    @ExcludeMissing
                     fun lastKnownDistanceAlongTrip(lastKnownDistanceAlongTrip: JsonField<Double>) =
                         apply {
                             this.lastKnownDistanceAlongTrip = lastKnownDistanceAlongTrip
@@ -1637,8 +1693,6 @@ private constructor(
                         lastKnownLocation(JsonField.of(lastKnownLocation))
 
                     /** Last known location of the transit vehicle. */
-                    @JsonProperty("lastKnownLocation")
-                    @ExcludeMissing
                     fun lastKnownLocation(lastKnownLocation: JsonField<LastKnownLocation>) = apply {
                         this.lastKnownLocation = lastKnownLocation
                     }
@@ -1652,8 +1706,6 @@ private constructor(
                     /**
                      * Last known orientation value received in real-time from the transit vehicle.
                      */
-                    @JsonProperty("lastKnownOrientation")
-                    @ExcludeMissing
                     fun lastKnownOrientation(lastKnownOrientation: JsonField<Double>) = apply {
                         this.lastKnownOrientation = lastKnownOrientation
                     }
@@ -1669,8 +1721,6 @@ private constructor(
                      * Timestamp of the last known real-time location update from the transit
                      * vehicle.
                      */
-                    @JsonProperty("lastLocationUpdateTime")
-                    @ExcludeMissing
                     fun lastLocationUpdateTime(lastLocationUpdateTime: JsonField<Long>) = apply {
                         this.lastLocationUpdateTime = lastLocationUpdateTime
                     }
@@ -1680,8 +1730,6 @@ private constructor(
                         lastUpdateTime(JsonField.of(lastUpdateTime))
 
                     /** Timestamp of the last known real-time update from the transit vehicle. */
-                    @JsonProperty("lastUpdateTime")
-                    @ExcludeMissing
                     fun lastUpdateTime(lastUpdateTime: JsonField<Long>) = apply {
                         this.lastUpdateTime = lastUpdateTime
                     }
@@ -1690,8 +1738,6 @@ private constructor(
                     fun nextStop(nextStop: String) = nextStop(JsonField.of(nextStop))
 
                     /** ID of the next stop the transit vehicle is scheduled to arrive at. */
-                    @JsonProperty("nextStop")
-                    @ExcludeMissing
                     fun nextStop(nextStop: JsonField<String>) = apply { this.nextStop = nextStop }
 
                     /**
@@ -1705,8 +1751,6 @@ private constructor(
                      * Time offset from the next stop to the current position of the transit vehicle
                      * (in seconds).
                      */
-                    @JsonProperty("nextStopTimeOffset")
-                    @ExcludeMissing
                     fun nextStopTimeOffset(nextStopTimeOffset: JsonField<Long>) = apply {
                         this.nextStopTimeOffset = nextStopTimeOffset
                     }
@@ -1716,8 +1760,6 @@ private constructor(
                         occupancyCapacity(JsonField.of(occupancyCapacity))
 
                     /** Capacity of the transit vehicle in terms of occupancy. */
-                    @JsonProperty("occupancyCapacity")
-                    @ExcludeMissing
                     fun occupancyCapacity(occupancyCapacity: JsonField<Long>) = apply {
                         this.occupancyCapacity = occupancyCapacity
                     }
@@ -1727,8 +1769,6 @@ private constructor(
                         occupancyCount(JsonField.of(occupancyCount))
 
                     /** Current count of occupants in the transit vehicle. */
-                    @JsonProperty("occupancyCount")
-                    @ExcludeMissing
                     fun occupancyCount(occupancyCount: JsonField<Long>) = apply {
                         this.occupancyCount = occupancyCount
                     }
@@ -1738,8 +1778,6 @@ private constructor(
                         occupancyStatus(JsonField.of(occupancyStatus))
 
                     /** Current occupancy status of the transit vehicle. */
-                    @JsonProperty("occupancyStatus")
-                    @ExcludeMissing
                     fun occupancyStatus(occupancyStatus: JsonField<String>) = apply {
                         this.occupancyStatus = occupancyStatus
                     }
@@ -1748,8 +1786,6 @@ private constructor(
                     fun orientation(orientation: Double) = orientation(JsonField.of(orientation))
 
                     /** Orientation of the transit vehicle, represented as an angle in degrees. */
-                    @JsonProperty("orientation")
-                    @ExcludeMissing
                     fun orientation(orientation: JsonField<Double>) = apply {
                         this.orientation = orientation
                     }
@@ -1758,24 +1794,18 @@ private constructor(
                     fun phase(phase: String) = phase(JsonField.of(phase))
 
                     /** Current journey phase of the trip. */
-                    @JsonProperty("phase")
-                    @ExcludeMissing
                     fun phase(phase: JsonField<String>) = apply { this.phase = phase }
 
                     /** Current position of the transit vehicle. */
                     fun position(position: Position) = position(JsonField.of(position))
 
                     /** Current position of the transit vehicle. */
-                    @JsonProperty("position")
-                    @ExcludeMissing
                     fun position(position: JsonField<Position>) = apply { this.position = position }
 
                     /** Indicates if real-time arrival info is available for this trip. */
                     fun predicted(predicted: Boolean) = predicted(JsonField.of(predicted))
 
                     /** Indicates if real-time arrival info is available for this trip. */
-                    @JsonProperty("predicted")
-                    @ExcludeMissing
                     fun predicted(predicted: JsonField<Boolean>) = apply {
                         this.predicted = predicted
                     }
@@ -1791,8 +1821,6 @@ private constructor(
                      * Deviation from the schedule in seconds (positive for late, negative for
                      * early).
                      */
-                    @JsonProperty("scheduleDeviation")
-                    @ExcludeMissing
                     fun scheduleDeviation(scheduleDeviation: JsonField<Long>) = apply {
                         this.scheduleDeviation = scheduleDeviation
                     }
@@ -1808,8 +1836,6 @@ private constructor(
                      * Distance, in meters, the transit vehicle is scheduled to have progressed
                      * along the active trip.
                      */
-                    @JsonProperty("scheduledDistanceAlongTrip")
-                    @ExcludeMissing
                     fun scheduledDistanceAlongTrip(scheduledDistanceAlongTrip: JsonField<Double>) =
                         apply {
                             this.scheduledDistanceAlongTrip = scheduledDistanceAlongTrip
@@ -1825,8 +1851,6 @@ private constructor(
                      * Time, in milliseconds since the Unix epoch, of midnight for the start of the
                      * service date for the trip.
                      */
-                    @JsonProperty("serviceDate")
-                    @ExcludeMissing
                     fun serviceDate(serviceDate: JsonField<Long>) = apply {
                         this.serviceDate = serviceDate
                     }
@@ -1836,8 +1860,6 @@ private constructor(
                         situationIds(JsonField.of(situationIds))
 
                     /** References to situation elements (if any) applicable to this trip. */
-                    @JsonProperty("situationIds")
-                    @ExcludeMissing
                     fun situationIds(situationIds: JsonField<List<String>>) = apply {
                         this.situationIds = situationIds
                     }
@@ -1846,8 +1868,6 @@ private constructor(
                     fun status(status: String) = status(JsonField.of(status))
 
                     /** Current status modifiers for the trip. */
-                    @JsonProperty("status")
-                    @ExcludeMissing
                     fun status(status: JsonField<String>) = apply { this.status = status }
 
                     /** Total length of the trip, in meters. */
@@ -1855,8 +1875,6 @@ private constructor(
                         totalDistanceAlongTrip(JsonField.of(totalDistanceAlongTrip))
 
                     /** Total length of the trip, in meters. */
-                    @JsonProperty("totalDistanceAlongTrip")
-                    @ExcludeMissing
                     fun totalDistanceAlongTrip(totalDistanceAlongTrip: JsonField<Double>) = apply {
                         this.totalDistanceAlongTrip = totalDistanceAlongTrip
                     }
@@ -1865,26 +1883,31 @@ private constructor(
                     fun vehicleId(vehicleId: String) = vehicleId(JsonField.of(vehicleId))
 
                     /** ID of the transit vehicle currently serving the trip. */
-                    @JsonProperty("vehicleId")
-                    @ExcludeMissing
                     fun vehicleId(vehicleId: JsonField<String>) = apply {
                         this.vehicleId = vehicleId
                     }
 
                     fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                         this.additionalProperties.clear()
-                        this.additionalProperties.putAll(additionalProperties)
+                        putAllAdditionalProperties(additionalProperties)
                     }
 
-                    @JsonAnySetter
                     fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                        this.additionalProperties.put(key, value)
+                        additionalProperties.put(key, value)
                     }
 
                     fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
                         apply {
                             this.additionalProperties.putAll(additionalProperties)
                         }
+
+                    fun removeAdditionalProperty(key: String) = apply {
+                        additionalProperties.remove(key)
+                    }
+
+                    fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                        keys.forEach(::removeAdditionalProperty)
+                    }
 
                     fun build(): TripStatus =
                         TripStatus(
@@ -1920,16 +1943,19 @@ private constructor(
                 }
 
                 /** Last known location of the transit vehicle. */
-                @JsonDeserialize(builder = LastKnownLocation.Builder::class)
                 @NoAutoDetect
                 class LastKnownLocation
+                @JsonCreator
                 private constructor(
-                    private val lat: JsonField<Double>,
-                    private val lon: JsonField<Double>,
-                    private val additionalProperties: Map<String, JsonValue>,
+                    @JsonProperty("lat")
+                    @ExcludeMissing
+                    private val lat: JsonField<Double> = JsonMissing.of(),
+                    @JsonProperty("lon")
+                    @ExcludeMissing
+                    private val lon: JsonField<Double> = JsonMissing.of(),
+                    @JsonAnySetter
+                    private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
                 ) {
-
-                    private var validated: Boolean = false
 
                     /** Latitude of the last known location of the transit vehicle. */
                     fun lat(): Double? = lat.getNullable("lat")
@@ -1946,6 +1972,8 @@ private constructor(
                     @JsonAnyGetter
                     @ExcludeMissing
                     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+                    private var validated: Boolean = false
 
                     fun validate(): LastKnownLocation = apply {
                         if (!validated) {
@@ -1970,41 +1998,45 @@ private constructor(
                             mutableMapOf()
 
                         internal fun from(lastKnownLocation: LastKnownLocation) = apply {
-                            this.lat = lastKnownLocation.lat
-                            this.lon = lastKnownLocation.lon
-                            additionalProperties(lastKnownLocation.additionalProperties)
+                            lat = lastKnownLocation.lat
+                            lon = lastKnownLocation.lon
+                            additionalProperties =
+                                lastKnownLocation.additionalProperties.toMutableMap()
                         }
 
                         /** Latitude of the last known location of the transit vehicle. */
                         fun lat(lat: Double) = lat(JsonField.of(lat))
 
                         /** Latitude of the last known location of the transit vehicle. */
-                        @JsonProperty("lat")
-                        @ExcludeMissing
                         fun lat(lat: JsonField<Double>) = apply { this.lat = lat }
 
                         /** Longitude of the last known location of the transit vehicle. */
                         fun lon(lon: Double) = lon(JsonField.of(lon))
 
                         /** Longitude of the last known location of the transit vehicle. */
-                        @JsonProperty("lon")
-                        @ExcludeMissing
                         fun lon(lon: JsonField<Double>) = apply { this.lon = lon }
 
                         fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
                             apply {
                                 this.additionalProperties.clear()
-                                this.additionalProperties.putAll(additionalProperties)
+                                putAllAdditionalProperties(additionalProperties)
                             }
 
-                        @JsonAnySetter
                         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                            this.additionalProperties.put(key, value)
+                            additionalProperties.put(key, value)
                         }
 
                         fun putAllAdditionalProperties(
                             additionalProperties: Map<String, JsonValue>
                         ) = apply { this.additionalProperties.putAll(additionalProperties) }
+
+                        fun removeAdditionalProperty(key: String) = apply {
+                            additionalProperties.remove(key)
+                        }
+
+                        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                            keys.forEach(::removeAdditionalProperty)
+                        }
 
                         fun build(): LastKnownLocation =
                             LastKnownLocation(
@@ -2033,16 +2065,19 @@ private constructor(
                 }
 
                 /** Current position of the transit vehicle. */
-                @JsonDeserialize(builder = Position.Builder::class)
                 @NoAutoDetect
                 class Position
+                @JsonCreator
                 private constructor(
-                    private val lat: JsonField<Double>,
-                    private val lon: JsonField<Double>,
-                    private val additionalProperties: Map<String, JsonValue>,
+                    @JsonProperty("lat")
+                    @ExcludeMissing
+                    private val lat: JsonField<Double> = JsonMissing.of(),
+                    @JsonProperty("lon")
+                    @ExcludeMissing
+                    private val lon: JsonField<Double> = JsonMissing.of(),
+                    @JsonAnySetter
+                    private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
                 ) {
-
-                    private var validated: Boolean = false
 
                     /** Latitude of the current position of the transit vehicle. */
                     fun lat(): Double? = lat.getNullable("lat")
@@ -2059,6 +2094,8 @@ private constructor(
                     @JsonAnyGetter
                     @ExcludeMissing
                     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+                    private var validated: Boolean = false
 
                     fun validate(): Position = apply {
                         if (!validated) {
@@ -2083,41 +2120,44 @@ private constructor(
                             mutableMapOf()
 
                         internal fun from(position: Position) = apply {
-                            this.lat = position.lat
-                            this.lon = position.lon
-                            additionalProperties(position.additionalProperties)
+                            lat = position.lat
+                            lon = position.lon
+                            additionalProperties = position.additionalProperties.toMutableMap()
                         }
 
                         /** Latitude of the current position of the transit vehicle. */
                         fun lat(lat: Double) = lat(JsonField.of(lat))
 
                         /** Latitude of the current position of the transit vehicle. */
-                        @JsonProperty("lat")
-                        @ExcludeMissing
                         fun lat(lat: JsonField<Double>) = apply { this.lat = lat }
 
                         /** Longitude of the current position of the transit vehicle. */
                         fun lon(lon: Double) = lon(JsonField.of(lon))
 
                         /** Longitude of the current position of the transit vehicle. */
-                        @JsonProperty("lon")
-                        @ExcludeMissing
                         fun lon(lon: JsonField<Double>) = apply { this.lon = lon }
 
                         fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
                             apply {
                                 this.additionalProperties.clear()
-                                this.additionalProperties.putAll(additionalProperties)
+                                putAllAdditionalProperties(additionalProperties)
                             }
 
-                        @JsonAnySetter
                         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                            this.additionalProperties.put(key, value)
+                            additionalProperties.put(key, value)
                         }
 
                         fun putAllAdditionalProperties(
                             additionalProperties: Map<String, JsonValue>
                         ) = apply { this.additionalProperties.putAll(additionalProperties) }
+
+                        fun removeAdditionalProperty(key: String) = apply {
+                            additionalProperties.remove(key)
+                        }
+
+                        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                            keys.forEach(::removeAdditionalProperty)
+                        }
 
                         fun build(): Position =
                             Position(
