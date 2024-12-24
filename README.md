@@ -21,7 +21,7 @@ The REST API documentation can be found on [developer.onebusaway.org](https://d
 <!-- x-release-please-start-version -->
 
 ```kotlin
-implementation("org.onebusaway:onebusaway-sdk-kotlin:0.1.0-alpha.40")
+implementation("org.onebusaway:onebusaway-sdk-kotlin:0.1.0-alpha.44")
 ```
 
 #### Maven
@@ -30,7 +30,7 @@ implementation("org.onebusaway:onebusaway-sdk-kotlin:0.1.0-alpha.40")
 <dependency>
     <groupId>org.onebusaway</groupId>
     <artifactId>onebusaway-sdk-kotlin</artifactId>
-    <version>0.1.0-alpha.40</version>
+    <version>0.1.0-alpha.44</version>
 </dependency>
 ```
 
@@ -52,6 +52,7 @@ val client: OnebusawaySdkClient = OnebusawaySdkOkHttpClient.builder()
 Alternately, set the environment with `ONEBUSAWAY_API_KEY`, and use `OnebusawaySdkOkHttpClient.fromEnv()` to read from the environment.
 
 ```kotlin
+
 import org.onebusaway.client.OnebusawaySdkClient
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
 
@@ -74,7 +75,8 @@ Read the documentation for more configuration options.
 
 ### Example: creating a resource
 
-To create a new current time, first use the `CurrentTimeRetrieveParams` builder to specify attributes, then pass that to the `retrieve` method of the `currentTime` service.
+To create a new current time, first use the `CurrentTimeRetrieveParams` builder to specify attributes,
+then pass that to the `retrieve` method of the `currentTime` service.
 
 ```kotlin
 import org.onebusaway.models.CurrentTimeRetrieveParams
@@ -92,11 +94,14 @@ val currentTime: CurrentTimeRetrieveResponse = client.currentTime().retrieve(par
 
 To make a request to the Onebusaway SDK API, you generally build an instance of the appropriate `Params` class.
 
-In [Example: creating a resource](#example-creating-a-resource) above, we used the `CurrentTimeRetrieveParams.builder()` to pass to the `retrieve` method of the `currentTime` service.
+In [Example: creating a resource](#example-creating-a-resource) above, we used the `CurrentTimeRetrieveParams.builder()` to pass to
+the `retrieve` method of the `currentTime` service.
 
-Sometimes, the API may support other properties that are not yet supported in the Kotlin SDK types. In that case, you can attach them using the `putAdditionalProperty` method.
+Sometimes, the API may support other properties that are not yet supported in the Kotlin SDK types. In that case,
+you can attach them using the `putAdditionalProperty` method.
 
 ```kotlin
+
 import org.onebusaway.core.JsonValue
 import org.onebusaway.models.CurrentTimeRetrieveParams
 
@@ -120,7 +125,8 @@ val currentTime: CurrentTimeRetrieveResponse = client.currentTime().retrieve().v
 
 ### Response properties as JSON
 
-In rare cases, you may want to access the underlying JSON value for a response property rather than using the typed version provided by this SDK. Each model property has a corresponding JSON version, with an underscore before the method name, which returns a `JsonField` value.
+In rare cases, you may want to access the underlying JSON value for a response property rather than using the typed version provided by
+this SDK. Each model property has a corresponding JSON version, with an underscore before the method name, which returns a `JsonField` value.
 
 ```kotlin
 import java.util.Optional
@@ -160,30 +166,31 @@ val secret: JsonValue = references._additionalProperties().get("secret_field")
 
 This library throws exceptions in a single hierarchy for easy handling:
 
-- **`OnebusawaySdkException`** - Base exception for all exceptions
+-   **`OnebusawaySdkException`** - Base exception for all exceptions
 
-- **`OnebusawaySdkServiceException`** - HTTP errors with a well-formed response body we were able to parse. The exception message and the `.debuggingRequestId()` will be set by the server.
+    -   **`OnebusawaySdkServiceException`** - HTTP errors with a well-formed response body we were able to parse. The exception message and the `.debuggingRequestId()` will be set by the server.
 
-  | 400    | BadRequestException           |
-  | ------ | ----------------------------- |
-  | 401    | AuthenticationException       |
-  | 403    | PermissionDeniedException     |
-  | 404    | NotFoundException             |
-  | 422    | UnprocessableEntityException  |
-  | 429    | RateLimitException            |
-  | 5xx    | InternalServerException       |
-  | others | UnexpectedStatusCodeException |
+        | 400    | BadRequestException           |
+        | ------ | ----------------------------- |
+        | 401    | AuthenticationException       |
+        | 403    | PermissionDeniedException     |
+        | 404    | NotFoundException             |
+        | 422    | UnprocessableEntityException  |
+        | 429    | RateLimitException            |
+        | 5xx    | InternalServerException       |
+        | others | UnexpectedStatusCodeException |
 
-- **`OnebusawaySdkIoException`** - I/O networking errors
-- **`OnebusawaySdkInvalidDataException`** - any other exceptions on the client side, e.g.:
-  - We failed to serialize the request body
-  - We failed to parse the response body (has access to response code and body)
+    -   **`OnebusawaySdkIoException`** - I/O networking errors
+    -   **`OnebusawaySdkInvalidDataException`** - any other exceptions on the client side, e.g.:
+        -   We failed to serialize the request body
+        -   We failed to parse the response body (has access to response code and body)
 
 ## Network options
 
 ### Retries
 
-Requests that experience certain errors are automatically retried 2 times by default, with a short exponential backoff. Connection errors (for example, due to a network connectivity problem), 408 Request Timeout, 409 Conflict, 429 Rate Limit, and >=500 Internal errors will all be retried by default. You can provide a `maxRetries` on the client builder to configure this:
+Requests that experience certain errors are automatically retried 2 times by default, with a short exponential backoff. Connection errors (for example, due to a network connectivity problem), 408 Request Timeout, 409 Conflict, 429 Rate Limit, and >=500 Internal errors will all be retried by default.
+You can provide a `maxRetries` on the client builder to configure this:
 
 ```kotlin
 import org.onebusaway.client.OnebusawaySdkClient
@@ -215,6 +222,7 @@ val client: OnebusawaySdkClient = OnebusawaySdkOkHttpClient.builder()
 Requests can be routed through a proxy. You can configure this on the client builder:
 
 ```kotlin
+val client = OnebusawaySdkOkHttpClient.builder()
 import java.net.InetSocketAddress
 import java.net.Proxy
 import org.onebusaway.client.OnebusawaySdkClient
@@ -222,7 +230,10 @@ import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
 
 val client: OnebusawaySdkClient = OnebusawaySdkOkHttpClient.builder()
     .fromEnv()
-    .proxy(Proxy(Proxy.Type.HTTP, InetSocketAddress("example.com", 8080)))
+    .proxy(new Proxy(
+        Type.HTTP,
+        new InetSocketAddress("proxy.com", 8080)
+    ))
     .build()
 ```
 

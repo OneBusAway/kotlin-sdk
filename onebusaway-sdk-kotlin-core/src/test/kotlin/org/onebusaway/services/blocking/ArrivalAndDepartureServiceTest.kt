@@ -24,7 +24,7 @@ class ArrivalAndDepartureServiceTest {
         val arrivalAndDepartureRetrieveResponse =
             arrivalAndDepartureService.retrieve(
                 ArrivalAndDepartureRetrieveParams.builder()
-                    .stopId("1_75403")
+                    .stopId("stopID")
                     .serviceDate(0L)
                     .tripId("tripId")
                     .stopSequence(0L)
@@ -46,7 +46,7 @@ class ArrivalAndDepartureServiceTest {
         val arrivalAndDepartureListResponse =
             arrivalAndDepartureService.list(
                 ArrivalAndDepartureListParams.builder()
-                    .stopId("1_75403")
+                    .stopId("stopID")
                     .minutesAfter(0L)
                     .minutesBefore(0L)
                     .time(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
