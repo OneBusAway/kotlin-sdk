@@ -16,10 +16,10 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.onebusaway.client.OnebusawaySdkClient
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
+import org.onebusaway.core.JsonValue
 import org.onebusaway.core.jsonMapper
 import org.onebusaway.models.CurrentTimeRetrieveParams
 import org.onebusaway.models.CurrentTimeRetrieveResponse
-import org.onebusaway.models.References
 
 @WireMockTest
 class ServiceParamsTest {
@@ -55,182 +55,141 @@ class ServiceParamsTest {
 
         val apiResponse =
             CurrentTimeRetrieveResponse.builder()
-                .code(0L)
-                .currentTime(0L)
-                .text("text")
-                .version(0L)
-                .data(
-                    CurrentTimeRetrieveResponse.Data.builder()
-                        .entry(
-                            CurrentTimeRetrieveResponse.Data.Entry.builder()
-                                .readableTime("readableTime")
-                                .time(0L)
-                                .build()
-                        )
-                        .references(
-                            References.builder()
-                                .agencies(
-                                    listOf(
-                                        References.Agency.builder()
-                                            .id("id")
-                                            .name("name")
-                                            .timezone("timezone")
-                                            .url("url")
-                                            .disclaimer("disclaimer")
-                                            .email("email")
-                                            .fareUrl("fareUrl")
-                                            .lang("lang")
-                                            .phone("phone")
-                                            .privateService(true)
-                                            .build()
-                                    )
-                                )
-                                .routes(
-                                    listOf(
-                                        References.Route.builder()
-                                            .id("id")
-                                            .agencyId("agencyId")
-                                            .type(0L)
-                                            .color("color")
-                                            .description("description")
-                                            .longName("longName")
-                                            .nullSafeShortName("nullSafeShortName")
-                                            .shortName("shortName")
-                                            .textColor("textColor")
-                                            .url("url")
-                                            .build()
-                                    )
-                                )
-                                .situations(
-                                    listOf(
-                                        References.Situation.builder()
-                                            .id("id")
-                                            .creationTime(0L)
-                                            .activeWindows(
-                                                listOf(
-                                                    References.Situation.ActiveWindow.builder()
-                                                        .from(0L)
-                                                        .to(0L)
-                                                        .build()
-                                                )
+                .putAdditionalProperty("code", JsonValue.from(0))
+                .putAdditionalProperty("currentTime", JsonValue.from(0))
+                .putAdditionalProperty("text", JsonValue.from("text"))
+                .putAdditionalProperty("version", JsonValue.from(0))
+                .putAdditionalProperty(
+                    "data",
+                    JsonValue.from(
+                        mapOf(
+                            "entry" to mapOf("readableTime" to "readableTime", "time" to 0),
+                            "references" to
+                                mapOf(
+                                    "agencies" to
+                                        listOf(
+                                            mapOf(
+                                                "id" to "id",
+                                                "name" to "name",
+                                                "timezone" to "timezone",
+                                                "url" to "url",
+                                                "disclaimer" to "disclaimer",
+                                                "email" to "email",
+                                                "fareUrl" to "fareUrl",
+                                                "lang" to "lang",
+                                                "phone" to "phone",
+                                                "privateService" to true,
                                             )
-                                            .allAffects(
-                                                listOf(
-                                                    References.Situation.AllAffect.builder()
-                                                        .agencyId("agencyId")
-                                                        .applicationId("applicationId")
-                                                        .directionId("directionId")
-                                                        .routeId("routeId")
-                                                        .stopId("stopId")
-                                                        .tripId("tripId")
-                                                        .build()
-                                                )
+                                        ),
+                                    "routes" to
+                                        listOf(
+                                            mapOf(
+                                                "id" to "id",
+                                                "agencyId" to "agencyId",
+                                                "type" to 0,
+                                                "color" to "color",
+                                                "description" to "description",
+                                                "longName" to "longName",
+                                                "nullSafeShortName" to "nullSafeShortName",
+                                                "shortName" to "shortName",
+                                                "textColor" to "textColor",
+                                                "url" to "url",
                                             )
-                                            .consequenceMessage("consequenceMessage")
-                                            .consequences(
-                                                listOf(
-                                                    References.Situation.Consequence.builder()
-                                                        .condition("condition")
-                                                        .conditionDetails(
-                                                            References.Situation.Consequence
-                                                                .ConditionDetails
-                                                                .builder()
-                                                                .diversionPath(
-                                                                    References.Situation.Consequence
-                                                                        .ConditionDetails
-                                                                        .DiversionPath
-                                                                        .builder()
-                                                                        .length(0L)
-                                                                        .levels("levels")
-                                                                        .points("points")
-                                                                        .build()
-                                                                )
-                                                                .diversionStopIds(listOf("string"))
-                                                                .build()
+                                        ),
+                                    "situations" to
+                                        listOf(
+                                            mapOf(
+                                                "id" to "id",
+                                                "creationTime" to 0,
+                                                "activeWindows" to
+                                                    listOf(mapOf("from" to 0, "to" to 0)),
+                                                "allAffects" to
+                                                    listOf(
+                                                        mapOf(
+                                                            "agencyId" to "agencyId",
+                                                            "applicationId" to "applicationId",
+                                                            "directionId" to "directionId",
+                                                            "routeId" to "routeId",
+                                                            "stopId" to "stopId",
+                                                            "tripId" to "tripId",
                                                         )
-                                                        .build()
-                                                )
+                                                    ),
+                                                "consequenceMessage" to "consequenceMessage",
+                                                "consequences" to
+                                                    listOf(
+                                                        mapOf(
+                                                            "condition" to "condition",
+                                                            "conditionDetails" to
+                                                                mapOf(
+                                                                    "diversionPath" to
+                                                                        mapOf(
+                                                                            "length" to 0,
+                                                                            "levels" to "levels",
+                                                                            "points" to "points",
+                                                                        ),
+                                                                    "diversionStopIds" to
+                                                                        listOf("string")
+                                                                )
+                                                        )
+                                                    ),
+                                                "description" to
+                                                    mapOf("lang" to "lang", "value" to "value"),
+                                                "publicationWindows" to
+                                                    listOf(mapOf("from" to 0, "to" to 0)),
+                                                "reason" to "equipmentReason",
+                                                "severity" to "severity",
+                                                "summary" to
+                                                    mapOf("lang" to "lang", "value" to "value"),
+                                                "url" to
+                                                    mapOf("lang" to "lang", "value" to "value"),
                                             )
-                                            .description(
-                                                References.Situation.Description.builder()
-                                                    .lang("lang")
-                                                    .value("value")
-                                                    .build()
+                                        ),
+                                    "stops" to
+                                        listOf(
+                                            mapOf(
+                                                "id" to "id",
+                                                "lat" to 0,
+                                                "lon" to 0,
+                                                "name" to "name",
+                                                "parent" to "parent",
+                                                "routeIds" to listOf("string"),
+                                                "staticRouteIds" to listOf("string"),
+                                                "code" to "code",
+                                                "direction" to "direction",
+                                                "locationType" to 0,
+                                                "wheelchairBoarding" to "wheelchairBoarding",
                                             )
-                                            .publicationWindows(
-                                                listOf(
-                                                    References.Situation.PublicationWindow.builder()
-                                                        .from(0L)
-                                                        .to(0L)
-                                                        .build()
-                                                )
+                                        ),
+                                    "stopTimes" to
+                                        listOf(
+                                            mapOf(
+                                                "arrivalTime" to 0,
+                                                "departureTime" to 0,
+                                                "distanceAlongTrip" to 0,
+                                                "historicalOccupancy" to "historicalOccupancy",
+                                                "stopHeadsign" to "stopHeadsign",
+                                                "stopId" to "stopId",
                                             )
-                                            .reason(References.Situation.Reason.EQUIPMENT_REASON)
-                                            .severity("severity")
-                                            .summary(
-                                                References.Situation.Summary.builder()
-                                                    .lang("lang")
-                                                    .value("value")
-                                                    .build()
+                                        ),
+                                    "trips" to
+                                        listOf(
+                                            mapOf(
+                                                "id" to "id",
+                                                "routeId" to "routeId",
+                                                "serviceId" to "serviceId",
+                                                "blockId" to "blockId",
+                                                "directionId" to "directionId",
+                                                "peakOffpeak" to 0,
+                                                "routeShortName" to "routeShortName",
+                                                "shapeId" to "shapeId",
+                                                "timeZone" to "timeZone",
+                                                "tripHeadsign" to "tripHeadsign",
+                                                "tripShortName" to "tripShortName",
                                             )
-                                            .url(
-                                                References.Situation.Url.builder()
-                                                    .lang("lang")
-                                                    .value("value")
-                                                    .build()
-                                            )
-                                            .build()
-                                    )
+                                        ),
                                 )
-                                .stops(
-                                    listOf(
-                                        References.Stop.builder()
-                                            .id("id")
-                                            .lat(0.0)
-                                            .lon(0.0)
-                                            .name("name")
-                                            .parent("parent")
-                                            .routeIds(listOf("string"))
-                                            .staticRouteIds(listOf("string"))
-                                            .code("code")
-                                            .direction("direction")
-                                            .locationType(0L)
-                                            .wheelchairBoarding("wheelchairBoarding")
-                                            .build()
-                                    )
-                                )
-                                .stopTimes(
-                                    listOf(
-                                        References.StopTime.builder()
-                                            .arrivalTime(0L)
-                                            .departureTime(0L)
-                                            .distanceAlongTrip(0.0)
-                                            .historicalOccupancy("historicalOccupancy")
-                                            .stopHeadsign("stopHeadsign")
-                                            .stopId("stopId")
-                                            .build()
-                                    )
-                                )
-                                .trips(
-                                    listOf(
-                                        References.Trip.builder()
-                                            .id("id")
-                                            .routeId("routeId")
-                                            .serviceId("serviceId")
-                                            .blockId("blockId")
-                                            .directionId("directionId")
-                                            .peakOffpeak(0L)
-                                            .routeShortName("routeShortName")
-                                            .shapeId("shapeId")
-                                            .timeZone("timeZone")
-                                            .tripHeadsign("tripHeadsign")
-                                            .tripShortName("tripShortName")
-                                            .build()
-                                    )
-                                )
-                                .build()
                         )
-                        .build()
+                    )
                 )
                 .build()
 
