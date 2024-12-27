@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.1.0-alpha.49 (2024-12-27)
+
+Full Changelog: [v0.1.0-alpha.48...v0.1.0-alpha.49](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.48...v0.1.0-alpha.49)
+
+### ⚠ BREAKING CHANGES
+
+* **client:** switch query params objects to use `QueryParams` ([#141](https://github.com/OneBusAway/kotlin-sdk/issues/141))
+
+### Refactors
+
+* **client:** switch query params objects to use `QueryParams` ([#141](https://github.com/OneBusAway/kotlin-sdk/issues/141)) ([5e5b4ab](https://github.com/OneBusAway/kotlin-sdk/commit/5e5b4ab24462e4e0a7fad1eaf1cc2205f913fe5a))
+
 ## 0.1.0-alpha.48 (2024-12-27)
 
 Full Changelog: [v0.1.0-alpha.47...v0.1.0-alpha.48](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.47...v0.1.0-alpha.48)
