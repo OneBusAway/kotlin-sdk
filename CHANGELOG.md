@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.1.0-alpha.53 (2025-01-02)
+
+Full Changelog: [v0.1.0-alpha.52...v0.1.0-alpha.53](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.52...v0.1.0-alpha.53)
+
+### Bug Fixes
+
+* correctly generate intersection tests ([#146](https://github.com/OneBusAway/kotlin-sdk/issues/146)) ([f091fae](https://github.com/OneBusAway/kotlin-sdk/commit/f091faec76377427a4d7e5fef35b1a475eed5863))
+
+
+### Chores
+
+* **internal:** codegen related update ([#145](https://github.com/OneBusAway/kotlin-sdk/issues/145)) ([a9fd99c](https://github.com/OneBusAway/kotlin-sdk/commit/a9fd99c7913d07b169690796d0deb7dea9d4cd3c))
+
 ## 0.1.0-alpha.52 (2025-01-02)
 
 Full Changelog: [v0.1.0-alpha.51...v0.1.0-alpha.52](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.51...v0.1.0-alpha.52)
