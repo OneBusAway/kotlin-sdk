@@ -4,31 +4,26 @@ package org.onebusaway.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
-import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import java.util.Objects
 import org.onebusaway.core.ExcludeMissing
 import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonMissing
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.NoAutoDetect
-import org.onebusaway.core.immutableEmptyMap
 import org.onebusaway.core.toImmutable
 
+@JsonDeserialize(builder = ConfigRetrieveResponse.Builder::class)
 @NoAutoDetect
 class ConfigRetrieveResponse
-@JsonCreator
 private constructor(
-    @JsonProperty("code") @ExcludeMissing private val code: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("currentTime")
-    @ExcludeMissing
-    private val currentTime: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("text") @ExcludeMissing private val text: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("version")
-    @ExcludeMissing
-    private val version: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("data") @ExcludeMissing private val data: JsonField<Data> = JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val code: JsonField<Long>,
+    private val currentTime: JsonField<Long>,
+    private val text: JsonField<String>,
+    private val version: JsonField<Long>,
+    private val data: JsonField<Data>,
+    private val additionalProperties: Map<String, JsonValue>,
 ) {
 
     fun code(): Long = code.getRequired("code")
@@ -103,22 +98,32 @@ private constructor(
 
         fun code(code: Long) = code(JsonField.of(code))
 
+        @JsonProperty("code")
+        @ExcludeMissing
         fun code(code: JsonField<Long>) = apply { this.code = code }
 
         fun currentTime(currentTime: Long) = currentTime(JsonField.of(currentTime))
 
+        @JsonProperty("currentTime")
+        @ExcludeMissing
         fun currentTime(currentTime: JsonField<Long>) = apply { this.currentTime = currentTime }
 
         fun text(text: String) = text(JsonField.of(text))
 
+        @JsonProperty("text")
+        @ExcludeMissing
         fun text(text: JsonField<String>) = apply { this.text = text }
 
         fun version(version: Long) = version(JsonField.of(version))
 
+        @JsonProperty("version")
+        @ExcludeMissing
         fun version(version: JsonField<Long>) = apply { this.version = version }
 
         fun data(data: Data) = data(JsonField.of(data))
 
+        @JsonProperty("data")
+        @ExcludeMissing
         fun data(data: JsonField<Data>) = apply { this.data = data }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -126,6 +131,7 @@ private constructor(
             putAllAdditionalProperties(additionalProperties)
         }
 
+        @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             additionalProperties.put(key, value)
         }
@@ -151,18 +157,13 @@ private constructor(
             )
     }
 
+    @JsonDeserialize(builder = Data.Builder::class)
     @NoAutoDetect
     class Data
-    @JsonCreator
     private constructor(
-        @JsonProperty("entry")
-        @ExcludeMissing
-        private val entry: JsonField<Entry> = JsonMissing.of(),
-        @JsonProperty("references")
-        @ExcludeMissing
-        private val references: JsonField<References> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+        private val entry: JsonField<Entry>,
+        private val references: JsonField<References>,
+        private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         fun entry(): Entry = entry.getRequired("entry")
@@ -208,10 +209,14 @@ private constructor(
 
             fun entry(entry: Entry) = entry(JsonField.of(entry))
 
+            @JsonProperty("entry")
+            @ExcludeMissing
             fun entry(entry: JsonField<Entry>) = apply { this.entry = entry }
 
             fun references(references: References) = references(JsonField.of(references))
 
+            @JsonProperty("references")
+            @ExcludeMissing
             fun references(references: JsonField<References>) = apply {
                 this.references = references
             }
@@ -221,6 +226,7 @@ private constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
+            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }
@@ -243,27 +249,16 @@ private constructor(
                 )
         }
 
+        @JsonDeserialize(builder = Entry.Builder::class)
         @NoAutoDetect
         class Entry
-        @JsonCreator
         private constructor(
-            @JsonProperty("gitProperties")
-            @ExcludeMissing
-            private val gitProperties: JsonField<GitProperties> = JsonMissing.of(),
-            @JsonProperty("id")
-            @ExcludeMissing
-            private val id: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("name")
-            @ExcludeMissing
-            private val name: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("serviceDateFrom")
-            @ExcludeMissing
-            private val serviceDateFrom: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("serviceDateTo")
-            @ExcludeMissing
-            private val serviceDateTo: JsonField<String> = JsonMissing.of(),
-            @JsonAnySetter
-            private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+            private val gitProperties: JsonField<GitProperties>,
+            private val id: JsonField<String>,
+            private val name: JsonField<String>,
+            private val serviceDateFrom: JsonField<String>,
+            private val serviceDateTo: JsonField<String>,
+            private val additionalProperties: Map<String, JsonValue>,
         ) {
 
             fun gitProperties(): GitProperties? = gitProperties.getNullable("gitProperties")
@@ -333,21 +328,29 @@ private constructor(
                 fun gitProperties(gitProperties: GitProperties) =
                     gitProperties(JsonField.of(gitProperties))
 
+                @JsonProperty("gitProperties")
+                @ExcludeMissing
                 fun gitProperties(gitProperties: JsonField<GitProperties>) = apply {
                     this.gitProperties = gitProperties
                 }
 
                 fun id(id: String) = id(JsonField.of(id))
 
+                @JsonProperty("id")
+                @ExcludeMissing
                 fun id(id: JsonField<String>) = apply { this.id = id }
 
                 fun name(name: String) = name(JsonField.of(name))
 
+                @JsonProperty("name")
+                @ExcludeMissing
                 fun name(name: JsonField<String>) = apply { this.name = name }
 
                 fun serviceDateFrom(serviceDateFrom: String) =
                     serviceDateFrom(JsonField.of(serviceDateFrom))
 
+                @JsonProperty("serviceDateFrom")
+                @ExcludeMissing
                 fun serviceDateFrom(serviceDateFrom: JsonField<String>) = apply {
                     this.serviceDateFrom = serviceDateFrom
                 }
@@ -355,6 +358,8 @@ private constructor(
                 fun serviceDateTo(serviceDateTo: String) =
                     serviceDateTo(JsonField.of(serviceDateTo))
 
+                @JsonProperty("serviceDateTo")
+                @ExcludeMissing
                 fun serviceDateTo(serviceDateTo: JsonField<String>) = apply {
                     this.serviceDateTo = serviceDateTo
                 }
@@ -364,6 +369,7 @@ private constructor(
                     putAllAdditionalProperties(additionalProperties)
                 }
 
+                @JsonAnySetter
                 fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                     additionalProperties.put(key, value)
                 }
@@ -392,72 +398,31 @@ private constructor(
                     )
             }
 
+            @JsonDeserialize(builder = GitProperties.Builder::class)
             @NoAutoDetect
             class GitProperties
-            @JsonCreator
             private constructor(
-                @JsonProperty("git.branch")
-                @ExcludeMissing
-                private val gitBranch: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("git.build.host")
-                @ExcludeMissing
-                private val gitBuildHost: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("git.build.time")
-                @ExcludeMissing
-                private val gitBuildTime: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("git.build.user.email")
-                @ExcludeMissing
-                private val gitBuildUserEmail: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("git.build.user.name")
-                @ExcludeMissing
-                private val gitBuildUserName: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("git.build.version")
-                @ExcludeMissing
-                private val gitBuildVersion: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("git.closest.tag.commit.count")
-                @ExcludeMissing
-                private val gitClosestTagCommitCount: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("git.closest.tag.name")
-                @ExcludeMissing
-                private val gitClosestTagName: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("git.commit.id")
-                @ExcludeMissing
-                private val gitCommitId: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("git.commit.id.abbrev")
-                @ExcludeMissing
-                private val gitCommitIdAbbrev: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("git.commit.id.describe")
-                @ExcludeMissing
-                private val gitCommitIdDescribe: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("git.commit.id.describe-short")
-                @ExcludeMissing
-                private val gitCommitIdDescribeShort: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("git.commit.message.full")
-                @ExcludeMissing
-                private val gitCommitMessageFull: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("git.commit.message.short")
-                @ExcludeMissing
-                private val gitCommitMessageShort: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("git.commit.time")
-                @ExcludeMissing
-                private val gitCommitTime: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("git.commit.user.email")
-                @ExcludeMissing
-                private val gitCommitUserEmail: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("git.commit.user.name")
-                @ExcludeMissing
-                private val gitCommitUserName: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("git.dirty")
-                @ExcludeMissing
-                private val gitDirty: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("git.remote.origin.url")
-                @ExcludeMissing
-                private val gitRemoteOriginUrl: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("git.tags")
-                @ExcludeMissing
-                private val gitTags: JsonField<String> = JsonMissing.of(),
-                @JsonAnySetter
-                private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+                private val gitBranch: JsonField<String>,
+                private val gitBuildHost: JsonField<String>,
+                private val gitBuildTime: JsonField<String>,
+                private val gitBuildUserEmail: JsonField<String>,
+                private val gitBuildUserName: JsonField<String>,
+                private val gitBuildVersion: JsonField<String>,
+                private val gitClosestTagCommitCount: JsonField<String>,
+                private val gitClosestTagName: JsonField<String>,
+                private val gitCommitId: JsonField<String>,
+                private val gitCommitIdAbbrev: JsonField<String>,
+                private val gitCommitIdDescribe: JsonField<String>,
+                private val gitCommitIdDescribeShort: JsonField<String>,
+                private val gitCommitMessageFull: JsonField<String>,
+                private val gitCommitMessageShort: JsonField<String>,
+                private val gitCommitTime: JsonField<String>,
+                private val gitCommitUserEmail: JsonField<String>,
+                private val gitCommitUserName: JsonField<String>,
+                private val gitDirty: JsonField<String>,
+                private val gitRemoteOriginUrl: JsonField<String>,
+                private val gitTags: JsonField<String>,
+                private val additionalProperties: Map<String, JsonValue>,
             ) {
 
                 fun gitBranch(): String? = gitBranch.getNullable("git.branch")
@@ -669,6 +634,8 @@ private constructor(
 
                     fun gitBranch(gitBranch: String) = gitBranch(JsonField.of(gitBranch))
 
+                    @JsonProperty("git.branch")
+                    @ExcludeMissing
                     fun gitBranch(gitBranch: JsonField<String>) = apply {
                         this.gitBranch = gitBranch
                     }
@@ -676,6 +643,8 @@ private constructor(
                     fun gitBuildHost(gitBuildHost: String) =
                         gitBuildHost(JsonField.of(gitBuildHost))
 
+                    @JsonProperty("git.build.host")
+                    @ExcludeMissing
                     fun gitBuildHost(gitBuildHost: JsonField<String>) = apply {
                         this.gitBuildHost = gitBuildHost
                     }
@@ -683,6 +652,8 @@ private constructor(
                     fun gitBuildTime(gitBuildTime: String) =
                         gitBuildTime(JsonField.of(gitBuildTime))
 
+                    @JsonProperty("git.build.time")
+                    @ExcludeMissing
                     fun gitBuildTime(gitBuildTime: JsonField<String>) = apply {
                         this.gitBuildTime = gitBuildTime
                     }
@@ -690,6 +661,8 @@ private constructor(
                     fun gitBuildUserEmail(gitBuildUserEmail: String) =
                         gitBuildUserEmail(JsonField.of(gitBuildUserEmail))
 
+                    @JsonProperty("git.build.user.email")
+                    @ExcludeMissing
                     fun gitBuildUserEmail(gitBuildUserEmail: JsonField<String>) = apply {
                         this.gitBuildUserEmail = gitBuildUserEmail
                     }
@@ -697,6 +670,8 @@ private constructor(
                     fun gitBuildUserName(gitBuildUserName: String) =
                         gitBuildUserName(JsonField.of(gitBuildUserName))
 
+                    @JsonProperty("git.build.user.name")
+                    @ExcludeMissing
                     fun gitBuildUserName(gitBuildUserName: JsonField<String>) = apply {
                         this.gitBuildUserName = gitBuildUserName
                     }
@@ -704,6 +679,8 @@ private constructor(
                     fun gitBuildVersion(gitBuildVersion: String) =
                         gitBuildVersion(JsonField.of(gitBuildVersion))
 
+                    @JsonProperty("git.build.version")
+                    @ExcludeMissing
                     fun gitBuildVersion(gitBuildVersion: JsonField<String>) = apply {
                         this.gitBuildVersion = gitBuildVersion
                     }
@@ -711,6 +688,8 @@ private constructor(
                     fun gitClosestTagCommitCount(gitClosestTagCommitCount: String) =
                         gitClosestTagCommitCount(JsonField.of(gitClosestTagCommitCount))
 
+                    @JsonProperty("git.closest.tag.commit.count")
+                    @ExcludeMissing
                     fun gitClosestTagCommitCount(gitClosestTagCommitCount: JsonField<String>) =
                         apply {
                             this.gitClosestTagCommitCount = gitClosestTagCommitCount
@@ -719,12 +698,16 @@ private constructor(
                     fun gitClosestTagName(gitClosestTagName: String) =
                         gitClosestTagName(JsonField.of(gitClosestTagName))
 
+                    @JsonProperty("git.closest.tag.name")
+                    @ExcludeMissing
                     fun gitClosestTagName(gitClosestTagName: JsonField<String>) = apply {
                         this.gitClosestTagName = gitClosestTagName
                     }
 
                     fun gitCommitId(gitCommitId: String) = gitCommitId(JsonField.of(gitCommitId))
 
+                    @JsonProperty("git.commit.id")
+                    @ExcludeMissing
                     fun gitCommitId(gitCommitId: JsonField<String>) = apply {
                         this.gitCommitId = gitCommitId
                     }
@@ -732,6 +715,8 @@ private constructor(
                     fun gitCommitIdAbbrev(gitCommitIdAbbrev: String) =
                         gitCommitIdAbbrev(JsonField.of(gitCommitIdAbbrev))
 
+                    @JsonProperty("git.commit.id.abbrev")
+                    @ExcludeMissing
                     fun gitCommitIdAbbrev(gitCommitIdAbbrev: JsonField<String>) = apply {
                         this.gitCommitIdAbbrev = gitCommitIdAbbrev
                     }
@@ -739,6 +724,8 @@ private constructor(
                     fun gitCommitIdDescribe(gitCommitIdDescribe: String) =
                         gitCommitIdDescribe(JsonField.of(gitCommitIdDescribe))
 
+                    @JsonProperty("git.commit.id.describe")
+                    @ExcludeMissing
                     fun gitCommitIdDescribe(gitCommitIdDescribe: JsonField<String>) = apply {
                         this.gitCommitIdDescribe = gitCommitIdDescribe
                     }
@@ -746,6 +733,8 @@ private constructor(
                     fun gitCommitIdDescribeShort(gitCommitIdDescribeShort: String) =
                         gitCommitIdDescribeShort(JsonField.of(gitCommitIdDescribeShort))
 
+                    @JsonProperty("git.commit.id.describe-short")
+                    @ExcludeMissing
                     fun gitCommitIdDescribeShort(gitCommitIdDescribeShort: JsonField<String>) =
                         apply {
                             this.gitCommitIdDescribeShort = gitCommitIdDescribeShort
@@ -754,6 +743,8 @@ private constructor(
                     fun gitCommitMessageFull(gitCommitMessageFull: String) =
                         gitCommitMessageFull(JsonField.of(gitCommitMessageFull))
 
+                    @JsonProperty("git.commit.message.full")
+                    @ExcludeMissing
                     fun gitCommitMessageFull(gitCommitMessageFull: JsonField<String>) = apply {
                         this.gitCommitMessageFull = gitCommitMessageFull
                     }
@@ -761,6 +752,8 @@ private constructor(
                     fun gitCommitMessageShort(gitCommitMessageShort: String) =
                         gitCommitMessageShort(JsonField.of(gitCommitMessageShort))
 
+                    @JsonProperty("git.commit.message.short")
+                    @ExcludeMissing
                     fun gitCommitMessageShort(gitCommitMessageShort: JsonField<String>) = apply {
                         this.gitCommitMessageShort = gitCommitMessageShort
                     }
@@ -768,6 +761,8 @@ private constructor(
                     fun gitCommitTime(gitCommitTime: String) =
                         gitCommitTime(JsonField.of(gitCommitTime))
 
+                    @JsonProperty("git.commit.time")
+                    @ExcludeMissing
                     fun gitCommitTime(gitCommitTime: JsonField<String>) = apply {
                         this.gitCommitTime = gitCommitTime
                     }
@@ -775,6 +770,8 @@ private constructor(
                     fun gitCommitUserEmail(gitCommitUserEmail: String) =
                         gitCommitUserEmail(JsonField.of(gitCommitUserEmail))
 
+                    @JsonProperty("git.commit.user.email")
+                    @ExcludeMissing
                     fun gitCommitUserEmail(gitCommitUserEmail: JsonField<String>) = apply {
                         this.gitCommitUserEmail = gitCommitUserEmail
                     }
@@ -782,23 +779,31 @@ private constructor(
                     fun gitCommitUserName(gitCommitUserName: String) =
                         gitCommitUserName(JsonField.of(gitCommitUserName))
 
+                    @JsonProperty("git.commit.user.name")
+                    @ExcludeMissing
                     fun gitCommitUserName(gitCommitUserName: JsonField<String>) = apply {
                         this.gitCommitUserName = gitCommitUserName
                     }
 
                     fun gitDirty(gitDirty: String) = gitDirty(JsonField.of(gitDirty))
 
+                    @JsonProperty("git.dirty")
+                    @ExcludeMissing
                     fun gitDirty(gitDirty: JsonField<String>) = apply { this.gitDirty = gitDirty }
 
                     fun gitRemoteOriginUrl(gitRemoteOriginUrl: String) =
                         gitRemoteOriginUrl(JsonField.of(gitRemoteOriginUrl))
 
+                    @JsonProperty("git.remote.origin.url")
+                    @ExcludeMissing
                     fun gitRemoteOriginUrl(gitRemoteOriginUrl: JsonField<String>) = apply {
                         this.gitRemoteOriginUrl = gitRemoteOriginUrl
                     }
 
                     fun gitTags(gitTags: String) = gitTags(JsonField.of(gitTags))
 
+                    @JsonProperty("git.tags")
+                    @ExcludeMissing
                     fun gitTags(gitTags: JsonField<String>) = apply { this.gitTags = gitTags }
 
                     fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -806,6 +811,7 @@ private constructor(
                         putAllAdditionalProperties(additionalProperties)
                     }
 
+                    @JsonAnySetter
                     fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                         additionalProperties.put(key, value)
                     }
