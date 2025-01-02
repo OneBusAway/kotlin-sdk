@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.1.0-alpha.50 (2025-01-02)
+
+Full Changelog: [v0.1.0-alpha.49...v0.1.0-alpha.50](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.49...v0.1.0-alpha.50)
+
+### Bug Fixes
+
+* `List` name conflicts ([81e8bc5](https://github.com/OneBusAway/kotlin-sdk/commit/81e8bc55a785a4245e45e7ca6d406c52a39ed3ab))
+
+
+### Chores
+
+* reset back to generated code ([36523e5](https://github.com/OneBusAway/kotlin-sdk/commit/36523e5aee5c3d13d56eaea9dff8b7325a67757b))
+
 ## 0.1.0-alpha.49 (2024-12-27)
 
 Full Changelog: [v0.1.0-alpha.48...v0.1.0-alpha.49](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.48...v0.1.0-alpha.49)

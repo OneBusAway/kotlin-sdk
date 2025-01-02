@@ -4,26 +4,31 @@ package org.onebusaway.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import java.util.Objects
 import org.onebusaway.core.ExcludeMissing
 import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonMissing
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.NoAutoDetect
+import org.onebusaway.core.immutableEmptyMap
 import org.onebusaway.core.toImmutable
 
-@JsonDeserialize(builder = BlockRetrieveResponse.Builder::class)
 @NoAutoDetect
 class BlockRetrieveResponse
+@JsonCreator
 private constructor(
-    private val code: JsonField<Long>,
-    private val currentTime: JsonField<Long>,
-    private val text: JsonField<String>,
-    private val version: JsonField<Long>,
-    private val data: JsonField<Data>,
-    private val additionalProperties: Map<String, JsonValue>,
+    @JsonProperty("code") @ExcludeMissing private val code: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("currentTime")
+    @ExcludeMissing
+    private val currentTime: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("text") @ExcludeMissing private val text: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("version")
+    @ExcludeMissing
+    private val version: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("data") @ExcludeMissing private val data: JsonField<Data> = JsonMissing.of(),
+    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
     fun code(): Long = code.getRequired("code")
@@ -98,32 +103,22 @@ private constructor(
 
         fun code(code: Long) = code(JsonField.of(code))
 
-        @JsonProperty("code")
-        @ExcludeMissing
         fun code(code: JsonField<Long>) = apply { this.code = code }
 
         fun currentTime(currentTime: Long) = currentTime(JsonField.of(currentTime))
 
-        @JsonProperty("currentTime")
-        @ExcludeMissing
         fun currentTime(currentTime: JsonField<Long>) = apply { this.currentTime = currentTime }
 
         fun text(text: String) = text(JsonField.of(text))
 
-        @JsonProperty("text")
-        @ExcludeMissing
         fun text(text: JsonField<String>) = apply { this.text = text }
 
         fun version(version: Long) = version(JsonField.of(version))
 
-        @JsonProperty("version")
-        @ExcludeMissing
         fun version(version: JsonField<Long>) = apply { this.version = version }
 
         fun data(data: Data) = data(JsonField.of(data))
 
-        @JsonProperty("data")
-        @ExcludeMissing
         fun data(data: JsonField<Data>) = apply { this.data = data }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -131,7 +126,6 @@ private constructor(
             putAllAdditionalProperties(additionalProperties)
         }
 
-        @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             additionalProperties.put(key, value)
         }
@@ -157,13 +151,18 @@ private constructor(
             )
     }
 
-    @JsonDeserialize(builder = Data.Builder::class)
     @NoAutoDetect
     class Data
+    @JsonCreator
     private constructor(
-        private val entry: JsonField<Entry>,
-        private val references: JsonField<References>,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("entry")
+        @ExcludeMissing
+        private val entry: JsonField<Entry> = JsonMissing.of(),
+        @JsonProperty("references")
+        @ExcludeMissing
+        private val references: JsonField<References> = JsonMissing.of(),
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         fun entry(): Entry = entry.getRequired("entry")
@@ -209,14 +208,10 @@ private constructor(
 
             fun entry(entry: Entry) = entry(JsonField.of(entry))
 
-            @JsonProperty("entry")
-            @ExcludeMissing
             fun entry(entry: JsonField<Entry>) = apply { this.entry = entry }
 
             fun references(references: References) = references(JsonField.of(references))
 
-            @JsonProperty("references")
-            @ExcludeMissing
             fun references(references: JsonField<References>) = apply {
                 this.references = references
             }
@@ -226,7 +221,6 @@ private constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }
@@ -249,13 +243,18 @@ private constructor(
                 )
         }
 
-        @JsonDeserialize(builder = Entry.Builder::class)
         @NoAutoDetect
         class Entry
+        @JsonCreator
         private constructor(
-            private val id: JsonField<String>,
-            private val configurations: JsonField<List<Configuration>>,
-            private val additionalProperties: Map<String, JsonValue>,
+            @JsonProperty("id")
+            @ExcludeMissing
+            private val id: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("configurations")
+            @ExcludeMissing
+            private val configurations: JsonField<List<Configuration>> = JsonMissing.of(),
+            @JsonAnySetter
+            private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
         ) {
 
             fun id(): String = id.getRequired("id")
@@ -301,15 +300,11 @@ private constructor(
 
                 fun id(id: String) = id(JsonField.of(id))
 
-                @JsonProperty("id")
-                @ExcludeMissing
                 fun id(id: JsonField<String>) = apply { this.id = id }
 
                 fun configurations(configurations: List<Configuration>) =
                     configurations(JsonField.of(configurations))
 
-                @JsonProperty("configurations")
-                @ExcludeMissing
                 fun configurations(configurations: JsonField<List<Configuration>>) = apply {
                     this.configurations = configurations
                 }
@@ -319,7 +314,6 @@ private constructor(
                     putAllAdditionalProperties(additionalProperties)
                 }
 
-                @JsonAnySetter
                 fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                     additionalProperties.put(key, value)
                 }
@@ -345,14 +339,21 @@ private constructor(
                     )
             }
 
-            @JsonDeserialize(builder = Configuration.Builder::class)
             @NoAutoDetect
             class Configuration
+            @JsonCreator
             private constructor(
-                private val activeServiceIds: JsonField<List<String>>,
-                private val inactiveServiceIds: JsonField<List<String>>,
-                private val trips: JsonField<List<Trip>>,
-                private val additionalProperties: Map<String, JsonValue>,
+                @JsonProperty("activeServiceIds")
+                @ExcludeMissing
+                private val activeServiceIds: JsonField<List<String>> = JsonMissing.of(),
+                @JsonProperty("inactiveServiceIds")
+                @ExcludeMissing
+                private val inactiveServiceIds: JsonField<List<String>> = JsonMissing.of(),
+                @JsonProperty("trips")
+                @ExcludeMissing
+                private val trips: JsonField<List<Trip>> = JsonMissing.of(),
+                @JsonAnySetter
+                private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
             ) {
 
                 fun activeServiceIds(): List<String> =
@@ -412,8 +413,6 @@ private constructor(
                     fun activeServiceIds(activeServiceIds: List<String>) =
                         activeServiceIds(JsonField.of(activeServiceIds))
 
-                    @JsonProperty("activeServiceIds")
-                    @ExcludeMissing
                     fun activeServiceIds(activeServiceIds: JsonField<List<String>>) = apply {
                         this.activeServiceIds = activeServiceIds
                     }
@@ -421,16 +420,12 @@ private constructor(
                     fun inactiveServiceIds(inactiveServiceIds: List<String>) =
                         inactiveServiceIds(JsonField.of(inactiveServiceIds))
 
-                    @JsonProperty("inactiveServiceIds")
-                    @ExcludeMissing
                     fun inactiveServiceIds(inactiveServiceIds: JsonField<List<String>>) = apply {
                         this.inactiveServiceIds = inactiveServiceIds
                     }
 
                     fun trips(trips: List<Trip>) = trips(JsonField.of(trips))
 
-                    @JsonProperty("trips")
-                    @ExcludeMissing
                     fun trips(trips: JsonField<List<Trip>>) = apply { this.trips = trips }
 
                     fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -438,7 +433,6 @@ private constructor(
                         putAllAdditionalProperties(additionalProperties)
                     }
 
-                    @JsonAnySetter
                     fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                         additionalProperties.put(key, value)
                     }
@@ -465,15 +459,24 @@ private constructor(
                         )
                 }
 
-                @JsonDeserialize(builder = Trip.Builder::class)
                 @NoAutoDetect
                 class Trip
+                @JsonCreator
                 private constructor(
-                    private val tripId: JsonField<String>,
-                    private val distanceAlongBlock: JsonField<Double>,
-                    private val accumulatedSlackTime: JsonField<Double>,
-                    private val blockStopTimes: JsonField<List<BlockStopTime>>,
-                    private val additionalProperties: Map<String, JsonValue>,
+                    @JsonProperty("tripId")
+                    @ExcludeMissing
+                    private val tripId: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("distanceAlongBlock")
+                    @ExcludeMissing
+                    private val distanceAlongBlock: JsonField<Double> = JsonMissing.of(),
+                    @JsonProperty("accumulatedSlackTime")
+                    @ExcludeMissing
+                    private val accumulatedSlackTime: JsonField<Double> = JsonMissing.of(),
+                    @JsonProperty("blockStopTimes")
+                    @ExcludeMissing
+                    private val blockStopTimes: JsonField<List<BlockStopTime>> = JsonMissing.of(),
+                    @JsonAnySetter
+                    private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
                 ) {
 
                     fun tripId(): String = tripId.getRequired("tripId")
@@ -544,15 +547,11 @@ private constructor(
 
                         fun tripId(tripId: String) = tripId(JsonField.of(tripId))
 
-                        @JsonProperty("tripId")
-                        @ExcludeMissing
                         fun tripId(tripId: JsonField<String>) = apply { this.tripId = tripId }
 
                         fun distanceAlongBlock(distanceAlongBlock: Double) =
                             distanceAlongBlock(JsonField.of(distanceAlongBlock))
 
-                        @JsonProperty("distanceAlongBlock")
-                        @ExcludeMissing
                         fun distanceAlongBlock(distanceAlongBlock: JsonField<Double>) = apply {
                             this.distanceAlongBlock = distanceAlongBlock
                         }
@@ -560,8 +559,6 @@ private constructor(
                         fun accumulatedSlackTime(accumulatedSlackTime: Double) =
                             accumulatedSlackTime(JsonField.of(accumulatedSlackTime))
 
-                        @JsonProperty("accumulatedSlackTime")
-                        @ExcludeMissing
                         fun accumulatedSlackTime(accumulatedSlackTime: JsonField<Double>) = apply {
                             this.accumulatedSlackTime = accumulatedSlackTime
                         }
@@ -569,8 +566,6 @@ private constructor(
                         fun blockStopTimes(blockStopTimes: List<BlockStopTime>) =
                             blockStopTimes(JsonField.of(blockStopTimes))
 
-                        @JsonProperty("blockStopTimes")
-                        @ExcludeMissing
                         fun blockStopTimes(blockStopTimes: JsonField<List<BlockStopTime>>) = apply {
                             this.blockStopTimes = blockStopTimes
                         }
@@ -581,7 +576,6 @@ private constructor(
                                 putAllAdditionalProperties(additionalProperties)
                             }
 
-                        @JsonAnySetter
                         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                             additionalProperties.put(key, value)
                         }
@@ -608,15 +602,25 @@ private constructor(
                             )
                     }
 
-                    @JsonDeserialize(builder = BlockStopTime.Builder::class)
                     @NoAutoDetect
                     class BlockStopTime
+                    @JsonCreator
                     private constructor(
-                        private val blockSequence: JsonField<Long>,
-                        private val distanceAlongBlock: JsonField<Double>,
-                        private val accumulatedSlackTime: JsonField<Double>,
-                        private val stopTime: JsonField<StopTime>,
-                        private val additionalProperties: Map<String, JsonValue>,
+                        @JsonProperty("blockSequence")
+                        @ExcludeMissing
+                        private val blockSequence: JsonField<Long> = JsonMissing.of(),
+                        @JsonProperty("distanceAlongBlock")
+                        @ExcludeMissing
+                        private val distanceAlongBlock: JsonField<Double> = JsonMissing.of(),
+                        @JsonProperty("accumulatedSlackTime")
+                        @ExcludeMissing
+                        private val accumulatedSlackTime: JsonField<Double> = JsonMissing.of(),
+                        @JsonProperty("stopTime")
+                        @ExcludeMissing
+                        private val stopTime: JsonField<StopTime> = JsonMissing.of(),
+                        @JsonAnySetter
+                        private val additionalProperties: Map<String, JsonValue> =
+                            immutableEmptyMap(),
                     ) {
 
                         fun blockSequence(): Long = blockSequence.getRequired("blockSequence")
@@ -687,8 +691,6 @@ private constructor(
                             fun blockSequence(blockSequence: Long) =
                                 blockSequence(JsonField.of(blockSequence))
 
-                            @JsonProperty("blockSequence")
-                            @ExcludeMissing
                             fun blockSequence(blockSequence: JsonField<Long>) = apply {
                                 this.blockSequence = blockSequence
                             }
@@ -696,8 +698,6 @@ private constructor(
                             fun distanceAlongBlock(distanceAlongBlock: Double) =
                                 distanceAlongBlock(JsonField.of(distanceAlongBlock))
 
-                            @JsonProperty("distanceAlongBlock")
-                            @ExcludeMissing
                             fun distanceAlongBlock(distanceAlongBlock: JsonField<Double>) = apply {
                                 this.distanceAlongBlock = distanceAlongBlock
                             }
@@ -705,8 +705,6 @@ private constructor(
                             fun accumulatedSlackTime(accumulatedSlackTime: Double) =
                                 accumulatedSlackTime(JsonField.of(accumulatedSlackTime))
 
-                            @JsonProperty("accumulatedSlackTime")
-                            @ExcludeMissing
                             fun accumulatedSlackTime(accumulatedSlackTime: JsonField<Double>) =
                                 apply {
                                     this.accumulatedSlackTime = accumulatedSlackTime
@@ -714,8 +712,6 @@ private constructor(
 
                             fun stopTime(stopTime: StopTime) = stopTime(JsonField.of(stopTime))
 
-                            @JsonProperty("stopTime")
-                            @ExcludeMissing
                             fun stopTime(stopTime: JsonField<StopTime>) = apply {
                                 this.stopTime = stopTime
                             }
@@ -726,7 +722,6 @@ private constructor(
                                     putAllAdditionalProperties(additionalProperties)
                                 }
 
-                            @JsonAnySetter
                             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                                 additionalProperties.put(key, value)
                             }
@@ -753,16 +748,28 @@ private constructor(
                                 )
                         }
 
-                        @JsonDeserialize(builder = StopTime.Builder::class)
                         @NoAutoDetect
                         class StopTime
+                        @JsonCreator
                         private constructor(
-                            private val stopId: JsonField<String>,
-                            private val arrivalTime: JsonField<Long>,
-                            private val departureTime: JsonField<Long>,
-                            private val pickupType: JsonField<Long>,
-                            private val dropOffType: JsonField<Long>,
-                            private val additionalProperties: Map<String, JsonValue>,
+                            @JsonProperty("stopId")
+                            @ExcludeMissing
+                            private val stopId: JsonField<String> = JsonMissing.of(),
+                            @JsonProperty("arrivalTime")
+                            @ExcludeMissing
+                            private val arrivalTime: JsonField<Long> = JsonMissing.of(),
+                            @JsonProperty("departureTime")
+                            @ExcludeMissing
+                            private val departureTime: JsonField<Long> = JsonMissing.of(),
+                            @JsonProperty("pickupType")
+                            @ExcludeMissing
+                            private val pickupType: JsonField<Long> = JsonMissing.of(),
+                            @JsonProperty("dropOffType")
+                            @ExcludeMissing
+                            private val dropOffType: JsonField<Long> = JsonMissing.of(),
+                            @JsonAnySetter
+                            private val additionalProperties: Map<String, JsonValue> =
+                                immutableEmptyMap(),
                         ) {
 
                             fun stopId(): String = stopId.getRequired("stopId")
@@ -840,8 +847,6 @@ private constructor(
 
                                 fun stopId(stopId: String) = stopId(JsonField.of(stopId))
 
-                                @JsonProperty("stopId")
-                                @ExcludeMissing
                                 fun stopId(stopId: JsonField<String>) = apply {
                                     this.stopId = stopId
                                 }
@@ -849,8 +854,6 @@ private constructor(
                                 fun arrivalTime(arrivalTime: Long) =
                                     arrivalTime(JsonField.of(arrivalTime))
 
-                                @JsonProperty("arrivalTime")
-                                @ExcludeMissing
                                 fun arrivalTime(arrivalTime: JsonField<Long>) = apply {
                                     this.arrivalTime = arrivalTime
                                 }
@@ -858,8 +861,6 @@ private constructor(
                                 fun departureTime(departureTime: Long) =
                                     departureTime(JsonField.of(departureTime))
 
-                                @JsonProperty("departureTime")
-                                @ExcludeMissing
                                 fun departureTime(departureTime: JsonField<Long>) = apply {
                                     this.departureTime = departureTime
                                 }
@@ -867,8 +868,6 @@ private constructor(
                                 fun pickupType(pickupType: Long) =
                                     pickupType(JsonField.of(pickupType))
 
-                                @JsonProperty("pickupType")
-                                @ExcludeMissing
                                 fun pickupType(pickupType: JsonField<Long>) = apply {
                                     this.pickupType = pickupType
                                 }
@@ -876,8 +875,6 @@ private constructor(
                                 fun dropOffType(dropOffType: Long) =
                                     dropOffType(JsonField.of(dropOffType))
 
-                                @JsonProperty("dropOffType")
-                                @ExcludeMissing
                                 fun dropOffType(dropOffType: JsonField<Long>) = apply {
                                     this.dropOffType = dropOffType
                                 }
@@ -889,7 +886,6 @@ private constructor(
                                     putAllAdditionalProperties(additionalProperties)
                                 }
 
-                                @JsonAnySetter
                                 fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                                     additionalProperties.put(key, value)
                                 }
