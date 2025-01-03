@@ -21,10 +21,13 @@ constructor(
 
     fun stopId(): String = stopId
 
+    /** Include vehicles arriving or departing in the next n minutes. */
     fun minutesAfter(): Long? = minutesAfter
 
+    /** Include vehicles having arrived or departed in the previous n minutes. */
     fun minutesBefore(): Long? = minutesBefore
 
+    /** The specific time for querying the system status. */
     fun time(): OffsetDateTime? = time
 
     fun _additionalHeaders(): Headers = additionalHeaders
