@@ -25,14 +25,19 @@ constructor(
 
     fun stopId(): String = stopId
 
+    /** A string code identifying the nature of the problem */
     fun code(): Code? = code
 
+    /** Additional comment text supplied by the user describing the problem */
     fun userComment(): String? = userComment
 
+    /** The reporting user’s current latitude */
     fun userLat(): Double? = userLat
 
+    /** The reporting user’s location accuracy, in meters */
     fun userLocationAccuracy(): Double? = userLocationAccuracy
 
+    /** The reporting user’s current longitude */
     fun userLon(): Double? = userLon
 
     fun _additionalHeaders(): Headers = additionalHeaders

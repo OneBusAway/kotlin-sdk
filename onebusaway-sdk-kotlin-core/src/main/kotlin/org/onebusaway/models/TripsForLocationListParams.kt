@@ -20,18 +20,25 @@ constructor(
     private val additionalQueryParams: QueryParams,
 ) {
 
+    /** The latitude coordinate of the search center */
     fun lat(): Double = lat
 
+    /** Latitude span of the search bounding box */
     fun latSpan(): Double = latSpan
 
+    /** The longitude coordinate of the search center */
     fun lon(): Double = lon
 
+    /** Longitude span of the search bounding box */
     fun lonSpan(): Double = lonSpan
 
+    /** Whether to include full schedule elements in the tripDetails section. Defaults to false. */
     fun includeSchedule(): Boolean? = includeSchedule
 
+    /** Whether to include full trip elements in the references section. Defaults to false. */
     fun includeTrip(): Boolean? = includeTrip
 
+    /** Specific time for the query. Defaults to the current time. */
     fun time(): Long? = time
 
     fun _additionalHeaders(): Headers = additionalHeaders

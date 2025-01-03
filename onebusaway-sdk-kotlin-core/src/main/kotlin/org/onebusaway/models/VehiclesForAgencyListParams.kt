@@ -17,6 +17,7 @@ constructor(
 
     fun agencyId(): String = agencyId
 
+    /** Specific time for querying the status (timestamp format) */
     fun time(): String? = time
 
     fun _additionalHeaders(): Headers = additionalHeaders
