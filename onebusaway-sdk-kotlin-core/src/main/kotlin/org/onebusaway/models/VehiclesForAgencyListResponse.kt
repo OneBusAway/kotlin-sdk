@@ -698,7 +698,8 @@ private constructor(
                 private val serviceDate: JsonField<Long> = JsonMissing.of(),
                 @JsonProperty("situationIds")
                 @ExcludeMissing
-                private val situationIds: JsonField<kotlin.collections.List<String>> = JsonMissing.of(),
+                private val situationIds: JsonField<kotlin.collections.List<String>> =
+                    JsonMissing.of(),
                 @JsonProperty("status")
                 @ExcludeMissing
                 private val status: JsonField<String> = JsonMissing.of(),
