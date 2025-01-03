@@ -308,7 +308,8 @@ private constructor(
             private val routeIds: JsonField<kotlin.collections.List<String>> = JsonMissing.of(),
             @JsonProperty("staticRouteIds")
             @ExcludeMissing
-            private val staticRouteIds: JsonField<kotlin.collections.List<String>> = JsonMissing.of(),
+            private val staticRouteIds: JsonField<kotlin.collections.List<String>> =
+                JsonMissing.of(),
             @JsonProperty("wheelchairBoarding")
             @ExcludeMissing
             private val wheelchairBoarding: JsonField<String> = JsonMissing.of(),

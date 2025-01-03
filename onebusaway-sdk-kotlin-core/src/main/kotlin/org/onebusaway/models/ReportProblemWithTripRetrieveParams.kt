@@ -30,24 +30,34 @@ constructor(
 
     fun tripId(): String = tripId
 
+    /** A string code identifying the nature of the problem */
     fun code(): Code? = code
 
+    /** The service date of the trip */
     fun serviceDate(): Long? = serviceDate
 
+    /** A stop ID indicating where the user is experiencing the problem */
     fun stopId(): String? = stopId
 
+    /** Additional comment text supplied by the user describing the problem */
     fun userComment(): String? = userComment
 
+    /** The reporting user’s current latitude */
     fun userLat(): Double? = userLat
 
+    /** The reporting user’s location accuracy, in meters */
     fun userLocationAccuracy(): Double? = userLocationAccuracy
 
+    /** The reporting user’s current longitude */
     fun userLon(): Double? = userLon
 
+    /** Indicator if the user is on the transit vehicle experiencing the problem */
     fun userOnVehicle(): Boolean? = userOnVehicle
 
+    /** The vehicle number, as reported by the user */
     fun userVehicleNumber(): String? = userVehicleNumber
 
+    /** The vehicle actively serving the trip */
     fun vehicleId(): String? = vehicleId
 
     fun _additionalHeaders(): Headers = additionalHeaders

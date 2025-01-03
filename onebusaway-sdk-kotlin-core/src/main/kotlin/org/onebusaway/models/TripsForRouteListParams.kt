@@ -19,10 +19,16 @@ constructor(
 
     fun routeId(): String = routeId
 
+    /** Determine whether full schedule elements are included. Defaults to false. */
     fun includeSchedule(): Boolean? = includeSchedule
 
+    /**
+     * Determine whether full tripStatus elements with real-time information are included. Defaults
+     * to false.
+     */
     fun includeStatus(): Boolean? = includeStatus
 
+    /** Query the system at a specific time. Useful for testing. */
     fun time(): Long? = time
 
     fun _additionalHeaders(): Headers = additionalHeaders

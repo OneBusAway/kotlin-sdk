@@ -435,7 +435,8 @@ private constructor(
                 private val previousTripId: JsonField<String> = JsonMissing.of(),
                 @JsonProperty("stopTimes")
                 @ExcludeMissing
-                private val stopTimes: JsonField<kotlin.collections.List<StopTime>> = JsonMissing.of(),
+                private val stopTimes: JsonField<kotlin.collections.List<StopTime>> =
+                    JsonMissing.of(),
                 @JsonProperty("timeZone")
                 @ExcludeMissing
                 private val timeZone: JsonField<String> = JsonMissing.of(),
@@ -859,7 +860,8 @@ private constructor(
                 private val serviceDate: JsonField<Long> = JsonMissing.of(),
                 @JsonProperty("situationIds")
                 @ExcludeMissing
-                private val situationIds: JsonField<kotlin.collections.List<String>> = JsonMissing.of(),
+                private val situationIds: JsonField<kotlin.collections.List<String>> =
+                    JsonMissing.of(),
                 @JsonProperty("status")
                 @ExcludeMissing
                 private val status: JsonField<String> = JsonMissing.of(),
