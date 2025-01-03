@@ -21,14 +21,21 @@ constructor(
 
     fun tripId(): String = tripId
 
+    /**
+     * Whether to include the full schedule element in the tripDetails section (defaults to true).
+     */
     fun includeSchedule(): Boolean? = includeSchedule
 
+    /** Whether to include the full status element in the tripDetails section (defaults to true). */
     fun includeStatus(): Boolean? = includeStatus
 
+    /** Whether to include the full trip element in the references section (defaults to true). */
     fun includeTrip(): Boolean? = includeTrip
 
+    /** Service date for the trip as Unix time in milliseconds (optional). */
     fun serviceDate(): Long? = serviceDate
 
+    /** Time parameter to query the system at a specific time (optional). */
     fun time(): Long? = time
 
     fun _additionalHeaders(): Headers = additionalHeaders

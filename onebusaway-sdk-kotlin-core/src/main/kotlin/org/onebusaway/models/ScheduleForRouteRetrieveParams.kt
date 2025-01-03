@@ -18,6 +18,10 @@ constructor(
 
     fun routeId(): String = routeId
 
+    /**
+     * The date for which you want to request a schedule in the format YYYY-MM-DD (optional,
+     * defaults to current date)
+     */
     fun date(): LocalDate? = date
 
     fun _additionalHeaders(): Headers = additionalHeaders

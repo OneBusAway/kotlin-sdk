@@ -20,12 +20,25 @@ constructor(
 
     fun vehicleId(): String = vehicleId
 
+    /**
+     * Determines whether full <schedule/> element is included in the <tripDetails/> section.
+     * Defaults to false.
+     */
     fun includeSchedule(): Boolean? = includeSchedule
 
+    /**
+     * Determines whether the full <status/> element is included in the <tripDetails/> section.
+     * Defaults to true.
+     */
     fun includeStatus(): Boolean? = includeStatus
 
+    /**
+     * Determines whether full <trip/> element is included in the <references/> section. Defaults to
+     * false.
+     */
     fun includeTrip(): Boolean? = includeTrip
 
+    /** Time parameter to query the system at a specific time (optional). */
     fun time(): Long? = time
 
     fun _additionalHeaders(): Headers = additionalHeaders

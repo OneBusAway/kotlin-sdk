@@ -23,12 +23,16 @@ constructor(
 
     fun lon(): Double = lon
 
+    /** An alternative to radius to set the search bounding box (optional) */
     fun latSpan(): Double? = latSpan
 
+    /** An alternative to radius to set the search bounding box (optional) */
     fun lonSpan(): Double? = lonSpan
 
+    /** A search query string to filter the results */
     fun query(): String? = query
 
+    /** The radius in meters to search within */
     fun radius(): Double? = radius
 
     fun _additionalHeaders(): Headers = additionalHeaders
