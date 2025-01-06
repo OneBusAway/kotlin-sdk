@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.57 (2025-01-06)
+
+Full Changelog: [v0.1.0-alpha.56...v0.1.0-alpha.57](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.56...v0.1.0-alpha.57)
+
+### Bug Fixes
+
+* revert to sonatype portal release flow ([ae3856b](https://github.com/OneBusAway/kotlin-sdk/commit/ae3856be69f4dd89f1aa7e43b62e224d81840214))
+
 ## 0.1.0-alpha.56 (2025-01-03)
 
 Full Changelog: [v0.1.0-alpha.55...v0.1.0-alpha.56](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.55...v0.1.0-alpha.56)
