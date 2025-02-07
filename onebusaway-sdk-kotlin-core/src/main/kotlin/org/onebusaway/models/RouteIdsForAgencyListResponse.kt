@@ -12,6 +12,7 @@ import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonMissing
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.NoAutoDetect
+import org.onebusaway.core.checkRequired
 import org.onebusaway.core.immutableEmptyMap
 import org.onebusaway.core.toImmutable
 
@@ -41,15 +42,15 @@ private constructor(
 
     fun data(): Data = data.getRequired("data")
 
-    @JsonProperty("code") @ExcludeMissing fun _code() = code
+    @JsonProperty("code") @ExcludeMissing fun _code(): JsonField<Long> = code
 
-    @JsonProperty("currentTime") @ExcludeMissing fun _currentTime() = currentTime
+    @JsonProperty("currentTime") @ExcludeMissing fun _currentTime(): JsonField<Long> = currentTime
 
-    @JsonProperty("text") @ExcludeMissing fun _text() = text
+    @JsonProperty("text") @ExcludeMissing fun _text(): JsonField<String> = text
 
-    @JsonProperty("version") @ExcludeMissing fun _version() = version
+    @JsonProperty("version") @ExcludeMissing fun _version(): JsonField<Long> = version
 
-    @JsonProperty("data") @ExcludeMissing fun _data() = data
+    @JsonProperty("data") @ExcludeMissing fun _data(): JsonField<Data> = data
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -66,14 +67,16 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): RouteIdsForAgencyListResponse = apply {
-        if (!validated) {
-            code()
-            currentTime()
-            text()
-            version()
-            data().validate()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        code()
+        currentTime()
+        text()
+        version()
+        data().validate()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)
@@ -83,13 +86,14 @@ private constructor(
         fun builder() = Builder()
     }
 
-    class Builder {
+    /** A builder for [RouteIdsForAgencyListResponse]. */
+    class Builder internal constructor() {
 
-        private var code: JsonField<Long> = JsonMissing.of()
-        private var currentTime: JsonField<Long> = JsonMissing.of()
-        private var text: JsonField<String> = JsonMissing.of()
-        private var version: JsonField<Long> = JsonMissing.of()
-        private var data: JsonField<Data> = JsonMissing.of()
+        private var code: JsonField<Long>? = null
+        private var currentTime: JsonField<Long>? = null
+        private var text: JsonField<String>? = null
+        private var version: JsonField<Long>? = null
+        private var data: JsonField<Data>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         internal fun from(routeIdsForAgencyListResponse: RouteIdsForAgencyListResponse) = apply {
@@ -142,11 +146,11 @@ private constructor(
 
         fun build(): RouteIdsForAgencyListResponse =
             RouteIdsForAgencyListResponse(
-                code,
-                currentTime,
-                text,
-                version,
-                data,
+                checkRequired("code", code),
+                checkRequired("currentTime", currentTime),
+                checkRequired("text", text),
+                checkRequired("version", version),
+                checkRequired("data", data),
                 additionalProperties.toImmutable(),
             )
     }
@@ -174,11 +178,15 @@ private constructor(
 
         fun references(): References = references.getRequired("references")
 
-        @JsonProperty("limitExceeded") @ExcludeMissing fun _limitExceeded() = limitExceeded
+        @JsonProperty("limitExceeded")
+        @ExcludeMissing
+        fun _limitExceeded(): JsonField<Boolean> = limitExceeded
 
-        @JsonProperty("list") @ExcludeMissing fun _list() = list
+        @JsonProperty("list") @ExcludeMissing fun _list(): JsonField<List<String>> = list
 
-        @JsonProperty("references") @ExcludeMissing fun _references() = references
+        @JsonProperty("references")
+        @ExcludeMissing
+        fun _references(): JsonField<References> = references
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -187,12 +195,14 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): Data = apply {
-            if (!validated) {
-                limitExceeded()
-                list()
-                references().validate()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            limitExceeded()
+            list()
+            references().validate()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)
@@ -202,16 +212,17 @@ private constructor(
             fun builder() = Builder()
         }
 
-        class Builder {
+        /** A builder for [Data]. */
+        class Builder internal constructor() {
 
-            private var limitExceeded: JsonField<Boolean> = JsonMissing.of()
-            private var list: JsonField<List<String>> = JsonMissing.of()
-            private var references: JsonField<References> = JsonMissing.of()
+            private var limitExceeded: JsonField<Boolean>? = null
+            private var list: JsonField<MutableList<String>>? = null
+            private var references: JsonField<References>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             internal fun from(data: Data) = apply {
                 limitExceeded = data.limitExceeded
-                list = data.list
+                list = data.list.map { it.toMutableList() }
                 references = data.references
                 additionalProperties = data.additionalProperties.toMutableMap()
             }
@@ -224,7 +235,20 @@ private constructor(
 
             fun list(list: List<String>) = list(JsonField.of(list))
 
-            fun list(list: JsonField<List<String>>) = apply { this.list = list }
+            fun list(list: JsonField<List<String>>) = apply {
+                this.list = list.map { it.toMutableList() }
+            }
+
+            fun addList(list: String) = apply {
+                this.list =
+                    (this.list ?: JsonField.of(mutableListOf())).apply {
+                        (asKnown()
+                                ?: throw IllegalStateException(
+                                    "Field was set to non-list type: ${javaClass.simpleName}"
+                                ))
+                            .add(list)
+                    }
+            }
 
             fun references(references: References) = references(JsonField.of(references))
 
@@ -253,9 +277,9 @@ private constructor(
 
             fun build(): Data =
                 Data(
-                    limitExceeded,
-                    list.map { it.toImmutable() },
-                    references,
+                    checkRequired("limitExceeded", limitExceeded),
+                    checkRequired("list", list).map { it.toImmutable() },
+                    checkRequired("references", references),
                     additionalProperties.toImmutable(),
                 )
         }

@@ -1,30 +1,30 @@
 # Onebusaway SDK Kotlin API Library
 
-The Onebusaway SDK Kotlin SDK provides convenient access to the Onebusaway SDK REST API from applications written in Kotlin. It includes helper classes with helpful types and documentation for every request and response property.
+<!-- x-release-please-start-version -->
+
+[![Maven Central](https://img.shields.io/maven-central/v/org.onebusaway/onebusaway-sdk-kotlin)](https://central.sonatype.com/artifact/org.onebusaway/onebusaway-sdk-kotlin/0.1.0-alpha.57)
+
+<!-- x-release-please-end -->
+
+The Onebusaway SDK Kotlin SDK provides convenient access to the Onebusaway SDK REST API from applications written in Kotlin.
 
 The Onebusaway SDK Kotlin SDK is similar to the Onebusaway SDK Java SDK but with minor differences that make it more ergonomic for use in Kotlin, such as nullable values instead of `Optional`, `Sequence` instead of `Stream`, and suspend functions instead of `CompletableFuture`.
 
 It is generated with [Stainless](https://www.stainlessapi.com/).
 
-## Documentation
+The REST API documentation can be found on [developer.onebusaway.org](https://developer.onebusaway.org).
 
-The REST API documentation can be found on [developer.onebusaway.org](https://developer.onebusaway.org).
-
----
-
-## Getting started
-
-### Install dependencies
-
-#### Gradle
+## Installation
 
 <!-- x-release-please-start-version -->
+
+### Gradle
 
 ```kotlin
 implementation("org.onebusaway:onebusaway-sdk-kotlin:0.1.0-alpha.57")
 ```
 
-#### Maven
+### Maven
 
 ```xml
 <dependency>
@@ -35,6 +35,12 @@ implementation("org.onebusaway:onebusaway-sdk-kotlin:0.1.0-alpha.57")
 ```
 
 <!-- x-release-please-end -->
+
+## Requirements
+
+This library requires Java 8 or later.
+
+## Usage
 
 ### Configure the client
 
@@ -92,19 +98,7 @@ val currentTime: CurrentTimeRetrieveResponse = client.currentTime().retrieve(par
 
 To make a request to the Onebusaway SDK API, you generally build an instance of the appropriate `Params` class.
 
-In [Example: creating a resource](#example-creating-a-resource) above, we used the `CurrentTimeRetrieveParams.builder()` to pass to the `retrieve` method of the `currentTime` service.
-
-Sometimes, the API may support other properties that are not yet supported in the Kotlin SDK types. In that case, you can attach them using the `putAdditionalProperty` method.
-
-```kotlin
-import org.onebusaway.core.JsonValue
-import org.onebusaway.models.CurrentTimeRetrieveParams
-
-val params: CurrentTimeRetrieveParams = CurrentTimeRetrieveParams.builder()
-    // ... normal properties
-    .putAdditionalProperty("secret_param", JsonValue.from("4242"))
-    .build()
-```
+See [Undocumented request params](#undocumented-request-params) for how to send arbitrary parameters.
 
 ## Responses
 
@@ -226,6 +220,33 @@ val client: OnebusawaySdkClient = OnebusawaySdkOkHttpClient.builder()
     .build()
 ```
 
+## Making custom/undocumented requests
+
+This library is typed for convenient access to the documented API. If you need to access undocumented params or response properties, the library can still be used.
+
+### Undocumented request params
+
+In [Example: creating a resource](#example-creating-a-resource) above, we used the `CurrentTimeRetrieveParams.builder()` to pass to the `retrieve` method of the `currentTime` service.
+
+Sometimes, the API may support other properties that are not yet supported in the Kotlin SDK types. In that case, you can attach them using raw setters:
+
+```kotlin
+import org.onebusaway.core.JsonValue
+import org.onebusaway.models.CurrentTimeRetrieveParams
+
+val params: CurrentTimeRetrieveParams = CurrentTimeRetrieveParams.builder()
+    .putAdditionalHeader("Secret-Header", "42")
+    .putAdditionalQueryParam("secret_query_param", "42")
+    .putAdditionalBodyProperty("secretProperty", JsonValue.from("42"))
+    .build()
+```
+
+You can also use the `putAdditionalProperty` method on nested headers, query params, or body objects.
+
+### Undocumented response properties
+
+To access undocumented response properties, you can use `res._additionalProperties()` on a response object to get a map of untyped fields of type `Map<String, JsonValue>`. You can then access fields like `res._additionalProperties().get("secret_prop").asString()` or use other helpers defined on the `JsonValue` class to extract it to a desired type.
+
 ## Logging
 
 We use the standard [OkHttp logging interceptor](https://github.com/square/okhttp/tree/master/okhttp-logging-interceptor).
@@ -246,13 +267,9 @@ $ export ONEBUSAWAY_SDK_LOG=debug
 
 This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) conventions, though certain backwards-incompatible changes may be released as minor versions:
 
-1. Changes to library internals which are technically public but not intended or documented for external use. _(Please open a GitHub issue to let us know if you are relying on such internals)_.
+1. Changes to library internals which are technically public but not intended or documented for external use. _(Please open a GitHub issue to let us know if you are relying on such internals.)_
 2. Changes that we do not expect to impact the vast majority of users in practice.
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
 We are keen for your feedback; please open an [issue](https://www.github.com/OneBusAway/kotlin-sdk/issues) with questions, bugs, or suggestions.
-
-## Requirements
-
-This library requires Java 8 or later.

@@ -35,7 +35,8 @@ private constructor(
         fun fromEnv(): ClientOptions = builder().fromEnv().build()
     }
 
-    class Builder {
+    /** A builder for [ClientOptions]. */
+    class Builder internal constructor() {
 
         private var httpClient: HttpClient? = null
         private var jsonMapper: JsonMapper = jsonMapper()
@@ -66,6 +67,14 @@ private constructor(
         fun clock(clock: Clock) = apply { this.clock = clock }
 
         fun baseUrl(baseUrl: String) = apply { this.baseUrl = baseUrl }
+
+        fun responseValidation(responseValidation: Boolean) = apply {
+            this.responseValidation = responseValidation
+        }
+
+        fun maxRetries(maxRetries: Int) = apply { this.maxRetries = maxRetries }
+
+        fun apiKey(apiKey: String) = apply { this.apiKey = apiKey }
 
         fun headers(headers: Headers) = apply {
             this.headers.clear()
@@ -147,19 +156,11 @@ private constructor(
 
         fun removeAllQueryParams(keys: Set<String>) = apply { queryParams.removeAll(keys) }
 
-        fun responseValidation(responseValidation: Boolean) = apply {
-            this.responseValidation = responseValidation
-        }
-
-        fun maxRetries(maxRetries: Int) = apply { this.maxRetries = maxRetries }
-
-        fun apiKey(apiKey: String) = apply { this.apiKey = apiKey }
-
         fun fromEnv() = apply { System.getenv("ONEBUSAWAY_API_KEY")?.let { apiKey(it) } }
 
         fun build(): ClientOptions {
-            checkNotNull(httpClient) { "`httpClient` is required but was not set" }
-            checkNotNull(apiKey) { "`apiKey` is required but was not set" }
+            val httpClient = checkRequired("httpClient", httpClient)
+            val apiKey = checkRequired("apiKey", apiKey)
 
             val headers = Headers.builder()
             val queryParams = QueryParams.builder()
@@ -170,7 +171,7 @@ private constructor(
             headers.put("X-Stainless-Package-Version", getPackageVersion())
             headers.put("X-Stainless-Runtime", "JRE")
             headers.put("X-Stainless-Runtime-Version", getJavaVersion())
-            apiKey?.let {
+            apiKey.let {
                 if (!it.isEmpty()) {
                     headers.put("key", it)
                 }
@@ -179,10 +180,10 @@ private constructor(
             queryParams.replaceAll(this.queryParams.build())
 
             return ClientOptions(
-                httpClient!!,
+                httpClient,
                 PhantomReachableClosingHttpClient(
                     RetryingHttpClient.builder()
-                        .httpClient(httpClient!!)
+                        .httpClient(httpClient)
                         .clock(clock)
                         .maxRetries(maxRetries)
                         .build()
@@ -194,7 +195,7 @@ private constructor(
                 queryParams.build(),
                 responseValidation,
                 maxRetries,
-                apiKey!!,
+                apiKey,
             )
         }
     }
