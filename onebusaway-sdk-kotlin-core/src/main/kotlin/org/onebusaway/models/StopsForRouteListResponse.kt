@@ -12,6 +12,7 @@ import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonMissing
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.NoAutoDetect
+import org.onebusaway.core.checkRequired
 import org.onebusaway.core.immutableEmptyMap
 import org.onebusaway.core.toImmutable
 
@@ -41,15 +42,15 @@ private constructor(
 
     fun data(): Data = data.getRequired("data")
 
-    @JsonProperty("code") @ExcludeMissing fun _code() = code
+    @JsonProperty("code") @ExcludeMissing fun _code(): JsonField<Long> = code
 
-    @JsonProperty("currentTime") @ExcludeMissing fun _currentTime() = currentTime
+    @JsonProperty("currentTime") @ExcludeMissing fun _currentTime(): JsonField<Long> = currentTime
 
-    @JsonProperty("text") @ExcludeMissing fun _text() = text
+    @JsonProperty("text") @ExcludeMissing fun _text(): JsonField<String> = text
 
-    @JsonProperty("version") @ExcludeMissing fun _version() = version
+    @JsonProperty("version") @ExcludeMissing fun _version(): JsonField<Long> = version
 
-    @JsonProperty("data") @ExcludeMissing fun _data() = data
+    @JsonProperty("data") @ExcludeMissing fun _data(): JsonField<Data> = data
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -66,14 +67,16 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): StopsForRouteListResponse = apply {
-        if (!validated) {
-            code()
-            currentTime()
-            text()
-            version()
-            data().validate()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        code()
+        currentTime()
+        text()
+        version()
+        data().validate()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)
@@ -83,13 +86,14 @@ private constructor(
         fun builder() = Builder()
     }
 
-    class Builder {
+    /** A builder for [StopsForRouteListResponse]. */
+    class Builder internal constructor() {
 
-        private var code: JsonField<Long> = JsonMissing.of()
-        private var currentTime: JsonField<Long> = JsonMissing.of()
-        private var text: JsonField<String> = JsonMissing.of()
-        private var version: JsonField<Long> = JsonMissing.of()
-        private var data: JsonField<Data> = JsonMissing.of()
+        private var code: JsonField<Long>? = null
+        private var currentTime: JsonField<Long>? = null
+        private var text: JsonField<String>? = null
+        private var version: JsonField<Long>? = null
+        private var data: JsonField<Data>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         internal fun from(stopsForRouteListResponse: StopsForRouteListResponse) = apply {
@@ -142,11 +146,11 @@ private constructor(
 
         fun build(): StopsForRouteListResponse =
             StopsForRouteListResponse(
-                code,
-                currentTime,
-                text,
-                version,
-                data,
+                checkRequired("code", code),
+                checkRequired("currentTime", currentTime),
+                checkRequired("text", text),
+                checkRequired("version", version),
+                checkRequired("data", data),
                 additionalProperties.toImmutable(),
             )
     }
@@ -169,9 +173,11 @@ private constructor(
 
         fun references(): References = references.getRequired("references")
 
-        @JsonProperty("entry") @ExcludeMissing fun _entry() = entry
+        @JsonProperty("entry") @ExcludeMissing fun _entry(): JsonField<Entry> = entry
 
-        @JsonProperty("references") @ExcludeMissing fun _references() = references
+        @JsonProperty("references")
+        @ExcludeMissing
+        fun _references(): JsonField<References> = references
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -180,11 +186,13 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): Data = apply {
-            if (!validated) {
-                entry().validate()
-                references().validate()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            entry().validate()
+            references().validate()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)
@@ -194,10 +202,11 @@ private constructor(
             fun builder() = Builder()
         }
 
-        class Builder {
+        /** A builder for [Data]. */
+        class Builder internal constructor() {
 
-            private var entry: JsonField<Entry> = JsonMissing.of()
-            private var references: JsonField<References> = JsonMissing.of()
+            private var entry: JsonField<Entry>? = null
+            private var references: JsonField<References>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             internal fun from(data: Data) = apply {
@@ -237,8 +246,8 @@ private constructor(
 
             fun build(): Data =
                 Data(
-                    entry,
-                    references,
+                    checkRequired("entry", entry),
+                    checkRequired("references", references),
                     additionalProperties.toImmutable(),
                 )
         }
@@ -271,13 +280,19 @@ private constructor(
 
             fun stopIds(): List<String>? = stopIds.getNullable("stopIds")
 
-            @JsonProperty("polylines") @ExcludeMissing fun _polylines() = polylines
+            @JsonProperty("polylines")
+            @ExcludeMissing
+            fun _polylines(): JsonField<List<Polyline>> = polylines
 
-            @JsonProperty("routeId") @ExcludeMissing fun _routeId() = routeId
+            @JsonProperty("routeId") @ExcludeMissing fun _routeId(): JsonField<String> = routeId
 
-            @JsonProperty("stopGroupings") @ExcludeMissing fun _stopGroupings() = stopGroupings
+            @JsonProperty("stopGroupings")
+            @ExcludeMissing
+            fun _stopGroupings(): JsonField<List<StopGrouping>> = stopGroupings
 
-            @JsonProperty("stopIds") @ExcludeMissing fun _stopIds() = stopIds
+            @JsonProperty("stopIds")
+            @ExcludeMissing
+            fun _stopIds(): JsonField<List<String>> = stopIds
 
             @JsonAnyGetter
             @ExcludeMissing
@@ -286,13 +301,15 @@ private constructor(
             private var validated: Boolean = false
 
             fun validate(): Entry = apply {
-                if (!validated) {
-                    polylines()?.forEach { it.validate() }
-                    routeId()
-                    stopGroupings()?.forEach { it.validate() }
-                    stopIds()
-                    validated = true
+                if (validated) {
+                    return@apply
                 }
+
+                polylines()?.forEach { it.validate() }
+                routeId()
+                stopGroupings()?.forEach { it.validate() }
+                stopIds()
+                validated = true
             }
 
             fun toBuilder() = Builder().from(this)
@@ -302,26 +319,38 @@ private constructor(
                 fun builder() = Builder()
             }
 
-            class Builder {
+            /** A builder for [Entry]. */
+            class Builder internal constructor() {
 
-                private var polylines: JsonField<List<Polyline>> = JsonMissing.of()
+                private var polylines: JsonField<MutableList<Polyline>>? = null
                 private var routeId: JsonField<String> = JsonMissing.of()
-                private var stopGroupings: JsonField<List<StopGrouping>> = JsonMissing.of()
-                private var stopIds: JsonField<List<String>> = JsonMissing.of()
+                private var stopGroupings: JsonField<MutableList<StopGrouping>>? = null
+                private var stopIds: JsonField<MutableList<String>>? = null
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 internal fun from(entry: Entry) = apply {
-                    polylines = entry.polylines
+                    polylines = entry.polylines.map { it.toMutableList() }
                     routeId = entry.routeId
-                    stopGroupings = entry.stopGroupings
-                    stopIds = entry.stopIds
+                    stopGroupings = entry.stopGroupings.map { it.toMutableList() }
+                    stopIds = entry.stopIds.map { it.toMutableList() }
                     additionalProperties = entry.additionalProperties.toMutableMap()
                 }
 
                 fun polylines(polylines: List<Polyline>) = polylines(JsonField.of(polylines))
 
                 fun polylines(polylines: JsonField<List<Polyline>>) = apply {
-                    this.polylines = polylines
+                    this.polylines = polylines.map { it.toMutableList() }
+                }
+
+                fun addPolyline(polyline: Polyline) = apply {
+                    polylines =
+                        (polylines ?: JsonField.of(mutableListOf())).apply {
+                            (asKnown()
+                                    ?: throw IllegalStateException(
+                                        "Field was set to non-list type: ${javaClass.simpleName}"
+                                    ))
+                                .add(polyline)
+                        }
                 }
 
                 fun routeId(routeId: String) = routeId(JsonField.of(routeId))
@@ -332,12 +361,36 @@ private constructor(
                     stopGroupings(JsonField.of(stopGroupings))
 
                 fun stopGroupings(stopGroupings: JsonField<List<StopGrouping>>) = apply {
-                    this.stopGroupings = stopGroupings
+                    this.stopGroupings = stopGroupings.map { it.toMutableList() }
+                }
+
+                fun addStopGrouping(stopGrouping: StopGrouping) = apply {
+                    stopGroupings =
+                        (stopGroupings ?: JsonField.of(mutableListOf())).apply {
+                            (asKnown()
+                                    ?: throw IllegalStateException(
+                                        "Field was set to non-list type: ${javaClass.simpleName}"
+                                    ))
+                                .add(stopGrouping)
+                        }
                 }
 
                 fun stopIds(stopIds: List<String>) = stopIds(JsonField.of(stopIds))
 
-                fun stopIds(stopIds: JsonField<List<String>>) = apply { this.stopIds = stopIds }
+                fun stopIds(stopIds: JsonField<List<String>>) = apply {
+                    this.stopIds = stopIds.map { it.toMutableList() }
+                }
+
+                fun addStopId(stopId: String) = apply {
+                    stopIds =
+                        (stopIds ?: JsonField.of(mutableListOf())).apply {
+                            (asKnown()
+                                    ?: throw IllegalStateException(
+                                        "Field was set to non-list type: ${javaClass.simpleName}"
+                                    ))
+                                .add(stopId)
+                        }
+                }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
@@ -363,10 +416,10 @@ private constructor(
 
                 fun build(): Entry =
                     Entry(
-                        polylines.map { it.toImmutable() },
+                        (polylines ?: JsonMissing.of()).map { it.toImmutable() },
                         routeId,
-                        stopGroupings.map { it.toImmutable() },
-                        stopIds.map { it.toImmutable() },
+                        (stopGroupings ?: JsonMissing.of()).map { it.toImmutable() },
+                        (stopIds ?: JsonMissing.of()).map { it.toImmutable() },
                         additionalProperties.toImmutable(),
                     )
             }
@@ -394,11 +447,11 @@ private constructor(
 
                 fun points(): String? = points.getNullable("points")
 
-                @JsonProperty("length") @ExcludeMissing fun _length() = length
+                @JsonProperty("length") @ExcludeMissing fun _length(): JsonField<Long> = length
 
-                @JsonProperty("levels") @ExcludeMissing fun _levels() = levels
+                @JsonProperty("levels") @ExcludeMissing fun _levels(): JsonField<String> = levels
 
-                @JsonProperty("points") @ExcludeMissing fun _points() = points
+                @JsonProperty("points") @ExcludeMissing fun _points(): JsonField<String> = points
 
                 @JsonAnyGetter
                 @ExcludeMissing
@@ -407,12 +460,14 @@ private constructor(
                 private var validated: Boolean = false
 
                 fun validate(): Polyline = apply {
-                    if (!validated) {
-                        length()
-                        levels()
-                        points()
-                        validated = true
+                    if (validated) {
+                        return@apply
                     }
+
+                    length()
+                    levels()
+                    points()
+                    validated = true
                 }
 
                 fun toBuilder() = Builder().from(this)
@@ -422,7 +477,8 @@ private constructor(
                     fun builder() = Builder()
                 }
 
-                class Builder {
+                /** A builder for [Polyline]. */
+                class Builder internal constructor() {
 
                     private var length: JsonField<Long> = JsonMissing.of()
                     private var levels: JsonField<String> = JsonMissing.of()
@@ -525,13 +581,17 @@ private constructor(
 
                 fun stopIds(): List<String>? = stopIds.getNullable("stopIds")
 
-                @JsonProperty("id") @ExcludeMissing fun _id() = id
+                @JsonProperty("id") @ExcludeMissing fun _id(): JsonField<String> = id
 
-                @JsonProperty("name") @ExcludeMissing fun _name() = name
+                @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<Name> = name
 
-                @JsonProperty("polylines") @ExcludeMissing fun _polylines() = polylines
+                @JsonProperty("polylines")
+                @ExcludeMissing
+                fun _polylines(): JsonField<List<Polyline>> = polylines
 
-                @JsonProperty("stopIds") @ExcludeMissing fun _stopIds() = stopIds
+                @JsonProperty("stopIds")
+                @ExcludeMissing
+                fun _stopIds(): JsonField<List<String>> = stopIds
 
                 @JsonAnyGetter
                 @ExcludeMissing
@@ -540,13 +600,15 @@ private constructor(
                 private var validated: Boolean = false
 
                 fun validate(): StopGrouping = apply {
-                    if (!validated) {
-                        id()
-                        name()?.validate()
-                        polylines()?.forEach { it.validate() }
-                        stopIds()
-                        validated = true
+                    if (validated) {
+                        return@apply
                     }
+
+                    id()
+                    name()?.validate()
+                    polylines()?.forEach { it.validate() }
+                    stopIds()
+                    validated = true
                 }
 
                 fun toBuilder() = Builder().from(this)
@@ -556,19 +618,20 @@ private constructor(
                     fun builder() = Builder()
                 }
 
-                class Builder {
+                /** A builder for [StopGrouping]. */
+                class Builder internal constructor() {
 
                     private var id: JsonField<String> = JsonMissing.of()
                     private var name: JsonField<Name> = JsonMissing.of()
-                    private var polylines: JsonField<List<Polyline>> = JsonMissing.of()
-                    private var stopIds: JsonField<List<String>> = JsonMissing.of()
+                    private var polylines: JsonField<MutableList<Polyline>>? = null
+                    private var stopIds: JsonField<MutableList<String>>? = null
                     private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                     internal fun from(stopGrouping: StopGrouping) = apply {
                         id = stopGrouping.id
                         name = stopGrouping.name
-                        polylines = stopGrouping.polylines
-                        stopIds = stopGrouping.stopIds
+                        polylines = stopGrouping.polylines.map { it.toMutableList() }
+                        stopIds = stopGrouping.stopIds.map { it.toMutableList() }
                         additionalProperties = stopGrouping.additionalProperties.toMutableMap()
                     }
 
@@ -583,12 +646,36 @@ private constructor(
                     fun polylines(polylines: List<Polyline>) = polylines(JsonField.of(polylines))
 
                     fun polylines(polylines: JsonField<List<Polyline>>) = apply {
-                        this.polylines = polylines
+                        this.polylines = polylines.map { it.toMutableList() }
+                    }
+
+                    fun addPolyline(polyline: Polyline) = apply {
+                        polylines =
+                            (polylines ?: JsonField.of(mutableListOf())).apply {
+                                (asKnown()
+                                        ?: throw IllegalStateException(
+                                            "Field was set to non-list type: ${javaClass.simpleName}"
+                                        ))
+                                    .add(polyline)
+                            }
                     }
 
                     fun stopIds(stopIds: List<String>) = stopIds(JsonField.of(stopIds))
 
-                    fun stopIds(stopIds: JsonField<List<String>>) = apply { this.stopIds = stopIds }
+                    fun stopIds(stopIds: JsonField<List<String>>) = apply {
+                        this.stopIds = stopIds.map { it.toMutableList() }
+                    }
+
+                    fun addStopId(stopId: String) = apply {
+                        stopIds =
+                            (stopIds ?: JsonField.of(mutableListOf())).apply {
+                                (asKnown()
+                                        ?: throw IllegalStateException(
+                                            "Field was set to non-list type: ${javaClass.simpleName}"
+                                        ))
+                                    .add(stopId)
+                            }
+                    }
 
                     fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                         this.additionalProperties.clear()
@@ -616,8 +703,8 @@ private constructor(
                         StopGrouping(
                             id,
                             name,
-                            polylines.map { it.toImmutable() },
-                            stopIds.map { it.toImmutable() },
+                            (polylines ?: JsonMissing.of()).map { it.toImmutable() },
+                            (stopIds ?: JsonMissing.of()).map { it.toImmutable() },
                             additionalProperties.toImmutable(),
                         )
                 }
@@ -645,11 +732,13 @@ private constructor(
 
                     fun type(): String? = type.getNullable("type")
 
-                    @JsonProperty("name") @ExcludeMissing fun _name() = name
+                    @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
 
-                    @JsonProperty("names") @ExcludeMissing fun _names() = names
+                    @JsonProperty("names")
+                    @ExcludeMissing
+                    fun _names(): JsonField<List<String>> = names
 
-                    @JsonProperty("type") @ExcludeMissing fun _type() = type
+                    @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<String> = type
 
                     @JsonAnyGetter
                     @ExcludeMissing
@@ -658,12 +747,14 @@ private constructor(
                     private var validated: Boolean = false
 
                     fun validate(): Name = apply {
-                        if (!validated) {
-                            name()
-                            names()
-                            type()
-                            validated = true
+                        if (validated) {
+                            return@apply
                         }
+
+                        name()
+                        names()
+                        type()
+                        validated = true
                     }
 
                     fun toBuilder() = Builder().from(this)
@@ -673,17 +764,18 @@ private constructor(
                         fun builder() = Builder()
                     }
 
-                    class Builder {
+                    /** A builder for [Name]. */
+                    class Builder internal constructor() {
 
                         private var name: JsonField<String> = JsonMissing.of()
-                        private var names: JsonField<List<String>> = JsonMissing.of()
+                        private var names: JsonField<MutableList<String>>? = null
                         private var type: JsonField<String> = JsonMissing.of()
                         private var additionalProperties: MutableMap<String, JsonValue> =
                             mutableMapOf()
 
                         internal fun from(name: Name) = apply {
                             this.name = name.name
-                            names = name.names
+                            names = name.names.map { it.toMutableList() }
                             type = name.type
                             additionalProperties = name.additionalProperties.toMutableMap()
                         }
@@ -694,7 +786,20 @@ private constructor(
 
                         fun names(names: List<String>) = names(JsonField.of(names))
 
-                        fun names(names: JsonField<List<String>>) = apply { this.names = names }
+                        fun names(names: JsonField<List<String>>) = apply {
+                            this.names = names.map { it.toMutableList() }
+                        }
+
+                        fun addName(name: String) = apply {
+                            names =
+                                (names ?: JsonField.of(mutableListOf())).apply {
+                                    (asKnown()
+                                            ?: throw IllegalStateException(
+                                                "Field was set to non-list type: ${javaClass.simpleName}"
+                                            ))
+                                        .add(name)
+                                }
+                        }
 
                         fun type(type: String) = type(JsonField.of(type))
 
@@ -725,7 +830,7 @@ private constructor(
                         fun build(): Name =
                             Name(
                                 name,
-                                names.map { it.toImmutable() },
+                                (names ?: JsonMissing.of()).map { it.toImmutable() },
                                 type,
                                 additionalProperties.toImmutable(),
                             )
@@ -772,11 +877,15 @@ private constructor(
 
                     fun points(): String? = points.getNullable("points")
 
-                    @JsonProperty("length") @ExcludeMissing fun _length() = length
+                    @JsonProperty("length") @ExcludeMissing fun _length(): JsonField<Long> = length
 
-                    @JsonProperty("levels") @ExcludeMissing fun _levels() = levels
+                    @JsonProperty("levels")
+                    @ExcludeMissing
+                    fun _levels(): JsonField<String> = levels
 
-                    @JsonProperty("points") @ExcludeMissing fun _points() = points
+                    @JsonProperty("points")
+                    @ExcludeMissing
+                    fun _points(): JsonField<String> = points
 
                     @JsonAnyGetter
                     @ExcludeMissing
@@ -785,12 +894,14 @@ private constructor(
                     private var validated: Boolean = false
 
                     fun validate(): Polyline = apply {
-                        if (!validated) {
-                            length()
-                            levels()
-                            points()
-                            validated = true
+                        if (validated) {
+                            return@apply
                         }
+
+                        length()
+                        levels()
+                        points()
+                        validated = true
                     }
 
                     fun toBuilder() = Builder().from(this)
@@ -800,7 +911,8 @@ private constructor(
                         fun builder() = Builder()
                     }
 
-                    class Builder {
+                    /** A builder for [Polyline]. */
+                    class Builder internal constructor() {
 
                         private var length: JsonField<Long> = JsonMissing.of()
                         private var levels: JsonField<String> = JsonMissing.of()

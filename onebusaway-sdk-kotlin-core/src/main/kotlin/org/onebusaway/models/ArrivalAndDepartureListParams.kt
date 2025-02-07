@@ -6,18 +6,21 @@ import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Objects
 import org.onebusaway.core.NoAutoDetect
+import org.onebusaway.core.Params
+import org.onebusaway.core.checkRequired
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.QueryParams
 
+/** arrivals-and-departures-for-stop */
 class ArrivalAndDepartureListParams
-constructor(
+private constructor(
     private val stopId: String,
     private val minutesAfter: Long?,
     private val minutesBefore: Long?,
     private val time: OffsetDateTime?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-) {
+) : Params {
 
     fun stopId(): String = stopId
 
@@ -34,9 +37,9 @@ constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    internal fun getHeaders(): Headers = additionalHeaders
+    override fun _headers(): Headers = additionalHeaders
 
-    internal fun getQueryParams(): QueryParams {
+    override fun _queryParams(): QueryParams {
         val queryParams = QueryParams.builder()
         this.minutesAfter?.let { queryParams.put("minutesAfter", listOf(it.toString())) }
         this.minutesBefore?.let { queryParams.put("minutesBefore", listOf(it.toString())) }
@@ -61,8 +64,9 @@ constructor(
         fun builder() = Builder()
     }
 
+    /** A builder for [ArrivalAndDepartureListParams]. */
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var stopId: String? = null
         private var minutesAfter: Long? = null
@@ -83,13 +87,19 @@ constructor(
         fun stopId(stopId: String) = apply { this.stopId = stopId }
 
         /** Include vehicles arriving or departing in the next n minutes. */
-        fun minutesAfter(minutesAfter: Long) = apply { this.minutesAfter = minutesAfter }
+        fun minutesAfter(minutesAfter: Long?) = apply { this.minutesAfter = minutesAfter }
+
+        /** Include vehicles arriving or departing in the next n minutes. */
+        fun minutesAfter(minutesAfter: Long) = minutesAfter(minutesAfter as Long?)
 
         /** Include vehicles having arrived or departed in the previous n minutes. */
-        fun minutesBefore(minutesBefore: Long) = apply { this.minutesBefore = minutesBefore }
+        fun minutesBefore(minutesBefore: Long?) = apply { this.minutesBefore = minutesBefore }
+
+        /** Include vehicles having arrived or departed in the previous n minutes. */
+        fun minutesBefore(minutesBefore: Long) = minutesBefore(minutesBefore as Long?)
 
         /** The specific time for querying the system status. */
-        fun time(time: OffsetDateTime) = apply { this.time = time }
+        fun time(time: OffsetDateTime?) = apply { this.time = time }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -191,7 +201,7 @@ constructor(
 
         fun build(): ArrivalAndDepartureListParams =
             ArrivalAndDepartureListParams(
-                checkNotNull(stopId) { "`stopId` is required but was not set" },
+                checkRequired("stopId", stopId),
                 minutesAfter,
                 minutesBefore,
                 time,

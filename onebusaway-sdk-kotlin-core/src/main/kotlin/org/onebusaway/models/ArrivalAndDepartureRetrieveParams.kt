@@ -4,11 +4,14 @@ package org.onebusaway.models
 
 import java.util.Objects
 import org.onebusaway.core.NoAutoDetect
+import org.onebusaway.core.Params
+import org.onebusaway.core.checkRequired
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.QueryParams
 
+/** arrival-and-departure-for-stop */
 class ArrivalAndDepartureRetrieveParams
-constructor(
+private constructor(
     private val stopId: String,
     private val serviceDate: Long,
     private val tripId: String,
@@ -17,7 +20,7 @@ constructor(
     private val vehicleId: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-) {
+) : Params {
 
     fun stopId(): String = stopId
 
@@ -35,9 +38,9 @@ constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    internal fun getHeaders(): Headers = additionalHeaders
+    override fun _headers(): Headers = additionalHeaders
 
-    internal fun getQueryParams(): QueryParams {
+    override fun _queryParams(): QueryParams {
         val queryParams = QueryParams.builder()
         this.serviceDate.let { queryParams.put("serviceDate", listOf(it.toString())) }
         this.tripId.let { queryParams.put("tripId", listOf(it.toString())) }
@@ -62,8 +65,9 @@ constructor(
         fun builder() = Builder()
     }
 
+    /** A builder for [ArrivalAndDepartureRetrieveParams]. */
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var stopId: String? = null
         private var serviceDate: Long? = null
@@ -93,11 +97,15 @@ constructor(
 
         fun tripId(tripId: String) = apply { this.tripId = tripId }
 
-        fun stopSequence(stopSequence: Long) = apply { this.stopSequence = stopSequence }
+        fun stopSequence(stopSequence: Long?) = apply { this.stopSequence = stopSequence }
 
-        fun time(time: Long) = apply { this.time = time }
+        fun stopSequence(stopSequence: Long) = stopSequence(stopSequence as Long?)
 
-        fun vehicleId(vehicleId: String) = apply { this.vehicleId = vehicleId }
+        fun time(time: Long?) = apply { this.time = time }
+
+        fun time(time: Long) = time(time as Long?)
+
+        fun vehicleId(vehicleId: String?) = apply { this.vehicleId = vehicleId }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -199,9 +207,9 @@ constructor(
 
         fun build(): ArrivalAndDepartureRetrieveParams =
             ArrivalAndDepartureRetrieveParams(
-                checkNotNull(stopId) { "`stopId` is required but was not set" },
-                checkNotNull(serviceDate) { "`serviceDate` is required but was not set" },
-                checkNotNull(tripId) { "`tripId` is required but was not set" },
+                checkRequired("stopId", stopId),
+                checkRequired("serviceDate", serviceDate),
+                checkRequired("tripId", tripId),
                 stopSequence,
                 time,
                 vehicleId,
