@@ -11,6 +11,6 @@ interface SearchForStopServiceAsync {
     /** Search for a stop based on its name. */
     suspend fun list(
         params: SearchForStopListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): SearchForStopListResponse
 }

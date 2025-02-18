@@ -15,10 +15,8 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.SearchForStopListParams
 import org.onebusaway.models.SearchForStopListResponse
 
-class SearchForStopServiceImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : SearchForStopService {
+class SearchForStopServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    SearchForStopService {
 
     private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
 
@@ -29,7 +27,7 @@ internal constructor(
     /** Search for a stop based on its name. */
     override fun list(
         params: SearchForStopListParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): SearchForStopListResponse {
         val request =
             HttpRequest.builder()

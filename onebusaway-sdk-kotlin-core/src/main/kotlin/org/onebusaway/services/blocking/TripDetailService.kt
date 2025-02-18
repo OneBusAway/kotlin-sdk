@@ -11,6 +11,6 @@ interface TripDetailService {
     /** Retrieve Trip Details */
     fun retrieve(
         params: TripDetailRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): TripDetailRetrieveResponse
 }

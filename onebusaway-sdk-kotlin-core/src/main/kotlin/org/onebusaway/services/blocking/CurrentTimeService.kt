@@ -11,6 +11,6 @@ interface CurrentTimeService {
     /** current-time */
     fun retrieve(
         params: CurrentTimeRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CurrentTimeRetrieveResponse
 }

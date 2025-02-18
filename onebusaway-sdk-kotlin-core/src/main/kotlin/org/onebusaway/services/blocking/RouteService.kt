@@ -11,6 +11,6 @@ interface RouteService {
     /** Retrieve information for a specific route identified by its unique ID. */
     fun retrieve(
         params: RouteRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): RouteRetrieveResponse
 }

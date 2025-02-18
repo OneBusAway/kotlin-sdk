@@ -15,10 +15,8 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.SearchForRouteListParams
 import org.onebusaway.models.SearchForRouteListResponse
 
-class SearchForRouteServiceImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : SearchForRouteService {
+class SearchForRouteServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    SearchForRouteService {
 
     private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
 
@@ -29,7 +27,7 @@ internal constructor(
     /** Search for a route based on its name. */
     override fun list(
         params: SearchForRouteListParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): SearchForRouteListResponse {
         val request =
             HttpRequest.builder()

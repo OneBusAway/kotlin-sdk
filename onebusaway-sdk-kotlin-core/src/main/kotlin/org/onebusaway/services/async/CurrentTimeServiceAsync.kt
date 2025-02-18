@@ -11,6 +11,6 @@ interface CurrentTimeServiceAsync {
     /** current-time */
     suspend fun retrieve(
         params: CurrentTimeRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): CurrentTimeRetrieveResponse
 }

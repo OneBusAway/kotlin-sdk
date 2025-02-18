@@ -15,10 +15,8 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.RoutesForAgencyListParams
 import org.onebusaway.models.RoutesForAgencyListResponse
 
-class RoutesForAgencyServiceImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : RoutesForAgencyService {
+class RoutesForAgencyServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    RoutesForAgencyService {
 
     private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
 
@@ -29,7 +27,7 @@ internal constructor(
     /** Retrieve the list of all routes for a particular agency by id */
     override fun list(
         params: RoutesForAgencyListParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): RoutesForAgencyListResponse {
         val request =
             HttpRequest.builder()
@@ -38,7 +36,7 @@ internal constructor(
                     "api",
                     "where",
                     "routes-for-agency",
-                    "${params.getPathParam(0)}.json"
+                    "${params.getPathParam(0)}.json",
                 )
                 .build()
                 .prepare(clientOptions, params)

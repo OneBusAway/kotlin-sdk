@@ -15,10 +15,8 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.BlockRetrieveParams
 import org.onebusaway.models.BlockRetrieveResponse
 
-class BlockServiceImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : BlockService {
+class BlockServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    BlockService {
 
     private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
 
@@ -28,7 +26,7 @@ internal constructor(
     /** Get details of a specific block by ID */
     override fun retrieve(
         params: BlockRetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): BlockRetrieveResponse {
         val request =
             HttpRequest.builder()

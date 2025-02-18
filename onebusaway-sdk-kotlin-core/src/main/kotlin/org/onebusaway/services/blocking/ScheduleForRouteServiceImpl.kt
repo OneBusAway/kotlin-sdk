@@ -15,10 +15,8 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.ScheduleForRouteRetrieveParams
 import org.onebusaway.models.ScheduleForRouteRetrieveResponse
 
-class ScheduleForRouteServiceImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : ScheduleForRouteService {
+class ScheduleForRouteServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    ScheduleForRouteService {
 
     private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
 
@@ -29,7 +27,7 @@ internal constructor(
     /** Retrieve the full schedule for a route on a particular day */
     override fun retrieve(
         params: ScheduleForRouteRetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): ScheduleForRouteRetrieveResponse {
         val request =
             HttpRequest.builder()
@@ -38,7 +36,7 @@ internal constructor(
                     "api",
                     "where",
                     "schedule-for-route",
-                    "${params.getPathParam(0)}.json"
+                    "${params.getPathParam(0)}.json",
                 )
                 .build()
                 .prepare(clientOptions, params)

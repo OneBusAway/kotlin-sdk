@@ -11,6 +11,6 @@ interface TripForVehicleService {
     /** Retrieve trip for a specific vehicle */
     fun retrieve(
         params: TripForVehicleRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): TripForVehicleRetrieveResponse
 }

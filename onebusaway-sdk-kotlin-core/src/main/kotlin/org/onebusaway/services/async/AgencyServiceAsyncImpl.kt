@@ -15,10 +15,8 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.AgencyRetrieveParams
 import org.onebusaway.models.AgencyRetrieveResponse
 
-class AgencyServiceAsyncImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : AgencyServiceAsync {
+class AgencyServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
+    AgencyServiceAsync {
 
     private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
 
@@ -28,7 +26,7 @@ internal constructor(
     /** Retrieve information for a specific transit agency identified by its unique ID. */
     override suspend fun retrieve(
         params: AgencyRetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): AgencyRetrieveResponse {
         val request =
             HttpRequest.builder()

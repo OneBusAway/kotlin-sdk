@@ -16,9 +16,7 @@ import org.onebusaway.models.ScheduleForStopRetrieveParams
 import org.onebusaway.models.ScheduleForStopRetrieveResponse
 
 class ScheduleForStopServiceAsyncImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : ScheduleForStopServiceAsync {
+internal constructor(private val clientOptions: ClientOptions) : ScheduleForStopServiceAsync {
 
     private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
 
@@ -29,7 +27,7 @@ internal constructor(
     /** Get schedule for a specific stop */
     override suspend fun retrieve(
         params: ScheduleForStopRetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): ScheduleForStopRetrieveResponse {
         val request =
             HttpRequest.builder()
@@ -38,7 +36,7 @@ internal constructor(
                     "api",
                     "where",
                     "schedule-for-stop",
-                    "${params.getPathParam(0)}.json"
+                    "${params.getPathParam(0)}.json",
                 )
                 .build()
                 .prepareAsync(clientOptions, params)

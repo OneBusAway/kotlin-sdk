@@ -1789,11 +1789,7 @@ private constructor(
                         }
 
                         fun build(): LastKnownLocation =
-                            LastKnownLocation(
-                                lat,
-                                lon,
-                                additionalProperties.toImmutable(),
-                            )
+                            LastKnownLocation(lat, lon, additionalProperties.toImmutable())
                     }
 
                     override fun equals(other: Any?): Boolean {
@@ -1913,11 +1909,7 @@ private constructor(
                         }
 
                         fun build(): Position =
-                            Position(
-                                lat,
-                                lon,
-                                additionalProperties.toImmutable(),
-                            )
+                            Position(lat, lon, additionalProperties.toImmutable())
                     }
 
                     override fun equals(other: Any?): Boolean {

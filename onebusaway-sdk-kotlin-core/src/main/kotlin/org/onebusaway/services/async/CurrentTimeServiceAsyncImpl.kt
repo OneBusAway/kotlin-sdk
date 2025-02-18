@@ -15,10 +15,8 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.CurrentTimeRetrieveParams
 import org.onebusaway.models.CurrentTimeRetrieveResponse
 
-class CurrentTimeServiceAsyncImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : CurrentTimeServiceAsync {
+class CurrentTimeServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
+    CurrentTimeServiceAsync {
 
     private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
 
@@ -29,7 +27,7 @@ internal constructor(
     /** current-time */
     override suspend fun retrieve(
         params: CurrentTimeRetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): CurrentTimeRetrieveResponse {
         val request =
             HttpRequest.builder()

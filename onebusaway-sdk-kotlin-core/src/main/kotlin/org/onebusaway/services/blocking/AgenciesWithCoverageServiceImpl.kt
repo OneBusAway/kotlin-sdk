@@ -16,9 +16,7 @@ import org.onebusaway.models.AgenciesWithCoverageListParams
 import org.onebusaway.models.AgenciesWithCoverageListResponse
 
 class AgenciesWithCoverageServiceImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : AgenciesWithCoverageService {
+internal constructor(private val clientOptions: ClientOptions) : AgenciesWithCoverageService {
 
     private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
 
@@ -32,7 +30,7 @@ internal constructor(
      */
     override fun list(
         params: AgenciesWithCoverageListParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): AgenciesWithCoverageListResponse {
         val request =
             HttpRequest.builder()

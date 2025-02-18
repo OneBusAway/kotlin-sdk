@@ -11,6 +11,6 @@ interface BlockServiceAsync {
     /** Get details of a specific block by ID */
     suspend fun retrieve(
         params: BlockRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): BlockRetrieveResponse
 }

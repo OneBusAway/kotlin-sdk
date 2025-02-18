@@ -13,12 +13,12 @@ interface ArrivalAndDepartureServiceAsync {
     /** arrival-and-departure-for-stop */
     suspend fun retrieve(
         params: ArrivalAndDepartureRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): ArrivalAndDepartureRetrieveResponse
 
     /** arrivals-and-departures-for-stop */
     suspend fun list(
         params: ArrivalAndDepartureListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): ArrivalAndDepartureListResponse
 }

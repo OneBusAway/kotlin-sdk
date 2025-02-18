@@ -16,9 +16,7 @@ import org.onebusaway.models.VehiclesForAgencyListParams
 import org.onebusaway.models.VehiclesForAgencyListResponse
 
 class VehiclesForAgencyServiceAsyncImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : VehiclesForAgencyServiceAsync {
+internal constructor(private val clientOptions: ClientOptions) : VehiclesForAgencyServiceAsync {
 
     private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
 
@@ -29,7 +27,7 @@ internal constructor(
     /** Get vehicles for a specific agency */
     override suspend fun list(
         params: VehiclesForAgencyListParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): VehiclesForAgencyListResponse {
         val request =
             HttpRequest.builder()
@@ -38,7 +36,7 @@ internal constructor(
                     "api",
                     "where",
                     "vehicles-for-agency",
-                    "${params.getPathParam(0)}.json"
+                    "${params.getPathParam(0)}.json",
                 )
                 .build()
                 .prepareAsync(clientOptions, params)

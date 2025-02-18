@@ -355,7 +355,7 @@ private constructor(
                         checkRequired("arrivalsAndDepartures", arrivalsAndDepartures).map {
                             it.toImmutable()
                         },
-                        additionalProperties.toImmutable()
+                        additionalProperties.toImmutable(),
                     )
             }
 
@@ -2174,7 +2174,7 @@ private constructor(
                                 checkRequired("distanceAlongTrip", distanceAlongTrip),
                                 checkRequired(
                                     "lastKnownDistanceAlongTrip",
-                                    lastKnownDistanceAlongTrip
+                                    lastKnownDistanceAlongTrip,
                                 ),
                                 checkRequired("lastLocationUpdateTime", lastLocationUpdateTime),
                                 checkRequired("lastUpdateTime", lastUpdateTime),
@@ -2303,11 +2303,7 @@ private constructor(
                             }
 
                             fun build(): LastKnownLocation =
-                                LastKnownLocation(
-                                    lat,
-                                    lon,
-                                    additionalProperties.toImmutable(),
-                                )
+                                LastKnownLocation(lat, lon, additionalProperties.toImmutable())
                         }
 
                         override fun equals(other: Any?): Boolean {
@@ -2428,11 +2424,7 @@ private constructor(
                             }
 
                             fun build(): Position =
-                                Position(
-                                    lat,
-                                    lon,
-                                    additionalProperties.toImmutable(),
-                                )
+                                Position(lat, lon, additionalProperties.toImmutable())
                         }
 
                         override fun equals(other: Any?): Boolean {

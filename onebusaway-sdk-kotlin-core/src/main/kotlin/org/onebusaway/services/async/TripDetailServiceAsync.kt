@@ -11,6 +11,6 @@ interface TripDetailServiceAsync {
     /** Retrieve Trip Details */
     suspend fun retrieve(
         params: TripDetailRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): TripDetailRetrieveResponse
 }

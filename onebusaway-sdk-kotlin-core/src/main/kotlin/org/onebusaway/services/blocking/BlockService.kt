@@ -11,6 +11,6 @@ interface BlockService {
     /** Get details of a specific block by ID */
     fun retrieve(
         params: BlockRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): BlockRetrieveResponse
 }

@@ -527,12 +527,7 @@ private constructor(
                     }
 
                     fun build(): Polyline =
-                        Polyline(
-                            length,
-                            levels,
-                            points,
-                            additionalProperties.toImmutable(),
-                        )
+                        Polyline(length, levels, points, additionalProperties.toImmutable())
                 }
 
                 override fun equals(other: Any?): Boolean {
@@ -962,12 +957,7 @@ private constructor(
                         }
 
                         fun build(): Polyline =
-                            Polyline(
-                                length,
-                                levels,
-                                points,
-                                additionalProperties.toImmutable(),
-                            )
+                            Polyline(length, levels, points, additionalProperties.toImmutable())
                     }
 
                     override fun equals(other: Any?): Boolean {

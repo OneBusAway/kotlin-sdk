@@ -15,10 +15,8 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.TripForVehicleRetrieveParams
 import org.onebusaway.models.TripForVehicleRetrieveResponse
 
-class TripForVehicleServiceImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : TripForVehicleService {
+class TripForVehicleServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    TripForVehicleService {
 
     private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
 
@@ -29,7 +27,7 @@ internal constructor(
     /** Retrieve trip for a specific vehicle */
     override fun retrieve(
         params: TripForVehicleRetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): TripForVehicleRetrieveResponse {
         val request =
             HttpRequest.builder()
@@ -38,7 +36,7 @@ internal constructor(
                     "api",
                     "where",
                     "trip-for-vehicle",
-                    "${params.getPathParam(0)}.json"
+                    "${params.getPathParam(0)}.json",
                 )
                 .build()
                 .prepare(clientOptions, params)

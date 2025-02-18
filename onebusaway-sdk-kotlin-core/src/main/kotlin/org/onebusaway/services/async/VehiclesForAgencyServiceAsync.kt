@@ -11,6 +11,6 @@ interface VehiclesForAgencyServiceAsync {
     /** Get vehicles for a specific agency */
     suspend fun list(
         params: VehiclesForAgencyListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): VehiclesForAgencyListResponse
 }

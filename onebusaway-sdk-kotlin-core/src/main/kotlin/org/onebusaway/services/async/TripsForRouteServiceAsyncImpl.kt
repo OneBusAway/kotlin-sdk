@@ -15,10 +15,8 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.TripsForRouteListParams
 import org.onebusaway.models.TripsForRouteListResponse
 
-class TripsForRouteServiceAsyncImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : TripsForRouteServiceAsync {
+class TripsForRouteServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
+    TripsForRouteServiceAsync {
 
     private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
 
@@ -29,7 +27,7 @@ internal constructor(
     /** Search for active trips for a specific route. */
     override suspend fun list(
         params: TripsForRouteListParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): TripsForRouteListResponse {
         val request =
             HttpRequest.builder()
@@ -38,7 +36,7 @@ internal constructor(
                     "api",
                     "where",
                     "trips-for-route",
-                    "${params.getPathParam(0)}.json"
+                    "${params.getPathParam(0)}.json",
                 )
                 .build()
                 .prepareAsync(clientOptions, params)

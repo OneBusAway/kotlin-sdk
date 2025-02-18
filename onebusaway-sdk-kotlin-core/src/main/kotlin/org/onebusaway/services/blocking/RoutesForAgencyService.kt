@@ -11,6 +11,6 @@ interface RoutesForAgencyService {
     /** Retrieve the list of all routes for a particular agency by id */
     fun list(
         params: RoutesForAgencyListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): RoutesForAgencyListResponse
 }

@@ -11,6 +11,6 @@ interface StopsForRouteService {
     /** Get stops for a specific route */
     fun list(
         params: StopsForRouteListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): StopsForRouteListResponse
 }
