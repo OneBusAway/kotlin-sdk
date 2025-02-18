@@ -16,9 +16,7 @@ import org.onebusaway.models.ReportProblemWithTripRetrieveParams
 import org.onebusaway.models.ResponseWrapper
 
 class ReportProblemWithTripServiceAsyncImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : ReportProblemWithTripServiceAsync {
+internal constructor(private val clientOptions: ClientOptions) : ReportProblemWithTripServiceAsync {
 
     private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
 
@@ -28,7 +26,7 @@ internal constructor(
     /** Submit a user-generated problem report for a particular trip. */
     override suspend fun retrieve(
         params: ReportProblemWithTripRetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): ResponseWrapper {
         val request =
             HttpRequest.builder()
@@ -37,7 +35,7 @@ internal constructor(
                     "api",
                     "where",
                     "report-problem-with-trip",
-                    "${params.getPathParam(0)}.json"
+                    "${params.getPathParam(0)}.json",
                 )
                 .build()
                 .prepareAsync(clientOptions, params)

@@ -15,10 +15,8 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.ShapeRetrieveParams
 import org.onebusaway.models.ShapeRetrieveResponse
 
-class ShapeServiceAsyncImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : ShapeServiceAsync {
+class ShapeServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
+    ShapeServiceAsync {
 
     private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
 
@@ -28,7 +26,7 @@ internal constructor(
     /** Retrieve a shape (the path traveled by a transit vehicle) by ID. */
     override suspend fun retrieve(
         params: ShapeRetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): ShapeRetrieveResponse {
         val request =
             HttpRequest.builder()

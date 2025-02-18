@@ -11,6 +11,6 @@ interface TripForVehicleServiceAsync {
     /** Retrieve trip for a specific vehicle */
     suspend fun retrieve(
         params: TripForVehicleRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): TripForVehicleRetrieveResponse
 }

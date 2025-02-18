@@ -14,6 +14,6 @@ interface AgenciesWithCoverageService {
      */
     fun list(
         params: AgenciesWithCoverageListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): AgenciesWithCoverageListResponse
 }

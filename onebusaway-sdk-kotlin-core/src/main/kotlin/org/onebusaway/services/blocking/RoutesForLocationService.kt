@@ -11,6 +11,6 @@ interface RoutesForLocationService {
     /** routes-for-location */
     fun list(
         params: RoutesForLocationListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): RoutesForLocationListResponse
 }

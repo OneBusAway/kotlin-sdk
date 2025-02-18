@@ -16,9 +16,7 @@ import org.onebusaway.models.StopIdsForAgencyListParams
 import org.onebusaway.models.StopIdsForAgencyListResponse
 
 class StopIdsForAgencyServiceAsyncImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : StopIdsForAgencyServiceAsync {
+internal constructor(private val clientOptions: ClientOptions) : StopIdsForAgencyServiceAsync {
 
     private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
 
@@ -29,7 +27,7 @@ internal constructor(
     /** Get stop IDs for a specific agency */
     override suspend fun list(
         params: StopIdsForAgencyListParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): StopIdsForAgencyListResponse {
         val request =
             HttpRequest.builder()
@@ -38,7 +36,7 @@ internal constructor(
                     "api",
                     "where",
                     "stop-ids-for-agency",
-                    "${params.getPathParam(0)}.json"
+                    "${params.getPathParam(0)}.json",
                 )
                 .build()
                 .prepareAsync(clientOptions, params)

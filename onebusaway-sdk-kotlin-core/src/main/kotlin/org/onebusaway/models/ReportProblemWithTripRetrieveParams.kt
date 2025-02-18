@@ -307,11 +307,7 @@ private constructor(
     }
 
     /** A string code identifying the nature of the problem */
-    class Code
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
+    class Code @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
         /**
          * Returns this class instance's raw value.

@@ -15,10 +15,8 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.StopsForRouteListParams
 import org.onebusaway.models.StopsForRouteListResponse
 
-class StopsForRouteServiceAsyncImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : StopsForRouteServiceAsync {
+class StopsForRouteServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
+    StopsForRouteServiceAsync {
 
     private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
 
@@ -29,7 +27,7 @@ internal constructor(
     /** Get stops for a specific route */
     override suspend fun list(
         params: StopsForRouteListParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): StopsForRouteListResponse {
         val request =
             HttpRequest.builder()
@@ -38,7 +36,7 @@ internal constructor(
                     "api",
                     "where",
                     "stops-for-route",
-                    "${params.getPathParam(0)}.json"
+                    "${params.getPathParam(0)}.json",
                 )
                 .build()
                 .prepareAsync(clientOptions, params)

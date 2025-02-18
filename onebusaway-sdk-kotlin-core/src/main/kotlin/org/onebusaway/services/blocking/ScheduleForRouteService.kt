@@ -11,6 +11,6 @@ interface ScheduleForRouteService {
     /** Retrieve the full schedule for a route on a particular day */
     fun retrieve(
         params: ScheduleForRouteRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): ScheduleForRouteRetrieveResponse
 }

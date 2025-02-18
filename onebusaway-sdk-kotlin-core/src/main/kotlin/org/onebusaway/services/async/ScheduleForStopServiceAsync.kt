@@ -11,6 +11,6 @@ interface ScheduleForStopServiceAsync {
     /** Get schedule for a specific stop */
     suspend fun retrieve(
         params: ScheduleForStopRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): ScheduleForStopRetrieveResponse
 }

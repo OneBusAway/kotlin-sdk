@@ -15,10 +15,8 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.StopsForAgencyListParams
 import org.onebusaway.models.StopsForAgencyListResponse
 
-class StopsForAgencyServiceImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : StopsForAgencyService {
+class StopsForAgencyServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    StopsForAgencyService {
 
     private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
 
@@ -29,7 +27,7 @@ internal constructor(
     /** Get stops for a specific agency */
     override fun list(
         params: StopsForAgencyListParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): StopsForAgencyListResponse {
         val request =
             HttpRequest.builder()
@@ -38,7 +36,7 @@ internal constructor(
                     "api",
                     "where",
                     "stops-for-agency",
-                    "${params.getPathParam(0)}.json"
+                    "${params.getPathParam(0)}.json",
                 )
                 .build()
                 .prepare(clientOptions, params)

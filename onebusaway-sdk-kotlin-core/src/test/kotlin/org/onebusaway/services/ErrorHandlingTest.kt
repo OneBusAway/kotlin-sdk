@@ -239,7 +239,7 @@ class ErrorHandlingTest {
                 assertBadRequest(
                     e,
                     Headers.builder().put("Foo", "Bar").build(),
-                    ONEBUSAWAY_SDK_ERROR
+                    ONEBUSAWAY_SDK_ERROR,
                 )
             })
     }
@@ -260,7 +260,7 @@ class ErrorHandlingTest {
                 assertUnauthorized(
                     e,
                     Headers.builder().put("Foo", "Bar").build(),
-                    ONEBUSAWAY_SDK_ERROR
+                    ONEBUSAWAY_SDK_ERROR,
                 )
             })
     }
@@ -281,7 +281,7 @@ class ErrorHandlingTest {
                 assertPermissionDenied(
                     e,
                     Headers.builder().put("Foo", "Bar").build(),
-                    ONEBUSAWAY_SDK_ERROR
+                    ONEBUSAWAY_SDK_ERROR,
                 )
             })
     }
@@ -319,7 +319,7 @@ class ErrorHandlingTest {
                 assertUnprocessableEntity(
                     e,
                     Headers.builder().put("Foo", "Bar").build(),
-                    ONEBUSAWAY_SDK_ERROR
+                    ONEBUSAWAY_SDK_ERROR,
                 )
             })
     }
@@ -340,7 +340,7 @@ class ErrorHandlingTest {
                 assertRateLimit(
                     e,
                     Headers.builder().put("Foo", "Bar").build(),
-                    ONEBUSAWAY_SDK_ERROR
+                    ONEBUSAWAY_SDK_ERROR,
                 )
             })
     }
@@ -361,7 +361,7 @@ class ErrorHandlingTest {
                 assertInternalServer(
                     e,
                     Headers.builder().put("Foo", "Bar").build(),
-                    ONEBUSAWAY_SDK_ERROR
+                    ONEBUSAWAY_SDK_ERROR,
                 )
             })
     }
@@ -383,7 +383,7 @@ class ErrorHandlingTest {
                     e,
                     999,
                     Headers.builder().put("Foo", "Bar").build(),
-                    toJson(ONEBUSAWAY_SDK_ERROR)
+                    toJson(ONEBUSAWAY_SDK_ERROR),
                 )
             })
     }
@@ -422,7 +422,7 @@ class ErrorHandlingTest {
         throwable: Throwable,
         statusCode: Int,
         headers: Headers,
-        responseBody: ByteArray
+        responseBody: ByteArray,
     ) {
         assertThat(throwable)
             .asInstanceOf(
@@ -438,7 +438,7 @@ class ErrorHandlingTest {
     private fun assertBadRequest(
         throwable: Throwable,
         headers: Headers,
-        error: OnebusawaySdkError
+        error: OnebusawaySdkError,
     ) {
         assertThat(throwable)
             .asInstanceOf(InstanceOfAssertFactories.throwable(BadRequestException::class.java))
@@ -452,7 +452,7 @@ class ErrorHandlingTest {
     private fun assertUnauthorized(
         throwable: Throwable,
         headers: Headers,
-        error: OnebusawaySdkError
+        error: OnebusawaySdkError,
     ) {
         assertThat(throwable)
             .asInstanceOf(InstanceOfAssertFactories.throwable(UnauthorizedException::class.java))
@@ -466,7 +466,7 @@ class ErrorHandlingTest {
     private fun assertPermissionDenied(
         throwable: Throwable,
         headers: Headers,
-        error: OnebusawaySdkError
+        error: OnebusawaySdkError,
     ) {
         assertThat(throwable)
             .asInstanceOf(
@@ -492,7 +492,7 @@ class ErrorHandlingTest {
     private fun assertUnprocessableEntity(
         throwable: Throwable,
         headers: Headers,
-        error: OnebusawaySdkError
+        error: OnebusawaySdkError,
     ) {
         assertThat(throwable)
             .asInstanceOf(
@@ -518,7 +518,7 @@ class ErrorHandlingTest {
     private fun assertInternalServer(
         throwable: Throwable,
         headers: Headers,
-        error: OnebusawaySdkError
+        error: OnebusawaySdkError,
     ) {
         assertThat(throwable)
             .asInstanceOf(InstanceOfAssertFactories.throwable(InternalServerException::class.java))

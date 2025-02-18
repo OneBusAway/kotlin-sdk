@@ -61,9 +61,8 @@ import org.onebusaway.services.async.TripsForRouteServiceAsyncImpl
 import org.onebusaway.services.async.VehiclesForAgencyServiceAsync
 import org.onebusaway.services.async.VehiclesForAgencyServiceAsyncImpl
 
-class OnebusawaySdkClientAsyncImpl(
-    private val clientOptions: ClientOptions,
-) : OnebusawaySdkClientAsync {
+class OnebusawaySdkClientAsyncImpl(private val clientOptions: ClientOptions) :
+    OnebusawaySdkClientAsync {
 
     private val clientOptionsWithUserAgent =
         if (clientOptions.headers.names().contains("User-Agent")) clientOptions

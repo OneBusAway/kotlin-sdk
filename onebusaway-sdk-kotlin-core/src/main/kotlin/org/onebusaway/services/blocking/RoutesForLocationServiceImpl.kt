@@ -15,10 +15,8 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.RoutesForLocationListParams
 import org.onebusaway.models.RoutesForLocationListResponse
 
-class RoutesForLocationServiceImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : RoutesForLocationService {
+class RoutesForLocationServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    RoutesForLocationService {
 
     private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
 
@@ -29,7 +27,7 @@ internal constructor(
     /** routes-for-location */
     override fun list(
         params: RoutesForLocationListParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): RoutesForLocationListResponse {
         val request =
             HttpRequest.builder()

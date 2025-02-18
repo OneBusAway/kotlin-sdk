@@ -16,9 +16,7 @@ import org.onebusaway.models.ReportProblemWithStopRetrieveParams
 import org.onebusaway.models.ResponseWrapper
 
 class ReportProblemWithStopServiceAsyncImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : ReportProblemWithStopServiceAsync {
+internal constructor(private val clientOptions: ClientOptions) : ReportProblemWithStopServiceAsync {
 
     private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
 
@@ -28,7 +26,7 @@ internal constructor(
     /** Submit a user-generated problem report for a stop */
     override suspend fun retrieve(
         params: ReportProblemWithStopRetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): ResponseWrapper {
         val request =
             HttpRequest.builder()
@@ -37,7 +35,7 @@ internal constructor(
                     "api",
                     "where",
                     "report-problem-with-stop",
-                    "${params.getPathParam(0)}.json"
+                    "${params.getPathParam(0)}.json",
                 )
                 .build()
                 .prepareAsync(clientOptions, params)

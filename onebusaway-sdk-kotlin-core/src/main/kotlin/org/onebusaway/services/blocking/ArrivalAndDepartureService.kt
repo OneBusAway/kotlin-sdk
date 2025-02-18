@@ -13,12 +13,12 @@ interface ArrivalAndDepartureService {
     /** arrival-and-departure-for-stop */
     fun retrieve(
         params: ArrivalAndDepartureRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): ArrivalAndDepartureRetrieveResponse
 
     /** arrivals-and-departures-for-stop */
     fun list(
         params: ArrivalAndDepartureListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): ArrivalAndDepartureListResponse
 }

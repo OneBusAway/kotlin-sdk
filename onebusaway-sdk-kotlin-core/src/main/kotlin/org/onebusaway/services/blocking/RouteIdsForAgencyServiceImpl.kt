@@ -15,10 +15,8 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.RouteIdsForAgencyListParams
 import org.onebusaway.models.RouteIdsForAgencyListResponse
 
-class RouteIdsForAgencyServiceImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : RouteIdsForAgencyService {
+class RouteIdsForAgencyServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    RouteIdsForAgencyService {
 
     private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
 
@@ -29,7 +27,7 @@ internal constructor(
     /** Get route IDs for a specific agency */
     override fun list(
         params: RouteIdsForAgencyListParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): RouteIdsForAgencyListResponse {
         val request =
             HttpRequest.builder()
@@ -38,7 +36,7 @@ internal constructor(
                     "api",
                     "where",
                     "route-ids-for-agency",
-                    "${params.getPathParam(0)}.json"
+                    "${params.getPathParam(0)}.json",
                 )
                 .build()
                 .prepare(clientOptions, params)
