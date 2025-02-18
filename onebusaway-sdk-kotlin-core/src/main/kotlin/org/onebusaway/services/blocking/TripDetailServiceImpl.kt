@@ -15,10 +15,8 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.TripDetailRetrieveParams
 import org.onebusaway.models.TripDetailRetrieveResponse
 
-class TripDetailServiceImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : TripDetailService {
+class TripDetailServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    TripDetailService {
 
     private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
 
@@ -29,7 +27,7 @@ internal constructor(
     /** Retrieve Trip Details */
     override fun retrieve(
         params: TripDetailRetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): TripDetailRetrieveResponse {
         val request =
             HttpRequest.builder()

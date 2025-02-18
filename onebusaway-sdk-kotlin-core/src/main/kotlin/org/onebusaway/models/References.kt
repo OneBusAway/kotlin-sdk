@@ -1151,11 +1151,7 @@ private constructor(
                 }
 
                 fun build(): ActiveWindow =
-                    ActiveWindow(
-                        from,
-                        to,
-                        additionalProperties.toImmutable(),
-                    )
+                    ActiveWindow(from, to, additionalProperties.toImmutable())
             }
 
             override fun equals(other: Any?): Boolean {
@@ -1484,11 +1480,7 @@ private constructor(
                 }
 
                 fun build(): Consequence =
-                    Consequence(
-                        condition,
-                        conditionDetails,
-                        additionalProperties.toImmutable(),
-                    )
+                    Consequence(condition, conditionDetails, additionalProperties.toImmutable())
             }
 
             @NoAutoDetect
@@ -1889,11 +1881,7 @@ private constructor(
                 }
 
                 fun build(): Description =
-                    Description(
-                        lang,
-                        value,
-                        additionalProperties.toImmutable(),
-                    )
+                    Description(lang, value, additionalProperties.toImmutable())
             }
 
             override fun equals(other: Any?): Boolean {
@@ -2035,11 +2023,7 @@ private constructor(
         }
 
         /** Reason for the service alert, taken from TPEG codes. */
-        class Reason
-        @JsonCreator
-        private constructor(
-            private val value: JsonField<String>,
-        ) : Enum {
+        class Reason @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
             /**
              * Returns this class instance's raw value.
@@ -2243,12 +2227,7 @@ private constructor(
                     keys.forEach(::removeAdditionalProperty)
                 }
 
-                fun build(): Summary =
-                    Summary(
-                        lang,
-                        value,
-                        additionalProperties.toImmutable(),
-                    )
+                fun build(): Summary = Summary(lang, value, additionalProperties.toImmutable())
             }
 
             override fun equals(other: Any?): Boolean {
@@ -2365,12 +2344,7 @@ private constructor(
                     keys.forEach(::removeAdditionalProperty)
                 }
 
-                fun build(): Url =
-                    Url(
-                        lang,
-                        value,
-                        additionalProperties.toImmutable(),
-                    )
+                fun build(): Url = Url(lang, value, additionalProperties.toImmutable())
             }
 
             override fun equals(other: Any?): Boolean {

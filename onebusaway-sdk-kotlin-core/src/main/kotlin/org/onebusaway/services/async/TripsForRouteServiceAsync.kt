@@ -11,6 +11,6 @@ interface TripsForRouteServiceAsync {
     /** Search for active trips for a specific route. */
     suspend fun list(
         params: TripsForRouteListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): TripsForRouteListResponse
 }

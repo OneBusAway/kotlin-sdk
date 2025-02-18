@@ -507,7 +507,7 @@ private constructor(
                             checkRequired("routeId", routeId),
                             checkRequired(
                                     "stopRouteDirectionSchedules",
-                                    stopRouteDirectionSchedules
+                                    stopRouteDirectionSchedules,
                                 )
                                 .map { it.toImmutable() },
                             additionalProperties.toImmutable(),

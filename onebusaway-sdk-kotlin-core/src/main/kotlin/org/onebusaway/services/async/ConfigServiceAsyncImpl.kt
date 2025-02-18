@@ -15,10 +15,8 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.ConfigRetrieveParams
 import org.onebusaway.models.ConfigRetrieveResponse
 
-class ConfigServiceAsyncImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : ConfigServiceAsync {
+class ConfigServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
+    ConfigServiceAsync {
 
     private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
 
@@ -28,7 +26,7 @@ internal constructor(
     /** config */
     override suspend fun retrieve(
         params: ConfigRetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): ConfigRetrieveResponse {
         val request =
             HttpRequest.builder()

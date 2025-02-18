@@ -11,6 +11,6 @@ interface SearchForRouteServiceAsync {
     /** Search for a route based on its name. */
     suspend fun list(
         params: SearchForRouteListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): SearchForRouteListResponse
 }

@@ -11,6 +11,6 @@ interface AgencyService {
     /** Retrieve information for a specific transit agency identified by its unique ID. */
     fun retrieve(
         params: AgencyRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): AgencyRetrieveResponse
 }

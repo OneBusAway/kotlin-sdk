@@ -344,12 +344,7 @@ private constructor(
                     keys.forEach(::removeAdditionalProperty)
                 }
 
-                fun build(): Entry =
-                    Entry(
-                        readableTime,
-                        time,
-                        additionalProperties.toImmutable(),
-                    )
+                fun build(): Entry = Entry(readableTime, time, additionalProperties.toImmutable())
             }
 
             override fun equals(other: Any?): Boolean {

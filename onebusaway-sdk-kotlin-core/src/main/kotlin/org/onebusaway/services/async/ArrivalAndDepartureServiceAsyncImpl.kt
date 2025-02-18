@@ -18,9 +18,7 @@ import org.onebusaway.models.ArrivalAndDepartureRetrieveParams
 import org.onebusaway.models.ArrivalAndDepartureRetrieveResponse
 
 class ArrivalAndDepartureServiceAsyncImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : ArrivalAndDepartureServiceAsync {
+internal constructor(private val clientOptions: ClientOptions) : ArrivalAndDepartureServiceAsync {
 
     private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
 
@@ -31,7 +29,7 @@ internal constructor(
     /** arrival-and-departure-for-stop */
     override suspend fun retrieve(
         params: ArrivalAndDepartureRetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): ArrivalAndDepartureRetrieveResponse {
         val request =
             HttpRequest.builder()
@@ -40,7 +38,7 @@ internal constructor(
                     "api",
                     "where",
                     "arrival-and-departure-for-stop",
-                    "${params.getPathParam(0)}.json"
+                    "${params.getPathParam(0)}.json",
                 )
                 .build()
                 .prepareAsync(clientOptions, params)
@@ -61,7 +59,7 @@ internal constructor(
     /** arrivals-and-departures-for-stop */
     override suspend fun list(
         params: ArrivalAndDepartureListParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): ArrivalAndDepartureListResponse {
         val request =
             HttpRequest.builder()
@@ -70,7 +68,7 @@ internal constructor(
                     "api",
                     "where",
                     "arrivals-and-departures-for-stop",
-                    "${params.getPathParam(0)}.json"
+                    "${params.getPathParam(0)}.json",
                 )
                 .build()
                 .prepareAsync(clientOptions, params)

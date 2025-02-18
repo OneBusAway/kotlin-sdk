@@ -11,6 +11,6 @@ interface ReportProblemWithTripService {
     /** Submit a user-generated problem report for a particular trip. */
     fun retrieve(
         params: ReportProblemWithTripRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): ResponseWrapper
 }

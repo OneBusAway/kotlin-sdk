@@ -11,6 +11,6 @@ interface SearchForStopService {
     /** Search for a stop based on its name. */
     fun list(
         params: SearchForStopListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): SearchForStopListResponse
 }

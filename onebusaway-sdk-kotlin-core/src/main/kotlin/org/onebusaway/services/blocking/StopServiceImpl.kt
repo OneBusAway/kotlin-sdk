@@ -15,10 +15,7 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.StopRetrieveParams
 import org.onebusaway.models.StopRetrieveResponse
 
-class StopServiceImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : StopService {
+class StopServiceImpl internal constructor(private val clientOptions: ClientOptions) : StopService {
 
     private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
 
@@ -28,7 +25,7 @@ internal constructor(
     /** Get details of a specific stop */
     override fun retrieve(
         params: StopRetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): StopRetrieveResponse {
         val request =
             HttpRequest.builder()

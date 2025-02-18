@@ -11,6 +11,6 @@ interface ReportProblemWithTripServiceAsync {
     /** Submit a user-generated problem report for a particular trip. */
     suspend fun retrieve(
         params: ReportProblemWithTripRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): ResponseWrapper
 }

@@ -15,10 +15,8 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.RouteRetrieveParams
 import org.onebusaway.models.RouteRetrieveResponse
 
-class RouteServiceAsyncImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : RouteServiceAsync {
+class RouteServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
+    RouteServiceAsync {
 
     private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
 
@@ -28,7 +26,7 @@ internal constructor(
     /** Retrieve information for a specific route identified by its unique ID. */
     override suspend fun retrieve(
         params: RouteRetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): RouteRetrieveResponse {
         val request =
             HttpRequest.builder()

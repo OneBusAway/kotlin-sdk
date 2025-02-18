@@ -11,6 +11,6 @@ interface StopServiceAsync {
     /** Get details of a specific stop */
     suspend fun retrieve(
         params: StopRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): StopRetrieveResponse
 }

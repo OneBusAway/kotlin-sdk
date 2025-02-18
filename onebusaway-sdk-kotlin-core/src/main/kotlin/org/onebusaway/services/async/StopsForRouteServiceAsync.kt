@@ -11,6 +11,6 @@ interface StopsForRouteServiceAsync {
     /** Get stops for a specific route */
     suspend fun list(
         params: StopsForRouteListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): StopsForRouteListResponse
 }

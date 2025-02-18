@@ -16,9 +16,7 @@ import org.onebusaway.models.TripsForLocationListParams
 import org.onebusaway.models.TripsForLocationListResponse
 
 class TripsForLocationServiceAsyncImpl
-internal constructor(
-    private val clientOptions: ClientOptions,
-) : TripsForLocationServiceAsync {
+internal constructor(private val clientOptions: ClientOptions) : TripsForLocationServiceAsync {
 
     private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
 
@@ -29,7 +27,7 @@ internal constructor(
     /** Retrieve trips for a given location */
     override suspend fun list(
         params: TripsForLocationListParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): TripsForLocationListResponse {
         val request =
             HttpRequest.builder()

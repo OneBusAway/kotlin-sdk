@@ -11,6 +11,6 @@ interface TripService {
     /** Get details of a specific trip */
     fun retrieve(
         params: TripRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): TripRetrieveResponse
 }
