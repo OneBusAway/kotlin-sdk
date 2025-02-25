@@ -1,5 +1,33 @@
 # Changelog
 
+## 0.1.0-alpha.58 (2025-02-25)
+
+Full Changelog: [v0.1.0-alpha.57...v0.1.0-alpha.58](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.57...v0.1.0-alpha.58)
+
+### Features
+
+* **client:** support `JsonField#asX()` for known values ([#233](https://github.com/OneBusAway/kotlin-sdk/issues/233)) ([c62e1cf](https://github.com/OneBusAway/kotlin-sdk/commit/c62e1cffdaed3bcefb5712d8c8f250aeed8c81de))
+* **client:** update enum `asX` methods ([#232](https://github.com/OneBusAway/kotlin-sdk/issues/232)) ([5b7cf27](https://github.com/OneBusAway/kotlin-sdk/commit/5b7cf27d98b6dcfbf97d412632df427da69ace88))
+
+
+### Chores
+
+* **client:** remove checked exception related code ([#236](https://github.com/OneBusAway/kotlin-sdk/issues/236)) ([89cf0b7](https://github.com/OneBusAway/kotlin-sdk/commit/89cf0b72437929fc7a316bca429b525d48e0748c))
+* **docs:** add faq to readme ([#237](https://github.com/OneBusAway/kotlin-sdk/issues/237)) ([e779597](https://github.com/OneBusAway/kotlin-sdk/commit/e7795978c8b874f038c4ee67c544de4da48ca66c))
+* **docs:** reorganize readme ([#234](https://github.com/OneBusAway/kotlin-sdk/issues/234)) ([6a06da8](https://github.com/OneBusAway/kotlin-sdk/commit/6a06da8de0eac2763949f58a508e7f3f6cd36334))
+* **internal:** codegen related update ([#228](https://github.com/OneBusAway/kotlin-sdk/issues/228)) ([827bc48](https://github.com/OneBusAway/kotlin-sdk/commit/827bc482bddcc1461d0ad22367ffd81d90662b3b))
+* **internal:** codegen related update ([#235](https://github.com/OneBusAway/kotlin-sdk/issues/235)) ([fec7641](https://github.com/OneBusAway/kotlin-sdk/commit/fec7641e4b5065c15e1e49224d57dc6ff4a0f9cf))
+* **internal:** optimize build and test perf ([aeedc21](https://github.com/OneBusAway/kotlin-sdk/commit/aeedc21baa914e2fafce4d5c806e5fdad3e74005))
+* **internal:** update formatter ([#231](https://github.com/OneBusAway/kotlin-sdk/issues/231)) ([aeedc21](https://github.com/OneBusAway/kotlin-sdk/commit/aeedc21baa914e2fafce4d5c806e5fdad3e74005))
+* **internal:** update some formatting in `Values.kt` ([c62e1cf](https://github.com/OneBusAway/kotlin-sdk/commit/c62e1cffdaed3bcefb5712d8c8f250aeed8c81de))
+
+
+### Documentation
+
+* add immutability explanation to readme ([#238](https://github.com/OneBusAway/kotlin-sdk/issues/238)) ([166a038](https://github.com/OneBusAway/kotlin-sdk/commit/166a0380b4d108f49ea62cf50fecf8e00225f9fc))
+* add more phantom reachability docs ([#230](https://github.com/OneBusAway/kotlin-sdk/issues/230)) ([fbb1f7a](https://github.com/OneBusAway/kotlin-sdk/commit/fbb1f7aede80f6f4df385d94ea4bb371aca3e72f))
+* add source file links to readme ([#239](https://github.com/OneBusAway/kotlin-sdk/issues/239)) ([a19163c](https://github.com/OneBusAway/kotlin-sdk/commit/a19163cb7e0ec78919b18fa1f41878ecd28ea831))
+
 ## 0.1.0-alpha.57 (2025-01-06)
 
 Full Changelog: [v0.1.0-alpha.56...v0.1.0-alpha.57](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.56...v0.1.0-alpha.57)
