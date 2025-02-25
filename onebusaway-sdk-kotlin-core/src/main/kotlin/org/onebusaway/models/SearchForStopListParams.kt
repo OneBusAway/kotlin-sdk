@@ -4,16 +4,19 @@ package org.onebusaway.models
 
 import java.util.Objects
 import org.onebusaway.core.NoAutoDetect
+import org.onebusaway.core.Params
+import org.onebusaway.core.checkRequired
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.QueryParams
 
+/** Search for a stop based on its name. */
 class SearchForStopListParams
-constructor(
+private constructor(
     private val input: String,
     private val maxCount: Long?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-) {
+) : Params {
 
     /** The string to search for. */
     fun input(): String = input
@@ -25,9 +28,9 @@ constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    internal fun getHeaders(): Headers = additionalHeaders
+    override fun _headers(): Headers = additionalHeaders
 
-    internal fun getQueryParams(): QueryParams {
+    override fun _queryParams(): QueryParams {
         val queryParams = QueryParams.builder()
         this.input.let { queryParams.put("input", listOf(it.toString())) }
         this.maxCount?.let { queryParams.put("maxCount", listOf(it.toString())) }
@@ -42,8 +45,9 @@ constructor(
         fun builder() = Builder()
     }
 
+    /** A builder for [SearchForStopListParams]. */
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var input: String? = null
         private var maxCount: Long? = null
@@ -61,7 +65,10 @@ constructor(
         fun input(input: String) = apply { this.input = input }
 
         /** The max number of results to return. Defaults to 20. */
-        fun maxCount(maxCount: Long) = apply { this.maxCount = maxCount }
+        fun maxCount(maxCount: Long?) = apply { this.maxCount = maxCount }
+
+        /** The max number of results to return. Defaults to 20. */
+        fun maxCount(maxCount: Long) = maxCount(maxCount as Long?)
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -163,7 +170,7 @@ constructor(
 
         fun build(): SearchForStopListParams =
             SearchForStopListParams(
-                checkNotNull(input) { "`input` is required but was not set" },
+                checkRequired("input", input),
                 maxCount,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),

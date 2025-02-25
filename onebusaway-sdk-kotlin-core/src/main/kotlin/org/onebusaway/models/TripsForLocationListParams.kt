@@ -4,11 +4,14 @@ package org.onebusaway.models
 
 import java.util.Objects
 import org.onebusaway.core.NoAutoDetect
+import org.onebusaway.core.Params
+import org.onebusaway.core.checkRequired
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.QueryParams
 
+/** Retrieve trips for a given location */
 class TripsForLocationListParams
-constructor(
+private constructor(
     private val lat: Double,
     private val latSpan: Double,
     private val lon: Double,
@@ -18,7 +21,7 @@ constructor(
     private val time: Long?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-) {
+) : Params {
 
     /** The latitude coordinate of the search center */
     fun lat(): Double = lat
@@ -45,9 +48,9 @@ constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    internal fun getHeaders(): Headers = additionalHeaders
+    override fun _headers(): Headers = additionalHeaders
 
-    internal fun getQueryParams(): QueryParams {
+    override fun _queryParams(): QueryParams {
         val queryParams = QueryParams.builder()
         this.lat.let { queryParams.put("lat", listOf(it.toString())) }
         this.latSpan.let { queryParams.put("latSpan", listOf(it.toString())) }
@@ -67,8 +70,9 @@ constructor(
         fun builder() = Builder()
     }
 
+    /** A builder for [TripsForLocationListParams]. */
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var lat: Double? = null
         private var latSpan: Double? = null
@@ -107,15 +111,26 @@ constructor(
         /**
          * Whether to include full schedule elements in the tripDetails section. Defaults to false.
          */
-        fun includeSchedule(includeSchedule: Boolean) = apply {
+        fun includeSchedule(includeSchedule: Boolean?) = apply {
             this.includeSchedule = includeSchedule
         }
 
+        /**
+         * Whether to include full schedule elements in the tripDetails section. Defaults to false.
+         */
+        fun includeSchedule(includeSchedule: Boolean) = includeSchedule(includeSchedule as Boolean?)
+
         /** Whether to include full trip elements in the references section. Defaults to false. */
-        fun includeTrip(includeTrip: Boolean) = apply { this.includeTrip = includeTrip }
+        fun includeTrip(includeTrip: Boolean?) = apply { this.includeTrip = includeTrip }
+
+        /** Whether to include full trip elements in the references section. Defaults to false. */
+        fun includeTrip(includeTrip: Boolean) = includeTrip(includeTrip as Boolean?)
 
         /** Specific time for the query. Defaults to the current time. */
-        fun time(time: Long) = apply { this.time = time }
+        fun time(time: Long?) = apply { this.time = time }
+
+        /** Specific time for the query. Defaults to the current time. */
+        fun time(time: Long) = time(time as Long?)
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -217,10 +232,10 @@ constructor(
 
         fun build(): TripsForLocationListParams =
             TripsForLocationListParams(
-                checkNotNull(lat) { "`lat` is required but was not set" },
-                checkNotNull(latSpan) { "`latSpan` is required but was not set" },
-                checkNotNull(lon) { "`lon` is required but was not set" },
-                checkNotNull(lonSpan) { "`lonSpan` is required but was not set" },
+                checkRequired("lat", lat),
+                checkRequired("latSpan", latSpan),
+                checkRequired("lon", lon),
+                checkRequired("lonSpan", lonSpan),
                 includeSchedule,
                 includeTrip,
                 time,
