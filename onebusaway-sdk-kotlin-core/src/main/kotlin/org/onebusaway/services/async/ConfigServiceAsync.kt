@@ -10,7 +10,11 @@ interface ConfigServiceAsync {
 
     /** config */
     suspend fun retrieve(
-        params: ConfigRetrieveParams,
+        params: ConfigRetrieveParams = ConfigRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ConfigRetrieveResponse
+
+    /** config */
+    suspend fun retrieve(requestOptions: RequestOptions): ConfigRetrieveResponse =
+        retrieve(ConfigRetrieveParams.none(), requestOptions)
 }

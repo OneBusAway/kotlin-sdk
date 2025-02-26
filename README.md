@@ -2,7 +2,7 @@
 
 <!-- x-release-please-start-version -->
 
-[![Maven Central](https://img.shields.io/maven-central/v/org.onebusaway/onebusaway-sdk-kotlin)](https://central.sonatype.com/artifact/org.onebusaway/onebusaway-sdk-kotlin/0.1.0-alpha.62)
+[![Maven Central](https://img.shields.io/maven-central/v/org.onebusaway/onebusaway-sdk-kotlin)](https://central.sonatype.com/artifact/org.onebusaway/onebusaway-sdk-kotlin/0.1.0-alpha.63)
 
 <!-- x-release-please-end -->
 
@@ -21,7 +21,7 @@ The REST API documentation can be found on [developer.onebusaway.org](https://de
 ### Gradle
 
 ```kotlin
-implementation("org.onebusaway:onebusaway-sdk-kotlin:0.1.0-alpha.62")
+implementation("org.onebusaway:onebusaway-sdk-kotlin:0.1.0-alpha.63")
 ```
 
 ### Maven
@@ -30,7 +30,7 @@ implementation("org.onebusaway:onebusaway-sdk-kotlin:0.1.0-alpha.62")
 <dependency>
     <groupId>org.onebusaway</groupId>
     <artifactId>onebusaway-sdk-kotlin</artifactId>
-    <version>0.1.0-alpha.62</version>
+    <version>0.1.0-alpha.63</version>
 </dependency>
 ```
 
@@ -51,8 +51,7 @@ import org.onebusaway.models.CurrentTimeRetrieveResponse
 // Configures using the `ONEBUSAWAY_API_KEY` environment variable
 val client: OnebusawaySdkClient = OnebusawaySdkOkHttpClient.fromEnv()
 
-val params: CurrentTimeRetrieveParams = CurrentTimeRetrieveParams.builder().build()
-val currentTime: CurrentTimeRetrieveResponse = client.currentTime().retrieve(params)
+val currentTime: CurrentTimeRetrieveResponse = client.currentTime().retrieve()
 ```
 
 ## Client configuration
@@ -128,8 +127,7 @@ import org.onebusaway.models.CurrentTimeRetrieveResponse
 // Configures using the `ONEBUSAWAY_API_KEY` environment variable
 val client: OnebusawaySdkClient = OnebusawaySdkOkHttpClient.fromEnv()
 
-val params: CurrentTimeRetrieveParams = CurrentTimeRetrieveParams.builder().build()
-val currentTime: CurrentTimeRetrieveResponse = client.async().currentTime().retrieve(params)
+val currentTime: CurrentTimeRetrieveResponse = client.async().currentTime().retrieve()
 ```
 
 Or create an asynchronous client from the beginning:
@@ -143,8 +141,7 @@ import org.onebusaway.models.CurrentTimeRetrieveResponse
 // Configures using the `ONEBUSAWAY_API_KEY` environment variable
 val client: OnebusawaySdkClientAsync = OnebusawaySdkOkHttpClientAsync.fromEnv()
 
-val params: CurrentTimeRetrieveParams = CurrentTimeRetrieveParams.builder().build()
-val currentTime: CurrentTimeRetrieveResponse = client.currentTime().retrieve(params)
+val currentTime: CurrentTimeRetrieveResponse = client.currentTime().retrieve()
 ```
 
 The asynchronous client supports the same options as the synchronous one, except most methods are [suspending](https://kotlinlang.org/docs/coroutines-guide.html).
@@ -226,9 +223,7 @@ To set a custom timeout, configure the method call using the `timeout` method:
 import org.onebusaway.models.CurrentTimeRetrieveParams
 import org.onebusaway.models.CurrentTimeRetrieveResponse
 
-val currentTime: CurrentTimeRetrieveResponse = client.currentTime().retrieve(
-  params, RequestOptions.builder().timeout(Duration.ofSeconds(30)).build()
-)
+val currentTime: CurrentTimeRetrieveResponse = client.currentTime().retrieve(RequestOptions.builder().timeout(Duration.ofSeconds(30)).build())
 ```
 
 Or configure the default for all method calls at the client level:
@@ -356,9 +351,7 @@ Or configure the method call to validate the response using the `responseValidat
 import org.onebusaway.models.CurrentTimeRetrieveParams
 import org.onebusaway.models.CurrentTimeRetrieveResponse
 
-val currentTime: CurrentTimeRetrieveResponse = client.currentTime().retrieve(
-  params, RequestOptions.builder().responseValidation(true).build()
-)
+val currentTime: CurrentTimeRetrieveResponse = client.currentTime().retrieve(RequestOptions.builder().responseValidation(true).build())
 ```
 
 Or configure the default for all method calls at the client level:
