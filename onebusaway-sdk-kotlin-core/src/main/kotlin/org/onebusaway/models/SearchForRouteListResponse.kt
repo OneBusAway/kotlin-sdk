@@ -187,7 +187,9 @@ private constructor(
         @ExcludeMissing
         fun _limitExceeded(): JsonField<Boolean> = limitExceeded
 
-        @JsonProperty("list") @ExcludeMissing fun _list(): JsonField<List<List>> = list
+        @JsonProperty("list")
+        @ExcludeMissing
+        fun _list(): JsonField<kotlin.collections.List<List>> = list
 
         @JsonProperty("outOfRange")
         @ExcludeMissing

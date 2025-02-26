@@ -187,7 +187,9 @@ private constructor(
         @ExcludeMissing
         fun _limitExceeded(): JsonField<Boolean> = limitExceeded
 
-        @JsonProperty("list") @ExcludeMissing fun _list(): JsonField<List<List>> = list
+        @JsonProperty("list")
+        @ExcludeMissing
+        fun _list(): JsonField<kotlin.collections.List<List>> = list
 
         @JsonProperty("outOfRange")
         @ExcludeMissing
@@ -378,11 +380,11 @@ private constructor(
 
             @JsonProperty("routeIds")
             @ExcludeMissing
-            fun _routeIds(): JsonField<List<String>> = routeIds
+            fun _routeIds(): JsonField<kotlin.collections.List<String>> = routeIds
 
             @JsonProperty("staticRouteIds")
             @ExcludeMissing
-            fun _staticRouteIds(): JsonField<List<String>> = staticRouteIds
+            fun _staticRouteIds(): JsonField<kotlin.collections.List<String>> = staticRouteIds
 
             @JsonProperty("code") @ExcludeMissing fun _code(): JsonField<String> = code
 
@@ -485,9 +487,7 @@ private constructor(
                     routeIds(JsonField.of(routeIds))
 
                 fun routeIds(routeIds: JsonField<kotlin.collections.List<String>>) = apply {
-
-                    this.routeIds = routeIds
-               .map { it.toMutableList() }
+                    this.routeIds = routeIds.map { it.toMutableList() }
                 }
 
                 fun addRouteId(routeId: String) = apply {
@@ -507,7 +507,7 @@ private constructor(
                 fun staticRouteIds(staticRouteIds: JsonField<kotlin.collections.List<String>>) =
                     apply {
                         this.staticRouteIds = staticRouteIds.map { it.toMutableList() }
-                }
+                    }
 
                 fun addStaticRouteId(staticRouteId: String) = apply {
                     staticRouteIds =
@@ -532,7 +532,7 @@ private constructor(
 
                 fun locationType(locationType: JsonField<Long>) = apply {
                     this.locationType = locationType
-                    }
+                }
 
                 fun wheelchairBoarding(wheelchairBoarding: String) =
                     wheelchairBoarding(JsonField.of(wheelchairBoarding))

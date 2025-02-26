@@ -53,7 +53,7 @@ private constructor(
 
     fun limitExceeded(): Boolean = limitExceeded.getRequired("limitExceeded")
 
-    fun list(): List<List> = list.getRequired("list")
+    fun list(): kotlin.collections.List<List> = list.getRequired("list")
 
     fun references(): References = references.getRequired("references")
 
@@ -71,7 +71,9 @@ private constructor(
     @ExcludeMissing
     fun _limitExceeded(): JsonField<Boolean> = limitExceeded
 
-    @JsonProperty("list") @ExcludeMissing fun _list(): JsonField<List<List>> = list
+    @JsonProperty("list")
+    @ExcludeMissing
+    fun _list(): JsonField<kotlin.collections.List<List>> = list
 
     @JsonProperty("references")
     @ExcludeMissing
@@ -291,11 +293,11 @@ private constructor(
 
         @JsonProperty("routeIds")
         @ExcludeMissing
-        fun _routeIds(): JsonField<List<String>> = routeIds
+        fun _routeIds(): JsonField<kotlin.collections.List<String>> = routeIds
 
         @JsonProperty("staticRouteIds")
         @ExcludeMissing
-        fun _staticRouteIds(): JsonField<List<String>> = staticRouteIds
+        fun _staticRouteIds(): JsonField<kotlin.collections.List<String>> = staticRouteIds
 
         @JsonProperty("code") @ExcludeMissing fun _code(): JsonField<String> = code
 
@@ -396,9 +398,7 @@ private constructor(
                 routeIds(JsonField.of(routeIds))
 
             fun routeIds(routeIds: JsonField<kotlin.collections.List<String>>) = apply {
-
-                this.routeIds = routeIds
-           .map { it.toMutableList() }
+                this.routeIds = routeIds.map { it.toMutableList() }
             }
 
             fun addRouteId(routeId: String) = apply {

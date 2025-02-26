@@ -184,7 +184,9 @@ private constructor(
         @ExcludeMissing
         fun _limitExceeded(): JsonField<Boolean> = limitExceeded
 
-        @JsonProperty("list") @ExcludeMissing fun _list(): JsonField<List<List>> = list
+        @JsonProperty("list")
+        @ExcludeMissing
+        fun _list(): JsonField<kotlin.collections.List<List>> = list
 
         @JsonProperty("references")
         @ExcludeMissing
@@ -245,9 +247,9 @@ private constructor(
                 this.list =
                     (this.list ?: JsonField.of(mutableListOf())).apply {
                         (asKnown()
-                            ?: throw IllegalStateException(
-                                "Field was set to non-list type: ${javaClass.simpleName}"
-                            ))
+                                ?: throw IllegalStateException(
+                                    "Field was set to non-list type: ${javaClass.simpleName}"
+                                ))
                             .add(list)
                     }
             }

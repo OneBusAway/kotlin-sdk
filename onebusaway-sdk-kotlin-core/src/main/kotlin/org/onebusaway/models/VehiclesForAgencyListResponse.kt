@@ -182,7 +182,9 @@ private constructor(
         @ExcludeMissing
         fun _limitExceeded(): JsonField<Boolean> = limitExceeded
 
-        @JsonProperty("list") @ExcludeMissing fun _list(): JsonField<List<List>> = list
+        @JsonProperty("list")
+        @ExcludeMissing
+        fun _list(): JsonField<kotlin.collections.List<List>> = list
 
         @JsonProperty("references")
         @ExcludeMissing
@@ -243,9 +245,9 @@ private constructor(
                 this.list =
                     (this.list ?: JsonField.of(mutableListOf())).apply {
                         (asKnown()
-                            ?: throw IllegalStateException(
-                                "Field was set to non-list type: ${javaClass.simpleName}"
-                            ))
+                                ?: throw IllegalStateException(
+                                    "Field was set to non-list type: ${javaClass.simpleName}"
+                                ))
                             .add(list)
                     }
             }
@@ -739,7 +741,8 @@ private constructor(
                 private val scheduledDistanceAlongTrip: JsonField<Double> = JsonMissing.of(),
                 @JsonProperty("situationIds")
                 @ExcludeMissing
-                private val situationIds: JsonField<kotlin.collections.List<String>> = JsonMissing.of(),
+                private val situationIds: JsonField<kotlin.collections.List<String>> =
+                    JsonMissing.of(),
                 @JsonProperty("vehicleId")
                 @ExcludeMissing
                 private val vehicleId: JsonField<String> = JsonMissing.of(),
@@ -852,7 +855,8 @@ private constructor(
                     scheduledDistanceAlongTrip.getNullable("scheduledDistanceAlongTrip")
 
                 /** References to situation elements (if any) applicable to this trip. */
-                fun situationIds(): kotlin.collections.List<String>? = situationIds.getNullable("situationIds")
+                fun situationIds(): kotlin.collections.List<String>? =
+                    situationIds.getNullable("situationIds")
 
                 /** ID of the transit vehicle currently serving the trip. */
                 fun vehicleId(): String? = vehicleId.getNullable("vehicleId")
@@ -1387,18 +1391,19 @@ private constructor(
                         situationIds(JsonField.of(situationIds))
 
                     /** References to situation elements (if any) applicable to this trip. */
-                    fun situationIds(situationIds: JsonField<kotlin.collections.List<String>>) = apply {
-                        this.situationIds = situationIds.map { it.toMutableList() }
-                    }
+                    fun situationIds(situationIds: JsonField<kotlin.collections.List<String>>) =
+                        apply {
+                            this.situationIds = situationIds.map { it.toMutableList() }
+                        }
 
                     /** References to situation elements (if any) applicable to this trip. */
                     fun addSituationId(situationId: String) = apply {
                         situationIds =
                             (situationIds ?: JsonField.of(mutableListOf())).apply {
                                 (asKnown()
-                                    ?: throw IllegalStateException(
-                                        "Field was set to non-list type: ${javaClass.simpleName}"
-                                    ))
+                                        ?: throw IllegalStateException(
+                                            "Field was set to non-list type: ${javaClass.simpleName}"
+                                        ))
                                     .add(situationId)
                             }
                     }
