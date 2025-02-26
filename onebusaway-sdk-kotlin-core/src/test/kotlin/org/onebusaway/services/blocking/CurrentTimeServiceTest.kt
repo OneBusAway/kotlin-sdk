@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.onebusaway.TestServerExtension
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
-import org.onebusaway.models.CurrentTimeRetrieveParams
 
 @ExtendWith(TestServerExtension::class)
 class CurrentTimeServiceTest {
@@ -19,8 +18,7 @@ class CurrentTimeServiceTest {
                 .apiKey("My API Key")
                 .build()
         val currentTimeService = client.currentTime()
-        val currentTimeRetrieveResponse =
-            currentTimeService.retrieve(CurrentTimeRetrieveParams.builder().build())
+        val currentTimeRetrieveResponse = currentTimeService.retrieve()
         println(currentTimeRetrieveResponse)
     }
 }

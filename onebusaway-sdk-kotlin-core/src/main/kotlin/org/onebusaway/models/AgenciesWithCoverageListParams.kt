@@ -30,6 +30,8 @@ private constructor(
 
     companion object {
 
+        fun none(): AgenciesWithCoverageListParams = builder().build()
+
         fun builder() = Builder()
     }
 
