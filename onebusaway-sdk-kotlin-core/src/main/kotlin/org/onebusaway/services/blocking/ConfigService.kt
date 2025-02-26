@@ -10,7 +10,11 @@ interface ConfigService {
 
     /** config */
     fun retrieve(
-        params: ConfigRetrieveParams,
+        params: ConfigRetrieveParams = ConfigRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ConfigRetrieveResponse
+
+    /** config */
+    fun retrieve(requestOptions: RequestOptions): ConfigRetrieveResponse =
+        retrieve(ConfigRetrieveParams.none(), requestOptions)
 }
