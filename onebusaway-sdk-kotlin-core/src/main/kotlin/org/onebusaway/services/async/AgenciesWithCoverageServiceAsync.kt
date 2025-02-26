@@ -13,7 +13,14 @@ interface AgenciesWithCoverageServiceAsync {
      * center of their coverage area.
      */
     suspend fun list(
-        params: AgenciesWithCoverageListParams,
+        params: AgenciesWithCoverageListParams = AgenciesWithCoverageListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): AgenciesWithCoverageListResponse
+
+    /**
+     * Returns a list of all transit agencies currently supported by OneBusAway along with the
+     * center of their coverage area.
+     */
+    suspend fun list(requestOptions: RequestOptions): AgenciesWithCoverageListResponse =
+        list(AgenciesWithCoverageListParams.none(), requestOptions)
 }
