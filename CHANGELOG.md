@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.59 (2025-02-26)
+
+Full Changelog: [v0.1.0-alpha.58...v0.1.0-alpha.59](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.58...v0.1.0-alpha.59)
+
+### Chores
+
+* **internal:** version bump ([#241](https://github.com/OneBusAway/kotlin-sdk/issues/241)) ([f0b60c8](https://github.com/OneBusAway/kotlin-sdk/commit/f0b60c8bb6b2dfb202e808947dde5825cbe991dc))
+
 ## 0.1.0-alpha.58 (2025-02-25)
 
 Full Changelog: [v0.1.0-alpha.57...v0.1.0-alpha.58](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.57...v0.1.0-alpha.58)
