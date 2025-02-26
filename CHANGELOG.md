@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.63 (2025-02-26)
+
+Full Changelog: [v0.1.0-alpha.62...v0.1.0-alpha.63](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.62...v0.1.0-alpha.63)
+
+### Features
+
+* **client:** allow omitting params object when none required ([#254](https://github.com/OneBusAway/kotlin-sdk/issues/254)) ([3e344a3](https://github.com/OneBusAway/kotlin-sdk/commit/3e344a30d07f0103a90ffeb18f1338a7f33bff2d))
+
 ## 0.1.0-alpha.62 (2025-02-26)
 
 Full Changelog: [v0.1.0-alpha.61...v0.1.0-alpha.62](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.61...v0.1.0-alpha.62)
