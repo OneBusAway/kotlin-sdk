@@ -11,6 +11,6 @@ interface StopsForLocationServiceAsync {
     /** stops-for-location */
     suspend fun list(
         params: StopsForLocationListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): StopsForLocationListResponse
 }

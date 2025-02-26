@@ -10,14 +10,13 @@ import org.onebusaway.core.handlers.withErrorHandler
 import org.onebusaway.core.http.HttpMethod
 import org.onebusaway.core.http.HttpRequest
 import org.onebusaway.core.http.HttpResponse.Handler
+import org.onebusaway.core.prepareAsync
 import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.ScheduleForStopRetrieveParams
 import org.onebusaway.models.ScheduleForStopRetrieveResponse
 
 class ScheduleForStopServiceAsyncImpl
-constructor(
-    private val clientOptions: ClientOptions,
-) : ScheduleForStopServiceAsync {
+internal constructor(private val clientOptions: ClientOptions) : ScheduleForStopServiceAsync {
 
     private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
 
@@ -28,7 +27,7 @@ constructor(
     /** Get schedule for a specific stop */
     override suspend fun retrieve(
         params: ScheduleForStopRetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): ScheduleForStopRetrieveResponse {
         val request =
             HttpRequest.builder()
@@ -37,21 +36,17 @@ constructor(
                     "api",
                     "where",
                     "schedule-for-stop",
-                    "${params.getPathParam(0)}.json"
+                    "${params.getPathParam(0)}.json",
                 )
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
                 .build()
-        return clientOptions.httpClient.executeAsync(request, requestOptions).let { response ->
-            response
-                .use { retrieveHandler.handle(it) }
-                .apply {
-                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                        validate()
-                    }
+                .prepareAsync(clientOptions, params)
+        val response = clientOptions.httpClient.executeAsync(request, requestOptions)
+        return response
+            .use { retrieveHandler.handle(it) }
+            .also {
+                if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                    it.validate()
                 }
-        }
+            }
     }
 }

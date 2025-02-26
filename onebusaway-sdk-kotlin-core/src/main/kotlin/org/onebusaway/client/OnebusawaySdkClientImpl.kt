@@ -61,10 +61,7 @@ import org.onebusaway.services.blocking.TripsForRouteServiceImpl
 import org.onebusaway.services.blocking.VehiclesForAgencyService
 import org.onebusaway.services.blocking.VehiclesForAgencyServiceImpl
 
-class OnebusawaySdkClientImpl
-constructor(
-    private val clientOptions: ClientOptions,
-) : OnebusawaySdkClient {
+class OnebusawaySdkClientImpl(private val clientOptions: ClientOptions) : OnebusawaySdkClient {
 
     private val clientOptionsWithUserAgent =
         if (clientOptions.headers.names().contains("User-Agent")) clientOptions
@@ -234,4 +231,6 @@ constructor(
     override fun block(): BlockService = block
 
     override fun shape(): ShapeService = shape
+
+    override fun close() = clientOptions.httpClient.close()
 }

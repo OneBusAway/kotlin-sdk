@@ -4,15 +4,18 @@ package org.onebusaway.models
 
 import java.util.Objects
 import org.onebusaway.core.NoAutoDetect
+import org.onebusaway.core.Params
+import org.onebusaway.core.checkRequired
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.QueryParams
 
+/** Get details of a specific stop */
 class StopRetrieveParams
-constructor(
+private constructor(
     private val stopId: String,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-) {
+) : Params {
 
     fun stopId(): String = stopId
 
@@ -20,9 +23,9 @@ constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    internal fun getHeaders(): Headers = additionalHeaders
+    override fun _headers(): Headers = additionalHeaders
 
-    internal fun getQueryParams(): QueryParams = additionalQueryParams
+    override fun _queryParams(): QueryParams = additionalQueryParams
 
     fun getPathParam(index: Int): String {
         return when (index) {
@@ -38,8 +41,9 @@ constructor(
         fun builder() = Builder()
     }
 
+    /** A builder for [StopRetrieveParams]. */
     @NoAutoDetect
-    class Builder {
+    class Builder internal constructor() {
 
         private var stopId: String? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
@@ -153,7 +157,7 @@ constructor(
 
         fun build(): StopRetrieveParams =
             StopRetrieveParams(
-                checkNotNull(stopId) { "`stopId` is required but was not set" },
+                checkRequired("stopId", stopId),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )

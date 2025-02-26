@@ -19,7 +19,7 @@ private constructor(
     @JsonAnyGetter
     @ExcludeMissing
     @JsonAnySetter
-    val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    val additionalProperties: Map<String, JsonValue> = immutableEmptyMap()
 ) {
 
     fun toBuilder() = Builder().from(this)
@@ -29,7 +29,8 @@ private constructor(
         fun builder() = Builder()
     }
 
-    class Builder {
+    /** A builder for [OnebusawaySdkError]. */
+    class Builder internal constructor() {
 
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 

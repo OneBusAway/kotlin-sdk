@@ -11,6 +11,6 @@ interface StopIdsForAgencyServiceAsync {
     /** Get stop IDs for a specific agency */
     suspend fun list(
         params: StopIdsForAgencyListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): StopIdsForAgencyListResponse
 }

@@ -11,6 +11,6 @@ interface StopService {
     /** Get details of a specific stop */
     fun retrieve(
         params: StopRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): StopRetrieveResponse
 }

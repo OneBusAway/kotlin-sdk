@@ -11,6 +11,6 @@ interface ShapeServiceAsync {
     /** Retrieve a shape (the path traveled by a transit vehicle) by ID. */
     suspend fun retrieve(
         params: ShapeRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): ShapeRetrieveResponse
 }

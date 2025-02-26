@@ -10,6 +10,7 @@ import org.onebusaway.core.handlers.withErrorHandler
 import org.onebusaway.core.http.HttpMethod
 import org.onebusaway.core.http.HttpRequest
 import org.onebusaway.core.http.HttpResponse.Handler
+import org.onebusaway.core.prepare
 import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.ArrivalAndDepartureListParams
 import org.onebusaway.models.ArrivalAndDepartureListResponse
@@ -17,9 +18,7 @@ import org.onebusaway.models.ArrivalAndDepartureRetrieveParams
 import org.onebusaway.models.ArrivalAndDepartureRetrieveResponse
 
 class ArrivalAndDepartureServiceImpl
-constructor(
-    private val clientOptions: ClientOptions,
-) : ArrivalAndDepartureService {
+internal constructor(private val clientOptions: ClientOptions) : ArrivalAndDepartureService {
 
     private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
 
@@ -30,7 +29,7 @@ constructor(
     /** arrival-and-departure-for-stop */
     override fun retrieve(
         params: ArrivalAndDepartureRetrieveParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): ArrivalAndDepartureRetrieveResponse {
         val request =
             HttpRequest.builder()
@@ -39,22 +38,18 @@ constructor(
                     "api",
                     "where",
                     "arrival-and-departure-for-stop",
-                    "${params.getPathParam(0)}.json"
+                    "${params.getPathParam(0)}.json",
                 )
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
                 .build()
-        return clientOptions.httpClient.execute(request, requestOptions).let { response ->
-            response
-                .use { retrieveHandler.handle(it) }
-                .apply {
-                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                        validate()
-                    }
+                .prepare(clientOptions, params)
+        val response = clientOptions.httpClient.execute(request, requestOptions)
+        return response
+            .use { retrieveHandler.handle(it) }
+            .also {
+                if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                    it.validate()
                 }
-        }
+            }
     }
 
     private val listHandler: Handler<ArrivalAndDepartureListResponse> =
@@ -64,7 +59,7 @@ constructor(
     /** arrivals-and-departures-for-stop */
     override fun list(
         params: ArrivalAndDepartureListParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): ArrivalAndDepartureListResponse {
         val request =
             HttpRequest.builder()
@@ -73,21 +68,17 @@ constructor(
                     "api",
                     "where",
                     "arrivals-and-departures-for-stop",
-                    "${params.getPathParam(0)}.json"
+                    "${params.getPathParam(0)}.json",
                 )
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
                 .build()
-        return clientOptions.httpClient.execute(request, requestOptions).let { response ->
-            response
-                .use { listHandler.handle(it) }
-                .apply {
-                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                        validate()
-                    }
+                .prepare(clientOptions, params)
+        val response = clientOptions.httpClient.execute(request, requestOptions)
+        return response
+            .use { listHandler.handle(it) }
+            .also {
+                if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                    it.validate()
                 }
-        }
+            }
     }
 }

@@ -11,6 +11,6 @@ interface TripsForLocationService {
     /** Retrieve trips for a given location */
     fun list(
         params: TripsForLocationListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): TripsForLocationListResponse
 }

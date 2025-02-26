@@ -8,7 +8,7 @@ abstract class OnebusawaySdkServiceException(
     private val body: String,
     private val error: OnebusawaySdkError,
     message: String = "$statusCode: $error",
-    cause: Throwable? = null
+    cause: Throwable? = null,
 ) : OnebusawaySdkException(message, cause) {
 
     fun statusCode(): Int = statusCode

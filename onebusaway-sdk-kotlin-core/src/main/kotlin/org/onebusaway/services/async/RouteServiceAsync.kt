@@ -11,6 +11,6 @@ interface RouteServiceAsync {
     /** Retrieve information for a specific route identified by its unique ID. */
     suspend fun retrieve(
         params: RouteRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): RouteRetrieveResponse
 }

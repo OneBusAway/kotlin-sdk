@@ -10,14 +10,13 @@ import org.onebusaway.core.handlers.withErrorHandler
 import org.onebusaway.core.http.HttpMethod
 import org.onebusaway.core.http.HttpRequest
 import org.onebusaway.core.http.HttpResponse.Handler
+import org.onebusaway.core.prepareAsync
 import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.TripsForRouteListParams
 import org.onebusaway.models.TripsForRouteListResponse
 
-class TripsForRouteServiceAsyncImpl
-constructor(
-    private val clientOptions: ClientOptions,
-) : TripsForRouteServiceAsync {
+class TripsForRouteServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
+    TripsForRouteServiceAsync {
 
     private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
 
@@ -28,7 +27,7 @@ constructor(
     /** Search for active trips for a specific route. */
     override suspend fun list(
         params: TripsForRouteListParams,
-        requestOptions: RequestOptions
+        requestOptions: RequestOptions,
     ): TripsForRouteListResponse {
         val request =
             HttpRequest.builder()
@@ -37,21 +36,17 @@ constructor(
                     "api",
                     "where",
                     "trips-for-route",
-                    "${params.getPathParam(0)}.json"
+                    "${params.getPathParam(0)}.json",
                 )
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
                 .build()
-        return clientOptions.httpClient.executeAsync(request, requestOptions).let { response ->
-            response
-                .use { listHandler.handle(it) }
-                .apply {
-                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                        validate()
-                    }
+                .prepareAsync(clientOptions, params)
+        val response = clientOptions.httpClient.executeAsync(request, requestOptions)
+        return response
+            .use { listHandler.handle(it) }
+            .also {
+                if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                    it.validate()
                 }
-        }
+            }
     }
 }

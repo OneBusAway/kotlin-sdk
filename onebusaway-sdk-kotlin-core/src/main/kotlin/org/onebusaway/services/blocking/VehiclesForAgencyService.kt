@@ -11,6 +11,6 @@ interface VehiclesForAgencyService {
     /** Get vehicles for a specific agency */
     fun list(
         params: VehiclesForAgencyListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): VehiclesForAgencyListResponse
 }

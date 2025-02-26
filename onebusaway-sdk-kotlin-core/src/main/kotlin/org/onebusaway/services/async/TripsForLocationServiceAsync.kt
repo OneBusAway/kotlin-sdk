@@ -11,6 +11,6 @@ interface TripsForLocationServiceAsync {
     /** Retrieve trips for a given location */
     suspend fun list(
         params: TripsForLocationListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): TripsForLocationListResponse
 }

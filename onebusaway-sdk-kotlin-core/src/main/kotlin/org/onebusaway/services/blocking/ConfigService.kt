@@ -11,6 +11,6 @@ interface ConfigService {
     /** config */
     fun retrieve(
         params: ConfigRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): ConfigRetrieveResponse
 }

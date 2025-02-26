@@ -11,6 +11,6 @@ interface StopsForAgencyService {
     /** Get stops for a specific agency */
     fun list(
         params: StopsForAgencyListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions = RequestOptions.none(),
     ): StopsForAgencyListResponse
 }

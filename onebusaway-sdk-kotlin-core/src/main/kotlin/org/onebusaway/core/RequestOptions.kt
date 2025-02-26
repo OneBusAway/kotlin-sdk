@@ -2,15 +2,11 @@ package org.onebusaway.core
 
 import java.time.Duration
 
-class RequestOptions
-private constructor(
-    val responseValidation: Boolean?,
-    val timeout: Duration?,
-) {
+class RequestOptions private constructor(val responseValidation: Boolean?, val timeout: Duration?) {
     fun applyDefaults(options: RequestOptions): RequestOptions {
         return RequestOptions(
             responseValidation = this.responseValidation ?: options.responseValidation,
-            timeout = this.timeout ?: options.timeout
+            timeout = this.timeout ?: options.timeout,
         )
     }
 
@@ -23,7 +19,8 @@ private constructor(
         fun builder() = Builder()
     }
 
-    class Builder {
+    class Builder internal constructor() {
+
         private var responseValidation: Boolean? = null
         private var timeout: Duration? = null
 

@@ -15,6 +15,7 @@ import kotlin.math.pow
 import kotlin.time.toKotlinDuration
 import kotlinx.coroutines.delay
 import org.onebusaway.core.RequestOptions
+import org.onebusaway.core.checkRequired
 import org.onebusaway.errors.OnebusawaySdkIoException
 
 class RetryingHttpClient
@@ -25,10 +26,7 @@ private constructor(
     private val idempotencyHeader: String?,
 ) : HttpClient {
 
-    override fun execute(
-        request: HttpRequest,
-        requestOptions: RequestOptions,
-    ): HttpResponse {
+    override fun execute(request: HttpRequest, requestOptions: RequestOptions): HttpResponse {
         if (!isRetryable(request) || maxRetries <= 0) {
             return httpClient.execute(request, requestOptions)
         }
@@ -54,15 +52,17 @@ private constructor(
                     }
 
                     response
-                } catch (t: Throwable) {
-                    if (++retries > maxRetries || !shouldRetry(t)) {
-                        throw t
+                } catch (throwable: Throwable) {
+                    if (++retries > maxRetries || !shouldRetry(throwable)) {
+                        throw throwable
                     }
 
                     null
                 }
 
             val backoffMillis = getRetryBackoffMillis(retries, response)
+            // All responses must be closed, so close the failed one before retrying.
+            response?.close()
             Thread.sleep(backoffMillis.toMillis())
         }
     }
@@ -96,15 +96,17 @@ private constructor(
                     }
 
                     response
-                } catch (t: Throwable) {
-                    if (++retries > maxRetries || !shouldRetry(t)) {
-                        throw t
+                } catch (throwable: Throwable) {
+                    if (++retries > maxRetries || !shouldRetry(throwable)) {
+                        throw throwable
                     }
 
                     null
                 }
 
             val backoffMillis = getRetryBackoffMillis(retries, response)
+            // All responses must be closed, so close the failed one before retrying.
+            response?.close()
             delay(backoffMillis.toKotlinDuration())
         }
     }
@@ -179,8 +181,8 @@ private constructor(
                                     OffsetDateTime.now(clock),
                                     OffsetDateTime.parse(
                                         retryAfter,
-                                        DateTimeFormatter.RFC_1123_DATE_TIME
-                                    )
+                                        DateTimeFormatter.RFC_1123_DATE_TIME,
+                                    ),
                                 )
                             } catch (e: DateTimeParseException) {
                                 null
@@ -207,10 +209,11 @@ private constructor(
     }
 
     companion object {
+
         fun builder() = Builder()
     }
 
-    class Builder {
+    class Builder internal constructor() {
 
         private var httpClient: HttpClient? = null
         private var clock: Clock = Clock.systemUTC()
@@ -227,7 +230,7 @@ private constructor(
 
         fun build(): HttpClient =
             RetryingHttpClient(
-                checkNotNull(httpClient) { "`httpClient` is required but was not set" },
+                checkRequired("httpClient", httpClient),
                 clock,
                 maxRetries,
                 idempotencyHeader,
