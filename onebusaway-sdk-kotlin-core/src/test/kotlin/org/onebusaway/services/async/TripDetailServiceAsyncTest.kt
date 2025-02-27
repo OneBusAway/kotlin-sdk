@@ -1,27 +1,27 @@
 // File generated from our OpenAPI spec by Stainless.
 
-package org.onebusaway.services.blocking
+package org.onebusaway.services.async
 
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.onebusaway.TestServerExtension
-import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
+import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClientAsync
 import org.onebusaway.models.TripDetailRetrieveParams
 
 @ExtendWith(TestServerExtension::class)
-class TripDetailServiceTest {
+class TripDetailServiceAsyncTest {
 
     @Test
-    fun retrieve() {
+    suspend fun retrieve() {
         val client =
-            OnebusawaySdkOkHttpClient.builder()
+            OnebusawaySdkOkHttpClientAsync.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
                 .build()
-        val tripDetailService = client.tripDetails()
+        val tripDetailServiceAsync = client.tripDetails()
 
         val tripDetail =
-            tripDetailService.retrieve(
+            tripDetailServiceAsync.retrieve(
                 TripDetailRetrieveParams.builder()
                     .tripId("tripID")
                     .includeSchedule(true)

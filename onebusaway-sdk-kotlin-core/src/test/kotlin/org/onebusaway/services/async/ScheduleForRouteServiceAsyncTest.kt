@@ -1,28 +1,28 @@
 // File generated from our OpenAPI spec by Stainless.
 
-package org.onebusaway.services.blocking
+package org.onebusaway.services.async
 
 import java.time.LocalDate
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.onebusaway.TestServerExtension
-import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
+import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClientAsync
 import org.onebusaway.models.ScheduleForRouteRetrieveParams
 
 @ExtendWith(TestServerExtension::class)
-class ScheduleForRouteServiceTest {
+class ScheduleForRouteServiceAsyncTest {
 
     @Test
-    fun retrieve() {
+    suspend fun retrieve() {
         val client =
-            OnebusawaySdkOkHttpClient.builder()
+            OnebusawaySdkOkHttpClientAsync.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
                 .build()
-        val scheduleForRouteService = client.scheduleForRoute()
+        val scheduleForRouteServiceAsync = client.scheduleForRoute()
 
         val scheduleForRoute =
-            scheduleForRouteService.retrieve(
+            scheduleForRouteServiceAsync.retrieve(
                 ScheduleForRouteRetrieveParams.builder()
                     .routeId("1_100223")
                     .date(LocalDate.parse("2019-12-27"))
