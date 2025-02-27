@@ -1,27 +1,29 @@
 // File generated from our OpenAPI spec by Stainless.
 
-package org.onebusaway.services.blocking
+package org.onebusaway.services.async
 
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.onebusaway.TestServerExtension
-import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
+import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClientAsync
 import org.onebusaway.models.RoutesForAgencyListParams
 
 @ExtendWith(TestServerExtension::class)
-class RoutesForAgencyServiceTest {
+class RoutesForAgencyServiceAsyncTest {
 
     @Test
-    fun list() {
+    suspend fun list() {
         val client =
-            OnebusawaySdkOkHttpClient.builder()
+            OnebusawaySdkOkHttpClientAsync.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
                 .build()
-        val routesForAgencyService = client.routesForAgency()
+        val routesForAgencyServiceAsync = client.routesForAgency()
 
         val routesForAgency =
-            routesForAgencyService.list(RoutesForAgencyListParams.builder().agencyId("40").build())
+            routesForAgencyServiceAsync.list(
+                RoutesForAgencyListParams.builder().agencyId("40").build()
+            )
 
         routesForAgency.validate()
     }

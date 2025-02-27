@@ -1,28 +1,28 @@
 // File generated from our OpenAPI spec by Stainless.
 
-package org.onebusaway.services.blocking
+package org.onebusaway.services.async
 
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.onebusaway.TestServerExtension
-import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
-import org.onebusaway.models.RoutesForLocationListParams
+import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClientAsync
+import org.onebusaway.models.StopsForLocationListParams
 
 @ExtendWith(TestServerExtension::class)
-class RoutesForLocationServiceTest {
+class StopsForLocationServiceAsyncTest {
 
     @Test
-    fun list() {
+    suspend fun list() {
         val client =
-            OnebusawaySdkOkHttpClient.builder()
+            OnebusawaySdkOkHttpClientAsync.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
                 .build()
-        val routesForLocationService = client.routesForLocation()
+        val stopsForLocationServiceAsync = client.stopsForLocation()
 
-        val routesForLocation =
-            routesForLocationService.list(
-                RoutesForLocationListParams.builder()
+        val stopsForLocation =
+            stopsForLocationServiceAsync.list(
+                StopsForLocationListParams.builder()
                     .lat(0.0)
                     .lon(0.0)
                     .latSpan(0.0)
@@ -32,6 +32,6 @@ class RoutesForLocationServiceTest {
                     .build()
             )
 
-        routesForLocation.validate()
+        stopsForLocation.validate()
     }
 }

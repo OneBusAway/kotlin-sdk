@@ -1,26 +1,27 @@
 // File generated from our OpenAPI spec by Stainless.
 
-package org.onebusaway.services.blocking
+package org.onebusaway.services.async
 
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.onebusaway.TestServerExtension
-import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
+import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClientAsync
 import org.onebusaway.models.BlockRetrieveParams
 
 @ExtendWith(TestServerExtension::class)
-class BlockServiceTest {
+class BlockServiceAsyncTest {
 
     @Test
-    fun retrieve() {
+    suspend fun retrieve() {
         val client =
-            OnebusawaySdkOkHttpClient.builder()
+            OnebusawaySdkOkHttpClientAsync.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
                 .build()
-        val blockService = client.block()
+        val blockServiceAsync = client.block()
 
-        val block = blockService.retrieve(BlockRetrieveParams.builder().blockId("blockID").build())
+        val block =
+            blockServiceAsync.retrieve(BlockRetrieveParams.builder().blockId("blockID").build())
 
         block.validate()
     }
