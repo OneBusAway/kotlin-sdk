@@ -1,29 +1,29 @@
 // File generated from our OpenAPI spec by Stainless.
 
-package org.onebusaway.services.blocking
+package org.onebusaway.services.async
 
 import java.time.OffsetDateTime
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.onebusaway.TestServerExtension
-import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
+import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClientAsync
 import org.onebusaway.models.ArrivalAndDepartureListParams
 import org.onebusaway.models.ArrivalAndDepartureRetrieveParams
 
 @ExtendWith(TestServerExtension::class)
-class ArrivalAndDepartureServiceTest {
+class ArrivalAndDepartureServiceAsyncTest {
 
     @Test
-    fun retrieve() {
+    suspend fun retrieve() {
         val client =
-            OnebusawaySdkOkHttpClient.builder()
+            OnebusawaySdkOkHttpClientAsync.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
                 .build()
-        val arrivalAndDepartureService = client.arrivalAndDeparture()
+        val arrivalAndDepartureServiceAsync = client.arrivalAndDeparture()
 
         val arrivalAndDeparture =
-            arrivalAndDepartureService.retrieve(
+            arrivalAndDepartureServiceAsync.retrieve(
                 ArrivalAndDepartureRetrieveParams.builder()
                     .stopId("1_75403")
                     .serviceDate(0L)
@@ -38,16 +38,16 @@ class ArrivalAndDepartureServiceTest {
     }
 
     @Test
-    fun list() {
+    suspend fun list() {
         val client =
-            OnebusawaySdkOkHttpClient.builder()
+            OnebusawaySdkOkHttpClientAsync.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
                 .build()
-        val arrivalAndDepartureService = client.arrivalAndDeparture()
+        val arrivalAndDepartureServiceAsync = client.arrivalAndDeparture()
 
         val arrivalAndDeparture =
-            arrivalAndDepartureService.list(
+            arrivalAndDepartureServiceAsync.list(
                 ArrivalAndDepartureListParams.builder()
                     .stopId("1_75403")
                     .minutesAfter(0L)

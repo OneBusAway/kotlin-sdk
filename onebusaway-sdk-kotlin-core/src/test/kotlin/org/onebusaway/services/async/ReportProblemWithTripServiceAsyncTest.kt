@@ -1,27 +1,27 @@
 // File generated from our OpenAPI spec by Stainless.
 
-package org.onebusaway.services.blocking
+package org.onebusaway.services.async
 
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.onebusaway.TestServerExtension
-import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
+import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClientAsync
 import org.onebusaway.models.ReportProblemWithTripRetrieveParams
 
 @ExtendWith(TestServerExtension::class)
-class ReportProblemWithTripServiceTest {
+class ReportProblemWithTripServiceAsyncTest {
 
     @Test
-    fun retrieve() {
+    suspend fun retrieve() {
         val client =
-            OnebusawaySdkOkHttpClient.builder()
+            OnebusawaySdkOkHttpClientAsync.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
                 .build()
-        val reportProblemWithTripService = client.reportProblemWithTrip()
+        val reportProblemWithTripServiceAsync = client.reportProblemWithTrip()
 
         val responseWrapper =
-            reportProblemWithTripService.retrieve(
+            reportProblemWithTripServiceAsync.retrieve(
                 ReportProblemWithTripRetrieveParams.builder()
                     .tripId("tripID")
                     .code(ReportProblemWithTripRetrieveParams.Code.VEHICLE_NEVER_CAME)

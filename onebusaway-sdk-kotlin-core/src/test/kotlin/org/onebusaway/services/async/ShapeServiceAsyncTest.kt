@@ -1,26 +1,27 @@
 // File generated from our OpenAPI spec by Stainless.
 
-package org.onebusaway.services.blocking
+package org.onebusaway.services.async
 
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.onebusaway.TestServerExtension
-import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
+import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClientAsync
 import org.onebusaway.models.ShapeRetrieveParams
 
 @ExtendWith(TestServerExtension::class)
-class ShapeServiceTest {
+class ShapeServiceAsyncTest {
 
     @Test
-    fun retrieve() {
+    suspend fun retrieve() {
         val client =
-            OnebusawaySdkOkHttpClient.builder()
+            OnebusawaySdkOkHttpClientAsync.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
                 .build()
-        val shapeService = client.shape()
+        val shapeServiceAsync = client.shape()
 
-        val shape = shapeService.retrieve(ShapeRetrieveParams.builder().shapeId("shapeID").build())
+        val shape =
+            shapeServiceAsync.retrieve(ShapeRetrieveParams.builder().shapeId("shapeID").build())
 
         shape.validate()
     }

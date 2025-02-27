@@ -12,14 +12,15 @@ import org.onebusaway.models.TripForVehicleRetrieveParams
 class TripForVehicleServiceTest {
 
     @Test
-    fun callRetrieve() {
+    fun retrieve() {
         val client =
             OnebusawaySdkOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
                 .build()
         val tripForVehicleService = client.tripForVehicle()
-        val tripForVehicleRetrieveResponse =
+
+        val tripForVehicle =
             tripForVehicleService.retrieve(
                 TripForVehicleRetrieveParams.builder()
                     .vehicleId("vehicleID")
@@ -29,6 +30,7 @@ class TripForVehicleServiceTest {
                     .time(0L)
                     .build()
             )
-        println(tripForVehicleRetrieveResponse)
+
+        tripForVehicle.validate()
     }
 }
