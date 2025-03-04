@@ -12,15 +12,16 @@ import org.onebusaway.models.ShapeRetrieveParams
 class ShapeServiceTest {
 
     @Test
-    fun callRetrieve() {
+    fun retrieve() {
         val client =
             OnebusawaySdkOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
                 .build()
         val shapeService = client.shape()
-        val shapeRetrieveResponse =
-            shapeService.retrieve(ShapeRetrieveParams.builder().shapeId("shapeID").build())
-        println(shapeRetrieveResponse)
+
+        val shape = shapeService.retrieve(ShapeRetrieveParams.builder().shapeId("shapeID").build())
+
+        shape.validate()
     }
 }

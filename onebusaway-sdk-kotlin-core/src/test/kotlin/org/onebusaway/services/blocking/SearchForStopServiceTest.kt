@@ -12,17 +12,19 @@ import org.onebusaway.models.SearchForStopListParams
 class SearchForStopServiceTest {
 
     @Test
-    fun callList() {
+    fun list() {
         val client =
             OnebusawaySdkOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
                 .build()
         val searchForStopService = client.searchForStop()
-        val searchForStopListResponse =
+
+        val searchForStop =
             searchForStopService.list(
                 SearchForStopListParams.builder().input("input").maxCount(0L).build()
             )
-        println(searchForStopListResponse)
+
+        searchForStop.validate()
     }
 }

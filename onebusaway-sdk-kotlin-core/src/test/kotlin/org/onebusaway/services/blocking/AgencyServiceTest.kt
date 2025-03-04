@@ -12,15 +12,17 @@ import org.onebusaway.models.AgencyRetrieveParams
 class AgencyServiceTest {
 
     @Test
-    fun callRetrieve() {
+    fun retrieve() {
         val client =
             OnebusawaySdkOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
                 .build()
         val agencyService = client.agency()
-        val agencyRetrieveResponse =
+
+        val agency =
             agencyService.retrieve(AgencyRetrieveParams.builder().agencyId("agencyID").build())
-        println(agencyRetrieveResponse)
+
+        agency.validate()
     }
 }

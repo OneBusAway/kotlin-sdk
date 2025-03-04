@@ -12,14 +12,15 @@ import org.onebusaway.models.RoutesForLocationListParams
 class RoutesForLocationServiceTest {
 
     @Test
-    fun callList() {
+    fun list() {
         val client =
             OnebusawaySdkOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
                 .build()
         val routesForLocationService = client.routesForLocation()
-        val routesForLocationListResponse =
+
+        val routesForLocation =
             routesForLocationService.list(
                 RoutesForLocationListParams.builder()
                     .lat(0.0)
@@ -30,6 +31,7 @@ class RoutesForLocationServiceTest {
                     .radius(0.0)
                     .build()
             )
-        println(routesForLocationListResponse)
+
+        routesForLocation.validate()
     }
 }

@@ -11,14 +11,16 @@ import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
 class CurrentTimeServiceTest {
 
     @Test
-    fun callRetrieve() {
+    fun retrieve() {
         val client =
             OnebusawaySdkOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
                 .build()
         val currentTimeService = client.currentTime()
-        val currentTimeRetrieveResponse = currentTimeService.retrieve()
-        println(currentTimeRetrieveResponse)
+
+        val currentTime = currentTimeService.retrieve()
+
+        currentTime.validate()
     }
 }

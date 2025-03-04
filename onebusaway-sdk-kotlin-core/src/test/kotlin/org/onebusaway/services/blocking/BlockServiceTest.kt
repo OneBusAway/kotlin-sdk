@@ -12,15 +12,16 @@ import org.onebusaway.models.BlockRetrieveParams
 class BlockServiceTest {
 
     @Test
-    fun callRetrieve() {
+    fun retrieve() {
         val client =
             OnebusawaySdkOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
                 .build()
         val blockService = client.block()
-        val blockRetrieveResponse =
-            blockService.retrieve(BlockRetrieveParams.builder().blockId("blockID").build())
-        println(blockRetrieveResponse)
+
+        val block = blockService.retrieve(BlockRetrieveParams.builder().blockId("blockID").build())
+
+        block.validate()
     }
 }

@@ -12,17 +12,19 @@ import org.onebusaway.models.RouteIdsForAgencyListParams
 class RouteIdsForAgencyServiceTest {
 
     @Test
-    fun callList() {
+    fun list() {
         val client =
             OnebusawaySdkOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
                 .build()
         val routeIdsForAgencyService = client.routeIdsForAgency()
-        val routeIdsForAgencyListResponse =
+
+        val routeIdsForAgency =
             routeIdsForAgencyService.list(
                 RouteIdsForAgencyListParams.builder().agencyId("agencyID").build()
             )
-        println(routeIdsForAgencyListResponse)
+
+        routeIdsForAgency.validate()
     }
 }

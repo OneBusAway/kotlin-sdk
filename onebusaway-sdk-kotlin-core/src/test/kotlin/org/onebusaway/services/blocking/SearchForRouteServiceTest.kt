@@ -12,17 +12,19 @@ import org.onebusaway.models.SearchForRouteListParams
 class SearchForRouteServiceTest {
 
     @Test
-    fun callList() {
+    fun list() {
         val client =
             OnebusawaySdkOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
                 .build()
         val searchForRouteService = client.searchForRoute()
-        val searchForRouteListResponse =
+
+        val searchForRoute =
             searchForRouteService.list(
                 SearchForRouteListParams.builder().input("input").maxCount(0L).build()
             )
-        println(searchForRouteListResponse)
+
+        searchForRoute.validate()
     }
 }

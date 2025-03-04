@@ -11,14 +11,16 @@ import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
 class ConfigServiceTest {
 
     @Test
-    fun callRetrieve() {
+    fun retrieve() {
         val client =
             OnebusawaySdkOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
                 .build()
         val configService = client.config()
-        val configRetrieveResponse = configService.retrieve()
-        println(configRetrieveResponse)
+
+        val config = configService.retrieve()
+
+        config.validate()
     }
 }

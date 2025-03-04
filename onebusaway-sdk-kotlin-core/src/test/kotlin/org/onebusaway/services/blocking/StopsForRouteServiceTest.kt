@@ -12,14 +12,15 @@ import org.onebusaway.models.StopsForRouteListParams
 class StopsForRouteServiceTest {
 
     @Test
-    fun callList() {
+    fun list() {
         val client =
             OnebusawaySdkOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
                 .build()
         val stopsForRouteService = client.stopsForRoute()
-        val stopsForRouteListResponse =
+
+        val stopsForRoute =
             stopsForRouteService.list(
                 StopsForRouteListParams.builder()
                     .routeId("routeID")
@@ -27,6 +28,7 @@ class StopsForRouteServiceTest {
                     .time("time")
                     .build()
             )
-        println(stopsForRouteListResponse)
+
+        stopsForRoute.validate()
     }
 }

@@ -14,14 +14,15 @@ import org.onebusaway.models.ArrivalAndDepartureRetrieveParams
 class ArrivalAndDepartureServiceTest {
 
     @Test
-    fun callRetrieve() {
+    fun retrieve() {
         val client =
             OnebusawaySdkOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
                 .build()
         val arrivalAndDepartureService = client.arrivalAndDeparture()
-        val arrivalAndDepartureRetrieveResponse =
+
+        val arrivalAndDeparture =
             arrivalAndDepartureService.retrieve(
                 ArrivalAndDepartureRetrieveParams.builder()
                     .stopId("1_75403")
@@ -32,18 +33,20 @@ class ArrivalAndDepartureServiceTest {
                     .vehicleId("vehicleId")
                     .build()
             )
-        println(arrivalAndDepartureRetrieveResponse)
+
+        arrivalAndDeparture.validate()
     }
 
     @Test
-    fun callList() {
+    fun list() {
         val client =
             OnebusawaySdkOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
                 .build()
         val arrivalAndDepartureService = client.arrivalAndDeparture()
-        val arrivalAndDepartureListResponse =
+
+        val arrivalAndDeparture =
             arrivalAndDepartureService.list(
                 ArrivalAndDepartureListParams.builder()
                     .stopId("1_75403")
@@ -52,6 +55,7 @@ class ArrivalAndDepartureServiceTest {
                     .time(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .build()
             )
-        println(arrivalAndDepartureListResponse)
+
+        arrivalAndDeparture.validate()
     }
 }

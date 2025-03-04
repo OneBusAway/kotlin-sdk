@@ -11,14 +11,16 @@ import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
 class AgenciesWithCoverageServiceTest {
 
     @Test
-    fun callList() {
+    fun list() {
         val client =
             OnebusawaySdkOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
                 .build()
         val agenciesWithCoverageService = client.agenciesWithCoverage()
-        val agenciesWithCoverageListResponse = agenciesWithCoverageService.list()
-        println(agenciesWithCoverageListResponse)
+
+        val agenciesWithCoverage = agenciesWithCoverageService.list()
+
+        agenciesWithCoverage.validate()
     }
 }

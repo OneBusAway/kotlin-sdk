@@ -12,15 +12,16 @@ import org.onebusaway.models.StopRetrieveParams
 class StopServiceTest {
 
     @Test
-    fun callRetrieve() {
+    fun retrieve() {
         val client =
             OnebusawaySdkOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
                 .build()
         val stopService = client.stop()
-        val stopRetrieveResponse =
-            stopService.retrieve(StopRetrieveParams.builder().stopId("stopID").build())
-        println(stopRetrieveResponse)
+
+        val stop = stopService.retrieve(StopRetrieveParams.builder().stopId("stopID").build())
+
+        stop.validate()
     }
 }

@@ -12,17 +12,19 @@ import org.onebusaway.models.VehiclesForAgencyListParams
 class VehiclesForAgencyServiceTest {
 
     @Test
-    fun callList() {
+    fun list() {
         val client =
             OnebusawaySdkOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
                 .build()
         val vehiclesForAgencyService = client.vehiclesForAgency()
-        val vehiclesForAgencyListResponse =
+
+        val vehiclesForAgency =
             vehiclesForAgencyService.list(
                 VehiclesForAgencyListParams.builder().agencyId("agencyID").time("time").build()
             )
-        println(vehiclesForAgencyListResponse)
+
+        vehiclesForAgency.validate()
     }
 }

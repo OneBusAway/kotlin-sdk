@@ -12,14 +12,15 @@ import org.onebusaway.models.TripsForRouteListParams
 class TripsForRouteServiceTest {
 
     @Test
-    fun callList() {
+    fun list() {
         val client =
             OnebusawaySdkOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
                 .build()
         val tripsForRouteService = client.tripsForRoute()
-        val tripsForRouteListResponse =
+
+        val tripsForRoute =
             tripsForRouteService.list(
                 TripsForRouteListParams.builder()
                     .routeId("routeID")
@@ -28,6 +29,7 @@ class TripsForRouteServiceTest {
                     .time(0L)
                     .build()
             )
-        println(tripsForRouteListResponse)
+
+        tripsForRoute.validate()
     }
 }

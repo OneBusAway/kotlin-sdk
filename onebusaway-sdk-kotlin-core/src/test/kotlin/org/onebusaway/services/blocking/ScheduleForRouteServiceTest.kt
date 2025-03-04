@@ -13,20 +13,22 @@ import org.onebusaway.models.ScheduleForRouteRetrieveParams
 class ScheduleForRouteServiceTest {
 
     @Test
-    fun callRetrieve() {
+    fun retrieve() {
         val client =
             OnebusawaySdkOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
                 .build()
         val scheduleForRouteService = client.scheduleForRoute()
-        val scheduleForRouteRetrieveResponse =
+
+        val scheduleForRoute =
             scheduleForRouteService.retrieve(
                 ScheduleForRouteRetrieveParams.builder()
                     .routeId("1_100223")
                     .date(LocalDate.parse("2019-12-27"))
                     .build()
             )
-        println(scheduleForRouteRetrieveResponse)
+
+        scheduleForRoute.validate()
     }
 }

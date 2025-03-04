@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.1.0-alpha.64 (2025-03-04)
+
+Full Changelog: [v0.1.0-alpha.63...v0.1.0-alpha.64](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.63...v0.1.0-alpha.64)
+
+### Chores
+
+* **client:** use deep identity methods for primitive array types ([#259](https://github.com/OneBusAway/kotlin-sdk/issues/259)) ([3e3498d](https://github.com/OneBusAway/kotlin-sdk/commit/3e3498d2beea5f1bae0c40a8a8fffdad0e7a303a))
+* **internal:** add async service tests ([#257](https://github.com/OneBusAway/kotlin-sdk/issues/257)) ([f932317](https://github.com/OneBusAway/kotlin-sdk/commit/f9323176530f458418269598db5d4b86309c1d7e))
+* **internal:** improve sync service tests ([f932317](https://github.com/OneBusAway/kotlin-sdk/commit/f9323176530f458418269598db5d4b86309c1d7e))
+* **internal:** refactor `ErrorHandlingTest` ([#262](https://github.com/OneBusAway/kotlin-sdk/issues/262)) ([fdb55ed](https://github.com/OneBusAway/kotlin-sdk/commit/fdb55ed46957c7110a7278872299762278c6ae8f))
+* **internal:** refactor `ServiceParamsTest` ([#260](https://github.com/OneBusAway/kotlin-sdk/issues/260)) ([1bc085e](https://github.com/OneBusAway/kotlin-sdk/commit/1bc085e8865f79d3ce55173048ace9e17af9d469))
+
+
+### Documentation
+
+* readme parameter tweaks ([f932317](https://github.com/OneBusAway/kotlin-sdk/commit/f9323176530f458418269598db5d4b86309c1d7e))
+* update URLs from stainlessapi.com to stainless.com ([#261](https://github.com/OneBusAway/kotlin-sdk/issues/261)) ([5e68b44](https://github.com/OneBusAway/kotlin-sdk/commit/5e68b4422fae787a9a82ce2aa56961b70593081e))
+
 ## 0.1.0-alpha.63 (2025-02-26)
 
 Full Changelog: [v0.1.0-alpha.62...v0.1.0-alpha.63](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.62...v0.1.0-alpha.63)

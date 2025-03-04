@@ -12,13 +12,14 @@ import org.onebusaway.models.ReportProblemWithTripRetrieveParams
 class ReportProblemWithTripServiceTest {
 
     @Test
-    fun callRetrieve() {
+    fun retrieve() {
         val client =
             OnebusawaySdkOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
                 .build()
         val reportProblemWithTripService = client.reportProblemWithTrip()
+
         val responseWrapper =
             reportProblemWithTripService.retrieve(
                 ReportProblemWithTripRetrieveParams.builder()
@@ -35,7 +36,7 @@ class ReportProblemWithTripServiceTest {
                     .vehicleId("vehicleID")
                     .build()
             )
-        println(responseWrapper)
+
         responseWrapper.validate()
     }
 }

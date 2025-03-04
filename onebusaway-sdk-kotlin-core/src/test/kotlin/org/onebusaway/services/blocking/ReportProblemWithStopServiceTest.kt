@@ -12,13 +12,14 @@ import org.onebusaway.models.ReportProblemWithStopRetrieveParams
 class ReportProblemWithStopServiceTest {
 
     @Test
-    fun callRetrieve() {
+    fun retrieve() {
         val client =
             OnebusawaySdkOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
                 .build()
         val reportProblemWithStopService = client.reportProblemWithStop()
+
         val responseWrapper =
             reportProblemWithStopService.retrieve(
                 ReportProblemWithStopRetrieveParams.builder()
@@ -30,7 +31,7 @@ class ReportProblemWithStopServiceTest {
                     .userLon(0.0)
                     .build()
             )
-        println(responseWrapper)
+
         responseWrapper.validate()
     }
 }
