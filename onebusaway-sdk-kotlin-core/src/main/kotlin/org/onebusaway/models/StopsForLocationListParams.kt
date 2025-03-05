@@ -60,6 +60,15 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [StopsForLocationListParams].
+         *
+         * The following fields are required:
+         * ```kotlin
+         * .lat()
+         * .lon()
+         * ```
+         */
         fun builder() = Builder()
     }
 

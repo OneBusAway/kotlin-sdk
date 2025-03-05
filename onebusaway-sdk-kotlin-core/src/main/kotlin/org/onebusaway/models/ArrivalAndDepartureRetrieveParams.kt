@@ -62,6 +62,17 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [ArrivalAndDepartureRetrieveParams].
+         *
+         * The following fields are required:
+         * ```kotlin
+         * .stopId()
+         * .serviceDate()
+         * .tripId()
+         * ```
+         */
         fun builder() = Builder()
     }
 

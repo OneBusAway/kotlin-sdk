@@ -84,6 +84,19 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [ScheduleForStopRetrieveResponse].
+         *
+         * The following fields are required:
+         * ```kotlin
+         * .code()
+         * .currentTime()
+         * .text()
+         * .version()
+         * .data()
+         * ```
+         */
         fun builder() = Builder()
     }
 
@@ -202,6 +215,15 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [Data].
+             *
+             * The following fields are required:
+             * ```kotlin
+             * .entry()
+             * .references()
+             * ```
+             */
             fun builder() = Builder()
         }
 
@@ -308,6 +330,16 @@ private constructor(
 
             companion object {
 
+                /**
+                 * Returns a mutable builder for constructing an instance of [Entry].
+                 *
+                 * The following fields are required:
+                 * ```kotlin
+                 * .date()
+                 * .stopId()
+                 * .stopRouteSchedules()
+                 * ```
+                 */
                 fun builder() = Builder()
             }
 
@@ -430,6 +462,16 @@ private constructor(
 
                 companion object {
 
+                    /**
+                     * Returns a mutable builder for constructing an instance of
+                     * [StopRouteSchedule].
+                     *
+                     * The following fields are required:
+                     * ```kotlin
+                     * .routeId()
+                     * .stopRouteDirectionSchedules()
+                     * ```
+                     */
                     fun builder() = Builder()
                 }
 
@@ -569,6 +611,16 @@ private constructor(
 
                     companion object {
 
+                        /**
+                         * Returns a mutable builder for constructing an instance of
+                         * [StopRouteDirectionSchedule].
+                         *
+                         * The following fields are required:
+                         * ```kotlin
+                         * .scheduleStopTimes()
+                         * .tripHeadsign()
+                         * ```
+                         */
                         fun builder() = Builder()
                     }
 
@@ -770,6 +822,20 @@ private constructor(
 
                         companion object {
 
+                            /**
+                             * Returns a mutable builder for constructing an instance of
+                             * [ScheduleStopTime].
+                             *
+                             * The following fields are required:
+                             * ```kotlin
+                             * .arrivalEnabled()
+                             * .arrivalTime()
+                             * .departureEnabled()
+                             * .departureTime()
+                             * .serviceId()
+                             * .tripId()
+                             * ```
+                             */
                             fun builder() = Builder()
                         }
 
@@ -983,6 +1049,20 @@ private constructor(
 
                         companion object {
 
+                            /**
+                             * Returns a mutable builder for constructing an instance of
+                             * [ScheduleFrequency].
+                             *
+                             * The following fields are required:
+                             * ```kotlin
+                             * .endTime()
+                             * .headway()
+                             * .serviceDate()
+                             * .serviceId()
+                             * .startTime()
+                             * .tripId()
+                             * ```
+                             */
                             fun builder() = Builder()
                         }
 

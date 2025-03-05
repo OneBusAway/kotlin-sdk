@@ -84,6 +84,18 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [BlockRetrieveResponse].
+         *
+         * The following fields are required:
+         * ```kotlin
+         * .code()
+         * .currentTime()
+         * .text()
+         * .version()
+         * .data()
+         * ```
+         */
         fun builder() = Builder()
     }
 
@@ -200,6 +212,15 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [Data].
+             *
+             * The following fields are required:
+             * ```kotlin
+             * .entry()
+             * .references()
+             * ```
+             */
             fun builder() = Builder()
         }
 
@@ -297,6 +318,15 @@ private constructor(
 
             companion object {
 
+                /**
+                 * Returns a mutable builder for constructing an instance of [Entry].
+                 *
+                 * The following fields are required:
+                 * ```kotlin
+                 * .id()
+                 * .configurations()
+                 * ```
+                 */
                 fun builder() = Builder()
             }
 
@@ -417,6 +447,15 @@ private constructor(
 
                 companion object {
 
+                    /**
+                     * Returns a mutable builder for constructing an instance of [Configuration].
+                     *
+                     * The following fields are required:
+                     * ```kotlin
+                     * .activeServiceIds()
+                     * .trips()
+                     * ```
+                     */
                     fun builder() = Builder()
                 }
 
@@ -579,6 +618,17 @@ private constructor(
 
                     companion object {
 
+                        /**
+                         * Returns a mutable builder for constructing an instance of [Trip].
+                         *
+                         * The following fields are required:
+                         * ```kotlin
+                         * .accumulatedSlackTime()
+                         * .blockStopTimes()
+                         * .distanceAlongBlock()
+                         * .tripId()
+                         * ```
+                         */
                         fun builder() = Builder()
                     }
 
@@ -735,6 +785,18 @@ private constructor(
 
                         companion object {
 
+                            /**
+                             * Returns a mutable builder for constructing an instance of
+                             * [BlockStopTime].
+                             *
+                             * The following fields are required:
+                             * ```kotlin
+                             * .accumulatedSlackTime()
+                             * .blockSequence()
+                             * .distanceAlongBlock()
+                             * .stopTime()
+                             * ```
+                             */
                             fun builder() = Builder()
                         }
 
@@ -895,6 +957,17 @@ private constructor(
 
                             companion object {
 
+                                /**
+                                 * Returns a mutable builder for constructing an instance of
+                                 * [StopTime].
+                                 *
+                                 * The following fields are required:
+                                 * ```kotlin
+                                 * .arrivalTime()
+                                 * .departureTime()
+                                 * .stopId()
+                                 * ```
+                                 */
                                 fun builder() = Builder()
                             }
 

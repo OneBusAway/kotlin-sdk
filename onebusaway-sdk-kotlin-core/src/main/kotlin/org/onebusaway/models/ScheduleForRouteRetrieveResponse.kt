@@ -84,6 +84,19 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [ScheduleForRouteRetrieveResponse].
+         *
+         * The following fields are required:
+         * ```kotlin
+         * .code()
+         * .currentTime()
+         * .text()
+         * .version()
+         * .data()
+         * ```
+         */
         fun builder() = Builder()
     }
 
@@ -192,6 +205,14 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [Data].
+             *
+             * The following fields are required:
+             * ```kotlin
+             * .entry()
+             * ```
+             */
             fun builder() = Builder()
         }
 
@@ -314,6 +335,19 @@ private constructor(
 
             companion object {
 
+                /**
+                 * Returns a mutable builder for constructing an instance of [Entry].
+                 *
+                 * The following fields are required:
+                 * ```kotlin
+                 * .routeId()
+                 * .scheduleDate()
+                 * .serviceIds()
+                 * .stops()
+                 * .stopTripGroupings()
+                 * .trips()
+                 * ```
+                 */
                 fun builder() = Builder()
             }
 
@@ -563,6 +597,20 @@ private constructor(
 
                 companion object {
 
+                    /**
+                     * Returns a mutable builder for constructing an instance of [Stop].
+                     *
+                     * The following fields are required:
+                     * ```kotlin
+                     * .id()
+                     * .lat()
+                     * .lon()
+                     * .name()
+                     * .parent()
+                     * .routeIds()
+                     * .staticRouteIds()
+                     * ```
+                     */
                     fun builder() = Builder()
                 }
 
@@ -804,6 +852,17 @@ private constructor(
 
                 companion object {
 
+                    /**
+                     * Returns a mutable builder for constructing an instance of [StopTripGrouping].
+                     *
+                     * The following fields are required:
+                     * ```kotlin
+                     * .directionId()
+                     * .stopIds()
+                     * .tripHeadsigns()
+                     * .tripIds()
+                     * ```
+                     */
                     fun builder() = Builder()
                 }
 
@@ -968,6 +1027,16 @@ private constructor(
 
                     companion object {
 
+                        /**
+                         * Returns a mutable builder for constructing an instance of
+                         * [TripsWithStopTime].
+                         *
+                         * The following fields are required:
+                         * ```kotlin
+                         * .stopTimes()
+                         * .tripId()
+                         * ```
+                         */
                         fun builder() = Builder()
                     }
 
@@ -1142,6 +1211,19 @@ private constructor(
 
                         companion object {
 
+                            /**
+                             * Returns a mutable builder for constructing an instance of [StopTime].
+                             *
+                             * The following fields are required:
+                             * ```kotlin
+                             * .arrivalEnabled()
+                             * .arrivalTime()
+                             * .departureEnabled()
+                             * .departureTime()
+                             * .stopId()
+                             * .tripId()
+                             * ```
+                             */
                             fun builder() = Builder()
                         }
 
@@ -1438,6 +1520,16 @@ private constructor(
 
                 companion object {
 
+                    /**
+                     * Returns a mutable builder for constructing an instance of [Trip].
+                     *
+                     * The following fields are required:
+                     * ```kotlin
+                     * .id()
+                     * .routeId()
+                     * .serviceId()
+                     * ```
+                     */
                     fun builder() = Builder()
                 }
 

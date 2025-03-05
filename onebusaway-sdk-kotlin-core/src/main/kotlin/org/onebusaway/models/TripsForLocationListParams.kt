@@ -67,6 +67,17 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [TripsForLocationListParams].
+         *
+         * The following fields are required:
+         * ```kotlin
+         * .lat()
+         * .latSpan()
+         * .lon()
+         * .lonSpan()
+         * ```
+         */
         fun builder() = Builder()
     }
 
