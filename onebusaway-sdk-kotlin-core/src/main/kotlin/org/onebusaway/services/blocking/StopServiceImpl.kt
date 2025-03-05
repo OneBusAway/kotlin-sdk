@@ -10,6 +10,8 @@ import org.onebusaway.core.handlers.withErrorHandler
 import org.onebusaway.core.http.HttpMethod
 import org.onebusaway.core.http.HttpRequest
 import org.onebusaway.core.http.HttpResponse.Handler
+import org.onebusaway.core.http.HttpResponseFor
+import org.onebusaway.core.http.parseable
 import org.onebusaway.core.prepare
 import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.StopRetrieveParams
@@ -17,30 +19,50 @@ import org.onebusaway.models.StopRetrieveResponse
 
 class StopServiceImpl internal constructor(private val clientOptions: ClientOptions) : StopService {
 
-    private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
+    private val withRawResponse: StopService.WithRawResponse by lazy {
+        WithRawResponseImpl(clientOptions)
+    }
 
-    private val retrieveHandler: Handler<StopRetrieveResponse> =
-        jsonHandler<StopRetrieveResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+    override fun withRawResponse(): StopService.WithRawResponse = withRawResponse
 
-    /** Get details of a specific stop */
     override fun retrieve(
         params: StopRetrieveParams,
         requestOptions: RequestOptions,
-    ): StopRetrieveResponse {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.GET)
-                .addPathSegments("api", "where", "stop", "${params.getPathParam(0)}.json")
-                .build()
-                .prepare(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        val response = clientOptions.httpClient.execute(request, requestOptions)
-        return response
-            .use { retrieveHandler.handle(it) }
-            .also {
-                if (requestOptions.responseValidation!!) {
-                    it.validate()
-                }
+    ): StopRetrieveResponse =
+        // get /api/where/stop/{stopID}.json
+        withRawResponse().retrieve(params, requestOptions).parse()
+
+    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
+        StopService.WithRawResponse {
+
+        private val errorHandler: Handler<OnebusawaySdkError> =
+            errorHandler(clientOptions.jsonMapper)
+
+        private val retrieveHandler: Handler<StopRetrieveResponse> =
+            jsonHandler<StopRetrieveResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun retrieve(
+            params: StopRetrieveParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<StopRetrieveResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .addPathSegments("api", "where", "stop", "${params.getPathParam(0)}.json")
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { retrieveHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
             }
+        }
     }
 }
