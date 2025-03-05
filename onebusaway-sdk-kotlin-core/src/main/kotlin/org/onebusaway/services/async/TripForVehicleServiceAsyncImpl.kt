@@ -10,6 +10,8 @@ import org.onebusaway.core.handlers.withErrorHandler
 import org.onebusaway.core.http.HttpMethod
 import org.onebusaway.core.http.HttpRequest
 import org.onebusaway.core.http.HttpResponse.Handler
+import org.onebusaway.core.http.HttpResponseFor
+import org.onebusaway.core.http.parseable
 import org.onebusaway.core.prepareAsync
 import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.TripForVehicleRetrieveParams
@@ -18,36 +20,55 @@ import org.onebusaway.models.TripForVehicleRetrieveResponse
 class TripForVehicleServiceAsyncImpl
 internal constructor(private val clientOptions: ClientOptions) : TripForVehicleServiceAsync {
 
-    private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
+    private val withRawResponse: TripForVehicleServiceAsync.WithRawResponse by lazy {
+        WithRawResponseImpl(clientOptions)
+    }
 
-    private val retrieveHandler: Handler<TripForVehicleRetrieveResponse> =
-        jsonHandler<TripForVehicleRetrieveResponse>(clientOptions.jsonMapper)
-            .withErrorHandler(errorHandler)
+    override fun withRawResponse(): TripForVehicleServiceAsync.WithRawResponse = withRawResponse
 
-    /** Retrieve trip for a specific vehicle */
     override suspend fun retrieve(
         params: TripForVehicleRetrieveParams,
         requestOptions: RequestOptions,
-    ): TripForVehicleRetrieveResponse {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.GET)
-                .addPathSegments(
-                    "api",
-                    "where",
-                    "trip-for-vehicle",
-                    "${params.getPathParam(0)}.json",
-                )
-                .build()
-                .prepareAsync(clientOptions, params)
-        val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-        val response = clientOptions.httpClient.executeAsync(request, requestOptions)
-        return response
-            .use { retrieveHandler.handle(it) }
-            .also {
-                if (requestOptions.responseValidation!!) {
-                    it.validate()
-                }
+    ): TripForVehicleRetrieveResponse =
+        // get /api/where/trip-for-vehicle/{vehicleID}.json
+        withRawResponse().retrieve(params, requestOptions).parse()
+
+    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
+        TripForVehicleServiceAsync.WithRawResponse {
+
+        private val errorHandler: Handler<OnebusawaySdkError> =
+            errorHandler(clientOptions.jsonMapper)
+
+        private val retrieveHandler: Handler<TripForVehicleRetrieveResponse> =
+            jsonHandler<TripForVehicleRetrieveResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override suspend fun retrieve(
+            params: TripForVehicleRetrieveParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<TripForVehicleRetrieveResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .addPathSegments(
+                        "api",
+                        "where",
+                        "trip-for-vehicle",
+                        "${params.getPathParam(0)}.json",
+                    )
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.executeAsync(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { retrieveHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
             }
+        }
     }
 }
