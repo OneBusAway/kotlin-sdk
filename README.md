@@ -146,6 +146,32 @@ val currentTime: CurrentTimeRetrieveResponse = client.currentTime().retrieve()
 
 The asynchronous client supports the same options as the synchronous one, except most methods are [suspending](https://kotlinlang.org/docs/coroutines-guide.html).
 
+## Raw responses
+
+The SDK defines methods that deserialize responses into instances of Kotlin classes. However, these methods don't provide access to the response headers, status code, or the raw response body.
+
+To access this data, prefix any HTTP method call on a client or service with `withRawResponse()`:
+
+```kotlin
+import org.onebusaway.core.http.Headers
+import org.onebusaway.core.http.HttpResponseFor
+import org.onebusaway.models.CurrentTimeRetrieveParams
+import org.onebusaway.models.CurrentTimeRetrieveResponse
+
+val currentTime: HttpResponseFor<CurrentTimeRetrieveResponse> = client.currentTime().withRawResponse().retrieve()
+
+val statusCode: Int = currentTime.statusCode()
+val headers: Headers = currentTime.headers()
+```
+
+You can still deserialize the response into an instance of a Kotlin class if needed:
+
+```kotlin
+import org.onebusaway.models.CurrentTimeRetrieveResponse
+
+val parsedCurrentTime: CurrentTimeRetrieveResponse = currentTime.parse()
+```
+
 ## Error handling
 
 The SDK throws custom unchecked exception types:
