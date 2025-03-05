@@ -12,6 +12,7 @@ import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonMissing
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.NoAutoDetect
+import org.onebusaway.core.checkKnown
 import org.onebusaway.core.checkRequired
 import org.onebusaway.core.immutableEmptyMap
 import org.onebusaway.core.toImmutable
@@ -83,6 +84,19 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [ScheduleForRouteRetrieveResponse].
+         *
+         * The following fields are required:
+         * ```kotlin
+         * .code()
+         * .currentTime()
+         * .text()
+         * .version()
+         * .data()
+         * ```
+         */
         fun builder() = Builder()
     }
 
@@ -191,6 +205,14 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [Data].
+             *
+             * The following fields are required:
+             * ```kotlin
+             * .entry()
+             * ```
+             */
             fun builder() = Builder()
         }
 
@@ -313,6 +335,19 @@ private constructor(
 
             companion object {
 
+                /**
+                 * Returns a mutable builder for constructing an instance of [Entry].
+                 *
+                 * The following fields are required:
+                 * ```kotlin
+                 * .routeId()
+                 * .scheduleDate()
+                 * .serviceIds()
+                 * .stops()
+                 * .stopTripGroupings()
+                 * .trips()
+                 * ```
+                 */
                 fun builder() = Builder()
             }
 
@@ -355,12 +390,8 @@ private constructor(
 
                 fun addServiceId(serviceId: String) = apply {
                     serviceIds =
-                        (serviceIds ?: JsonField.of(mutableListOf())).apply {
-                            (asKnown()
-                                    ?: throw IllegalStateException(
-                                        "Field was set to non-list type: ${javaClass.simpleName}"
-                                    ))
-                                .add(serviceId)
+                        (serviceIds ?: JsonField.of(mutableListOf())).also {
+                            checkKnown("serviceIds", it).add(serviceId)
                         }
                 }
 
@@ -372,12 +403,8 @@ private constructor(
 
                 fun addStop(stop: Stop) = apply {
                     stops =
-                        (stops ?: JsonField.of(mutableListOf())).apply {
-                            (asKnown()
-                                    ?: throw IllegalStateException(
-                                        "Field was set to non-list type: ${javaClass.simpleName}"
-                                    ))
-                                .add(stop)
+                        (stops ?: JsonField.of(mutableListOf())).also {
+                            checkKnown("stops", it).add(stop)
                         }
                 }
 
@@ -391,12 +418,8 @@ private constructor(
 
                 fun addStopTripGrouping(stopTripGrouping: StopTripGrouping) = apply {
                     stopTripGroupings =
-                        (stopTripGroupings ?: JsonField.of(mutableListOf())).apply {
-                            (asKnown()
-                                    ?: throw IllegalStateException(
-                                        "Field was set to non-list type: ${javaClass.simpleName}"
-                                    ))
-                                .add(stopTripGrouping)
+                        (stopTripGroupings ?: JsonField.of(mutableListOf())).also {
+                            checkKnown("stopTripGroupings", it).add(stopTripGrouping)
                         }
                 }
 
@@ -408,12 +431,8 @@ private constructor(
 
                 fun addTrip(trip: Trip) = apply {
                     trips =
-                        (trips ?: JsonField.of(mutableListOf())).apply {
-                            (asKnown()
-                                    ?: throw IllegalStateException(
-                                        "Field was set to non-list type: ${javaClass.simpleName}"
-                                    ))
-                                .add(trip)
+                        (trips ?: JsonField.of(mutableListOf())).also {
+                            checkKnown("trips", it).add(trip)
                         }
                 }
 
@@ -578,6 +597,20 @@ private constructor(
 
                 companion object {
 
+                    /**
+                     * Returns a mutable builder for constructing an instance of [Stop].
+                     *
+                     * The following fields are required:
+                     * ```kotlin
+                     * .id()
+                     * .lat()
+                     * .lon()
+                     * .name()
+                     * .parent()
+                     * .routeIds()
+                     * .staticRouteIds()
+                     * ```
+                     */
                     fun builder() = Builder()
                 }
 
@@ -640,12 +673,8 @@ private constructor(
 
                     fun addRouteId(routeId: String) = apply {
                         routeIds =
-                            (routeIds ?: JsonField.of(mutableListOf())).apply {
-                                (asKnown()
-                                        ?: throw IllegalStateException(
-                                            "Field was set to non-list type: ${javaClass.simpleName}"
-                                        ))
-                                    .add(routeId)
+                            (routeIds ?: JsonField.of(mutableListOf())).also {
+                                checkKnown("routeIds", it).add(routeId)
                             }
                     }
 
@@ -658,12 +687,8 @@ private constructor(
 
                     fun addStaticRouteId(staticRouteId: String) = apply {
                         staticRouteIds =
-                            (staticRouteIds ?: JsonField.of(mutableListOf())).apply {
-                                (asKnown()
-                                        ?: throw IllegalStateException(
-                                            "Field was set to non-list type: ${javaClass.simpleName}"
-                                        ))
-                                    .add(staticRouteId)
+                            (staticRouteIds ?: JsonField.of(mutableListOf())).also {
+                                checkKnown("staticRouteIds", it).add(staticRouteId)
                             }
                     }
 
@@ -827,6 +852,17 @@ private constructor(
 
                 companion object {
 
+                    /**
+                     * Returns a mutable builder for constructing an instance of [StopTripGrouping].
+                     *
+                     * The following fields are required:
+                     * ```kotlin
+                     * .directionId()
+                     * .stopIds()
+                     * .tripHeadsigns()
+                     * .tripIds()
+                     * ```
+                     */
                     fun builder() = Builder()
                 }
 
@@ -865,12 +901,8 @@ private constructor(
 
                     fun addStopId(stopId: String) = apply {
                         stopIds =
-                            (stopIds ?: JsonField.of(mutableListOf())).apply {
-                                (asKnown()
-                                        ?: throw IllegalStateException(
-                                            "Field was set to non-list type: ${javaClass.simpleName}"
-                                        ))
-                                    .add(stopId)
+                            (stopIds ?: JsonField.of(mutableListOf())).also {
+                                checkKnown("stopIds", it).add(stopId)
                             }
                     }
 
@@ -883,12 +915,8 @@ private constructor(
 
                     fun addTripHeadsign(tripHeadsign: String) = apply {
                         tripHeadsigns =
-                            (tripHeadsigns ?: JsonField.of(mutableListOf())).apply {
-                                (asKnown()
-                                        ?: throw IllegalStateException(
-                                            "Field was set to non-list type: ${javaClass.simpleName}"
-                                        ))
-                                    .add(tripHeadsign)
+                            (tripHeadsigns ?: JsonField.of(mutableListOf())).also {
+                                checkKnown("tripHeadsigns", it).add(tripHeadsign)
                             }
                     }
 
@@ -900,12 +928,8 @@ private constructor(
 
                     fun addTripId(tripId: String) = apply {
                         tripIds =
-                            (tripIds ?: JsonField.of(mutableListOf())).apply {
-                                (asKnown()
-                                        ?: throw IllegalStateException(
-                                            "Field was set to non-list type: ${javaClass.simpleName}"
-                                        ))
-                                    .add(tripId)
+                            (tripIds ?: JsonField.of(mutableListOf())).also {
+                                checkKnown("tripIds", it).add(tripId)
                             }
                     }
 
@@ -919,12 +943,8 @@ private constructor(
 
                     fun addTripsWithStopTime(tripsWithStopTime: TripsWithStopTime) = apply {
                         tripsWithStopTimes =
-                            (tripsWithStopTimes ?: JsonField.of(mutableListOf())).apply {
-                                (asKnown()
-                                        ?: throw IllegalStateException(
-                                            "Field was set to non-list type: ${javaClass.simpleName}"
-                                        ))
-                                    .add(tripsWithStopTime)
+                            (tripsWithStopTimes ?: JsonField.of(mutableListOf())).also {
+                                checkKnown("tripsWithStopTimes", it).add(tripsWithStopTime)
                             }
                     }
 
@@ -1007,6 +1027,16 @@ private constructor(
 
                     companion object {
 
+                        /**
+                         * Returns a mutable builder for constructing an instance of
+                         * [TripsWithStopTime].
+                         *
+                         * The following fields are required:
+                         * ```kotlin
+                         * .stopTimes()
+                         * .tripId()
+                         * ```
+                         */
                         fun builder() = Builder()
                     }
 
@@ -1034,12 +1064,8 @@ private constructor(
 
                         fun addStopTime(stopTime: StopTime) = apply {
                             stopTimes =
-                                (stopTimes ?: JsonField.of(mutableListOf())).apply {
-                                    (asKnown()
-                                            ?: throw IllegalStateException(
-                                                "Field was set to non-list type: ${javaClass.simpleName}"
-                                            ))
-                                        .add(stopTime)
+                                (stopTimes ?: JsonField.of(mutableListOf())).also {
+                                    checkKnown("stopTimes", it).add(stopTime)
                                 }
                         }
 
@@ -1185,6 +1211,19 @@ private constructor(
 
                         companion object {
 
+                            /**
+                             * Returns a mutable builder for constructing an instance of [StopTime].
+                             *
+                             * The following fields are required:
+                             * ```kotlin
+                             * .arrivalEnabled()
+                             * .arrivalTime()
+                             * .departureEnabled()
+                             * .departureTime()
+                             * .stopId()
+                             * .tripId()
+                             * ```
+                             */
                             fun builder() = Builder()
                         }
 
@@ -1481,6 +1520,16 @@ private constructor(
 
                 companion object {
 
+                    /**
+                     * Returns a mutable builder for constructing an instance of [Trip].
+                     *
+                     * The following fields are required:
+                     * ```kotlin
+                     * .id()
+                     * .routeId()
+                     * .serviceId()
+                     * ```
+                     */
                     fun builder() = Builder()
                 }
 

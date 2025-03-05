@@ -38,6 +38,14 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [ShapeRetrieveParams].
+         *
+         * The following fields are required:
+         * ```kotlin
+         * .shapeId()
+         * ```
+         */
         fun builder() = Builder()
     }
 

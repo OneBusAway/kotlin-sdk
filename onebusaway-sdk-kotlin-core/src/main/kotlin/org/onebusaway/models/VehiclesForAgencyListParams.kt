@@ -47,6 +47,14 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [VehiclesForAgencyListParams].
+         *
+         * The following fields are required:
+         * ```kotlin
+         * .agencyId()
+         * ```
+         */
         fun builder() = Builder()
     }
 

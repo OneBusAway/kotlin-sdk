@@ -10,6 +10,8 @@ import org.onebusaway.core.handlers.withErrorHandler
 import org.onebusaway.core.http.HttpMethod
 import org.onebusaway.core.http.HttpRequest
 import org.onebusaway.core.http.HttpResponse.Handler
+import org.onebusaway.core.http.HttpResponseFor
+import org.onebusaway.core.http.parseable
 import org.onebusaway.core.prepare
 import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.StopsForAgencyListParams
@@ -18,35 +20,55 @@ import org.onebusaway.models.StopsForAgencyListResponse
 class StopsForAgencyServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     StopsForAgencyService {
 
-    private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
+    private val withRawResponse: StopsForAgencyService.WithRawResponse by lazy {
+        WithRawResponseImpl(clientOptions)
+    }
 
-    private val listHandler: Handler<StopsForAgencyListResponse> =
-        jsonHandler<StopsForAgencyListResponse>(clientOptions.jsonMapper)
-            .withErrorHandler(errorHandler)
+    override fun withRawResponse(): StopsForAgencyService.WithRawResponse = withRawResponse
 
-    /** Get stops for a specific agency */
     override fun list(
         params: StopsForAgencyListParams,
         requestOptions: RequestOptions,
-    ): StopsForAgencyListResponse {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.GET)
-                .addPathSegments(
-                    "api",
-                    "where",
-                    "stops-for-agency",
-                    "${params.getPathParam(0)}.json",
-                )
-                .build()
-                .prepare(clientOptions, params)
-        val response = clientOptions.httpClient.execute(request, requestOptions)
-        return response
-            .use { listHandler.handle(it) }
-            .also {
-                if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                    it.validate()
-                }
+    ): StopsForAgencyListResponse =
+        // get /api/where/stops-for-agency/{agencyID}.json
+        withRawResponse().list(params, requestOptions).parse()
+
+    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
+        StopsForAgencyService.WithRawResponse {
+
+        private val errorHandler: Handler<OnebusawaySdkError> =
+            errorHandler(clientOptions.jsonMapper)
+
+        private val listHandler: Handler<StopsForAgencyListResponse> =
+            jsonHandler<StopsForAgencyListResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun list(
+            params: StopsForAgencyListParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<StopsForAgencyListResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .addPathSegments(
+                        "api",
+                        "where",
+                        "stops-for-agency",
+                        "${params.getPathParam(0)}.json",
+                    )
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { listHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
             }
+        }
     }
 }

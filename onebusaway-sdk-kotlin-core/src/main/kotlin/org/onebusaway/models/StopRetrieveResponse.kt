@@ -12,6 +12,7 @@ import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonMissing
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.NoAutoDetect
+import org.onebusaway.core.checkKnown
 import org.onebusaway.core.checkRequired
 import org.onebusaway.core.immutableEmptyMap
 import org.onebusaway.core.toImmutable
@@ -83,6 +84,18 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [StopRetrieveResponse].
+         *
+         * The following fields are required:
+         * ```kotlin
+         * .code()
+         * .currentTime()
+         * .text()
+         * .version()
+         * .data()
+         * ```
+         */
         fun builder() = Builder()
     }
 
@@ -199,6 +212,15 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [Data].
+             *
+             * The following fields are required:
+             * ```kotlin
+             * .entry()
+             * .references()
+             * ```
+             */
             fun builder() = Builder()
         }
 
@@ -376,6 +398,20 @@ private constructor(
 
             companion object {
 
+                /**
+                 * Returns a mutable builder for constructing an instance of [Entry].
+                 *
+                 * The following fields are required:
+                 * ```kotlin
+                 * .id()
+                 * .lat()
+                 * .lon()
+                 * .name()
+                 * .parent()
+                 * .routeIds()
+                 * .staticRouteIds()
+                 * ```
+                 */
                 fun builder() = Builder()
             }
 
@@ -438,12 +474,8 @@ private constructor(
 
                 fun addRouteId(routeId: String) = apply {
                     routeIds =
-                        (routeIds ?: JsonField.of(mutableListOf())).apply {
-                            (asKnown()
-                                    ?: throw IllegalStateException(
-                                        "Field was set to non-list type: ${javaClass.simpleName}"
-                                    ))
-                                .add(routeId)
+                        (routeIds ?: JsonField.of(mutableListOf())).also {
+                            checkKnown("routeIds", it).add(routeId)
                         }
                 }
 
@@ -456,12 +488,8 @@ private constructor(
 
                 fun addStaticRouteId(staticRouteId: String) = apply {
                     staticRouteIds =
-                        (staticRouteIds ?: JsonField.of(mutableListOf())).apply {
-                            (asKnown()
-                                    ?: throw IllegalStateException(
-                                        "Field was set to non-list type: ${javaClass.simpleName}"
-                                    ))
-                                .add(staticRouteId)
+                        (staticRouteIds ?: JsonField.of(mutableListOf())).also {
+                            checkKnown("staticRouteIds", it).add(staticRouteId)
                         }
                 }
 

@@ -29,6 +29,9 @@ private constructor(
 
         fun none(): CurrentTimeRetrieveParams = builder().build()
 
+        /**
+         * Returns a mutable builder for constructing an instance of [CurrentTimeRetrieveParams].
+         */
         fun builder() = Builder()
     }
 

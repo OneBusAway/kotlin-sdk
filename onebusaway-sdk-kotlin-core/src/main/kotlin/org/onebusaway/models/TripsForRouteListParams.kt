@@ -60,6 +60,14 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [TripsForRouteListParams].
+         *
+         * The following fields are required:
+         * ```kotlin
+         * .routeId()
+         * ```
+         */
         fun builder() = Builder()
     }
 
