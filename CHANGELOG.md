@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.1.0-alpha.65 (2025-03-05)
+
+Full Changelog: [v0.1.0-alpha.64...v0.1.0-alpha.65](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.64...v0.1.0-alpha.65)
+
+### ⚠ BREAKING CHANGES
+
+* **client:** refactor multipart formdata impl ([#267](https://github.com/OneBusAway/kotlin-sdk/issues/267))
+
+### Features
+
+* **client:** allow configuring timeouts granularly ([#264](https://github.com/OneBusAway/kotlin-sdk/issues/264)) ([58f093b](https://github.com/OneBusAway/kotlin-sdk/commit/58f093b598caa63c086519c77e09d9d21248d97a))
+* **client:** support raw response access ([#266](https://github.com/OneBusAway/kotlin-sdk/issues/266)) ([d8f53b8](https://github.com/OneBusAway/kotlin-sdk/commit/d8f53b83b0fc037060865cb56327e23960cbfcba))
+
+
+### Chores
+
+* **client:** refactor multipart formdata impl ([#267](https://github.com/OneBusAway/kotlin-sdk/issues/267)) ([d1c8a94](https://github.com/OneBusAway/kotlin-sdk/commit/d1c8a94c6a52effd233812730e3e1edf7655d74b))
+
+
+### Documentation
+
+* add raw response readme documentation ([#268](https://github.com/OneBusAway/kotlin-sdk/issues/268)) ([e27352b](https://github.com/OneBusAway/kotlin-sdk/commit/e27352b181501ec0ba64419ce89bf43c255fd53e))
+* note required fields in `builder` javadoc ([#269](https://github.com/OneBusAway/kotlin-sdk/issues/269)) ([4135b6a](https://github.com/OneBusAway/kotlin-sdk/commit/4135b6a81eea6a5ab5a3c13d30d6159ca61dc88f))
+
 ## 0.1.0-alpha.64 (2025-03-04)
 
 Full Changelog: [v0.1.0-alpha.63...v0.1.0-alpha.64](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.63...v0.1.0-alpha.64)
