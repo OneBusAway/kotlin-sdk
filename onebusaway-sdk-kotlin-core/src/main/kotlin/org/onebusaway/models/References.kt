@@ -13,6 +13,7 @@ import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonMissing
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.NoAutoDetect
+import org.onebusaway.core.checkKnown
 import org.onebusaway.core.checkRequired
 import org.onebusaway.core.immutableEmptyMap
 import org.onebusaway.core.toImmutable
@@ -127,12 +128,8 @@ private constructor(
 
         fun addAgency(agency: Agency) = apply {
             agencies =
-                (agencies ?: JsonField.of(mutableListOf())).apply {
-                    (asKnown()
-                            ?: throw IllegalStateException(
-                                "Field was set to non-list type: ${javaClass.simpleName}"
-                            ))
-                        .add(agency)
+                (agencies ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("agencies", it).add(agency)
                 }
         }
 
@@ -144,12 +141,8 @@ private constructor(
 
         fun addRoute(route: Route) = apply {
             routes =
-                (routes ?: JsonField.of(mutableListOf())).apply {
-                    (asKnown()
-                            ?: throw IllegalStateException(
-                                "Field was set to non-list type: ${javaClass.simpleName}"
-                            ))
-                        .add(route)
+                (routes ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("routes", it).add(route)
                 }
         }
 
@@ -161,12 +154,8 @@ private constructor(
 
         fun addSituation(situation: Situation) = apply {
             situations =
-                (situations ?: JsonField.of(mutableListOf())).apply {
-                    (asKnown()
-                            ?: throw IllegalStateException(
-                                "Field was set to non-list type: ${javaClass.simpleName}"
-                            ))
-                        .add(situation)
+                (situations ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("situations", it).add(situation)
                 }
         }
 
@@ -178,13 +167,7 @@ private constructor(
 
         fun addStop(stop: Stop) = apply {
             stops =
-                (stops ?: JsonField.of(mutableListOf())).apply {
-                    (asKnown()
-                            ?: throw IllegalStateException(
-                                "Field was set to non-list type: ${javaClass.simpleName}"
-                            ))
-                        .add(stop)
-                }
+                (stops ?: JsonField.of(mutableListOf())).also { checkKnown("stops", it).add(stop) }
         }
 
         fun stopTimes(stopTimes: List<StopTime>) = stopTimes(JsonField.of(stopTimes))
@@ -195,12 +178,8 @@ private constructor(
 
         fun addStopTime(stopTime: StopTime) = apply {
             stopTimes =
-                (stopTimes ?: JsonField.of(mutableListOf())).apply {
-                    (asKnown()
-                            ?: throw IllegalStateException(
-                                "Field was set to non-list type: ${javaClass.simpleName}"
-                            ))
-                        .add(stopTime)
+                (stopTimes ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("stopTimes", it).add(stopTime)
                 }
         }
 
@@ -212,13 +191,7 @@ private constructor(
 
         fun addTrip(trip: Trip) = apply {
             trips =
-                (trips ?: JsonField.of(mutableListOf())).apply {
-                    (asKnown()
-                            ?: throw IllegalStateException(
-                                "Field was set to non-list type: ${javaClass.simpleName}"
-                            ))
-                        .add(trip)
-                }
+                (trips ?: JsonField.of(mutableListOf())).also { checkKnown("trips", it).add(trip) }
         }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -922,12 +895,8 @@ private constructor(
 
             fun addActiveWindow(activeWindow: ActiveWindow) = apply {
                 activeWindows =
-                    (activeWindows ?: JsonField.of(mutableListOf())).apply {
-                        (asKnown()
-                                ?: throw IllegalStateException(
-                                    "Field was set to non-list type: ${javaClass.simpleName}"
-                                ))
-                            .add(activeWindow)
+                    (activeWindows ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("activeWindows", it).add(activeWindow)
                     }
             }
 
@@ -939,12 +908,8 @@ private constructor(
 
             fun addAllAffect(allAffect: AllAffect) = apply {
                 allAffects =
-                    (allAffects ?: JsonField.of(mutableListOf())).apply {
-                        (asKnown()
-                                ?: throw IllegalStateException(
-                                    "Field was set to non-list type: ${javaClass.simpleName}"
-                                ))
-                            .add(allAffect)
+                    (allAffects ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("allAffects", it).add(allAffect)
                     }
             }
 
@@ -966,12 +931,8 @@ private constructor(
 
             fun addConsequence(consequence: Consequence) = apply {
                 consequences =
-                    (consequences ?: JsonField.of(mutableListOf())).apply {
-                        (asKnown()
-                                ?: throw IllegalStateException(
-                                    "Field was set to non-list type: ${javaClass.simpleName}"
-                                ))
-                            .add(consequence)
+                    (consequences ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("consequences", it).add(consequence)
                     }
             }
 
@@ -990,12 +951,8 @@ private constructor(
 
             fun addPublicationWindow(publicationWindow: PublicationWindow) = apply {
                 publicationWindows =
-                    (publicationWindows ?: JsonField.of(mutableListOf())).apply {
-                        (asKnown()
-                                ?: throw IllegalStateException(
-                                    "Field was set to non-list type: ${javaClass.simpleName}"
-                                ))
-                            .add(publicationWindow)
+                    (publicationWindows ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("publicationWindows", it).add(publicationWindow)
                     }
             }
 
@@ -1563,12 +1520,8 @@ private constructor(
 
                     fun addDiversionStopId(diversionStopId: String) = apply {
                         diversionStopIds =
-                            (diversionStopIds ?: JsonField.of(mutableListOf())).apply {
-                                (asKnown()
-                                        ?: throw IllegalStateException(
-                                            "Field was set to non-list type: ${javaClass.simpleName}"
-                                        ))
-                                    .add(diversionStopId)
+                            (diversionStopIds ?: JsonField.of(mutableListOf())).also {
+                                checkKnown("diversionStopIds", it).add(diversionStopId)
                             }
                     }
 
@@ -2572,12 +2525,8 @@ private constructor(
 
             fun addRouteId(routeId: String) = apply {
                 routeIds =
-                    (routeIds ?: JsonField.of(mutableListOf())).apply {
-                        (asKnown()
-                                ?: throw IllegalStateException(
-                                    "Field was set to non-list type: ${javaClass.simpleName}"
-                                ))
-                            .add(routeId)
+                    (routeIds ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("routeIds", it).add(routeId)
                     }
             }
 
@@ -2590,12 +2539,8 @@ private constructor(
 
             fun addStaticRouteId(staticRouteId: String) = apply {
                 staticRouteIds =
-                    (staticRouteIds ?: JsonField.of(mutableListOf())).apply {
-                        (asKnown()
-                                ?: throw IllegalStateException(
-                                    "Field was set to non-list type: ${javaClass.simpleName}"
-                                ))
-                            .add(staticRouteId)
+                    (staticRouteIds ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("staticRouteIds", it).add(staticRouteId)
                     }
             }
 
