@@ -12,6 +12,7 @@ import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonMissing
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.NoAutoDetect
+import org.onebusaway.core.checkKnown
 import org.onebusaway.core.checkRequired
 import org.onebusaway.core.immutableEmptyMap
 import org.onebusaway.core.toImmutable
@@ -243,12 +244,8 @@ private constructor(
 
             fun addList(list: List) = apply {
                 this.list =
-                    (this.list ?: JsonField.of(mutableListOf())).apply {
-                        (asKnown()
-                                ?: throw IllegalStateException(
-                                    "Field was set to non-list type: ${javaClass.simpleName}"
-                                ))
-                            .add(list)
+                    (this.list ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("list", it).add(list)
                     }
             }
 
@@ -424,12 +421,8 @@ private constructor(
 
                 fun addSituationId(situationId: String) = apply {
                     situationIds =
-                        (situationIds ?: JsonField.of(mutableListOf())).apply {
-                            (asKnown()
-                                    ?: throw IllegalStateException(
-                                        "Field was set to non-list type: ${javaClass.simpleName}"
-                                    ))
-                                .add(situationId)
+                        (situationIds ?: JsonField.of(mutableListOf())).also {
+                            checkKnown("situationIds", it).add(situationId)
                         }
                 }
 
@@ -589,12 +582,8 @@ private constructor(
 
                     fun addStopTime(stopTime: StopTime) = apply {
                         stopTimes =
-                            (stopTimes ?: JsonField.of(mutableListOf())).apply {
-                                (asKnown()
-                                        ?: throw IllegalStateException(
-                                            "Field was set to non-list type: ${javaClass.simpleName}"
-                                        ))
-                                    .add(stopTime)
+                            (stopTimes ?: JsonField.of(mutableListOf())).also {
+                                checkKnown("stopTimes", it).add(stopTime)
                             }
                     }
 
@@ -1602,12 +1591,8 @@ private constructor(
                     /** References to situation elements (if any) applicable to this trip. */
                     fun addSituationId(situationId: String) = apply {
                         situationIds =
-                            (situationIds ?: JsonField.of(mutableListOf())).apply {
-                                (asKnown()
-                                        ?: throw IllegalStateException(
-                                            "Field was set to non-list type: ${javaClass.simpleName}"
-                                        ))
-                                    .add(situationId)
+                            (situationIds ?: JsonField.of(mutableListOf())).also {
+                                checkKnown("situationIds", it).add(situationId)
                             }
                     }
 

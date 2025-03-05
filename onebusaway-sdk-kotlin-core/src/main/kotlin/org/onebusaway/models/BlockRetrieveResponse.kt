@@ -12,6 +12,7 @@ import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonMissing
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.NoAutoDetect
+import org.onebusaway.core.checkKnown
 import org.onebusaway.core.checkRequired
 import org.onebusaway.core.immutableEmptyMap
 import org.onebusaway.core.toImmutable
@@ -325,12 +326,8 @@ private constructor(
 
                 fun addConfiguration(configuration: Configuration) = apply {
                     configurations =
-                        (configurations ?: JsonField.of(mutableListOf())).apply {
-                            (asKnown()
-                                    ?: throw IllegalStateException(
-                                        "Field was set to non-list type: ${javaClass.simpleName}"
-                                    ))
-                                .add(configuration)
+                        (configurations ?: JsonField.of(mutableListOf())).also {
+                            checkKnown("configurations", it).add(configuration)
                         }
                 }
 
@@ -448,12 +445,8 @@ private constructor(
 
                     fun addActiveServiceId(activeServiceId: String) = apply {
                         activeServiceIds =
-                            (activeServiceIds ?: JsonField.of(mutableListOf())).apply {
-                                (asKnown()
-                                        ?: throw IllegalStateException(
-                                            "Field was set to non-list type: ${javaClass.simpleName}"
-                                        ))
-                                    .add(activeServiceId)
+                            (activeServiceIds ?: JsonField.of(mutableListOf())).also {
+                                checkKnown("activeServiceIds", it).add(activeServiceId)
                             }
                     }
 
@@ -465,12 +458,8 @@ private constructor(
 
                     fun addTrip(trip: Trip) = apply {
                         trips =
-                            (trips ?: JsonField.of(mutableListOf())).apply {
-                                (asKnown()
-                                        ?: throw IllegalStateException(
-                                            "Field was set to non-list type: ${javaClass.simpleName}"
-                                        ))
-                                    .add(trip)
+                            (trips ?: JsonField.of(mutableListOf())).also {
+                                checkKnown("trips", it).add(trip)
                             }
                     }
 
@@ -483,12 +472,8 @@ private constructor(
 
                     fun addInactiveServiceId(inactiveServiceId: String) = apply {
                         inactiveServiceIds =
-                            (inactiveServiceIds ?: JsonField.of(mutableListOf())).apply {
-                                (asKnown()
-                                        ?: throw IllegalStateException(
-                                            "Field was set to non-list type: ${javaClass.simpleName}"
-                                        ))
-                                    .add(inactiveServiceId)
+                            (inactiveServiceIds ?: JsonField.of(mutableListOf())).also {
+                                checkKnown("inactiveServiceIds", it).add(inactiveServiceId)
                             }
                     }
 
@@ -631,12 +616,8 @@ private constructor(
 
                         fun addBlockStopTime(blockStopTime: BlockStopTime) = apply {
                             blockStopTimes =
-                                (blockStopTimes ?: JsonField.of(mutableListOf())).apply {
-                                    (asKnown()
-                                            ?: throw IllegalStateException(
-                                                "Field was set to non-list type: ${javaClass.simpleName}"
-                                            ))
-                                        .add(blockStopTime)
+                                (blockStopTimes ?: JsonField.of(mutableListOf())).also {
+                                    checkKnown("blockStopTimes", it).add(blockStopTime)
                                 }
                         }
 

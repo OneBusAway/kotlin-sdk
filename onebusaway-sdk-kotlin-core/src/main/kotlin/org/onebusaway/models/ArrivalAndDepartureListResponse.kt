@@ -12,6 +12,7 @@ import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonMissing
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.NoAutoDetect
+import org.onebusaway.core.checkKnown
 import org.onebusaway.core.checkRequired
 import org.onebusaway.core.immutableEmptyMap
 import org.onebusaway.core.toImmutable
@@ -319,12 +320,8 @@ private constructor(
 
                 fun addArrivalsAndDeparture(arrivalsAndDeparture: ArrivalsAndDeparture) = apply {
                     arrivalsAndDepartures =
-                        (arrivalsAndDepartures ?: JsonField.of(mutableListOf())).apply {
-                            (asKnown()
-                                    ?: throw IllegalStateException(
-                                        "Field was set to non-list type: ${javaClass.simpleName}"
-                                    ))
-                                .add(arrivalsAndDeparture)
+                        (arrivalsAndDepartures ?: JsonField.of(mutableListOf())).also {
+                            checkKnown("arrivalsAndDepartures", it).add(arrivalsAndDeparture)
                         }
                 }
 
@@ -1256,12 +1253,8 @@ private constructor(
                     /** References to situation elements (if any) applicable to this arrival. */
                     fun addSituationId(situationId: String) = apply {
                         situationIds =
-                            (situationIds ?: JsonField.of(mutableListOf())).apply {
-                                (asKnown()
-                                        ?: throw IllegalStateException(
-                                            "Field was set to non-list type: ${javaClass.simpleName}"
-                                        ))
-                                    .add(situationId)
+                            (situationIds ?: JsonField.of(mutableListOf())).also {
+                                checkKnown("situationIds", it).add(situationId)
                             }
                     }
 
@@ -2127,12 +2120,8 @@ private constructor(
                         /** References to situation elements (if any) applicable to this trip. */
                         fun addSituationId(situationId: String) = apply {
                             situationIds =
-                                (situationIds ?: JsonField.of(mutableListOf())).apply {
-                                    (asKnown()
-                                            ?: throw IllegalStateException(
-                                                "Field was set to non-list type: ${javaClass.simpleName}"
-                                            ))
-                                        .add(situationId)
+                                (situationIds ?: JsonField.of(mutableListOf())).also {
+                                    checkKnown("situationIds", it).add(situationId)
                                 }
                         }
 
