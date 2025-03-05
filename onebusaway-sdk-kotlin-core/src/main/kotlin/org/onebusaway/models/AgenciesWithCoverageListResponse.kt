@@ -84,6 +84,19 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [AgenciesWithCoverageListResponse].
+         *
+         * The following fields are required:
+         * ```kotlin
+         * .code()
+         * .currentTime()
+         * .text()
+         * .version()
+         * .data()
+         * ```
+         */
         fun builder() = Builder()
     }
 
@@ -214,6 +227,16 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [Data].
+             *
+             * The following fields are required:
+             * ```kotlin
+             * .limitExceeded()
+             * .list()
+             * .references()
+             * ```
+             */
             fun builder() = Builder()
         }
 
@@ -351,6 +374,18 @@ private constructor(
 
             companion object {
 
+                /**
+                 * Returns a mutable builder for constructing an instance of [List].
+                 *
+                 * The following fields are required:
+                 * ```kotlin
+                 * .agencyId()
+                 * .lat()
+                 * .latSpan()
+                 * .lon()
+                 * .lonSpan()
+                 * ```
+                 */
                 fun builder() = Builder()
             }
 

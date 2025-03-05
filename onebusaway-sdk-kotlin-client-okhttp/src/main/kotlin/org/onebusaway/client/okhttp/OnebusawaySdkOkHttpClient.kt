@@ -17,6 +17,9 @@ class OnebusawaySdkOkHttpClient private constructor() {
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [OnebusawaySdkOkHttpClient].
+         */
         fun builder() = Builder()
 
         fun fromEnv(): OnebusawaySdkClient = builder().fromEnv().build()

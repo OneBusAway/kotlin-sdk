@@ -96,6 +96,19 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [References].
+         *
+         * The following fields are required:
+         * ```kotlin
+         * .agencies()
+         * .routes()
+         * .situations()
+         * .stops()
+         * .stopTimes()
+         * .trips()
+         * ```
+         */
         fun builder() = Builder()
     }
 
@@ -331,6 +344,17 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [Agency].
+             *
+             * The following fields are required:
+             * ```kotlin
+             * .id()
+             * .name()
+             * .timezone()
+             * .url()
+             * ```
+             */
             fun builder() = Builder()
         }
 
@@ -563,6 +587,16 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [Route].
+             *
+             * The following fields are required:
+             * ```kotlin
+             * .id()
+             * .agencyId()
+             * .type()
+             * ```
+             */
             fun builder() = Builder()
         }
 
@@ -836,6 +870,15 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [Situation].
+             *
+             * The following fields are required:
+             * ```kotlin
+             * .id()
+             * .creationTime()
+             * ```
+             */
             fun builder() = Builder()
         }
 
@@ -1057,6 +1100,7 @@ private constructor(
 
             companion object {
 
+                /** Returns a mutable builder for constructing an instance of [ActiveWindow]. */
                 fun builder() = Builder()
             }
 
@@ -1219,6 +1263,7 @@ private constructor(
 
             companion object {
 
+                /** Returns a mutable builder for constructing an instance of [AllAffect]. */
                 fun builder() = Builder()
             }
 
@@ -1385,6 +1430,7 @@ private constructor(
 
             companion object {
 
+                /** Returns a mutable builder for constructing an instance of [Consequence]. */
                 fun builder() = Builder()
             }
 
@@ -1487,6 +1533,9 @@ private constructor(
 
                 companion object {
 
+                    /**
+                     * Returns a mutable builder for constructing an instance of [ConditionDetails].
+                     */
                     fun builder() = Builder()
                 }
 
@@ -1615,6 +1664,10 @@ private constructor(
 
                     companion object {
 
+                        /**
+                         * Returns a mutable builder for constructing an instance of
+                         * [DiversionPath].
+                         */
                         fun builder() = Builder()
                     }
 
@@ -1783,6 +1836,7 @@ private constructor(
 
             companion object {
 
+                /** Returns a mutable builder for constructing an instance of [Description]. */
                 fun builder() = Builder()
             }
 
@@ -1899,6 +1953,15 @@ private constructor(
 
             companion object {
 
+                /**
+                 * Returns a mutable builder for constructing an instance of [PublicationWindow].
+                 *
+                 * The following fields are required:
+                 * ```kotlin
+                 * .from()
+                 * .to()
+                 * ```
+                 */
                 fun builder() = Builder()
             }
 
@@ -2141,6 +2204,7 @@ private constructor(
 
             companion object {
 
+                /** Returns a mutable builder for constructing an instance of [Summary]. */
                 fun builder() = Builder()
             }
 
@@ -2258,6 +2322,7 @@ private constructor(
 
             companion object {
 
+                /** Returns a mutable builder for constructing an instance of [Url]. */
                 fun builder() = Builder()
             }
 
@@ -2463,6 +2528,20 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [Stop].
+             *
+             * The following fields are required:
+             * ```kotlin
+             * .id()
+             * .lat()
+             * .lon()
+             * .name()
+             * .parent()
+             * .routeIds()
+             * .staticRouteIds()
+             * ```
+             */
             fun builder() = Builder()
         }
 
@@ -2703,6 +2782,7 @@ private constructor(
 
         companion object {
 
+            /** Returns a mutable builder for constructing an instance of [StopTime]. */
             fun builder() = Builder()
         }
 
@@ -2932,6 +3012,16 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [Trip].
+             *
+             * The following fields are required:
+             * ```kotlin
+             * .id()
+             * .routeId()
+             * .serviceId()
+             * ```
+             */
             fun builder() = Builder()
         }
 

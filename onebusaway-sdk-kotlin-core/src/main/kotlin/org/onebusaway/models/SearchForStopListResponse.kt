@@ -84,6 +84,17 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [SearchForStopListResponse].
+         *
+         * The following fields are required:
+         * ```kotlin
+         * .code()
+         * .currentTime()
+         * .text()
+         * .version()
+         * ```
+         */
         fun builder() = Builder()
     }
 
@@ -222,6 +233,17 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [Data].
+             *
+             * The following fields are required:
+             * ```kotlin
+             * .limitExceeded()
+             * .list()
+             * .outOfRange()
+             * .references()
+             * ```
+             */
             fun builder() = Builder()
         }
 
@@ -426,6 +448,20 @@ private constructor(
 
             companion object {
 
+                /**
+                 * Returns a mutable builder for constructing an instance of [List].
+                 *
+                 * The following fields are required:
+                 * ```kotlin
+                 * .id()
+                 * .lat()
+                 * .lon()
+                 * .name()
+                 * .parent()
+                 * .routeIds()
+                 * .staticRouteIds()
+                 * ```
+                 */
                 fun builder() = Builder()
             }
 

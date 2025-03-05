@@ -83,6 +83,18 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [AgencyRetrieveResponse].
+         *
+         * The following fields are required:
+         * ```kotlin
+         * .code()
+         * .currentTime()
+         * .text()
+         * .version()
+         * .data()
+         * ```
+         */
         fun builder() = Builder()
     }
 
@@ -209,6 +221,16 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [Data].
+             *
+             * The following fields are required:
+             * ```kotlin
+             * .entry()
+             * .limitExceeded()
+             * .references()
+             * ```
+             */
             fun builder() = Builder()
         }
 
@@ -381,6 +403,17 @@ private constructor(
 
             companion object {
 
+                /**
+                 * Returns a mutable builder for constructing an instance of [Entry].
+                 *
+                 * The following fields are required:
+                 * ```kotlin
+                 * .id()
+                 * .name()
+                 * .timezone()
+                 * .url()
+                 * ```
+                 */
                 fun builder() = Builder()
             }
 

@@ -84,6 +84,19 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [VehiclesForAgencyListResponse].
+         *
+         * The following fields are required:
+         * ```kotlin
+         * .code()
+         * .currentTime()
+         * .text()
+         * .version()
+         * .data()
+         * ```
+         */
         fun builder() = Builder()
     }
 
@@ -212,6 +225,16 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [Data].
+             *
+             * The following fields are required:
+             * ```kotlin
+             * .limitExceeded()
+             * .list()
+             * .references()
+             * ```
+             */
             fun builder() = Builder()
         }
 
@@ -414,6 +437,19 @@ private constructor(
 
             companion object {
 
+                /**
+                 * Returns a mutable builder for constructing an instance of [List].
+                 *
+                 * The following fields are required:
+                 * ```kotlin
+                 * .lastLocationUpdateTime()
+                 * .lastUpdateTime()
+                 * .location()
+                 * .tripId()
+                 * .tripStatus()
+                 * .vehicleId()
+                 * ```
+                 */
                 fun builder() = Builder()
             }
 
@@ -590,6 +626,7 @@ private constructor(
 
                 companion object {
 
+                    /** Returns a mutable builder for constructing an instance of [Location]. */
                     fun builder() = Builder()
                 }
 
@@ -1055,6 +1092,29 @@ private constructor(
 
                 companion object {
 
+                    /**
+                     * Returns a mutable builder for constructing an instance of [TripStatus].
+                     *
+                     * The following fields are required:
+                     * ```kotlin
+                     * .activeTripId()
+                     * .blockTripSequence()
+                     * .closestStop()
+                     * .distanceAlongTrip()
+                     * .lastKnownDistanceAlongTrip()
+                     * .lastLocationUpdateTime()
+                     * .lastUpdateTime()
+                     * .occupancyCapacity()
+                     * .occupancyCount()
+                     * .occupancyStatus()
+                     * .phase()
+                     * .predicted()
+                     * .scheduleDeviation()
+                     * .serviceDate()
+                     * .status()
+                     * .totalDistanceAlongTrip()
+                     * ```
+                     */
                     fun builder() = Builder()
                 }
 
@@ -1511,6 +1571,10 @@ private constructor(
 
                     companion object {
 
+                        /**
+                         * Returns a mutable builder for constructing an instance of
+                         * [LastKnownLocation].
+                         */
                         fun builder() = Builder()
                     }
 
@@ -1632,6 +1696,7 @@ private constructor(
 
                     companion object {
 
+                        /** Returns a mutable builder for constructing an instance of [Position]. */
                         fun builder() = Builder()
                     }
 
