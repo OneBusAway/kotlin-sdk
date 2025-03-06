@@ -12,6 +12,7 @@ import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonMissing
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.NoAutoDetect
+import org.onebusaway.core.checkKnown
 import org.onebusaway.core.checkRequired
 import org.onebusaway.core.immutableEmptyMap
 import org.onebusaway.core.toImmutable
@@ -83,6 +84,19 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [ScheduleForStopRetrieveResponse].
+         *
+         * The following fields are required:
+         * ```kotlin
+         * .code()
+         * .currentTime()
+         * .text()
+         * .version()
+         * .data()
+         * ```
+         */
         fun builder() = Builder()
     }
 
@@ -201,6 +215,15 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [Data].
+             *
+             * The following fields are required:
+             * ```kotlin
+             * .entry()
+             * .references()
+             * ```
+             */
             fun builder() = Builder()
         }
 
@@ -307,6 +330,16 @@ private constructor(
 
             companion object {
 
+                /**
+                 * Returns a mutable builder for constructing an instance of [Entry].
+                 *
+                 * The following fields are required:
+                 * ```kotlin
+                 * .date()
+                 * .stopId()
+                 * .stopRouteSchedules()
+                 * ```
+                 */
                 fun builder() = Builder()
             }
 
@@ -343,12 +376,8 @@ private constructor(
 
                 fun addStopRouteSchedule(stopRouteSchedule: StopRouteSchedule) = apply {
                     stopRouteSchedules =
-                        (stopRouteSchedules ?: JsonField.of(mutableListOf())).apply {
-                            (asKnown()
-                                    ?: throw IllegalStateException(
-                                        "Field was set to non-list type: ${javaClass.simpleName}"
-                                    ))
-                                .add(stopRouteSchedule)
+                        (stopRouteSchedules ?: JsonField.of(mutableListOf())).also {
+                            checkKnown("stopRouteSchedules", it).add(stopRouteSchedule)
                         }
                 }
 
@@ -433,6 +462,16 @@ private constructor(
 
                 companion object {
 
+                    /**
+                     * Returns a mutable builder for constructing an instance of
+                     * [StopRouteSchedule].
+                     *
+                     * The following fields are required:
+                     * ```kotlin
+                     * .routeId()
+                     * .stopRouteDirectionSchedules()
+                     * ```
+                     */
                     fun builder() = Builder()
                 }
 
@@ -471,11 +510,8 @@ private constructor(
                         stopRouteDirectionSchedule: StopRouteDirectionSchedule
                     ) = apply {
                         stopRouteDirectionSchedules =
-                            (stopRouteDirectionSchedules ?: JsonField.of(mutableListOf())).apply {
-                                (asKnown()
-                                        ?: throw IllegalStateException(
-                                            "Field was set to non-list type: ${javaClass.simpleName}"
-                                        ))
+                            (stopRouteDirectionSchedules ?: JsonField.of(mutableListOf())).also {
+                                checkKnown("stopRouteDirectionSchedules", it)
                                     .add(stopRouteDirectionSchedule)
                             }
                     }
@@ -575,6 +611,16 @@ private constructor(
 
                     companion object {
 
+                        /**
+                         * Returns a mutable builder for constructing an instance of
+                         * [StopRouteDirectionSchedule].
+                         *
+                         * The following fields are required:
+                         * ```kotlin
+                         * .scheduleStopTimes()
+                         * .tripHeadsign()
+                         * ```
+                         */
                         fun builder() = Builder()
                     }
 
@@ -616,12 +662,8 @@ private constructor(
 
                         fun addScheduleStopTime(scheduleStopTime: ScheduleStopTime) = apply {
                             scheduleStopTimes =
-                                (scheduleStopTimes ?: JsonField.of(mutableListOf())).apply {
-                                    (asKnown()
-                                            ?: throw IllegalStateException(
-                                                "Field was set to non-list type: ${javaClass.simpleName}"
-                                            ))
-                                        .add(scheduleStopTime)
+                                (scheduleStopTimes ?: JsonField.of(mutableListOf())).also {
+                                    checkKnown("scheduleStopTimes", it).add(scheduleStopTime)
                                 }
                         }
 
@@ -644,12 +686,8 @@ private constructor(
 
                         fun addScheduleFrequency(scheduleFrequency: ScheduleFrequency) = apply {
                             scheduleFrequencies =
-                                (scheduleFrequencies ?: JsonField.of(mutableListOf())).apply {
-                                    (asKnown()
-                                            ?: throw IllegalStateException(
-                                                "Field was set to non-list type: ${javaClass.simpleName}"
-                                            ))
-                                        .add(scheduleFrequency)
+                                (scheduleFrequencies ?: JsonField.of(mutableListOf())).also {
+                                    checkKnown("scheduleFrequencies", it).add(scheduleFrequency)
                                 }
                         }
 
@@ -784,6 +822,20 @@ private constructor(
 
                         companion object {
 
+                            /**
+                             * Returns a mutable builder for constructing an instance of
+                             * [ScheduleStopTime].
+                             *
+                             * The following fields are required:
+                             * ```kotlin
+                             * .arrivalEnabled()
+                             * .arrivalTime()
+                             * .departureEnabled()
+                             * .departureTime()
+                             * .serviceId()
+                             * .tripId()
+                             * ```
+                             */
                             fun builder() = Builder()
                         }
 
@@ -997,6 +1049,20 @@ private constructor(
 
                         companion object {
 
+                            /**
+                             * Returns a mutable builder for constructing an instance of
+                             * [ScheduleFrequency].
+                             *
+                             * The following fields are required:
+                             * ```kotlin
+                             * .endTime()
+                             * .headway()
+                             * .serviceDate()
+                             * .serviceId()
+                             * .startTime()
+                             * .tripId()
+                             * ```
+                             */
                             fun builder() = Builder()
                         }
 

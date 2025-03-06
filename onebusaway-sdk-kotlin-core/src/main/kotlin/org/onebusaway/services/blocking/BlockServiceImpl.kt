@@ -10,6 +10,8 @@ import org.onebusaway.core.handlers.withErrorHandler
 import org.onebusaway.core.http.HttpMethod
 import org.onebusaway.core.http.HttpRequest
 import org.onebusaway.core.http.HttpResponse.Handler
+import org.onebusaway.core.http.HttpResponseFor
+import org.onebusaway.core.http.parseable
 import org.onebusaway.core.prepare
 import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.BlockRetrieveParams
@@ -18,29 +20,50 @@ import org.onebusaway.models.BlockRetrieveResponse
 class BlockServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     BlockService {
 
-    private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
+    private val withRawResponse: BlockService.WithRawResponse by lazy {
+        WithRawResponseImpl(clientOptions)
+    }
 
-    private val retrieveHandler: Handler<BlockRetrieveResponse> =
-        jsonHandler<BlockRetrieveResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+    override fun withRawResponse(): BlockService.WithRawResponse = withRawResponse
 
-    /** Get details of a specific block by ID */
     override fun retrieve(
         params: BlockRetrieveParams,
         requestOptions: RequestOptions,
-    ): BlockRetrieveResponse {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.GET)
-                .addPathSegments("api", "where", "block", "${params.getPathParam(0)}.json")
-                .build()
-                .prepare(clientOptions, params)
-        val response = clientOptions.httpClient.execute(request, requestOptions)
-        return response
-            .use { retrieveHandler.handle(it) }
-            .also {
-                if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                    it.validate()
-                }
+    ): BlockRetrieveResponse =
+        // get /api/where/block/{blockID}.json
+        withRawResponse().retrieve(params, requestOptions).parse()
+
+    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
+        BlockService.WithRawResponse {
+
+        private val errorHandler: Handler<OnebusawaySdkError> =
+            errorHandler(clientOptions.jsonMapper)
+
+        private val retrieveHandler: Handler<BlockRetrieveResponse> =
+            jsonHandler<BlockRetrieveResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun retrieve(
+            params: BlockRetrieveParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<BlockRetrieveResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .addPathSegments("api", "where", "block", "${params.getPathParam(0)}.json")
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { retrieveHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
             }
+        }
     }
 }

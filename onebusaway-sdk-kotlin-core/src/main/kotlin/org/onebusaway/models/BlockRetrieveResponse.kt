@@ -12,6 +12,7 @@ import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonMissing
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.NoAutoDetect
+import org.onebusaway.core.checkKnown
 import org.onebusaway.core.checkRequired
 import org.onebusaway.core.immutableEmptyMap
 import org.onebusaway.core.toImmutable
@@ -83,6 +84,18 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [BlockRetrieveResponse].
+         *
+         * The following fields are required:
+         * ```kotlin
+         * .code()
+         * .currentTime()
+         * .text()
+         * .version()
+         * .data()
+         * ```
+         */
         fun builder() = Builder()
     }
 
@@ -199,6 +212,15 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [Data].
+             *
+             * The following fields are required:
+             * ```kotlin
+             * .entry()
+             * .references()
+             * ```
+             */
             fun builder() = Builder()
         }
 
@@ -296,6 +318,15 @@ private constructor(
 
             companion object {
 
+                /**
+                 * Returns a mutable builder for constructing an instance of [Entry].
+                 *
+                 * The following fields are required:
+                 * ```kotlin
+                 * .id()
+                 * .configurations()
+                 * ```
+                 */
                 fun builder() = Builder()
             }
 
@@ -325,12 +356,8 @@ private constructor(
 
                 fun addConfiguration(configuration: Configuration) = apply {
                     configurations =
-                        (configurations ?: JsonField.of(mutableListOf())).apply {
-                            (asKnown()
-                                    ?: throw IllegalStateException(
-                                        "Field was set to non-list type: ${javaClass.simpleName}"
-                                    ))
-                                .add(configuration)
+                        (configurations ?: JsonField.of(mutableListOf())).also {
+                            checkKnown("configurations", it).add(configuration)
                         }
                 }
 
@@ -420,6 +447,15 @@ private constructor(
 
                 companion object {
 
+                    /**
+                     * Returns a mutable builder for constructing an instance of [Configuration].
+                     *
+                     * The following fields are required:
+                     * ```kotlin
+                     * .activeServiceIds()
+                     * .trips()
+                     * ```
+                     */
                     fun builder() = Builder()
                 }
 
@@ -448,12 +484,8 @@ private constructor(
 
                     fun addActiveServiceId(activeServiceId: String) = apply {
                         activeServiceIds =
-                            (activeServiceIds ?: JsonField.of(mutableListOf())).apply {
-                                (asKnown()
-                                        ?: throw IllegalStateException(
-                                            "Field was set to non-list type: ${javaClass.simpleName}"
-                                        ))
-                                    .add(activeServiceId)
+                            (activeServiceIds ?: JsonField.of(mutableListOf())).also {
+                                checkKnown("activeServiceIds", it).add(activeServiceId)
                             }
                     }
 
@@ -465,12 +497,8 @@ private constructor(
 
                     fun addTrip(trip: Trip) = apply {
                         trips =
-                            (trips ?: JsonField.of(mutableListOf())).apply {
-                                (asKnown()
-                                        ?: throw IllegalStateException(
-                                            "Field was set to non-list type: ${javaClass.simpleName}"
-                                        ))
-                                    .add(trip)
+                            (trips ?: JsonField.of(mutableListOf())).also {
+                                checkKnown("trips", it).add(trip)
                             }
                     }
 
@@ -483,12 +511,8 @@ private constructor(
 
                     fun addInactiveServiceId(inactiveServiceId: String) = apply {
                         inactiveServiceIds =
-                            (inactiveServiceIds ?: JsonField.of(mutableListOf())).apply {
-                                (asKnown()
-                                        ?: throw IllegalStateException(
-                                            "Field was set to non-list type: ${javaClass.simpleName}"
-                                        ))
-                                    .add(inactiveServiceId)
+                            (inactiveServiceIds ?: JsonField.of(mutableListOf())).also {
+                                checkKnown("inactiveServiceIds", it).add(inactiveServiceId)
                             }
                     }
 
@@ -594,6 +618,17 @@ private constructor(
 
                     companion object {
 
+                        /**
+                         * Returns a mutable builder for constructing an instance of [Trip].
+                         *
+                         * The following fields are required:
+                         * ```kotlin
+                         * .accumulatedSlackTime()
+                         * .blockStopTimes()
+                         * .distanceAlongBlock()
+                         * .tripId()
+                         * ```
+                         */
                         fun builder() = Builder()
                     }
 
@@ -631,12 +666,8 @@ private constructor(
 
                         fun addBlockStopTime(blockStopTime: BlockStopTime) = apply {
                             blockStopTimes =
-                                (blockStopTimes ?: JsonField.of(mutableListOf())).apply {
-                                    (asKnown()
-                                            ?: throw IllegalStateException(
-                                                "Field was set to non-list type: ${javaClass.simpleName}"
-                                            ))
-                                        .add(blockStopTime)
+                                (blockStopTimes ?: JsonField.of(mutableListOf())).also {
+                                    checkKnown("blockStopTimes", it).add(blockStopTime)
                                 }
                         }
 
@@ -754,6 +785,18 @@ private constructor(
 
                         companion object {
 
+                            /**
+                             * Returns a mutable builder for constructing an instance of
+                             * [BlockStopTime].
+                             *
+                             * The following fields are required:
+                             * ```kotlin
+                             * .accumulatedSlackTime()
+                             * .blockSequence()
+                             * .distanceAlongBlock()
+                             * .stopTime()
+                             * ```
+                             */
                             fun builder() = Builder()
                         }
 
@@ -914,6 +957,17 @@ private constructor(
 
                             companion object {
 
+                                /**
+                                 * Returns a mutable builder for constructing an instance of
+                                 * [StopTime].
+                                 *
+                                 * The following fields are required:
+                                 * ```kotlin
+                                 * .arrivalTime()
+                                 * .departureTime()
+                                 * .stopId()
+                                 * ```
+                                 */
                                 fun builder() = Builder()
                             }
 

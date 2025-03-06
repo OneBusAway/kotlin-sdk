@@ -2,15 +2,39 @@
 
 package org.onebusaway.services.blocking
 
+import com.google.errorprone.annotations.MustBeClosed
 import org.onebusaway.core.RequestOptions
+import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.models.ScheduleForRouteRetrieveParams
 import org.onebusaway.models.ScheduleForRouteRetrieveResponse
 
 interface ScheduleForRouteService {
+
+    /**
+     * Returns a view of this service that provides access to raw HTTP responses for each method.
+     */
+    fun withRawResponse(): WithRawResponse
 
     /** Retrieve the full schedule for a route on a particular day */
     fun retrieve(
         params: ScheduleForRouteRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ScheduleForRouteRetrieveResponse
+
+    /**
+     * A view of [ScheduleForRouteService] that provides access to raw HTTP responses for each
+     * method.
+     */
+    interface WithRawResponse {
+
+        /**
+         * Returns a raw HTTP response for `get /api/where/schedule-for-route/{routeID}.json`, but
+         * is otherwise the same as [ScheduleForRouteService.retrieve].
+         */
+        @MustBeClosed
+        fun retrieve(
+            params: ScheduleForRouteRetrieveParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<ScheduleForRouteRetrieveResponse>
+    }
 }

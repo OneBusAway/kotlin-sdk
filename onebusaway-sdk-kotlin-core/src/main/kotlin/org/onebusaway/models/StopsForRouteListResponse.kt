@@ -12,6 +12,7 @@ import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonMissing
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.NoAutoDetect
+import org.onebusaway.core.checkKnown
 import org.onebusaway.core.checkRequired
 import org.onebusaway.core.immutableEmptyMap
 import org.onebusaway.core.toImmutable
@@ -83,6 +84,18 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of [StopsForRouteListResponse].
+         *
+         * The following fields are required:
+         * ```kotlin
+         * .code()
+         * .currentTime()
+         * .text()
+         * .version()
+         * .data()
+         * ```
+         */
         fun builder() = Builder()
     }
 
@@ -199,6 +212,15 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [Data].
+             *
+             * The following fields are required:
+             * ```kotlin
+             * .entry()
+             * .references()
+             * ```
+             */
             fun builder() = Builder()
         }
 
@@ -316,6 +338,7 @@ private constructor(
 
             companion object {
 
+                /** Returns a mutable builder for constructing an instance of [Entry]. */
                 fun builder() = Builder()
             }
 
@@ -344,12 +367,8 @@ private constructor(
 
                 fun addPolyline(polyline: Polyline) = apply {
                     polylines =
-                        (polylines ?: JsonField.of(mutableListOf())).apply {
-                            (asKnown()
-                                    ?: throw IllegalStateException(
-                                        "Field was set to non-list type: ${javaClass.simpleName}"
-                                    ))
-                                .add(polyline)
+                        (polylines ?: JsonField.of(mutableListOf())).also {
+                            checkKnown("polylines", it).add(polyline)
                         }
                 }
 
@@ -366,12 +385,8 @@ private constructor(
 
                 fun addStopGrouping(stopGrouping: StopGrouping) = apply {
                     stopGroupings =
-                        (stopGroupings ?: JsonField.of(mutableListOf())).apply {
-                            (asKnown()
-                                    ?: throw IllegalStateException(
-                                        "Field was set to non-list type: ${javaClass.simpleName}"
-                                    ))
-                                .add(stopGrouping)
+                        (stopGroupings ?: JsonField.of(mutableListOf())).also {
+                            checkKnown("stopGroupings", it).add(stopGrouping)
                         }
                 }
 
@@ -383,12 +398,8 @@ private constructor(
 
                 fun addStopId(stopId: String) = apply {
                     stopIds =
-                        (stopIds ?: JsonField.of(mutableListOf())).apply {
-                            (asKnown()
-                                    ?: throw IllegalStateException(
-                                        "Field was set to non-list type: ${javaClass.simpleName}"
-                                    ))
-                                .add(stopId)
+                        (stopIds ?: JsonField.of(mutableListOf())).also {
+                            checkKnown("stopIds", it).add(stopId)
                         }
                 }
 
@@ -474,6 +485,7 @@ private constructor(
 
                 companion object {
 
+                    /** Returns a mutable builder for constructing an instance of [Polyline]. */
                     fun builder() = Builder()
                 }
 
@@ -610,6 +622,7 @@ private constructor(
 
                 companion object {
 
+                    /** Returns a mutable builder for constructing an instance of [StopGrouping]. */
                     fun builder() = Builder()
                 }
 
@@ -646,12 +659,8 @@ private constructor(
 
                     fun addPolyline(polyline: Polyline) = apply {
                         polylines =
-                            (polylines ?: JsonField.of(mutableListOf())).apply {
-                                (asKnown()
-                                        ?: throw IllegalStateException(
-                                            "Field was set to non-list type: ${javaClass.simpleName}"
-                                        ))
-                                    .add(polyline)
+                            (polylines ?: JsonField.of(mutableListOf())).also {
+                                checkKnown("polylines", it).add(polyline)
                             }
                     }
 
@@ -663,12 +672,8 @@ private constructor(
 
                     fun addStopId(stopId: String) = apply {
                         stopIds =
-                            (stopIds ?: JsonField.of(mutableListOf())).apply {
-                                (asKnown()
-                                        ?: throw IllegalStateException(
-                                            "Field was set to non-list type: ${javaClass.simpleName}"
-                                        ))
-                                    .add(stopId)
+                            (stopIds ?: JsonField.of(mutableListOf())).also {
+                                checkKnown("stopIds", it).add(stopId)
                             }
                     }
 
@@ -756,6 +761,7 @@ private constructor(
 
                     companion object {
 
+                        /** Returns a mutable builder for constructing an instance of [Name]. */
                         fun builder() = Builder()
                     }
 
@@ -787,12 +793,8 @@ private constructor(
 
                         fun addName(name: String) = apply {
                             names =
-                                (names ?: JsonField.of(mutableListOf())).apply {
-                                    (asKnown()
-                                            ?: throw IllegalStateException(
-                                                "Field was set to non-list type: ${javaClass.simpleName}"
-                                            ))
-                                        .add(name)
+                                (names ?: JsonField.of(mutableListOf())).also {
+                                    checkKnown("names", it).add(name)
                                 }
                         }
 
@@ -903,6 +905,7 @@ private constructor(
 
                     companion object {
 
+                        /** Returns a mutable builder for constructing an instance of [Polyline]. */
                         fun builder() = Builder()
                     }
 

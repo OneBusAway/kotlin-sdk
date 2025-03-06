@@ -10,6 +10,8 @@ import org.onebusaway.core.handlers.withErrorHandler
 import org.onebusaway.core.http.HttpMethod
 import org.onebusaway.core.http.HttpRequest
 import org.onebusaway.core.http.HttpResponse.Handler
+import org.onebusaway.core.http.HttpResponseFor
+import org.onebusaway.core.http.parseable
 import org.onebusaway.core.prepare
 import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.ArrivalAndDepartureListParams
@@ -20,65 +22,94 @@ import org.onebusaway.models.ArrivalAndDepartureRetrieveResponse
 class ArrivalAndDepartureServiceImpl
 internal constructor(private val clientOptions: ClientOptions) : ArrivalAndDepartureService {
 
-    private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
+    private val withRawResponse: ArrivalAndDepartureService.WithRawResponse by lazy {
+        WithRawResponseImpl(clientOptions)
+    }
 
-    private val retrieveHandler: Handler<ArrivalAndDepartureRetrieveResponse> =
-        jsonHandler<ArrivalAndDepartureRetrieveResponse>(clientOptions.jsonMapper)
-            .withErrorHandler(errorHandler)
+    override fun withRawResponse(): ArrivalAndDepartureService.WithRawResponse = withRawResponse
 
-    /** arrival-and-departure-for-stop */
     override fun retrieve(
         params: ArrivalAndDepartureRetrieveParams,
         requestOptions: RequestOptions,
-    ): ArrivalAndDepartureRetrieveResponse {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.GET)
-                .addPathSegments(
-                    "api",
-                    "where",
-                    "arrival-and-departure-for-stop",
-                    "${params.getPathParam(0)}.json",
-                )
-                .build()
-                .prepare(clientOptions, params)
-        val response = clientOptions.httpClient.execute(request, requestOptions)
-        return response
-            .use { retrieveHandler.handle(it) }
-            .also {
-                if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                    it.validate()
-                }
-            }
-    }
+    ): ArrivalAndDepartureRetrieveResponse =
+        // get /api/where/arrival-and-departure-for-stop/{stopID}.json
+        withRawResponse().retrieve(params, requestOptions).parse()
 
-    private val listHandler: Handler<ArrivalAndDepartureListResponse> =
-        jsonHandler<ArrivalAndDepartureListResponse>(clientOptions.jsonMapper)
-            .withErrorHandler(errorHandler)
-
-    /** arrivals-and-departures-for-stop */
     override fun list(
         params: ArrivalAndDepartureListParams,
         requestOptions: RequestOptions,
-    ): ArrivalAndDepartureListResponse {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.GET)
-                .addPathSegments(
-                    "api",
-                    "where",
-                    "arrivals-and-departures-for-stop",
-                    "${params.getPathParam(0)}.json",
-                )
-                .build()
-                .prepare(clientOptions, params)
-        val response = clientOptions.httpClient.execute(request, requestOptions)
-        return response
-            .use { listHandler.handle(it) }
-            .also {
-                if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                    it.validate()
-                }
+    ): ArrivalAndDepartureListResponse =
+        // get /api/where/arrivals-and-departures-for-stop/{stopID}.json
+        withRawResponse().list(params, requestOptions).parse()
+
+    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
+        ArrivalAndDepartureService.WithRawResponse {
+
+        private val errorHandler: Handler<OnebusawaySdkError> =
+            errorHandler(clientOptions.jsonMapper)
+
+        private val retrieveHandler: Handler<ArrivalAndDepartureRetrieveResponse> =
+            jsonHandler<ArrivalAndDepartureRetrieveResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun retrieve(
+            params: ArrivalAndDepartureRetrieveParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<ArrivalAndDepartureRetrieveResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .addPathSegments(
+                        "api",
+                        "where",
+                        "arrival-and-departure-for-stop",
+                        "${params.getPathParam(0)}.json",
+                    )
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { retrieveHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
             }
+        }
+
+        private val listHandler: Handler<ArrivalAndDepartureListResponse> =
+            jsonHandler<ArrivalAndDepartureListResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun list(
+            params: ArrivalAndDepartureListParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<ArrivalAndDepartureListResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .addPathSegments(
+                        "api",
+                        "where",
+                        "arrivals-and-departures-for-stop",
+                        "${params.getPathParam(0)}.json",
+                    )
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { listHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
+        }
     }
 }

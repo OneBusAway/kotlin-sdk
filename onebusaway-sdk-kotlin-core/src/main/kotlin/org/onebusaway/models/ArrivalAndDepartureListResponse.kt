@@ -12,6 +12,7 @@ import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonMissing
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.NoAutoDetect
+import org.onebusaway.core.checkKnown
 import org.onebusaway.core.checkRequired
 import org.onebusaway.core.immutableEmptyMap
 import org.onebusaway.core.toImmutable
@@ -83,6 +84,19 @@ private constructor(
 
     companion object {
 
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [ArrivalAndDepartureListResponse].
+         *
+         * The following fields are required:
+         * ```kotlin
+         * .code()
+         * .currentTime()
+         * .text()
+         * .version()
+         * .data()
+         * ```
+         */
         fun builder() = Builder()
     }
 
@@ -201,6 +215,15 @@ private constructor(
 
         companion object {
 
+            /**
+             * Returns a mutable builder for constructing an instance of [Data].
+             *
+             * The following fields are required:
+             * ```kotlin
+             * .entry()
+             * .references()
+             * ```
+             */
             fun builder() = Builder()
         }
 
@@ -293,6 +316,14 @@ private constructor(
 
             companion object {
 
+                /**
+                 * Returns a mutable builder for constructing an instance of [Entry].
+                 *
+                 * The following fields are required:
+                 * ```kotlin
+                 * .arrivalsAndDepartures()
+                 * ```
+                 */
                 fun builder() = Builder()
             }
 
@@ -319,12 +350,8 @@ private constructor(
 
                 fun addArrivalsAndDeparture(arrivalsAndDeparture: ArrivalsAndDeparture) = apply {
                     arrivalsAndDepartures =
-                        (arrivalsAndDepartures ?: JsonField.of(mutableListOf())).apply {
-                            (asKnown()
-                                    ?: throw IllegalStateException(
-                                        "Field was set to non-list type: ${javaClass.simpleName}"
-                                    ))
-                                .add(arrivalsAndDeparture)
+                        (arrivalsAndDepartures ?: JsonField.of(mutableListOf())).also {
+                            checkKnown("arrivalsAndDepartures", it).add(arrivalsAndDeparture)
                         }
                 }
 
@@ -843,6 +870,30 @@ private constructor(
 
                 companion object {
 
+                    /**
+                     * Returns a mutable builder for constructing an instance of
+                     * [ArrivalsAndDeparture].
+                     *
+                     * The following fields are required:
+                     * ```kotlin
+                     * .arrivalEnabled()
+                     * .blockTripSequence()
+                     * .departureEnabled()
+                     * .numberOfStopsAway()
+                     * .predictedArrivalTime()
+                     * .predictedDepartureTime()
+                     * .routeId()
+                     * .scheduledArrivalTime()
+                     * .scheduledDepartureTime()
+                     * .serviceDate()
+                     * .stopId()
+                     * .stopSequence()
+                     * .totalStopsInTrip()
+                     * .tripHeadsign()
+                     * .tripId()
+                     * .vehicleId()
+                     * ```
+                     */
                     fun builder() = Builder()
                 }
 
@@ -1256,12 +1307,8 @@ private constructor(
                     /** References to situation elements (if any) applicable to this arrival. */
                     fun addSituationId(situationId: String) = apply {
                         situationIds =
-                            (situationIds ?: JsonField.of(mutableListOf())).apply {
-                                (asKnown()
-                                        ?: throw IllegalStateException(
-                                            "Field was set to non-list type: ${javaClass.simpleName}"
-                                        ))
-                                    .add(situationId)
+                            (situationIds ?: JsonField.of(mutableListOf())).also {
+                                checkKnown("situationIds", it).add(situationId)
                             }
                     }
 
@@ -1756,6 +1803,29 @@ private constructor(
 
                     companion object {
 
+                        /**
+                         * Returns a mutable builder for constructing an instance of [TripStatus].
+                         *
+                         * The following fields are required:
+                         * ```kotlin
+                         * .activeTripId()
+                         * .blockTripSequence()
+                         * .closestStop()
+                         * .distanceAlongTrip()
+                         * .lastKnownDistanceAlongTrip()
+                         * .lastLocationUpdateTime()
+                         * .lastUpdateTime()
+                         * .occupancyCapacity()
+                         * .occupancyCount()
+                         * .occupancyStatus()
+                         * .phase()
+                         * .predicted()
+                         * .scheduleDeviation()
+                         * .serviceDate()
+                         * .status()
+                         * .totalDistanceAlongTrip()
+                         * ```
+                         */
                         fun builder() = Builder()
                     }
 
@@ -2127,12 +2197,8 @@ private constructor(
                         /** References to situation elements (if any) applicable to this trip. */
                         fun addSituationId(situationId: String) = apply {
                             situationIds =
-                                (situationIds ?: JsonField.of(mutableListOf())).apply {
-                                    (asKnown()
-                                            ?: throw IllegalStateException(
-                                                "Field was set to non-list type: ${javaClass.simpleName}"
-                                            ))
-                                        .add(situationId)
+                                (situationIds ?: JsonField.of(mutableListOf())).also {
+                                    checkKnown("situationIds", it).add(situationId)
                                 }
                         }
 
@@ -2250,6 +2316,10 @@ private constructor(
 
                         companion object {
 
+                            /**
+                             * Returns a mutable builder for constructing an instance of
+                             * [LastKnownLocation].
+                             */
                             fun builder() = Builder()
                         }
 
@@ -2372,6 +2442,9 @@ private constructor(
 
                         companion object {
 
+                            /**
+                             * Returns a mutable builder for constructing an instance of [Position].
+                             */
                             fun builder() = Builder()
                         }
 
