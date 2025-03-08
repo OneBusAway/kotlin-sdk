@@ -176,7 +176,7 @@ private constructor(
         private val limitExceeded: JsonField<Boolean> = JsonMissing.of(),
         @JsonProperty("list")
         @ExcludeMissing
-        private val list: JsonField<List<List>> = JsonMissing.of(),
+        private val list: JsonField<kotlin.collections.List<List>> = JsonMissing.of(),
         @JsonProperty("outOfRange")
         @ExcludeMissing
         private val outOfRange: JsonField<Boolean> = JsonMissing.of(),
@@ -189,7 +189,7 @@ private constructor(
 
         fun limitExceeded(): Boolean = limitExceeded.getRequired("limitExceeded")
 
-        fun list(): List<List> = list.getRequired("list")
+        fun list(): kotlin.collections.List<List> = list.getRequired("list")
 
         fun outOfRange(): Boolean = outOfRange.getRequired("outOfRange")
 
@@ -199,7 +199,9 @@ private constructor(
         @ExcludeMissing
         fun _limitExceeded(): JsonField<Boolean> = limitExceeded
 
-        @JsonProperty("list") @ExcludeMissing fun _list(): JsonField<List<List>> = list
+        @JsonProperty("list")
+        @ExcludeMissing
+        fun _list(): JsonField<kotlin.collections.List<List>> = list
 
         @JsonProperty("outOfRange")
         @ExcludeMissing
@@ -249,7 +251,7 @@ private constructor(
         class Builder internal constructor() {
 
             private var limitExceeded: JsonField<Boolean>? = null
-            private var list: JsonField<MutableList<List>>? = null
+            private var list: JsonField<kotlin.collections.MutableList<List>>? = null
             private var outOfRange: JsonField<Boolean>? = null
             private var references: JsonField<References>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -268,9 +270,9 @@ private constructor(
                 this.limitExceeded = limitExceeded
             }
 
-            fun list(list: List<List>) = list(JsonField.of(list))
+            fun list(list: kotlin.collections.List<List>) = list(JsonField.of(list))
 
-            fun list(list: JsonField<List<List>>) = apply {
+            fun list(list: JsonField<kotlin.collections.List<List>>) = apply {
                 this.list = list.map { it.toMutableList() }
             }
 

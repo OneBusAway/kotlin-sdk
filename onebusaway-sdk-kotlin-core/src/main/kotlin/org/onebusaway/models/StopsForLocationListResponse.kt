@@ -177,7 +177,7 @@ private constructor(
         private val limitExceeded: JsonField<Boolean> = JsonMissing.of(),
         @JsonProperty("list")
         @ExcludeMissing
-        private val list: JsonField<List<List>> = JsonMissing.of(),
+        private val list: JsonField<kotlin.collections.List<List>> = JsonMissing.of(),
         @JsonProperty("references")
         @ExcludeMissing
         private val references: JsonField<References> = JsonMissing.of(),
@@ -190,7 +190,7 @@ private constructor(
 
         fun limitExceeded(): Boolean = limitExceeded.getRequired("limitExceeded")
 
-        fun list(): List<List> = list.getRequired("list")
+        fun list(): kotlin.collections.List<List> = list.getRequired("list")
 
         fun references(): References = references.getRequired("references")
 
@@ -200,7 +200,9 @@ private constructor(
         @ExcludeMissing
         fun _limitExceeded(): JsonField<Boolean> = limitExceeded
 
-        @JsonProperty("list") @ExcludeMissing fun _list(): JsonField<List<List>> = list
+        @JsonProperty("list")
+        @ExcludeMissing
+        fun _list(): JsonField<kotlin.collections.List<List>> = list
 
         @JsonProperty("references")
         @ExcludeMissing
@@ -268,9 +270,9 @@ private constructor(
                 this.limitExceeded = limitExceeded
             }
 
-            fun list(list: List<List>) = list(JsonField.of(list))
+            fun list(list: kotlin.collections.List<List>) = list(JsonField.of(list))
 
-            fun list(list: JsonField<List<List>>) = apply {
+            fun list(list: JsonField<kotlin.collections.List<List>>) = apply {
                 this.list = list.map { it.toMutableList() }
             }
 
@@ -341,10 +343,11 @@ private constructor(
             private val parent: JsonField<String> = JsonMissing.of(),
             @JsonProperty("routeIds")
             @ExcludeMissing
-            private val routeIds: JsonField<List<String>> = JsonMissing.of(),
+            private val routeIds: JsonField<kotlin.collections.List<String>> = JsonMissing.of(),
             @JsonProperty("staticRouteIds")
             @ExcludeMissing
-            private val staticRouteIds: JsonField<List<String>> = JsonMissing.of(),
+            private val staticRouteIds: JsonField<kotlin.collections.List<String>> =
+                JsonMissing.of(),
             @JsonProperty("code")
             @ExcludeMissing
             private val code: JsonField<String> = JsonMissing.of(),
@@ -371,9 +374,10 @@ private constructor(
 
             fun parent(): String = parent.getRequired("parent")
 
-            fun routeIds(): List<String> = routeIds.getRequired("routeIds")
+            fun routeIds(): kotlin.collections.List<String> = routeIds.getRequired("routeIds")
 
-            fun staticRouteIds(): List<String> = staticRouteIds.getRequired("staticRouteIds")
+            fun staticRouteIds(): kotlin.collections.List<String> =
+                staticRouteIds.getRequired("staticRouteIds")
 
             fun code(): String? = code.getNullable("code")
 
@@ -395,11 +399,11 @@ private constructor(
 
             @JsonProperty("routeIds")
             @ExcludeMissing
-            fun _routeIds(): JsonField<List<String>> = routeIds
+            fun _routeIds(): JsonField<kotlin.collections.List<String>> = routeIds
 
             @JsonProperty("staticRouteIds")
             @ExcludeMissing
-            fun _staticRouteIds(): JsonField<List<String>> = staticRouteIds
+            fun _staticRouteIds(): JsonField<kotlin.collections.List<String>> = staticRouteIds
 
             @JsonProperty("code") @ExcludeMissing fun _code(): JsonField<String> = code
 
@@ -512,9 +516,10 @@ private constructor(
 
                 fun parent(parent: JsonField<String>) = apply { this.parent = parent }
 
-                fun routeIds(routeIds: List<String>) = routeIds(JsonField.of(routeIds))
+                fun routeIds(routeIds: kotlin.collections.List<String>) =
+                    routeIds(JsonField.of(routeIds))
 
-                fun routeIds(routeIds: JsonField<List<String>>) = apply {
+                fun routeIds(routeIds: JsonField<kotlin.collections.List<String>>) = apply {
                     this.routeIds = routeIds.map { it.toMutableList() }
                 }
 
@@ -525,12 +530,13 @@ private constructor(
                         }
                 }
 
-                fun staticRouteIds(staticRouteIds: List<String>) =
+                fun staticRouteIds(staticRouteIds: kotlin.collections.List<String>) =
                     staticRouteIds(JsonField.of(staticRouteIds))
 
-                fun staticRouteIds(staticRouteIds: JsonField<List<String>>) = apply {
-                    this.staticRouteIds = staticRouteIds.map { it.toMutableList() }
-                }
+                fun staticRouteIds(staticRouteIds: JsonField<kotlin.collections.List<String>>) =
+                    apply {
+                        this.staticRouteIds = staticRouteIds.map { it.toMutableList() }
+                    }
 
                 fun addStaticRouteId(staticRouteId: String) = apply {
                     staticRouteIds =

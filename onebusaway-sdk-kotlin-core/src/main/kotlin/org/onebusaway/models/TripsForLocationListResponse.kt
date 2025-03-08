@@ -177,7 +177,7 @@ private constructor(
         private val limitExceeded: JsonField<Boolean> = JsonMissing.of(),
         @JsonProperty("list")
         @ExcludeMissing
-        private val list: JsonField<List<List>> = JsonMissing.of(),
+        private val list: JsonField<kotlin.collections.List<List>> = JsonMissing.of(),
         @JsonProperty("references")
         @ExcludeMissing
         private val references: JsonField<References> = JsonMissing.of(),
@@ -191,7 +191,7 @@ private constructor(
         /** Indicates if the limit of trips has been exceeded */
         fun limitExceeded(): Boolean = limitExceeded.getRequired("limitExceeded")
 
-        fun list(): List<List> = list.getRequired("list")
+        fun list(): kotlin.collections.List<List> = list.getRequired("list")
 
         fun references(): References = references.getRequired("references")
 
@@ -203,7 +203,9 @@ private constructor(
         @ExcludeMissing
         fun _limitExceeded(): JsonField<Boolean> = limitExceeded
 
-        @JsonProperty("list") @ExcludeMissing fun _list(): JsonField<List<List>> = list
+        @JsonProperty("list")
+        @ExcludeMissing
+        fun _list(): JsonField<kotlin.collections.List<List>> = list
 
         @JsonProperty("references")
         @ExcludeMissing
@@ -253,7 +255,7 @@ private constructor(
         class Builder internal constructor() {
 
             private var limitExceeded: JsonField<Boolean>? = null
-            private var list: JsonField<MutableList<List>>? = null
+            private var list: JsonField<kotlin.collections.MutableList<List>>? = null
             private var references: JsonField<References>? = null
             private var outOfRange: JsonField<Boolean> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -274,9 +276,9 @@ private constructor(
                 this.limitExceeded = limitExceeded
             }
 
-            fun list(list: List<List>) = list(JsonField.of(list))
+            fun list(list: kotlin.collections.List<List>) = list(JsonField.of(list))
 
-            fun list(list: JsonField<List<List>>) = apply {
+            fun list(list: JsonField<kotlin.collections.List<List>>) = apply {
                 this.list = list.map { it.toMutableList() }
             }
 
@@ -349,7 +351,7 @@ private constructor(
             private val serviceDate: JsonField<Long> = JsonMissing.of(),
             @JsonProperty("situationIds")
             @ExcludeMissing
-            private val situationIds: JsonField<List<String>> = JsonMissing.of(),
+            private val situationIds: JsonField<kotlin.collections.List<String>> = JsonMissing.of(),
             @JsonAnySetter
             private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
         ) {
@@ -364,7 +366,8 @@ private constructor(
 
             fun serviceDate(): Long? = serviceDate.getNullable("serviceDate")
 
-            fun situationIds(): List<String>? = situationIds.getNullable("situationIds")
+            fun situationIds(): kotlin.collections.List<String>? =
+                situationIds.getNullable("situationIds")
 
             @JsonProperty("schedule")
             @ExcludeMissing
@@ -384,7 +387,7 @@ private constructor(
 
             @JsonProperty("situationIds")
             @ExcludeMissing
-            fun _situationIds(): JsonField<List<String>> = situationIds
+            fun _situationIds(): JsonField<kotlin.collections.List<String>> = situationIds
 
             @JsonAnyGetter
             @ExcludeMissing
@@ -466,10 +469,10 @@ private constructor(
                     this.serviceDate = serviceDate
                 }
 
-                fun situationIds(situationIds: List<String>) =
+                fun situationIds(situationIds: kotlin.collections.List<String>) =
                     situationIds(JsonField.of(situationIds))
 
-                fun situationIds(situationIds: JsonField<List<String>>) = apply {
+                fun situationIds(situationIds: JsonField<kotlin.collections.List<String>>) = apply {
                     this.situationIds = situationIds.map { it.toMutableList() }
                 }
 
@@ -526,7 +529,8 @@ private constructor(
                 private val previousTripId: JsonField<String> = JsonMissing.of(),
                 @JsonProperty("stopTimes")
                 @ExcludeMissing
-                private val stopTimes: JsonField<List<StopTime>> = JsonMissing.of(),
+                private val stopTimes: JsonField<kotlin.collections.List<StopTime>> =
+                    JsonMissing.of(),
                 @JsonProperty("timeZone")
                 @ExcludeMissing
                 private val timeZone: JsonField<String> = JsonMissing.of(),
@@ -541,7 +545,8 @@ private constructor(
 
                 fun previousTripId(): String = previousTripId.getRequired("previousTripId")
 
-                fun stopTimes(): List<StopTime> = stopTimes.getRequired("stopTimes")
+                fun stopTimes(): kotlin.collections.List<StopTime> =
+                    stopTimes.getRequired("stopTimes")
 
                 fun timeZone(): String = timeZone.getRequired("timeZone")
 
@@ -557,7 +562,7 @@ private constructor(
 
                 @JsonProperty("stopTimes")
                 @ExcludeMissing
-                fun _stopTimes(): JsonField<List<StopTime>> = stopTimes
+                fun _stopTimes(): JsonField<kotlin.collections.List<StopTime>> = stopTimes
 
                 @JsonProperty("timeZone")
                 @ExcludeMissing
@@ -636,9 +641,10 @@ private constructor(
                         this.previousTripId = previousTripId
                     }
 
-                    fun stopTimes(stopTimes: List<StopTime>) = stopTimes(JsonField.of(stopTimes))
+                    fun stopTimes(stopTimes: kotlin.collections.List<StopTime>) =
+                        stopTimes(JsonField.of(stopTimes))
 
-                    fun stopTimes(stopTimes: JsonField<List<StopTime>>) = apply {
+                    fun stopTimes(stopTimes: JsonField<kotlin.collections.List<StopTime>>) = apply {
                         this.stopTimes = stopTimes.map { it.toMutableList() }
                     }
 
@@ -995,7 +1001,8 @@ private constructor(
                 private val scheduledDistanceAlongTrip: JsonField<Double> = JsonMissing.of(),
                 @JsonProperty("situationIds")
                 @ExcludeMissing
-                private val situationIds: JsonField<List<String>> = JsonMissing.of(),
+                private val situationIds: JsonField<kotlin.collections.List<String>> =
+                    JsonMissing.of(),
                 @JsonProperty("vehicleId")
                 @ExcludeMissing
                 private val vehicleId: JsonField<String> = JsonMissing.of(),
@@ -1108,7 +1115,8 @@ private constructor(
                     scheduledDistanceAlongTrip.getNullable("scheduledDistanceAlongTrip")
 
                 /** References to situation elements (if any) applicable to this trip. */
-                fun situationIds(): List<String>? = situationIds.getNullable("situationIds")
+                fun situationIds(): kotlin.collections.List<String>? =
+                    situationIds.getNullable("situationIds")
 
                 /** ID of the transit vehicle currently serving the trip. */
                 fun vehicleId(): String? = vehicleId.getNullable("vehicleId")
@@ -1258,7 +1266,7 @@ private constructor(
                 /** References to situation elements (if any) applicable to this trip. */
                 @JsonProperty("situationIds")
                 @ExcludeMissing
-                fun _situationIds(): JsonField<List<String>> = situationIds
+                fun _situationIds(): JsonField<kotlin.collections.List<String>> = situationIds
 
                 /** ID of the transit vehicle currently serving the trip. */
                 @JsonProperty("vehicleId")
@@ -1662,13 +1670,14 @@ private constructor(
                         }
 
                     /** References to situation elements (if any) applicable to this trip. */
-                    fun situationIds(situationIds: List<String>) =
+                    fun situationIds(situationIds: kotlin.collections.List<String>) =
                         situationIds(JsonField.of(situationIds))
 
                     /** References to situation elements (if any) applicable to this trip. */
-                    fun situationIds(situationIds: JsonField<List<String>>) = apply {
-                        this.situationIds = situationIds.map { it.toMutableList() }
-                    }
+                    fun situationIds(situationIds: JsonField<kotlin.collections.List<String>>) =
+                        apply {
+                            this.situationIds = situationIds.map { it.toMutableList() }
+                        }
 
                     /** References to situation elements (if any) applicable to this trip. */
                     fun addSituationId(situationId: String) = apply {
