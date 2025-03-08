@@ -24,10 +24,7 @@ interface AgenciesWithCoverageService {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): AgenciesWithCoverageListResponse
 
-    /**
-     * Returns a list of all transit agencies currently supported by OneBusAway along with the
-     * center of their coverage area.
-     */
+    /** @see [list] */
     fun list(requestOptions: RequestOptions): AgenciesWithCoverageListResponse =
         list(AgenciesWithCoverageListParams.none(), requestOptions)
 
@@ -47,10 +44,7 @@ interface AgenciesWithCoverageService {
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<AgenciesWithCoverageListResponse>
 
-        /**
-         * Returns a raw HTTP response for `get /api/where/agencies-with-coverage.json`, but is
-         * otherwise the same as [AgenciesWithCoverageService.list].
-         */
+        /** @see [list] */
         @MustBeClosed
         fun list(
             requestOptions: RequestOptions
