@@ -21,7 +21,7 @@ interface ConfigServiceAsync {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ConfigRetrieveResponse
 
-    /** config */
+    /** @see [retrieve] */
     suspend fun retrieve(requestOptions: RequestOptions): ConfigRetrieveResponse =
         retrieve(ConfigRetrieveParams.none(), requestOptions)
 
@@ -40,10 +40,7 @@ interface ConfigServiceAsync {
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<ConfigRetrieveResponse>
 
-        /**
-         * Returns a raw HTTP response for `get /api/where/config.json`, but is otherwise the same
-         * as [ConfigServiceAsync.retrieve].
-         */
+        /** @see [retrieve] */
         @MustBeClosed
         suspend fun retrieve(
             requestOptions: RequestOptions
