@@ -21,7 +21,7 @@ interface CurrentTimeService {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CurrentTimeRetrieveResponse
 
-    /** current-time */
+    /** @see [retrieve] */
     fun retrieve(requestOptions: RequestOptions): CurrentTimeRetrieveResponse =
         retrieve(CurrentTimeRetrieveParams.none(), requestOptions)
 
@@ -40,10 +40,7 @@ interface CurrentTimeService {
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<CurrentTimeRetrieveResponse>
 
-        /**
-         * Returns a raw HTTP response for `get /api/where/current-time.json`, but is otherwise the
-         * same as [CurrentTimeService.retrieve].
-         */
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(requestOptions: RequestOptions): HttpResponseFor<CurrentTimeRetrieveResponse> =
             retrieve(CurrentTimeRetrieveParams.none(), requestOptions)

@@ -21,7 +21,7 @@ interface ConfigService {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ConfigRetrieveResponse
 
-    /** config */
+    /** @see [retrieve] */
     fun retrieve(requestOptions: RequestOptions): ConfigRetrieveResponse =
         retrieve(ConfigRetrieveParams.none(), requestOptions)
 
@@ -38,10 +38,7 @@ interface ConfigService {
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<ConfigRetrieveResponse>
 
-        /**
-         * Returns a raw HTTP response for `get /api/where/config.json`, but is otherwise the same
-         * as [ConfigService.retrieve].
-         */
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(requestOptions: RequestOptions): HttpResponseFor<ConfigRetrieveResponse> =
             retrieve(ConfigRetrieveParams.none(), requestOptions)
