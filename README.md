@@ -305,7 +305,7 @@ val params: CurrentTimeRetrieveParams = CurrentTimeRetrieveParams.builder()
     .build()
 ```
 
-These can be accessed on the built object later using the `_additionalHeaders()`, `_additionalQueryParams()`, and `_additionalBodyProperties()` methods. You can also set undocumented parameters on nested headers, query params, or body classes using the `putAdditionalProperty` method. These properties can be accessed on the built object later using the `_additionalProperties()` method.
+These can be accessed on the built object later using the `_additionalHeaders()`, `_additionalQueryParams()`, and `_additionalBodyProperties()` methods.
 
 To set a documented parameter or property to an undocumented or not yet supported _value_, pass a [`JsonValue`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/core/JsonValue.kt) object to its setter:
 
