@@ -307,12 +307,47 @@ val params: CurrentTimeRetrieveParams = CurrentTimeRetrieveParams.builder()
 
 These can be accessed on the built object later using the `_additionalHeaders()`, `_additionalQueryParams()`, and `_additionalBodyProperties()` methods.
 
-To set a documented parameter or property to an undocumented or not yet supported _value_, pass a [`JsonValue`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/core/JsonValue.kt) object to its setter:
+To set a documented parameter or property to an undocumented or not yet supported _value_, pass a [`JsonValue`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/core/Values.kt) object to its setter:
 
 ```kotlin
 import org.onebusaway.models.CurrentTimeRetrieveParams
 
 val params: CurrentTimeRetrieveParams = CurrentTimeRetrieveParams.builder().build()
+```
+
+The most straightforward way to create a [`JsonValue`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/core/Values.kt) is using its `from(...)` method:
+
+```kotlin
+import org.onebusaway.core.JsonValue
+
+// Create primitive JSON values
+val nullValue: JsonValue = JsonValue.from(null)
+val booleanValue: JsonValue = JsonValue.from(true)
+val numberValue: JsonValue = JsonValue.from(42)
+val stringValue: JsonValue = JsonValue.from("Hello World!")
+
+// Create a JSON array value equivalent to `["Hello", "World"]`
+val arrayValue: JsonValue = JsonValue.from(listOf(
+  "Hello", "World"
+))
+
+// Create a JSON object value equivalent to `{ "a": 1, "b": 2 }`
+val objectValue: JsonValue = JsonValue.from(mapOf(
+  "a" to 1, "b" to 2
+))
+
+// Create an arbitrarily nested JSON equivalent to:
+// {
+//   "a": [1, 2],
+//   "b": [3, 4]
+// }
+val complexValue: JsonValue = JsonValue.from(mapOf(
+  "a" to listOf(
+    1, 2
+  ), "b" to listOf(
+    3, 4
+  )
+))
 ```
 
 ### Response properties
