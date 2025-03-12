@@ -11,41 +11,38 @@ class ScheduleForRouteRetrieveParamsTest {
 
     @Test
     fun create() {
-      ScheduleForRouteRetrieveParams.builder()
-          .routeId("1_100223")
-          .date(LocalDate.parse("2019-12-27"))
-          .build()
+        ScheduleForRouteRetrieveParams.builder()
+            .routeId("1_100223")
+            .date(LocalDate.parse("2019-12-27"))
+            .build()
     }
 
     @Test
     fun queryParams() {
-      val params = ScheduleForRouteRetrieveParams.builder()
-          .routeId("1_100223")
-          .date(LocalDate.parse("2019-12-27"))
-          .build()
-      val expected = QueryParams.builder()
-      expected.put("date", "2019-12-27")
-      assertThat(params._queryParams()).isEqualTo(expected.build())
+        val params =
+            ScheduleForRouteRetrieveParams.builder()
+                .routeId("1_100223")
+                .date(LocalDate.parse("2019-12-27"))
+                .build()
+        val expected = QueryParams.builder()
+        expected.put("date", "2019-12-27")
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test
     fun queryParamsWithoutOptionalFields() {
-      val params = ScheduleForRouteRetrieveParams.builder()
-          .routeId("1_100223")
-          .build()
-      val expected = QueryParams.builder()
-      assertThat(params._queryParams()).isEqualTo(expected.build())
+        val params = ScheduleForRouteRetrieveParams.builder().routeId("1_100223").build()
+        val expected = QueryParams.builder()
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test
     fun getPathParam() {
-      val params = ScheduleForRouteRetrieveParams.builder()
-          .routeId("1_100223")
-          .build()
-      assertThat(params).isNotNull
-      // path param "routeId"
-      assertThat(params.getPathParam(0)).isEqualTo("1_100223")
-      // out-of-bound path param
-      assertThat(params.getPathParam(1)).isEqualTo("")
+        val params = ScheduleForRouteRetrieveParams.builder().routeId("1_100223").build()
+        assertThat(params).isNotNull
+        // path param "routeId"
+        assertThat(params.getPathParam(0)).isEqualTo("1_100223")
+        // out-of-bound path param
+        assertThat(params.getPathParam(1)).isEqualTo("")
     }
 }

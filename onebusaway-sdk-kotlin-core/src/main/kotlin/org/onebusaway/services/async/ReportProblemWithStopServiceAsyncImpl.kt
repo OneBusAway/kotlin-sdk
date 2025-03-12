@@ -17,49 +17,58 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.ReportProblemWithStopRetrieveParams
 import org.onebusaway.models.ResponseWrapper
 
-class ReportProblemWithStopServiceAsyncImpl internal constructor(
-    private val clientOptions: ClientOptions,
+class ReportProblemWithStopServiceAsyncImpl
+internal constructor(private val clientOptions: ClientOptions) : ReportProblemWithStopServiceAsync {
 
-) : ReportProblemWithStopServiceAsync {
+    private val withRawResponse: ReportProblemWithStopServiceAsync.WithRawResponse by lazy {
+        WithRawResponseImpl(clientOptions)
+    }
 
-    private val withRawResponse: ReportProblemWithStopServiceAsync.WithRawResponse by lazy { WithRawResponseImpl(clientOptions) }
+    override fun withRawResponse(): ReportProblemWithStopServiceAsync.WithRawResponse =
+        withRawResponse
 
-    override fun withRawResponse(): ReportProblemWithStopServiceAsync.WithRawResponse = withRawResponse
-
-    override suspend fun retrieve(params: ReportProblemWithStopRetrieveParams, requestOptions: RequestOptions): ResponseWrapper =
+    override suspend fun retrieve(
+        params: ReportProblemWithStopRetrieveParams,
+        requestOptions: RequestOptions,
+    ): ResponseWrapper =
         // get /api/where/report-problem-with-stop/{stopID}.json
         withRawResponse().retrieve(params, requestOptions).parse()
 
-    class WithRawResponseImpl internal constructor(
-        private val clientOptions: ClientOptions,
+    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
+        ReportProblemWithStopServiceAsync.WithRawResponse {
 
-    ) : ReportProblemWithStopServiceAsync.WithRawResponse {
+        private val errorHandler: Handler<OnebusawaySdkError> =
+            errorHandler(clientOptions.jsonMapper)
 
-        private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
+        private val retrieveHandler: Handler<ResponseWrapper> =
+            jsonHandler<ResponseWrapper>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
-        private val retrieveHandler: Handler<ResponseWrapper> = jsonHandler<ResponseWrapper>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
-
-        override suspend fun retrieve(params: ReportProblemWithStopRetrieveParams, requestOptions: RequestOptions): HttpResponseFor<ResponseWrapper> {
-          val request = HttpRequest.builder()
-            .method(HttpMethod.GET)
-            .addPathSegments("api", "where", "report-problem-with-stop", "${params.getPathParam(0)}.json")
-            .build()
-            .prepareAsync(clientOptions, params)
-          val requestOptions = requestOptions
-              .applyDefaults(RequestOptions.from(clientOptions))
-          val response = clientOptions.httpClient.executeAsync(
-            request, requestOptions
-          )
-          return response.parseable {
-              response.use {
-                  retrieveHandler.handle(it)
-              }
-              .also {
-                  if (requestOptions.responseValidation!!) {
-                    it.validate()
-                  }
-              }
-          }
+        override suspend fun retrieve(
+            params: ReportProblemWithStopRetrieveParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<ResponseWrapper> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .addPathSegments(
+                        "api",
+                        "where",
+                        "report-problem-with-stop",
+                        "${params.getPathParam(0)}.json",
+                    )
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.executeAsync(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { retrieveHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
         }
     }
 }

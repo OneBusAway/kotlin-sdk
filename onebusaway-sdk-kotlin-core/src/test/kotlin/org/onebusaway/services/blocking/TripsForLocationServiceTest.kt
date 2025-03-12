@@ -13,22 +13,26 @@ class TripsForLocationServiceTest {
 
     @Test
     fun list() {
-      val client = OnebusawaySdkOkHttpClient.builder()
-          .baseUrl(TestServerExtension.BASE_URL)
-          .apiKey("My API Key")
-          .build()
-      val tripsForLocationService = client.tripsForLocation()
+        val client =
+            OnebusawaySdkOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My API Key")
+                .build()
+        val tripsForLocationService = client.tripsForLocation()
 
-      val tripsForLocation = tripsForLocationService.list(TripsForLocationListParams.builder()
-          .lat(0.0)
-          .latSpan(0.0)
-          .lon(0.0)
-          .lonSpan(0.0)
-          .includeSchedule(true)
-          .includeTrip(true)
-          .time(0L)
-          .build())
+        val tripsForLocation =
+            tripsForLocationService.list(
+                TripsForLocationListParams.builder()
+                    .lat(0.0)
+                    .latSpan(0.0)
+                    .lon(0.0)
+                    .lonSpan(0.0)
+                    .includeSchedule(true)
+                    .includeTrip(true)
+                    .time(0L)
+                    .build()
+            )
 
-      tripsForLocation.validate()
+        tripsForLocation.validate()
     }
 }

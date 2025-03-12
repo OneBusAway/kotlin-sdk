@@ -13,16 +13,16 @@ class AgencyServiceAsyncTest {
 
     @Test
     suspend fun retrieve() {
-      val client = OnebusawaySdkOkHttpClientAsync.builder()
-          .baseUrl(TestServerExtension.BASE_URL)
-          .apiKey("My API Key")
-          .build()
-      val agencyServiceAsync = client.agency()
+        val client =
+            OnebusawaySdkOkHttpClientAsync.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My API Key")
+                .build()
+        val agencyServiceAsync = client.agency()
 
-      val agency = agencyServiceAsync.retrieve(AgencyRetrieveParams.builder()
-          .agencyId("agencyID")
-          .build())
+        val agency =
+            agencyServiceAsync.retrieve(AgencyRetrieveParams.builder().agencyId("agencyID").build())
 
-      agency.validate()
+        agency.validate()
     }
 }

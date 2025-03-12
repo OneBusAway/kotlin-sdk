@@ -9,20 +9,16 @@ class RoutesForAgencyListParamsTest {
 
     @Test
     fun create() {
-      RoutesForAgencyListParams.builder()
-          .agencyId("40")
-          .build()
+        RoutesForAgencyListParams.builder().agencyId("40").build()
     }
 
     @Test
     fun getPathParam() {
-      val params = RoutesForAgencyListParams.builder()
-          .agencyId("40")
-          .build()
-      assertThat(params).isNotNull
-      // path param "agencyId"
-      assertThat(params.getPathParam(0)).isEqualTo("40")
-      // out-of-bound path param
-      assertThat(params.getPathParam(1)).isEqualTo("")
+        val params = RoutesForAgencyListParams.builder().agencyId("40").build()
+        assertThat(params).isNotNull
+        // path param "agencyId"
+        assertThat(params.getPathParam(0)).isEqualTo("40")
+        // out-of-bound path param
+        assertThat(params.getPathParam(1)).isEqualTo("")
     }
 }

@@ -2,8 +2,8 @@
 
 package org.onebusaway.core
 
-import org.onebusaway.errors.OnebusawaySdkException
 import java.lang.reflect.InvocationTargetException
+import org.onebusaway.errors.OnebusawaySdkException
 
 /**
  * Closes [closeable] when [observed] becomes only phantom reachable.

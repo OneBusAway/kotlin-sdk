@@ -17,49 +17,58 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.VehiclesForAgencyListParams
 import org.onebusaway.models.VehiclesForAgencyListResponse
 
-class VehiclesForAgencyServiceImpl internal constructor(
-    private val clientOptions: ClientOptions,
+class VehiclesForAgencyServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    VehiclesForAgencyService {
 
-) : VehiclesForAgencyService {
-
-    private val withRawResponse: VehiclesForAgencyService.WithRawResponse by lazy { WithRawResponseImpl(clientOptions) }
+    private val withRawResponse: VehiclesForAgencyService.WithRawResponse by lazy {
+        WithRawResponseImpl(clientOptions)
+    }
 
     override fun withRawResponse(): VehiclesForAgencyService.WithRawResponse = withRawResponse
 
-    override fun list(params: VehiclesForAgencyListParams, requestOptions: RequestOptions): VehiclesForAgencyListResponse =
+    override fun list(
+        params: VehiclesForAgencyListParams,
+        requestOptions: RequestOptions,
+    ): VehiclesForAgencyListResponse =
         // get /api/where/vehicles-for-agency/{agencyID}.json
         withRawResponse().list(params, requestOptions).parse()
 
-    class WithRawResponseImpl internal constructor(
-        private val clientOptions: ClientOptions,
+    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
+        VehiclesForAgencyService.WithRawResponse {
 
-    ) : VehiclesForAgencyService.WithRawResponse {
+        private val errorHandler: Handler<OnebusawaySdkError> =
+            errorHandler(clientOptions.jsonMapper)
 
-        private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
+        private val listHandler: Handler<VehiclesForAgencyListResponse> =
+            jsonHandler<VehiclesForAgencyListResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
 
-        private val listHandler: Handler<VehiclesForAgencyListResponse> = jsonHandler<VehiclesForAgencyListResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
-
-        override fun list(params: VehiclesForAgencyListParams, requestOptions: RequestOptions): HttpResponseFor<VehiclesForAgencyListResponse> {
-          val request = HttpRequest.builder()
-            .method(HttpMethod.GET)
-            .addPathSegments("api", "where", "vehicles-for-agency", "${params.getPathParam(0)}.json")
-            .build()
-            .prepare(clientOptions, params)
-          val requestOptions = requestOptions
-              .applyDefaults(RequestOptions.from(clientOptions))
-          val response = clientOptions.httpClient.execute(
-            request, requestOptions
-          )
-          return response.parseable {
-              response.use {
-                  listHandler.handle(it)
-              }
-              .also {
-                  if (requestOptions.responseValidation!!) {
-                    it.validate()
-                  }
-              }
-          }
+        override fun list(
+            params: VehiclesForAgencyListParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<VehiclesForAgencyListResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .addPathSegments(
+                        "api",
+                        "where",
+                        "vehicles-for-agency",
+                        "${params.getPathParam(0)}.json",
+                    )
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { listHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
         }
     }
 }

@@ -11,25 +11,30 @@ import org.onebusaway.models.SearchForStopListResponse
 interface SearchForStopServiceAsync {
 
     /**
-     * Returns a view of this service that provides access to raw HTTP responses for
-     * each method.
+     * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
 
     /** Search for a stop based on its name. */
-    suspend fun list(params: SearchForStopListParams, requestOptions: RequestOptions = RequestOptions.none()): SearchForStopListResponse
+    suspend fun list(
+        params: SearchForStopListParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): SearchForStopListResponse
 
     /**
-     * A view of [SearchForStopServiceAsync] that provides access to raw HTTP responses
-     * for each method.
+     * A view of [SearchForStopServiceAsync] that provides access to raw HTTP responses for each
+     * method.
      */
     interface WithRawResponse {
 
         /**
-         * Returns a raw HTTP response for `get /api/where/search/stop.json`, but is
-         * otherwise the same as [SearchForStopServiceAsync.list].
+         * Returns a raw HTTP response for `get /api/where/search/stop.json`, but is otherwise the
+         * same as [SearchForStopServiceAsync.list].
          */
         @MustBeClosed
-        suspend fun list(params: SearchForStopListParams, requestOptions: RequestOptions = RequestOptions.none()): HttpResponseFor<SearchForStopListResponse>
+        suspend fun list(
+            params: SearchForStopListParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<SearchForStopListResponse>
     }
 }

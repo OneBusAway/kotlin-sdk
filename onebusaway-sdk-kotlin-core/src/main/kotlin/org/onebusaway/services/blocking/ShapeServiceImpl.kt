@@ -17,49 +17,53 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.ShapeRetrieveParams
 import org.onebusaway.models.ShapeRetrieveResponse
 
-class ShapeServiceImpl internal constructor(
-    private val clientOptions: ClientOptions,
+class ShapeServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    ShapeService {
 
-) : ShapeService {
-
-    private val withRawResponse: ShapeService.WithRawResponse by lazy { WithRawResponseImpl(clientOptions) }
+    private val withRawResponse: ShapeService.WithRawResponse by lazy {
+        WithRawResponseImpl(clientOptions)
+    }
 
     override fun withRawResponse(): ShapeService.WithRawResponse = withRawResponse
 
-    override fun retrieve(params: ShapeRetrieveParams, requestOptions: RequestOptions): ShapeRetrieveResponse =
+    override fun retrieve(
+        params: ShapeRetrieveParams,
+        requestOptions: RequestOptions,
+    ): ShapeRetrieveResponse =
         // get /api/where/shape/{shapeID}.json
         withRawResponse().retrieve(params, requestOptions).parse()
 
-    class WithRawResponseImpl internal constructor(
-        private val clientOptions: ClientOptions,
+    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
+        ShapeService.WithRawResponse {
 
-    ) : ShapeService.WithRawResponse {
+        private val errorHandler: Handler<OnebusawaySdkError> =
+            errorHandler(clientOptions.jsonMapper)
 
-        private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
+        private val retrieveHandler: Handler<ShapeRetrieveResponse> =
+            jsonHandler<ShapeRetrieveResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
 
-        private val retrieveHandler: Handler<ShapeRetrieveResponse> = jsonHandler<ShapeRetrieveResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
-
-        override fun retrieve(params: ShapeRetrieveParams, requestOptions: RequestOptions): HttpResponseFor<ShapeRetrieveResponse> {
-          val request = HttpRequest.builder()
-            .method(HttpMethod.GET)
-            .addPathSegments("api", "where", "shape", "${params.getPathParam(0)}.json")
-            .build()
-            .prepare(clientOptions, params)
-          val requestOptions = requestOptions
-              .applyDefaults(RequestOptions.from(clientOptions))
-          val response = clientOptions.httpClient.execute(
-            request, requestOptions
-          )
-          return response.parseable {
-              response.use {
-                  retrieveHandler.handle(it)
-              }
-              .also {
-                  if (requestOptions.responseValidation!!) {
-                    it.validate()
-                  }
-              }
-          }
+        override fun retrieve(
+            params: ShapeRetrieveParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<ShapeRetrieveResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .addPathSegments("api", "where", "shape", "${params.getPathParam(0)}.json")
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { retrieveHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
         }
     }
 }

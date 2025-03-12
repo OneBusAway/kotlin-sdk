@@ -17,49 +17,53 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.StopsForLocationListParams
 import org.onebusaway.models.StopsForLocationListResponse
 
-class StopsForLocationServiceImpl internal constructor(
-    private val clientOptions: ClientOptions,
+class StopsForLocationServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    StopsForLocationService {
 
-) : StopsForLocationService {
-
-    private val withRawResponse: StopsForLocationService.WithRawResponse by lazy { WithRawResponseImpl(clientOptions) }
+    private val withRawResponse: StopsForLocationService.WithRawResponse by lazy {
+        WithRawResponseImpl(clientOptions)
+    }
 
     override fun withRawResponse(): StopsForLocationService.WithRawResponse = withRawResponse
 
-    override fun list(params: StopsForLocationListParams, requestOptions: RequestOptions): StopsForLocationListResponse =
+    override fun list(
+        params: StopsForLocationListParams,
+        requestOptions: RequestOptions,
+    ): StopsForLocationListResponse =
         // get /api/where/stops-for-location.json
         withRawResponse().list(params, requestOptions).parse()
 
-    class WithRawResponseImpl internal constructor(
-        private val clientOptions: ClientOptions,
+    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
+        StopsForLocationService.WithRawResponse {
 
-    ) : StopsForLocationService.WithRawResponse {
+        private val errorHandler: Handler<OnebusawaySdkError> =
+            errorHandler(clientOptions.jsonMapper)
 
-        private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
+        private val listHandler: Handler<StopsForLocationListResponse> =
+            jsonHandler<StopsForLocationListResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
 
-        private val listHandler: Handler<StopsForLocationListResponse> = jsonHandler<StopsForLocationListResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
-
-        override fun list(params: StopsForLocationListParams, requestOptions: RequestOptions): HttpResponseFor<StopsForLocationListResponse> {
-          val request = HttpRequest.builder()
-            .method(HttpMethod.GET)
-            .addPathSegments("api", "where", "stops-for-location.json")
-            .build()
-            .prepare(clientOptions, params)
-          val requestOptions = requestOptions
-              .applyDefaults(RequestOptions.from(clientOptions))
-          val response = clientOptions.httpClient.execute(
-            request, requestOptions
-          )
-          return response.parseable {
-              response.use {
-                  listHandler.handle(it)
-              }
-              .also {
-                  if (requestOptions.responseValidation!!) {
-                    it.validate()
-                  }
-              }
-          }
+        override fun list(
+            params: StopsForLocationListParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<StopsForLocationListResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .addPathSegments("api", "where", "stops-for-location.json")
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { listHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
         }
     }
 }

@@ -17,49 +17,53 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.SearchForStopListParams
 import org.onebusaway.models.SearchForStopListResponse
 
-class SearchForStopServiceAsyncImpl internal constructor(
-    private val clientOptions: ClientOptions,
+class SearchForStopServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
+    SearchForStopServiceAsync {
 
-) : SearchForStopServiceAsync {
-
-    private val withRawResponse: SearchForStopServiceAsync.WithRawResponse by lazy { WithRawResponseImpl(clientOptions) }
+    private val withRawResponse: SearchForStopServiceAsync.WithRawResponse by lazy {
+        WithRawResponseImpl(clientOptions)
+    }
 
     override fun withRawResponse(): SearchForStopServiceAsync.WithRawResponse = withRawResponse
 
-    override suspend fun list(params: SearchForStopListParams, requestOptions: RequestOptions): SearchForStopListResponse =
+    override suspend fun list(
+        params: SearchForStopListParams,
+        requestOptions: RequestOptions,
+    ): SearchForStopListResponse =
         // get /api/where/search/stop.json
         withRawResponse().list(params, requestOptions).parse()
 
-    class WithRawResponseImpl internal constructor(
-        private val clientOptions: ClientOptions,
+    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
+        SearchForStopServiceAsync.WithRawResponse {
 
-    ) : SearchForStopServiceAsync.WithRawResponse {
+        private val errorHandler: Handler<OnebusawaySdkError> =
+            errorHandler(clientOptions.jsonMapper)
 
-        private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
+        private val listHandler: Handler<SearchForStopListResponse> =
+            jsonHandler<SearchForStopListResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
 
-        private val listHandler: Handler<SearchForStopListResponse> = jsonHandler<SearchForStopListResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
-
-        override suspend fun list(params: SearchForStopListParams, requestOptions: RequestOptions): HttpResponseFor<SearchForStopListResponse> {
-          val request = HttpRequest.builder()
-            .method(HttpMethod.GET)
-            .addPathSegments("api", "where", "search", "stop.json")
-            .build()
-            .prepareAsync(clientOptions, params)
-          val requestOptions = requestOptions
-              .applyDefaults(RequestOptions.from(clientOptions))
-          val response = clientOptions.httpClient.executeAsync(
-            request, requestOptions
-          )
-          return response.parseable {
-              response.use {
-                  listHandler.handle(it)
-              }
-              .also {
-                  if (requestOptions.responseValidation!!) {
-                    it.validate()
-                  }
-              }
-          }
+        override suspend fun list(
+            params: SearchForStopListParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<SearchForStopListResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .addPathSegments("api", "where", "search", "stop.json")
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.executeAsync(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { listHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
         }
     }
 }

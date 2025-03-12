@@ -6,21 +6,21 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.onebusaway.TestServerExtension
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
-import org.onebusaway.models.ConfigRetrieveParams
 
 @ExtendWith(TestServerExtension::class)
 class ConfigServiceTest {
 
     @Test
     fun retrieve() {
-      val client = OnebusawaySdkOkHttpClient.builder()
-          .baseUrl(TestServerExtension.BASE_URL)
-          .apiKey("My API Key")
-          .build()
-      val configService = client.config()
+        val client =
+            OnebusawaySdkOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My API Key")
+                .build()
+        val configService = client.config()
 
-      val config = configService.retrieve()
+        val config = configService.retrieve()
 
-      config.validate()
+        config.validate()
     }
 }

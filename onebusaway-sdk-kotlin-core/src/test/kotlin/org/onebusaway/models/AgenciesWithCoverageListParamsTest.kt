@@ -8,6 +8,6 @@ class AgenciesWithCoverageListParamsTest {
 
     @Test
     fun create() {
-      AgenciesWithCoverageListParams.builder().build()
+        AgenciesWithCoverageListParams.builder().build()
     }
 }

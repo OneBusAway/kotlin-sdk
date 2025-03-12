@@ -17,49 +17,58 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.TripDetailRetrieveParams
 import org.onebusaway.models.TripDetailRetrieveResponse
 
-class TripDetailServiceImpl internal constructor(
-    private val clientOptions: ClientOptions,
+class TripDetailServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    TripDetailService {
 
-) : TripDetailService {
-
-    private val withRawResponse: TripDetailService.WithRawResponse by lazy { WithRawResponseImpl(clientOptions) }
+    private val withRawResponse: TripDetailService.WithRawResponse by lazy {
+        WithRawResponseImpl(clientOptions)
+    }
 
     override fun withRawResponse(): TripDetailService.WithRawResponse = withRawResponse
 
-    override fun retrieve(params: TripDetailRetrieveParams, requestOptions: RequestOptions): TripDetailRetrieveResponse =
+    override fun retrieve(
+        params: TripDetailRetrieveParams,
+        requestOptions: RequestOptions,
+    ): TripDetailRetrieveResponse =
         // get /api/where/trip-details/{tripID}.json
         withRawResponse().retrieve(params, requestOptions).parse()
 
-    class WithRawResponseImpl internal constructor(
-        private val clientOptions: ClientOptions,
+    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
+        TripDetailService.WithRawResponse {
 
-    ) : TripDetailService.WithRawResponse {
+        private val errorHandler: Handler<OnebusawaySdkError> =
+            errorHandler(clientOptions.jsonMapper)
 
-        private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
+        private val retrieveHandler: Handler<TripDetailRetrieveResponse> =
+            jsonHandler<TripDetailRetrieveResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
 
-        private val retrieveHandler: Handler<TripDetailRetrieveResponse> = jsonHandler<TripDetailRetrieveResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
-
-        override fun retrieve(params: TripDetailRetrieveParams, requestOptions: RequestOptions): HttpResponseFor<TripDetailRetrieveResponse> {
-          val request = HttpRequest.builder()
-            .method(HttpMethod.GET)
-            .addPathSegments("api", "where", "trip-details", "${params.getPathParam(0)}.json")
-            .build()
-            .prepare(clientOptions, params)
-          val requestOptions = requestOptions
-              .applyDefaults(RequestOptions.from(clientOptions))
-          val response = clientOptions.httpClient.execute(
-            request, requestOptions
-          )
-          return response.parseable {
-              response.use {
-                  retrieveHandler.handle(it)
-              }
-              .also {
-                  if (requestOptions.responseValidation!!) {
-                    it.validate()
-                  }
-              }
-          }
+        override fun retrieve(
+            params: TripDetailRetrieveParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<TripDetailRetrieveResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .addPathSegments(
+                        "api",
+                        "where",
+                        "trip-details",
+                        "${params.getPathParam(0)}.json",
+                    )
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { retrieveHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
         }
     }
 }

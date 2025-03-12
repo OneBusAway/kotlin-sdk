@@ -17,49 +17,58 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.StopIdsForAgencyListParams
 import org.onebusaway.models.StopIdsForAgencyListResponse
 
-class StopIdsForAgencyServiceImpl internal constructor(
-    private val clientOptions: ClientOptions,
+class StopIdsForAgencyServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    StopIdsForAgencyService {
 
-) : StopIdsForAgencyService {
-
-    private val withRawResponse: StopIdsForAgencyService.WithRawResponse by lazy { WithRawResponseImpl(clientOptions) }
+    private val withRawResponse: StopIdsForAgencyService.WithRawResponse by lazy {
+        WithRawResponseImpl(clientOptions)
+    }
 
     override fun withRawResponse(): StopIdsForAgencyService.WithRawResponse = withRawResponse
 
-    override fun list(params: StopIdsForAgencyListParams, requestOptions: RequestOptions): StopIdsForAgencyListResponse =
+    override fun list(
+        params: StopIdsForAgencyListParams,
+        requestOptions: RequestOptions,
+    ): StopIdsForAgencyListResponse =
         // get /api/where/stop-ids-for-agency/{agencyID}.json
         withRawResponse().list(params, requestOptions).parse()
 
-    class WithRawResponseImpl internal constructor(
-        private val clientOptions: ClientOptions,
+    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
+        StopIdsForAgencyService.WithRawResponse {
 
-    ) : StopIdsForAgencyService.WithRawResponse {
+        private val errorHandler: Handler<OnebusawaySdkError> =
+            errorHandler(clientOptions.jsonMapper)
 
-        private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
+        private val listHandler: Handler<StopIdsForAgencyListResponse> =
+            jsonHandler<StopIdsForAgencyListResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
 
-        private val listHandler: Handler<StopIdsForAgencyListResponse> = jsonHandler<StopIdsForAgencyListResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
-
-        override fun list(params: StopIdsForAgencyListParams, requestOptions: RequestOptions): HttpResponseFor<StopIdsForAgencyListResponse> {
-          val request = HttpRequest.builder()
-            .method(HttpMethod.GET)
-            .addPathSegments("api", "where", "stop-ids-for-agency", "${params.getPathParam(0)}.json")
-            .build()
-            .prepare(clientOptions, params)
-          val requestOptions = requestOptions
-              .applyDefaults(RequestOptions.from(clientOptions))
-          val response = clientOptions.httpClient.execute(
-            request, requestOptions
-          )
-          return response.parseable {
-              response.use {
-                  listHandler.handle(it)
-              }
-              .also {
-                  if (requestOptions.responseValidation!!) {
-                    it.validate()
-                  }
-              }
-          }
+        override fun list(
+            params: StopIdsForAgencyListParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<StopIdsForAgencyListResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .addPathSegments(
+                        "api",
+                        "where",
+                        "stop-ids-for-agency",
+                        "${params.getPathParam(0)}.json",
+                    )
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { listHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
         }
     }
 }

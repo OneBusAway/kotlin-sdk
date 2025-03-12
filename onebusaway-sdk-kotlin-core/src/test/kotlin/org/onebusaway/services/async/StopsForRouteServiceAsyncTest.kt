@@ -13,18 +13,22 @@ class StopsForRouteServiceAsyncTest {
 
     @Test
     suspend fun list() {
-      val client = OnebusawaySdkOkHttpClientAsync.builder()
-          .baseUrl(TestServerExtension.BASE_URL)
-          .apiKey("My API Key")
-          .build()
-      val stopsForRouteServiceAsync = client.stopsForRoute()
+        val client =
+            OnebusawaySdkOkHttpClientAsync.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My API Key")
+                .build()
+        val stopsForRouteServiceAsync = client.stopsForRoute()
 
-      val stopsForRoute = stopsForRouteServiceAsync.list(StopsForRouteListParams.builder()
-          .routeId("routeID")
-          .includePolylines(true)
-          .time("time")
-          .build())
+        val stopsForRoute =
+            stopsForRouteServiceAsync.list(
+                StopsForRouteListParams.builder()
+                    .routeId("routeID")
+                    .includePolylines(true)
+                    .time("time")
+                    .build()
+            )
 
-      stopsForRoute.validate()
+        stopsForRoute.validate()
     }
 }

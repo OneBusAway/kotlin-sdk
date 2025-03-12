@@ -14,17 +14,21 @@ class ScheduleForRouteServiceAsyncTest {
 
     @Test
     suspend fun retrieve() {
-      val client = OnebusawaySdkOkHttpClientAsync.builder()
-          .baseUrl(TestServerExtension.BASE_URL)
-          .apiKey("My API Key")
-          .build()
-      val scheduleForRouteServiceAsync = client.scheduleForRoute()
+        val client =
+            OnebusawaySdkOkHttpClientAsync.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My API Key")
+                .build()
+        val scheduleForRouteServiceAsync = client.scheduleForRoute()
 
-      val scheduleForRoute = scheduleForRouteServiceAsync.retrieve(ScheduleForRouteRetrieveParams.builder()
-          .routeId("1_100223")
-          .date(LocalDate.parse("2019-12-27"))
-          .build())
+        val scheduleForRoute =
+            scheduleForRouteServiceAsync.retrieve(
+                ScheduleForRouteRetrieveParams.builder()
+                    .routeId("1_100223")
+                    .date(LocalDate.parse("2019-12-27"))
+                    .build()
+            )
 
-      scheduleForRoute.validate()
+        scheduleForRoute.validate()
     }
 }
