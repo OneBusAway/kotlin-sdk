@@ -11,30 +11,26 @@ import org.onebusaway.models.ResponseWrapper
 interface ReportProblemWithStopService {
 
     /**
-     * Returns a view of this service that provides access to raw HTTP responses for each method.
+     * Returns a view of this service that provides access to raw HTTP responses for
+     * each method.
      */
     fun withRawResponse(): WithRawResponse
 
     /** Submit a user-generated problem report for a stop */
-    fun retrieve(
-        params: ReportProblemWithStopRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): ResponseWrapper
+    fun retrieve(params: ReportProblemWithStopRetrieveParams, requestOptions: RequestOptions = RequestOptions.none()): ResponseWrapper
 
     /**
-     * A view of [ReportProblemWithStopService] that provides access to raw HTTP responses for each
-     * method.
+     * A view of [ReportProblemWithStopService] that provides access to raw HTTP
+     * responses for each method.
      */
     interface WithRawResponse {
 
         /**
-         * Returns a raw HTTP response for `get /api/where/report-problem-with-stop/{stopID}.json`,
-         * but is otherwise the same as [ReportProblemWithStopService.retrieve].
+         * Returns a raw HTTP response for
+         * `get /api/where/report-problem-with-stop/{stopID}.json`, but is otherwise the
+         * same as [ReportProblemWithStopService.retrieve].
          */
         @MustBeClosed
-        fun retrieve(
-            params: ReportProblemWithStopRetrieveParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<ResponseWrapper>
+        fun retrieve(params: ReportProblemWithStopRetrieveParams, requestOptions: RequestOptions = RequestOptions.none()): HttpResponseFor<ResponseWrapper>
     }
 }

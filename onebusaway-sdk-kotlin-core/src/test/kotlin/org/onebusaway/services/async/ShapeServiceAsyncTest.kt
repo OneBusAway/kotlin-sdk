@@ -13,16 +13,16 @@ class ShapeServiceAsyncTest {
 
     @Test
     suspend fun retrieve() {
-        val client =
-            OnebusawaySdkOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
-        val shapeServiceAsync = client.shape()
+      val client = OnebusawaySdkOkHttpClientAsync.builder()
+          .baseUrl(TestServerExtension.BASE_URL)
+          .apiKey("My API Key")
+          .build()
+      val shapeServiceAsync = client.shape()
 
-        val shape =
-            shapeServiceAsync.retrieve(ShapeRetrieveParams.builder().shapeId("shapeID").build())
+      val shape = shapeServiceAsync.retrieve(ShapeRetrieveParams.builder()
+          .shapeId("shapeID")
+          .build())
 
-        shape.validate()
+      shape.validate()
     }
 }

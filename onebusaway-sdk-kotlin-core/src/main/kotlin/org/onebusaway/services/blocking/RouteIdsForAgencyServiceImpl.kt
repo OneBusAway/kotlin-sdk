@@ -17,58 +17,49 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.RouteIdsForAgencyListParams
 import org.onebusaway.models.RouteIdsForAgencyListResponse
 
-class RouteIdsForAgencyServiceImpl internal constructor(private val clientOptions: ClientOptions) :
-    RouteIdsForAgencyService {
+class RouteIdsForAgencyServiceImpl internal constructor(
+    private val clientOptions: ClientOptions,
 
-    private val withRawResponse: RouteIdsForAgencyService.WithRawResponse by lazy {
-        WithRawResponseImpl(clientOptions)
-    }
+) : RouteIdsForAgencyService {
+
+    private val withRawResponse: RouteIdsForAgencyService.WithRawResponse by lazy { WithRawResponseImpl(clientOptions) }
 
     override fun withRawResponse(): RouteIdsForAgencyService.WithRawResponse = withRawResponse
 
-    override fun list(
-        params: RouteIdsForAgencyListParams,
-        requestOptions: RequestOptions,
-    ): RouteIdsForAgencyListResponse =
+    override fun list(params: RouteIdsForAgencyListParams, requestOptions: RequestOptions): RouteIdsForAgencyListResponse =
         // get /api/where/route-ids-for-agency/{agencyID}.json
         withRawResponse().list(params, requestOptions).parse()
 
-    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
-        RouteIdsForAgencyService.WithRawResponse {
+    class WithRawResponseImpl internal constructor(
+        private val clientOptions: ClientOptions,
 
-        private val errorHandler: Handler<OnebusawaySdkError> =
-            errorHandler(clientOptions.jsonMapper)
+    ) : RouteIdsForAgencyService.WithRawResponse {
 
-        private val listHandler: Handler<RouteIdsForAgencyListResponse> =
-            jsonHandler<RouteIdsForAgencyListResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
+        private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
 
-        override fun list(
-            params: RouteIdsForAgencyListParams,
-            requestOptions: RequestOptions,
-        ): HttpResponseFor<RouteIdsForAgencyListResponse> {
-            val request =
-                HttpRequest.builder()
-                    .method(HttpMethod.GET)
-                    .addPathSegments(
-                        "api",
-                        "where",
-                        "route-ids-for-agency",
-                        "${params.getPathParam(0)}.json",
-                    )
-                    .build()
-                    .prepare(clientOptions, params)
-            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
-                response
-                    .use { listHandler.handle(it) }
-                    .also {
-                        if (requestOptions.responseValidation!!) {
-                            it.validate()
-                        }
-                    }
-            }
+        private val listHandler: Handler<RouteIdsForAgencyListResponse> = jsonHandler<RouteIdsForAgencyListResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+
+        override fun list(params: RouteIdsForAgencyListParams, requestOptions: RequestOptions): HttpResponseFor<RouteIdsForAgencyListResponse> {
+          val request = HttpRequest.builder()
+            .method(HttpMethod.GET)
+            .addPathSegments("api", "where", "route-ids-for-agency", "${params.getPathParam(0)}.json")
+            .build()
+            .prepare(clientOptions, params)
+          val requestOptions = requestOptions
+              .applyDefaults(RequestOptions.from(clientOptions))
+          val response = clientOptions.httpClient.execute(
+            request, requestOptions
+          )
+          return response.parseable {
+              response.use {
+                  listHandler.handle(it)
+              }
+              .also {
+                  if (requestOptions.responseValidation!!) {
+                    it.validate()
+                  }
+              }
+          }
         }
     }
 }

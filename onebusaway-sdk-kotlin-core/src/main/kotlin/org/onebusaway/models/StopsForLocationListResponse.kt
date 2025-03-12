@@ -18,19 +18,14 @@ import org.onebusaway.core.immutableEmptyMap
 import org.onebusaway.core.toImmutable
 
 @NoAutoDetect
-class StopsForLocationListResponse
-@JsonCreator
-private constructor(
+class StopsForLocationListResponse @JsonCreator private constructor(
     @JsonProperty("code") @ExcludeMissing private val code: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("currentTime")
-    @ExcludeMissing
-    private val currentTime: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("currentTime") @ExcludeMissing private val currentTime: JsonField<Long> = JsonMissing.of(),
     @JsonProperty("text") @ExcludeMissing private val text: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("version")
-    @ExcludeMissing
-    private val version: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("version") @ExcludeMissing private val version: JsonField<Long> = JsonMissing.of(),
     @JsonProperty("data") @ExcludeMissing private val data: JsonField<Data> = JsonMissing.of(),
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+
 ) {
 
     fun code(): Long = code.getRequired("code")
@@ -43,15 +38,25 @@ private constructor(
 
     fun data(): Data = data.getRequired("data")
 
-    @JsonProperty("code") @ExcludeMissing fun _code(): JsonField<Long> = code
+    @JsonProperty("code")
+    @ExcludeMissing
+    fun _code(): JsonField<Long> = code
 
-    @JsonProperty("currentTime") @ExcludeMissing fun _currentTime(): JsonField<Long> = currentTime
+    @JsonProperty("currentTime")
+    @ExcludeMissing
+    fun _currentTime(): JsonField<Long> = currentTime
 
-    @JsonProperty("text") @ExcludeMissing fun _text(): JsonField<String> = text
+    @JsonProperty("text")
+    @ExcludeMissing
+    fun _text(): JsonField<String> = text
 
-    @JsonProperty("version") @ExcludeMissing fun _version(): JsonField<Long> = version
+    @JsonProperty("version")
+    @ExcludeMissing
+    fun _version(): JsonField<Long> = version
 
-    @JsonProperty("data") @ExcludeMissing fun _data(): JsonField<Data> = data
+    @JsonProperty("data")
+    @ExcludeMissing
+    fun _data(): JsonField<Data> = data
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -67,27 +72,30 @@ private constructor(
 
     private var validated: Boolean = false
 
-    fun validate(): StopsForLocationListResponse = apply {
-        if (validated) {
-            return@apply
-        }
+    fun validate(): StopsForLocationListResponse =
+        apply {
+            if (validated) {
+              return@apply
+            }
 
-        code()
-        currentTime()
-        text()
-        version()
-        data().validate()
-        validated = true
-    }
+            code()
+            currentTime()
+            text()
+            version()
+            data().validate()
+            validated = true
+        }
 
     fun toBuilder() = Builder().from(this)
 
     companion object {
 
         /**
-         * Returns a mutable builder for constructing an instance of [StopsForLocationListResponse].
+         * Returns a mutable builder for constructing an instance of
+         * [StopsForLocationListResponse].
          *
          * The following fields are required:
+         *
          * ```kotlin
          * .code()
          * .currentTime()
@@ -109,83 +117,106 @@ private constructor(
         private var data: JsonField<Data>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
-        internal fun from(stopsForLocationListResponse: StopsForLocationListResponse) = apply {
-            code = stopsForLocationListResponse.code
-            currentTime = stopsForLocationListResponse.currentTime
-            text = stopsForLocationListResponse.text
-            version = stopsForLocationListResponse.version
-            data = stopsForLocationListResponse.data
-            additionalProperties = stopsForLocationListResponse.additionalProperties.toMutableMap()
-        }
+        internal fun from(stopsForLocationListResponse: StopsForLocationListResponse) =
+            apply {
+                code = stopsForLocationListResponse.code
+                currentTime = stopsForLocationListResponse.currentTime
+                text = stopsForLocationListResponse.text
+                version = stopsForLocationListResponse.version
+                data = stopsForLocationListResponse.data
+                additionalProperties = stopsForLocationListResponse.additionalProperties.toMutableMap()
+            }
 
         fun code(code: Long) = code(JsonField.of(code))
 
-        fun code(code: JsonField<Long>) = apply { this.code = code }
+        fun code(code: JsonField<Long>) =
+            apply {
+                this.code = code
+            }
 
         fun currentTime(currentTime: Long) = currentTime(JsonField.of(currentTime))
 
-        fun currentTime(currentTime: JsonField<Long>) = apply { this.currentTime = currentTime }
+        fun currentTime(currentTime: JsonField<Long>) =
+            apply {
+                this.currentTime = currentTime
+            }
 
         fun text(text: String) = text(JsonField.of(text))
 
-        fun text(text: JsonField<String>) = apply { this.text = text }
+        fun text(text: JsonField<String>) =
+            apply {
+                this.text = text
+            }
 
         fun version(version: Long) = version(JsonField.of(version))
 
-        fun version(version: JsonField<Long>) = apply { this.version = version }
+        fun version(version: JsonField<Long>) =
+            apply {
+                this.version = version
+            }
 
         fun data(data: Data) = data(JsonField.of(data))
 
-        fun data(data: JsonField<Data>) = apply { this.data = data }
+        fun data(data: JsonField<Data>) =
+            apply {
+                this.data = data
+            }
 
-        fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-            this.additionalProperties.clear()
-            putAllAdditionalProperties(additionalProperties)
-        }
+        fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
+            apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
 
-        fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-            additionalProperties.put(key, value)
-        }
+        fun putAdditionalProperty(key: String, value: JsonValue) =
+            apply {
+                additionalProperties.put(key, value)
+            }
 
-        fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-            this.additionalProperties.putAll(additionalProperties)
-        }
+        fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+            apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) =
+            apply {
+                additionalProperties.remove(key)
+            }
 
-        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-            keys.forEach(::removeAdditionalProperty)
-        }
+        fun removeAllAdditionalProperties(keys: Set<String>) =
+            apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
 
         fun build(): StopsForLocationListResponse =
             StopsForLocationListResponse(
-                checkRequired("code", code),
-                checkRequired("currentTime", currentTime),
-                checkRequired("text", text),
-                checkRequired("version", version),
-                checkRequired("data", data),
-                additionalProperties.toImmutable(),
+              checkRequired(
+                "code", code
+              ),
+              checkRequired(
+                "currentTime", currentTime
+              ),
+              checkRequired(
+                "text", text
+              ),
+              checkRequired(
+                "version", version
+              ),
+              checkRequired(
+                "data", data
+              ),
+              additionalProperties.toImmutable(),
             )
     }
 
     @NoAutoDetect
-    class Data
-    @JsonCreator
-    private constructor(
-        @JsonProperty("limitExceeded")
-        @ExcludeMissing
-        private val limitExceeded: JsonField<Boolean> = JsonMissing.of(),
-        @JsonProperty("list")
-        @ExcludeMissing
-        private val list: JsonField<List<List>> = JsonMissing.of(),
-        @JsonProperty("references")
-        @ExcludeMissing
-        private val references: JsonField<References> = JsonMissing.of(),
-        @JsonProperty("outOfRange")
-        @ExcludeMissing
-        private val outOfRange: JsonField<Boolean> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    class Data @JsonCreator private constructor(
+        @JsonProperty("limitExceeded") @ExcludeMissing private val limitExceeded: JsonField<Boolean> = JsonMissing.of(),
+        @JsonProperty("list") @ExcludeMissing private val list: JsonField<List<List>> = JsonMissing.of(),
+        @JsonProperty("references") @ExcludeMissing private val references: JsonField<References> = JsonMissing.of(),
+        @JsonProperty("outOfRange") @ExcludeMissing private val outOfRange: JsonField<Boolean> = JsonMissing.of(),
+        @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+
     ) {
 
         fun limitExceeded(): Boolean = limitExceeded.getRequired("limitExceeded")
@@ -200,7 +231,9 @@ private constructor(
         @ExcludeMissing
         fun _limitExceeded(): JsonField<Boolean> = limitExceeded
 
-        @JsonProperty("list") @ExcludeMissing fun _list(): JsonField<List<List>> = list
+        @JsonProperty("list")
+        @ExcludeMissing
+        fun _list(): JsonField<List<List>> = list
 
         @JsonProperty("references")
         @ExcludeMissing
@@ -216,17 +249,18 @@ private constructor(
 
         private var validated: Boolean = false
 
-        fun validate(): Data = apply {
-            if (validated) {
-                return@apply
-            }
+        fun validate(): Data =
+            apply {
+                if (validated) {
+                  return@apply
+                }
 
-            limitExceeded()
-            list().forEach { it.validate() }
-            references().validate()
-            outOfRange()
-            validated = true
-        }
+                limitExceeded()
+                list().forEach { it.validate() }
+                references().validate()
+                outOfRange()
+                validated = true
+            }
 
         fun toBuilder() = Builder().from(this)
 
@@ -236,6 +270,7 @@ private constructor(
              * Returns a mutable builder for constructing an instance of [Data].
              *
              * The following fields are required:
+             *
              * ```kotlin
              * .limitExceeded()
              * .list()
@@ -254,111 +289,107 @@ private constructor(
             private var outOfRange: JsonField<Boolean> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
-            internal fun from(data: Data) = apply {
-                limitExceeded = data.limitExceeded
-                list = data.list.map { it.toMutableList() }
-                references = data.references
-                outOfRange = data.outOfRange
-                additionalProperties = data.additionalProperties.toMutableMap()
-            }
+            internal fun from(data: Data) =
+                apply {
+                    limitExceeded = data.limitExceeded
+                    list = data.list.map { it.toMutableList() }
+                    references = data.references
+                    outOfRange = data.outOfRange
+                    additionalProperties = data.additionalProperties.toMutableMap()
+                }
 
             fun limitExceeded(limitExceeded: Boolean) = limitExceeded(JsonField.of(limitExceeded))
 
-            fun limitExceeded(limitExceeded: JsonField<Boolean>) = apply {
-                this.limitExceeded = limitExceeded
-            }
+            fun limitExceeded(limitExceeded: JsonField<Boolean>) =
+                apply {
+                    this.limitExceeded = limitExceeded
+                }
 
             fun list(list: List<List>) = list(JsonField.of(list))
 
-            fun list(list: JsonField<List<List>>) = apply {
-                this.list = list.map { it.toMutableList() }
-            }
+            fun list(list: JsonField<List<List>>) =
+                apply {
+                    this.list = list.map { it.toMutableList() }
+                }
 
-            fun addList(list: List) = apply {
-                this.list =
-                    (this.list ?: JsonField.of(mutableListOf())).also {
+            fun addList(list: List) =
+                apply {
+                    this.list = (this.list ?: JsonField.of(mutableListOf())).also {
                         checkKnown("list", it).add(list)
                     }
-            }
+                }
 
             fun references(references: References) = references(JsonField.of(references))
 
-            fun references(references: JsonField<References>) = apply {
-                this.references = references
-            }
+            fun references(references: JsonField<References>) =
+                apply {
+                    this.references = references
+                }
 
             fun outOfRange(outOfRange: Boolean) = outOfRange(JsonField.of(outOfRange))
 
-            fun outOfRange(outOfRange: JsonField<Boolean>) = apply { this.outOfRange = outOfRange }
+            fun outOfRange(outOfRange: JsonField<Boolean>) =
+                apply {
+                    this.outOfRange = outOfRange
+                }
 
-            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.clear()
-                putAllAdditionalProperties(additionalProperties)
-            }
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
+                apply {
+                    this.additionalProperties.clear()
+                    putAllAdditionalProperties(additionalProperties)
+                }
 
-            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                additionalProperties.put(key, value)
-            }
+            fun putAdditionalProperty(key: String, value: JsonValue) =
+                apply {
+                    additionalProperties.put(key, value)
+                }
 
-            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.putAll(additionalProperties)
-            }
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                apply {
+                    this.additionalProperties.putAll(additionalProperties)
+                }
 
-            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+            fun removeAdditionalProperty(key: String) =
+                apply {
+                    additionalProperties.remove(key)
+                }
 
-            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                keys.forEach(::removeAdditionalProperty)
-            }
+            fun removeAllAdditionalProperties(keys: Set<String>) =
+                apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
 
             fun build(): Data =
                 Data(
-                    checkRequired("limitExceeded", limitExceeded),
-                    checkRequired("list", list).map { it.toImmutable() },
-                    checkRequired("references", references),
-                    outOfRange,
-                    additionalProperties.toImmutable(),
+                  checkRequired(
+                    "limitExceeded", limitExceeded
+                  ),
+                  checkRequired(
+                    "list", list
+                  ).map { it.toImmutable() },
+                  checkRequired(
+                    "references", references
+                  ),
+                  outOfRange,
+                  additionalProperties.toImmutable(),
                 )
         }
 
         @NoAutoDetect
-        class List
-        @JsonCreator
-        private constructor(
-            @JsonProperty("id")
-            @ExcludeMissing
-            private val id: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("lat")
-            @ExcludeMissing
-            private val lat: JsonField<Double> = JsonMissing.of(),
-            @JsonProperty("lon")
-            @ExcludeMissing
-            private val lon: JsonField<Double> = JsonMissing.of(),
-            @JsonProperty("name")
-            @ExcludeMissing
-            private val name: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("parent")
-            @ExcludeMissing
-            private val parent: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("routeIds")
-            @ExcludeMissing
-            private val routeIds: JsonField<List<String>> = JsonMissing.of(),
-            @JsonProperty("staticRouteIds")
-            @ExcludeMissing
-            private val staticRouteIds: JsonField<List<String>> = JsonMissing.of(),
-            @JsonProperty("code")
-            @ExcludeMissing
-            private val code: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("direction")
-            @ExcludeMissing
-            private val direction: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("locationType")
-            @ExcludeMissing
-            private val locationType: JsonField<Long> = JsonMissing.of(),
-            @JsonProperty("wheelchairBoarding")
-            @ExcludeMissing
-            private val wheelchairBoarding: JsonField<String> = JsonMissing.of(),
-            @JsonAnySetter
-            private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+        class List @JsonCreator private constructor(
+            @JsonProperty("id") @ExcludeMissing private val id: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("lat") @ExcludeMissing private val lat: JsonField<Double> = JsonMissing.of(),
+            @JsonProperty("lon") @ExcludeMissing private val lon: JsonField<Double> = JsonMissing.of(),
+            @JsonProperty("name") @ExcludeMissing private val name: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("parent") @ExcludeMissing private val parent: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("routeIds") @ExcludeMissing private val routeIds: JsonField<List<String>> = JsonMissing.of(),
+            @JsonProperty("staticRouteIds") @ExcludeMissing private val staticRouteIds: JsonField<List<String>> = JsonMissing.of(),
+            @JsonProperty("code") @ExcludeMissing private val code: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("direction") @ExcludeMissing private val direction: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("locationType") @ExcludeMissing private val locationType: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("wheelchairBoarding") @ExcludeMissing private val wheelchairBoarding: JsonField<String> = JsonMissing.of(),
+            @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+
         ) {
 
             fun id(): String = id.getRequired("id")
@@ -383,15 +414,25 @@ private constructor(
 
             fun wheelchairBoarding(): String? = wheelchairBoarding.getNullable("wheelchairBoarding")
 
-            @JsonProperty("id") @ExcludeMissing fun _id(): JsonField<String> = id
+            @JsonProperty("id")
+            @ExcludeMissing
+            fun _id(): JsonField<String> = id
 
-            @JsonProperty("lat") @ExcludeMissing fun _lat(): JsonField<Double> = lat
+            @JsonProperty("lat")
+            @ExcludeMissing
+            fun _lat(): JsonField<Double> = lat
 
-            @JsonProperty("lon") @ExcludeMissing fun _lon(): JsonField<Double> = lon
+            @JsonProperty("lon")
+            @ExcludeMissing
+            fun _lon(): JsonField<Double> = lon
 
-            @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
+            @JsonProperty("name")
+            @ExcludeMissing
+            fun _name(): JsonField<String> = name
 
-            @JsonProperty("parent") @ExcludeMissing fun _parent(): JsonField<String> = parent
+            @JsonProperty("parent")
+            @ExcludeMissing
+            fun _parent(): JsonField<String> = parent
 
             @JsonProperty("routeIds")
             @ExcludeMissing
@@ -401,7 +442,9 @@ private constructor(
             @ExcludeMissing
             fun _staticRouteIds(): JsonField<List<String>> = staticRouteIds
 
-            @JsonProperty("code") @ExcludeMissing fun _code(): JsonField<String> = code
+            @JsonProperty("code")
+            @ExcludeMissing
+            fun _code(): JsonField<String> = code
 
             @JsonProperty("direction")
             @ExcludeMissing
@@ -421,24 +464,25 @@ private constructor(
 
             private var validated: Boolean = false
 
-            fun validate(): List = apply {
-                if (validated) {
-                    return@apply
-                }
+            fun validate(): List =
+                apply {
+                    if (validated) {
+                      return@apply
+                    }
 
-                id()
-                lat()
-                lon()
-                name()
-                parent()
-                routeIds()
-                staticRouteIds()
-                code()
-                direction()
-                locationType()
-                wheelchairBoarding()
-                validated = true
-            }
+                    id()
+                    lat()
+                    lon()
+                    name()
+                    parent()
+                    routeIds()
+                    staticRouteIds()
+                    code()
+                    direction()
+                    locationType()
+                    wheelchairBoarding()
+                    validated = true
+                }
 
             fun toBuilder() = Builder().from(this)
 
@@ -448,6 +492,7 @@ private constructor(
                  * Returns a mutable builder for constructing an instance of [List].
                  *
                  * The following fields are required:
+                 *
                  * ```kotlin
                  * .id()
                  * .lat()
@@ -477,134 +522,176 @@ private constructor(
                 private var wheelchairBoarding: JsonField<String> = JsonMissing.of()
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
-                internal fun from(list: List) = apply {
-                    id = list.id
-                    lat = list.lat
-                    lon = list.lon
-                    name = list.name
-                    parent = list.parent
-                    routeIds = list.routeIds.map { it.toMutableList() }
-                    staticRouteIds = list.staticRouteIds.map { it.toMutableList() }
-                    code = list.code
-                    direction = list.direction
-                    locationType = list.locationType
-                    wheelchairBoarding = list.wheelchairBoarding
-                    additionalProperties = list.additionalProperties.toMutableMap()
-                }
+                internal fun from(list: List) =
+                    apply {
+                        id = list.id
+                        lat = list.lat
+                        lon = list.lon
+                        name = list.name
+                        parent = list.parent
+                        routeIds = list.routeIds.map { it.toMutableList() }
+                        staticRouteIds = list.staticRouteIds.map { it.toMutableList() }
+                        code = list.code
+                        direction = list.direction
+                        locationType = list.locationType
+                        wheelchairBoarding = list.wheelchairBoarding
+                        additionalProperties = list.additionalProperties.toMutableMap()
+                    }
 
                 fun id(id: String) = id(JsonField.of(id))
 
-                fun id(id: JsonField<String>) = apply { this.id = id }
+                fun id(id: JsonField<String>) =
+                    apply {
+                        this.id = id
+                    }
 
                 fun lat(lat: Double) = lat(JsonField.of(lat))
 
-                fun lat(lat: JsonField<Double>) = apply { this.lat = lat }
+                fun lat(lat: JsonField<Double>) =
+                    apply {
+                        this.lat = lat
+                    }
 
                 fun lon(lon: Double) = lon(JsonField.of(lon))
 
-                fun lon(lon: JsonField<Double>) = apply { this.lon = lon }
+                fun lon(lon: JsonField<Double>) =
+                    apply {
+                        this.lon = lon
+                    }
 
                 fun name(name: String) = name(JsonField.of(name))
 
-                fun name(name: JsonField<String>) = apply { this.name = name }
+                fun name(name: JsonField<String>) =
+                    apply {
+                        this.name = name
+                    }
 
                 fun parent(parent: String) = parent(JsonField.of(parent))
 
-                fun parent(parent: JsonField<String>) = apply { this.parent = parent }
+                fun parent(parent: JsonField<String>) =
+                    apply {
+                        this.parent = parent
+                    }
 
                 fun routeIds(routeIds: List<String>) = routeIds(JsonField.of(routeIds))
 
-                fun routeIds(routeIds: JsonField<List<String>>) = apply {
-                    this.routeIds = routeIds.map { it.toMutableList() }
-                }
+                fun routeIds(routeIds: JsonField<List<String>>) =
+                    apply {
+                        this.routeIds = routeIds.map { it.toMutableList() }
+                    }
 
-                fun addRouteId(routeId: String) = apply {
-                    routeIds =
-                        (routeIds ?: JsonField.of(mutableListOf())).also {
+                fun addRouteId(routeId: String) =
+                    apply {
+                        routeIds = (routeIds ?: JsonField.of(mutableListOf())).also {
                             checkKnown("routeIds", it).add(routeId)
                         }
-                }
+                    }
 
-                fun staticRouteIds(staticRouteIds: List<String>) =
-                    staticRouteIds(JsonField.of(staticRouteIds))
+                fun staticRouteIds(staticRouteIds: List<String>) = staticRouteIds(JsonField.of(staticRouteIds))
 
-                fun staticRouteIds(staticRouteIds: JsonField<List<String>>) = apply {
-                    this.staticRouteIds = staticRouteIds.map { it.toMutableList() }
-                }
+                fun staticRouteIds(staticRouteIds: JsonField<List<String>>) =
+                    apply {
+                        this.staticRouteIds = staticRouteIds.map { it.toMutableList() }
+                    }
 
-                fun addStaticRouteId(staticRouteId: String) = apply {
-                    staticRouteIds =
-                        (staticRouteIds ?: JsonField.of(mutableListOf())).also {
+                fun addStaticRouteId(staticRouteId: String) =
+                    apply {
+                        staticRouteIds = (staticRouteIds ?: JsonField.of(mutableListOf())).also {
                             checkKnown("staticRouteIds", it).add(staticRouteId)
                         }
-                }
+                    }
 
                 fun code(code: String) = code(JsonField.of(code))
 
-                fun code(code: JsonField<String>) = apply { this.code = code }
+                fun code(code: JsonField<String>) =
+                    apply {
+                        this.code = code
+                    }
 
                 fun direction(direction: String) = direction(JsonField.of(direction))
 
-                fun direction(direction: JsonField<String>) = apply { this.direction = direction }
+                fun direction(direction: JsonField<String>) =
+                    apply {
+                        this.direction = direction
+                    }
 
                 fun locationType(locationType: Long) = locationType(JsonField.of(locationType))
 
-                fun locationType(locationType: JsonField<Long>) = apply {
-                    this.locationType = locationType
-                }
+                fun locationType(locationType: JsonField<Long>) =
+                    apply {
+                        this.locationType = locationType
+                    }
 
-                fun wheelchairBoarding(wheelchairBoarding: String) =
-                    wheelchairBoarding(JsonField.of(wheelchairBoarding))
+                fun wheelchairBoarding(wheelchairBoarding: String) = wheelchairBoarding(JsonField.of(wheelchairBoarding))
 
-                fun wheelchairBoarding(wheelchairBoarding: JsonField<String>) = apply {
-                    this.wheelchairBoarding = wheelchairBoarding
-                }
+                fun wheelchairBoarding(wheelchairBoarding: JsonField<String>) =
+                    apply {
+                        this.wheelchairBoarding = wheelchairBoarding
+                    }
 
-                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                    this.additionalProperties.clear()
-                    putAllAdditionalProperties(additionalProperties)
-                }
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.clear()
+                        putAllAdditionalProperties(additionalProperties)
+                    }
 
-                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                    additionalProperties.put(key, value)
-                }
+                fun putAdditionalProperty(key: String, value: JsonValue) =
+                    apply {
+                        additionalProperties.put(key, value)
+                    }
 
                 fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
                     apply {
                         this.additionalProperties.putAll(additionalProperties)
                     }
 
-                fun removeAdditionalProperty(key: String) = apply {
-                    additionalProperties.remove(key)
-                }
+                fun removeAdditionalProperty(key: String) =
+                    apply {
+                        additionalProperties.remove(key)
+                    }
 
-                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-                    keys.forEach(::removeAdditionalProperty)
-                }
+                fun removeAllAdditionalProperties(keys: Set<String>) =
+                    apply {
+                        keys.forEach(::removeAdditionalProperty)
+                    }
 
                 fun build(): List =
                     List(
-                        checkRequired("id", id),
-                        checkRequired("lat", lat),
-                        checkRequired("lon", lon),
-                        checkRequired("name", name),
-                        checkRequired("parent", parent),
-                        checkRequired("routeIds", routeIds).map { it.toImmutable() },
-                        checkRequired("staticRouteIds", staticRouteIds).map { it.toImmutable() },
-                        code,
-                        direction,
-                        locationType,
-                        wheelchairBoarding,
-                        additionalProperties.toImmutable(),
+                      checkRequired(
+                        "id", id
+                      ),
+                      checkRequired(
+                        "lat", lat
+                      ),
+                      checkRequired(
+                        "lon", lon
+                      ),
+                      checkRequired(
+                        "name", name
+                      ),
+                      checkRequired(
+                        "parent", parent
+                      ),
+                      checkRequired(
+                        "routeIds", routeIds
+                      ).map { it.toImmutable() },
+                      checkRequired(
+                        "staticRouteIds", staticRouteIds
+                      ).map { it.toImmutable() },
+                      code,
+                      direction,
+                      locationType,
+                      wheelchairBoarding,
+                      additionalProperties.toImmutable(),
                     )
             }
 
             override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
+              if (this === other) {
+                  return true
+              }
 
-                return /* spotless:off */ other is List && id == other.id && lat == other.lat && lon == other.lon && name == other.name && parent == other.parent && routeIds == other.routeIds && staticRouteIds == other.staticRouteIds && code == other.code && direction == other.direction && locationType == other.locationType && wheelchairBoarding == other.wheelchairBoarding && additionalProperties == other.additionalProperties /* spotless:on */
+              return /* spotless:off */ other is List && id == other.id && lat == other.lat && lon == other.lon && name == other.name && parent == other.parent && routeIds == other.routeIds && staticRouteIds == other.staticRouteIds && code == other.code && direction == other.direction && locationType == other.locationType && wheelchairBoarding == other.wheelchairBoarding && additionalProperties == other.additionalProperties /* spotless:on */
             }
 
             /* spotless:off */
@@ -613,16 +700,15 @@ private constructor(
 
             override fun hashCode(): Int = hashCode
 
-            override fun toString() =
-                "List{id=$id, lat=$lat, lon=$lon, name=$name, parent=$parent, routeIds=$routeIds, staticRouteIds=$staticRouteIds, code=$code, direction=$direction, locationType=$locationType, wheelchairBoarding=$wheelchairBoarding, additionalProperties=$additionalProperties}"
+            override fun toString() = "List{id=$id, lat=$lat, lon=$lon, name=$name, parent=$parent, routeIds=$routeIds, staticRouteIds=$staticRouteIds, code=$code, direction=$direction, locationType=$locationType, wheelchairBoarding=$wheelchairBoarding, additionalProperties=$additionalProperties}"
         }
 
         override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
+          if (this === other) {
+              return true
+          }
 
-            return /* spotless:off */ other is Data && limitExceeded == other.limitExceeded && list == other.list && references == other.references && outOfRange == other.outOfRange && additionalProperties == other.additionalProperties /* spotless:on */
+          return /* spotless:off */ other is Data && limitExceeded == other.limitExceeded && list == other.list && references == other.references && outOfRange == other.outOfRange && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
@@ -631,16 +717,15 @@ private constructor(
 
         override fun hashCode(): Int = hashCode
 
-        override fun toString() =
-            "Data{limitExceeded=$limitExceeded, list=$list, references=$references, outOfRange=$outOfRange, additionalProperties=$additionalProperties}"
+        override fun toString() = "Data{limitExceeded=$limitExceeded, list=$list, references=$references, outOfRange=$outOfRange, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
+      if (this === other) {
+          return true
+      }
 
-        return /* spotless:off */ other is StopsForLocationListResponse && code == other.code && currentTime == other.currentTime && text == other.text && version == other.version && data == other.data && additionalProperties == other.additionalProperties /* spotless:on */
+      return /* spotless:off */ other is StopsForLocationListResponse && code == other.code && currentTime == other.currentTime && text == other.text && version == other.version && data == other.data && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
@@ -649,6 +734,5 @@ private constructor(
 
     override fun hashCode(): Int = hashCode
 
-    override fun toString() =
-        "StopsForLocationListResponse{code=$code, currentTime=$currentTime, text=$text, version=$version, data=$data, additionalProperties=$additionalProperties}"
+    override fun toString() = "StopsForLocationListResponse{code=$code, currentTime=$currentTime, text=$text, version=$version, data=$data, additionalProperties=$additionalProperties}"
 }

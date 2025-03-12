@@ -13,18 +13,16 @@ class RouteIdsForAgencyServiceTest {
 
     @Test
     fun list() {
-        val client =
-            OnebusawaySdkOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
-        val routeIdsForAgencyService = client.routeIdsForAgency()
+      val client = OnebusawaySdkOkHttpClient.builder()
+          .baseUrl(TestServerExtension.BASE_URL)
+          .apiKey("My API Key")
+          .build()
+      val routeIdsForAgencyService = client.routeIdsForAgency()
 
-        val routeIdsForAgency =
-            routeIdsForAgencyService.list(
-                RouteIdsForAgencyListParams.builder().agencyId("agencyID").build()
-            )
+      val routeIdsForAgency = routeIdsForAgencyService.list(RouteIdsForAgencyListParams.builder()
+          .agencyId("agencyID")
+          .build())
 
-        routeIdsForAgency.validate()
+      routeIdsForAgency.validate()
     }
 }

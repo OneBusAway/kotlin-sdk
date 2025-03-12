@@ -10,43 +10,45 @@ class StopsForLocationListParamsTest {
 
     @Test
     fun create() {
-        StopsForLocationListParams.builder()
-            .lat(0.0)
-            .lon(0.0)
-            .latSpan(0.0)
-            .lonSpan(0.0)
-            .query("query")
-            .radius(0.0)
-            .build()
+      StopsForLocationListParams.builder()
+          .lat(0.0)
+          .lon(0.0)
+          .latSpan(0.0)
+          .lonSpan(0.0)
+          .query("query")
+          .radius(0.0)
+          .build()
     }
 
     @Test
     fun queryParams() {
-        val params =
-            StopsForLocationListParams.builder()
-                .lat(0.0)
-                .lon(0.0)
-                .latSpan(0.0)
-                .lonSpan(0.0)
-                .query("query")
-                .radius(0.0)
-                .build()
-        val expected = QueryParams.builder()
-        expected.put("lat", "0.0")
-        expected.put("lon", "0.0")
-        expected.put("latSpan", "0.0")
-        expected.put("lonSpan", "0.0")
-        expected.put("query", "query")
-        expected.put("radius", "0.0")
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+      val params = StopsForLocationListParams.builder()
+          .lat(0.0)
+          .lon(0.0)
+          .latSpan(0.0)
+          .lonSpan(0.0)
+          .query("query")
+          .radius(0.0)
+          .build()
+      val expected = QueryParams.builder()
+      expected.put("lat", "0.0")
+      expected.put("lon", "0.0")
+      expected.put("latSpan", "0.0")
+      expected.put("lonSpan", "0.0")
+      expected.put("query", "query")
+      expected.put("radius", "0.0")
+      assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test
     fun queryParamsWithoutOptionalFields() {
-        val params = StopsForLocationListParams.builder().lat(0.0).lon(0.0).build()
-        val expected = QueryParams.builder()
-        expected.put("lat", "0.0")
-        expected.put("lon", "0.0")
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+      val params = StopsForLocationListParams.builder()
+          .lat(0.0)
+          .lon(0.0)
+          .build()
+      val expected = QueryParams.builder()
+      expected.put("lat", "0.0")
+      expected.put("lon", "0.0")
+      assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 }

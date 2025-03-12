@@ -62,10 +62,7 @@ internal fun multipartFormData(
                 .build()
         }
 
-        private fun serializePart(
-            name: String,
-            node: JsonNode,
-        ): Sequence<Pair<String, InputStream>> =
+        private fun serializePart(name: String, node: JsonNode): Sequence<Pair<String, InputStream>> =
             when (node.nodeType) {
                 JsonNodeType.MISSING,
                 JsonNodeType.NULL -> emptySequence()
@@ -76,16 +73,15 @@ internal fun multipartFormData(
                 JsonNodeType.NUMBER ->
                     sequenceOf(name to node.numberValue().toString().toInputStream())
                 JsonNodeType.ARRAY ->
-                    node.elements().asSequence().flatMap { element -> serializePart(name, element) }
+                    node.elements().asSequence().flatMap { element ->
+                        serializePart(name, element)
+                    }
                 JsonNodeType.OBJECT ->
                     node.fields().asSequence().flatMap { (key, value) ->
                         serializePart("$name[$key]", value)
                     }
                 JsonNodeType.POJO,
-                null ->
-                    throw OnebusawaySdkInvalidDataException(
-                        "Unexpected JsonNode type: ${node.nodeType}"
-                    )
+                null -> throw OnebusawaySdkInvalidDataException("Unexpected JsonNode type: ${node.nodeType}")
             }
 
         private fun String.toInputStream(): InputStream = ByteArrayInputStream(toByteArray())

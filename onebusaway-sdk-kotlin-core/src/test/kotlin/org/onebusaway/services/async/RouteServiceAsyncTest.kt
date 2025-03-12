@@ -13,16 +13,16 @@ class RouteServiceAsyncTest {
 
     @Test
     suspend fun retrieve() {
-        val client =
-            OnebusawaySdkOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
-        val routeServiceAsync = client.route()
+      val client = OnebusawaySdkOkHttpClientAsync.builder()
+          .baseUrl(TestServerExtension.BASE_URL)
+          .apiKey("My API Key")
+          .build()
+      val routeServiceAsync = client.route()
 
-        val route =
-            routeServiceAsync.retrieve(RouteRetrieveParams.builder().routeId("routeID").build())
+      val route = routeServiceAsync.retrieve(RouteRetrieveParams.builder()
+          .routeId("routeID")
+          .build())
 
-        route.validate()
+      route.validate()
     }
 }

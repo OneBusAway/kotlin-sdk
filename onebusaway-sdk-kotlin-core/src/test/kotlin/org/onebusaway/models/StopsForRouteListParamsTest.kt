@@ -10,41 +10,44 @@ class StopsForRouteListParamsTest {
 
     @Test
     fun create() {
-        StopsForRouteListParams.builder()
-            .routeId("routeID")
-            .includePolylines(true)
-            .time("time")
-            .build()
+      StopsForRouteListParams.builder()
+          .routeId("routeID")
+          .includePolylines(true)
+          .time("time")
+          .build()
     }
 
     @Test
     fun queryParams() {
-        val params =
-            StopsForRouteListParams.builder()
-                .routeId("routeID")
-                .includePolylines(true)
-                .time("time")
-                .build()
-        val expected = QueryParams.builder()
-        expected.put("includePolylines", "true")
-        expected.put("time", "time")
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+      val params = StopsForRouteListParams.builder()
+          .routeId("routeID")
+          .includePolylines(true)
+          .time("time")
+          .build()
+      val expected = QueryParams.builder()
+      expected.put("includePolylines", "true")
+      expected.put("time", "time")
+      assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test
     fun queryParamsWithoutOptionalFields() {
-        val params = StopsForRouteListParams.builder().routeId("routeID").build()
-        val expected = QueryParams.builder()
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+      val params = StopsForRouteListParams.builder()
+          .routeId("routeID")
+          .build()
+      val expected = QueryParams.builder()
+      assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test
     fun getPathParam() {
-        val params = StopsForRouteListParams.builder().routeId("routeID").build()
-        assertThat(params).isNotNull
-        // path param "routeId"
-        assertThat(params.getPathParam(0)).isEqualTo("routeID")
-        // out-of-bound path param
-        assertThat(params.getPathParam(1)).isEqualTo("")
+      val params = StopsForRouteListParams.builder()
+          .routeId("routeID")
+          .build()
+      assertThat(params).isNotNull
+      // path param "routeId"
+      assertThat(params.getPathParam(0)).isEqualTo("routeID")
+      // out-of-bound path param
+      assertThat(params.getPathParam(1)).isEqualTo("")
     }
 }

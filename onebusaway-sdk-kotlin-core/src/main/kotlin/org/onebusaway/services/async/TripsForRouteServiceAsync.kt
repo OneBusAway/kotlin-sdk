@@ -11,30 +11,25 @@ import org.onebusaway.models.TripsForRouteListResponse
 interface TripsForRouteServiceAsync {
 
     /**
-     * Returns a view of this service that provides access to raw HTTP responses for each method.
+     * Returns a view of this service that provides access to raw HTTP responses for
+     * each method.
      */
     fun withRawResponse(): WithRawResponse
 
     /** Search for active trips for a specific route. */
-    suspend fun list(
-        params: TripsForRouteListParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): TripsForRouteListResponse
+    suspend fun list(params: TripsForRouteListParams, requestOptions: RequestOptions = RequestOptions.none()): TripsForRouteListResponse
 
     /**
-     * A view of [TripsForRouteServiceAsync] that provides access to raw HTTP responses for each
-     * method.
+     * A view of [TripsForRouteServiceAsync] that provides access to raw HTTP responses
+     * for each method.
      */
     interface WithRawResponse {
 
         /**
-         * Returns a raw HTTP response for `get /api/where/trips-for-route/{routeID}.json`, but is
-         * otherwise the same as [TripsForRouteServiceAsync.list].
+         * Returns a raw HTTP response for `get /api/where/trips-for-route/{routeID}.json`,
+         * but is otherwise the same as [TripsForRouteServiceAsync.list].
          */
         @MustBeClosed
-        suspend fun list(
-            params: TripsForRouteListParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<TripsForRouteListResponse>
+        suspend fun list(params: TripsForRouteListParams, requestOptions: RequestOptions = RequestOptions.none()): HttpResponseFor<TripsForRouteListResponse>
     }
 }

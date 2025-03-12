@@ -24,29 +24,26 @@ internal class ServiceParamsTest {
 
     @BeforeEach
     fun beforeEach(wmRuntimeInfo: WireMockRuntimeInfo) {
-        client =
-            OnebusawaySdkOkHttpClient.builder()
-                .baseUrl(wmRuntimeInfo.httpBaseUrl)
-                .apiKey("My API Key")
-                .build()
+      client = OnebusawaySdkOkHttpClient.builder()
+          .baseUrl(wmRuntimeInfo.httpBaseUrl)
+          .apiKey("My API Key")
+          .build()
     }
 
     @Test
     fun retrieve() {
-        val currentTimeService = client.currentTime()
-        stubFor(get(anyUrl()).willReturn(ok("{}")))
+      val currentTimeService = client.currentTime()
+      stubFor(get(anyUrl()).willReturn(ok("{}")))
 
-        currentTimeService.retrieve(
-            CurrentTimeRetrieveParams.builder()
-                .putAdditionalHeader("Secret-Header", "42")
-                .putAdditionalQueryParam("secret_query_param", "42")
-                .build()
-        )
+      currentTimeService.retrieve(CurrentTimeRetrieveParams.builder()
+          .putAdditionalHeader("Secret-Header", "42")
+          .putAdditionalQueryParam("secret_query_param", "42")
+          .build())
 
-        verify(
-            getRequestedFor(anyUrl())
-                .withHeader("Secret-Header", equalTo("42"))
-                .withQueryParam("secret_query_param", equalTo("42"))
-        )
+      verify(
+          getRequestedFor(anyUrl())
+              .withHeader("Secret-Header", equalTo("42"))
+              .withQueryParam("secret_query_param", equalTo("42"))
+      )
     }
 }

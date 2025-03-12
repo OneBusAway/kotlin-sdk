@@ -13,15 +13,16 @@ class TripServiceAsyncTest {
 
     @Test
     suspend fun retrieve() {
-        val client =
-            OnebusawaySdkOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
-        val tripServiceAsync = client.trip()
+      val client = OnebusawaySdkOkHttpClientAsync.builder()
+          .baseUrl(TestServerExtension.BASE_URL)
+          .apiKey("My API Key")
+          .build()
+      val tripServiceAsync = client.trip()
 
-        val trip = tripServiceAsync.retrieve(TripRetrieveParams.builder().tripId("tripID").build())
+      val trip = tripServiceAsync.retrieve(TripRetrieveParams.builder()
+          .tripId("tripID")
+          .build())
 
-        trip.validate()
+      trip.validate()
     }
 }

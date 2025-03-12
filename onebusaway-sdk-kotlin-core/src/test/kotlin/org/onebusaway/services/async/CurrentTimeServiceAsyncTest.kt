@@ -6,21 +6,21 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.onebusaway.TestServerExtension
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClientAsync
+import org.onebusaway.models.CurrentTimeRetrieveParams
 
 @ExtendWith(TestServerExtension::class)
 class CurrentTimeServiceAsyncTest {
 
     @Test
     suspend fun retrieve() {
-        val client =
-            OnebusawaySdkOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
-        val currentTimeServiceAsync = client.currentTime()
+      val client = OnebusawaySdkOkHttpClientAsync.builder()
+          .baseUrl(TestServerExtension.BASE_URL)
+          .apiKey("My API Key")
+          .build()
+      val currentTimeServiceAsync = client.currentTime()
 
-        val currentTime = currentTimeServiceAsync.retrieve()
+      val currentTime = currentTimeServiceAsync.retrieve()
 
-        currentTime.validate()
+      currentTime.validate()
     }
 }

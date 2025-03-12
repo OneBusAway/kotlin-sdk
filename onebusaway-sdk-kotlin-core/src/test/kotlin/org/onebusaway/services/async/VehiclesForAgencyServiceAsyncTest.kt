@@ -13,18 +13,17 @@ class VehiclesForAgencyServiceAsyncTest {
 
     @Test
     suspend fun list() {
-        val client =
-            OnebusawaySdkOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
-        val vehiclesForAgencyServiceAsync = client.vehiclesForAgency()
+      val client = OnebusawaySdkOkHttpClientAsync.builder()
+          .baseUrl(TestServerExtension.BASE_URL)
+          .apiKey("My API Key")
+          .build()
+      val vehiclesForAgencyServiceAsync = client.vehiclesForAgency()
 
-        val vehiclesForAgency =
-            vehiclesForAgencyServiceAsync.list(
-                VehiclesForAgencyListParams.builder().agencyId("agencyID").time("time").build()
-            )
+      val vehiclesForAgency = vehiclesForAgencyServiceAsync.list(VehiclesForAgencyListParams.builder()
+          .agencyId("agencyID")
+          .time("time")
+          .build())
 
-        vehiclesForAgency.validate()
+      vehiclesForAgency.validate()
     }
 }

@@ -9,16 +9,20 @@ class BlockRetrieveParamsTest {
 
     @Test
     fun create() {
-        BlockRetrieveParams.builder().blockId("blockID").build()
+      BlockRetrieveParams.builder()
+          .blockId("blockID")
+          .build()
     }
 
     @Test
     fun getPathParam() {
-        val params = BlockRetrieveParams.builder().blockId("blockID").build()
-        assertThat(params).isNotNull
-        // path param "blockId"
-        assertThat(params.getPathParam(0)).isEqualTo("blockID")
-        // out-of-bound path param
-        assertThat(params.getPathParam(1)).isEqualTo("")
+      val params = BlockRetrieveParams.builder()
+          .blockId("blockID")
+          .build()
+      assertThat(params).isNotNull
+      // path param "blockId"
+      assertThat(params.getPathParam(0)).isEqualTo("blockID")
+      // out-of-bound path param
+      assertThat(params.getPathParam(1)).isEqualTo("")
     }
 }

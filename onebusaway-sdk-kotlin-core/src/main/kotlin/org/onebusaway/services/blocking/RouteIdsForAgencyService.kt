@@ -11,30 +11,26 @@ import org.onebusaway.models.RouteIdsForAgencyListResponse
 interface RouteIdsForAgencyService {
 
     /**
-     * Returns a view of this service that provides access to raw HTTP responses for each method.
+     * Returns a view of this service that provides access to raw HTTP responses for
+     * each method.
      */
     fun withRawResponse(): WithRawResponse
 
     /** Get route IDs for a specific agency */
-    fun list(
-        params: RouteIdsForAgencyListParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): RouteIdsForAgencyListResponse
+    fun list(params: RouteIdsForAgencyListParams, requestOptions: RequestOptions = RequestOptions.none()): RouteIdsForAgencyListResponse
 
     /**
-     * A view of [RouteIdsForAgencyService] that provides access to raw HTTP responses for each
-     * method.
+     * A view of [RouteIdsForAgencyService] that provides access to raw HTTP responses
+     * for each method.
      */
     interface WithRawResponse {
 
         /**
-         * Returns a raw HTTP response for `get /api/where/route-ids-for-agency/{agencyID}.json`,
-         * but is otherwise the same as [RouteIdsForAgencyService.list].
+         * Returns a raw HTTP response for
+         * `get /api/where/route-ids-for-agency/{agencyID}.json`, but is otherwise the same
+         * as [RouteIdsForAgencyService.list].
          */
         @MustBeClosed
-        fun list(
-            params: RouteIdsForAgencyListParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<RouteIdsForAgencyListResponse>
+        fun list(params: RouteIdsForAgencyListParams, requestOptions: RequestOptions = RequestOptions.none()): HttpResponseFor<RouteIdsForAgencyListResponse>
     }
 }

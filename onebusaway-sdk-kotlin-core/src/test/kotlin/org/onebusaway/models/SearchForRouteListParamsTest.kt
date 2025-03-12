@@ -10,23 +10,31 @@ class SearchForRouteListParamsTest {
 
     @Test
     fun create() {
-        SearchForRouteListParams.builder().input("input").maxCount(0L).build()
+      SearchForRouteListParams.builder()
+          .input("input")
+          .maxCount(0L)
+          .build()
     }
 
     @Test
     fun queryParams() {
-        val params = SearchForRouteListParams.builder().input("input").maxCount(0L).build()
-        val expected = QueryParams.builder()
-        expected.put("input", "input")
-        expected.put("maxCount", "0")
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+      val params = SearchForRouteListParams.builder()
+          .input("input")
+          .maxCount(0L)
+          .build()
+      val expected = QueryParams.builder()
+      expected.put("input", "input")
+      expected.put("maxCount", "0")
+      assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test
     fun queryParamsWithoutOptionalFields() {
-        val params = SearchForRouteListParams.builder().input("input").build()
-        val expected = QueryParams.builder()
-        expected.put("input", "input")
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+      val params = SearchForRouteListParams.builder()
+          .input("input")
+          .build()
+      val expected = QueryParams.builder()
+      expected.put("input", "input")
+      assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 }

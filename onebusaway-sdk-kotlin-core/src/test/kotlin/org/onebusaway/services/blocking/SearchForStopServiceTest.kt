@@ -13,18 +13,17 @@ class SearchForStopServiceTest {
 
     @Test
     fun list() {
-        val client =
-            OnebusawaySdkOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
-        val searchForStopService = client.searchForStop()
+      val client = OnebusawaySdkOkHttpClient.builder()
+          .baseUrl(TestServerExtension.BASE_URL)
+          .apiKey("My API Key")
+          .build()
+      val searchForStopService = client.searchForStop()
 
-        val searchForStop =
-            searchForStopService.list(
-                SearchForStopListParams.builder().input("input").maxCount(0L).build()
-            )
+      val searchForStop = searchForStopService.list(SearchForStopListParams.builder()
+          .input("input")
+          .maxCount(0L)
+          .build())
 
-        searchForStop.validate()
+      searchForStop.validate()
     }
 }

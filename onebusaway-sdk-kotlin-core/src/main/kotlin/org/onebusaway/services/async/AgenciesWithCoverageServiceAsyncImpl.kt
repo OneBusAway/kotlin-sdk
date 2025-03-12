@@ -17,54 +17,49 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.AgenciesWithCoverageListParams
 import org.onebusaway.models.AgenciesWithCoverageListResponse
 
-class AgenciesWithCoverageServiceAsyncImpl
-internal constructor(private val clientOptions: ClientOptions) : AgenciesWithCoverageServiceAsync {
+class AgenciesWithCoverageServiceAsyncImpl internal constructor(
+    private val clientOptions: ClientOptions,
 
-    private val withRawResponse: AgenciesWithCoverageServiceAsync.WithRawResponse by lazy {
-        WithRawResponseImpl(clientOptions)
-    }
+) : AgenciesWithCoverageServiceAsync {
 
-    override fun withRawResponse(): AgenciesWithCoverageServiceAsync.WithRawResponse =
-        withRawResponse
+    private val withRawResponse: AgenciesWithCoverageServiceAsync.WithRawResponse by lazy { WithRawResponseImpl(clientOptions) }
 
-    override suspend fun list(
-        params: AgenciesWithCoverageListParams,
-        requestOptions: RequestOptions,
-    ): AgenciesWithCoverageListResponse =
+    override fun withRawResponse(): AgenciesWithCoverageServiceAsync.WithRawResponse = withRawResponse
+
+    override suspend fun list(params: AgenciesWithCoverageListParams, requestOptions: RequestOptions): AgenciesWithCoverageListResponse =
         // get /api/where/agencies-with-coverage.json
         withRawResponse().list(params, requestOptions).parse()
 
-    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
-        AgenciesWithCoverageServiceAsync.WithRawResponse {
+    class WithRawResponseImpl internal constructor(
+        private val clientOptions: ClientOptions,
 
-        private val errorHandler: Handler<OnebusawaySdkError> =
-            errorHandler(clientOptions.jsonMapper)
+    ) : AgenciesWithCoverageServiceAsync.WithRawResponse {
 
-        private val listHandler: Handler<AgenciesWithCoverageListResponse> =
-            jsonHandler<AgenciesWithCoverageListResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
+        private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
 
-        override suspend fun list(
-            params: AgenciesWithCoverageListParams,
-            requestOptions: RequestOptions,
-        ): HttpResponseFor<AgenciesWithCoverageListResponse> {
-            val request =
-                HttpRequest.builder()
-                    .method(HttpMethod.GET)
-                    .addPathSegments("api", "where", "agencies-with-coverage.json")
-                    .build()
-                    .prepareAsync(clientOptions, params)
-            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.executeAsync(request, requestOptions)
-            return response.parseable {
-                response
-                    .use { listHandler.handle(it) }
-                    .also {
-                        if (requestOptions.responseValidation!!) {
-                            it.validate()
-                        }
-                    }
-            }
+        private val listHandler: Handler<AgenciesWithCoverageListResponse> = jsonHandler<AgenciesWithCoverageListResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+
+        override suspend fun list(params: AgenciesWithCoverageListParams, requestOptions: RequestOptions): HttpResponseFor<AgenciesWithCoverageListResponse> {
+          val request = HttpRequest.builder()
+            .method(HttpMethod.GET)
+            .addPathSegments("api", "where", "agencies-with-coverage.json")
+            .build()
+            .prepareAsync(clientOptions, params)
+          val requestOptions = requestOptions
+              .applyDefaults(RequestOptions.from(clientOptions))
+          val response = clientOptions.httpClient.executeAsync(
+            request, requestOptions
+          )
+          return response.parseable {
+              response.use {
+                  listHandler.handle(it)
+              }
+              .also {
+                  if (requestOptions.responseValidation!!) {
+                    it.validate()
+                  }
+              }
+          }
         }
     }
 }

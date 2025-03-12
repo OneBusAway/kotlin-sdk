@@ -17,58 +17,49 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.ReportProblemWithTripRetrieveParams
 import org.onebusaway.models.ResponseWrapper
 
-class ReportProblemWithTripServiceAsyncImpl
-internal constructor(private val clientOptions: ClientOptions) : ReportProblemWithTripServiceAsync {
+class ReportProblemWithTripServiceAsyncImpl internal constructor(
+    private val clientOptions: ClientOptions,
 
-    private val withRawResponse: ReportProblemWithTripServiceAsync.WithRawResponse by lazy {
-        WithRawResponseImpl(clientOptions)
-    }
+) : ReportProblemWithTripServiceAsync {
 
-    override fun withRawResponse(): ReportProblemWithTripServiceAsync.WithRawResponse =
-        withRawResponse
+    private val withRawResponse: ReportProblemWithTripServiceAsync.WithRawResponse by lazy { WithRawResponseImpl(clientOptions) }
 
-    override suspend fun retrieve(
-        params: ReportProblemWithTripRetrieveParams,
-        requestOptions: RequestOptions,
-    ): ResponseWrapper =
+    override fun withRawResponse(): ReportProblemWithTripServiceAsync.WithRawResponse = withRawResponse
+
+    override suspend fun retrieve(params: ReportProblemWithTripRetrieveParams, requestOptions: RequestOptions): ResponseWrapper =
         // get /api/where/report-problem-with-trip/{tripID}.json
         withRawResponse().retrieve(params, requestOptions).parse()
 
-    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
-        ReportProblemWithTripServiceAsync.WithRawResponse {
+    class WithRawResponseImpl internal constructor(
+        private val clientOptions: ClientOptions,
 
-        private val errorHandler: Handler<OnebusawaySdkError> =
-            errorHandler(clientOptions.jsonMapper)
+    ) : ReportProblemWithTripServiceAsync.WithRawResponse {
 
-        private val retrieveHandler: Handler<ResponseWrapper> =
-            jsonHandler<ResponseWrapper>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+        private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
 
-        override suspend fun retrieve(
-            params: ReportProblemWithTripRetrieveParams,
-            requestOptions: RequestOptions,
-        ): HttpResponseFor<ResponseWrapper> {
-            val request =
-                HttpRequest.builder()
-                    .method(HttpMethod.GET)
-                    .addPathSegments(
-                        "api",
-                        "where",
-                        "report-problem-with-trip",
-                        "${params.getPathParam(0)}.json",
-                    )
-                    .build()
-                    .prepareAsync(clientOptions, params)
-            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.executeAsync(request, requestOptions)
-            return response.parseable {
-                response
-                    .use { retrieveHandler.handle(it) }
-                    .also {
-                        if (requestOptions.responseValidation!!) {
-                            it.validate()
-                        }
-                    }
-            }
+        private val retrieveHandler: Handler<ResponseWrapper> = jsonHandler<ResponseWrapper>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+
+        override suspend fun retrieve(params: ReportProblemWithTripRetrieveParams, requestOptions: RequestOptions): HttpResponseFor<ResponseWrapper> {
+          val request = HttpRequest.builder()
+            .method(HttpMethod.GET)
+            .addPathSegments("api", "where", "report-problem-with-trip", "${params.getPathParam(0)}.json")
+            .build()
+            .prepareAsync(clientOptions, params)
+          val requestOptions = requestOptions
+              .applyDefaults(RequestOptions.from(clientOptions))
+          val response = clientOptions.httpClient.executeAsync(
+            request, requestOptions
+          )
+          return response.parseable {
+              response.use {
+                  retrieveHandler.handle(it)
+              }
+              .also {
+                  if (requestOptions.responseValidation!!) {
+                    it.validate()
+                  }
+              }
+          }
         }
     }
 }

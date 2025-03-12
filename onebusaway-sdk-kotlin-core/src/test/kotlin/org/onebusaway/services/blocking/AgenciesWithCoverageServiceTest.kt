@@ -6,21 +6,21 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.onebusaway.TestServerExtension
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
+import org.onebusaway.models.AgenciesWithCoverageListParams
 
 @ExtendWith(TestServerExtension::class)
 class AgenciesWithCoverageServiceTest {
 
     @Test
     fun list() {
-        val client =
-            OnebusawaySdkOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
-        val agenciesWithCoverageService = client.agenciesWithCoverage()
+      val client = OnebusawaySdkOkHttpClient.builder()
+          .baseUrl(TestServerExtension.BASE_URL)
+          .apiKey("My API Key")
+          .build()
+      val agenciesWithCoverageService = client.agenciesWithCoverage()
 
-        val agenciesWithCoverage = agenciesWithCoverageService.list()
+      val agenciesWithCoverage = agenciesWithCoverageService.list()
 
-        agenciesWithCoverage.validate()
+      agenciesWithCoverage.validate()
     }
 }

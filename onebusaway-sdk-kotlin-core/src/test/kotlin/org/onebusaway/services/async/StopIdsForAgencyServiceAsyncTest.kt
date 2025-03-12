@@ -13,18 +13,16 @@ class StopIdsForAgencyServiceAsyncTest {
 
     @Test
     suspend fun list() {
-        val client =
-            OnebusawaySdkOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
-        val stopIdsForAgencyServiceAsync = client.stopIdsForAgency()
+      val client = OnebusawaySdkOkHttpClientAsync.builder()
+          .baseUrl(TestServerExtension.BASE_URL)
+          .apiKey("My API Key")
+          .build()
+      val stopIdsForAgencyServiceAsync = client.stopIdsForAgency()
 
-        val stopIdsForAgency =
-            stopIdsForAgencyServiceAsync.list(
-                StopIdsForAgencyListParams.builder().agencyId("agencyID").build()
-            )
+      val stopIdsForAgency = stopIdsForAgencyServiceAsync.list(StopIdsForAgencyListParams.builder()
+          .agencyId("agencyID")
+          .build())
 
-        stopIdsForAgency.validate()
+      stopIdsForAgency.validate()
     }
 }

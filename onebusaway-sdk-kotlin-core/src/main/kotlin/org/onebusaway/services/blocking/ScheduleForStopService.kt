@@ -11,30 +11,26 @@ import org.onebusaway.models.ScheduleForStopRetrieveResponse
 interface ScheduleForStopService {
 
     /**
-     * Returns a view of this service that provides access to raw HTTP responses for each method.
+     * Returns a view of this service that provides access to raw HTTP responses for
+     * each method.
      */
     fun withRawResponse(): WithRawResponse
 
     /** Get schedule for a specific stop */
-    fun retrieve(
-        params: ScheduleForStopRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): ScheduleForStopRetrieveResponse
+    fun retrieve(params: ScheduleForStopRetrieveParams, requestOptions: RequestOptions = RequestOptions.none()): ScheduleForStopRetrieveResponse
 
     /**
-     * A view of [ScheduleForStopService] that provides access to raw HTTP responses for each
-     * method.
+     * A view of [ScheduleForStopService] that provides access to raw HTTP responses
+     * for each method.
      */
     interface WithRawResponse {
 
         /**
-         * Returns a raw HTTP response for `get /api/where/schedule-for-stop/{stopID}.json`, but is
-         * otherwise the same as [ScheduleForStopService.retrieve].
+         * Returns a raw HTTP response for
+         * `get /api/where/schedule-for-stop/{stopID}.json`, but is otherwise the same as
+         * [ScheduleForStopService.retrieve].
          */
         @MustBeClosed
-        fun retrieve(
-            params: ScheduleForStopRetrieveParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<ScheduleForStopRetrieveResponse>
+        fun retrieve(params: ScheduleForStopRetrieveParams, requestOptions: RequestOptions = RequestOptions.none()): HttpResponseFor<ScheduleForStopRetrieveResponse>
     }
 }

@@ -13,18 +13,16 @@ class StopsForAgencyServiceAsyncTest {
 
     @Test
     suspend fun list() {
-        val client =
-            OnebusawaySdkOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
-        val stopsForAgencyServiceAsync = client.stopsForAgency()
+      val client = OnebusawaySdkOkHttpClientAsync.builder()
+          .baseUrl(TestServerExtension.BASE_URL)
+          .apiKey("My API Key")
+          .build()
+      val stopsForAgencyServiceAsync = client.stopsForAgency()
 
-        val stopsForAgency =
-            stopsForAgencyServiceAsync.list(
-                StopsForAgencyListParams.builder().agencyId("agencyID").build()
-            )
+      val stopsForAgency = stopsForAgencyServiceAsync.list(StopsForAgencyListParams.builder()
+          .agencyId("agencyID")
+          .build())
 
-        stopsForAgency.validate()
+      stopsForAgency.validate()
     }
 }

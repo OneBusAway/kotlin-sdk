@@ -8,6 +8,6 @@ class ConfigRetrieveParamsTest {
 
     @Test
     fun create() {
-        ConfigRetrieveParams.builder().build()
+      ConfigRetrieveParams.builder().build()
     }
 }

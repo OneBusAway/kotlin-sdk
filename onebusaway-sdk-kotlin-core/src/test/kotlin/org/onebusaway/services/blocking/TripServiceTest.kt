@@ -13,15 +13,16 @@ class TripServiceTest {
 
     @Test
     fun retrieve() {
-        val client =
-            OnebusawaySdkOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
-        val tripService = client.trip()
+      val client = OnebusawaySdkOkHttpClient.builder()
+          .baseUrl(TestServerExtension.BASE_URL)
+          .apiKey("My API Key")
+          .build()
+      val tripService = client.trip()
 
-        val trip = tripService.retrieve(TripRetrieveParams.builder().tripId("tripID").build())
+      val trip = tripService.retrieve(TripRetrieveParams.builder()
+          .tripId("tripID")
+          .build())
 
-        trip.validate()
+      trip.validate()
     }
 }

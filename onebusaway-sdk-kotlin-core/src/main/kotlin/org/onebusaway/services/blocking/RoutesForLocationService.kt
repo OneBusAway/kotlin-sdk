@@ -11,30 +11,25 @@ import org.onebusaway.models.RoutesForLocationListResponse
 interface RoutesForLocationService {
 
     /**
-     * Returns a view of this service that provides access to raw HTTP responses for each method.
+     * Returns a view of this service that provides access to raw HTTP responses for
+     * each method.
      */
     fun withRawResponse(): WithRawResponse
 
     /** routes-for-location */
-    fun list(
-        params: RoutesForLocationListParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): RoutesForLocationListResponse
+    fun list(params: RoutesForLocationListParams, requestOptions: RequestOptions = RequestOptions.none()): RoutesForLocationListResponse
 
     /**
-     * A view of [RoutesForLocationService] that provides access to raw HTTP responses for each
-     * method.
+     * A view of [RoutesForLocationService] that provides access to raw HTTP responses
+     * for each method.
      */
     interface WithRawResponse {
 
         /**
-         * Returns a raw HTTP response for `get /api/where/routes-for-location.json`, but is
-         * otherwise the same as [RoutesForLocationService.list].
+         * Returns a raw HTTP response for `get /api/where/routes-for-location.json`, but
+         * is otherwise the same as [RoutesForLocationService.list].
          */
         @MustBeClosed
-        fun list(
-            params: RoutesForLocationListParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<RoutesForLocationListResponse>
+        fun list(params: RoutesForLocationListParams, requestOptions: RequestOptions = RequestOptions.none()): HttpResponseFor<RoutesForLocationListResponse>
     }
 }

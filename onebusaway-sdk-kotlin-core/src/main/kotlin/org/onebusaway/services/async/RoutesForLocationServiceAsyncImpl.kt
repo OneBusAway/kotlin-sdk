@@ -17,53 +17,49 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.RoutesForLocationListParams
 import org.onebusaway.models.RoutesForLocationListResponse
 
-class RoutesForLocationServiceAsyncImpl
-internal constructor(private val clientOptions: ClientOptions) : RoutesForLocationServiceAsync {
+class RoutesForLocationServiceAsyncImpl internal constructor(
+    private val clientOptions: ClientOptions,
 
-    private val withRawResponse: RoutesForLocationServiceAsync.WithRawResponse by lazy {
-        WithRawResponseImpl(clientOptions)
-    }
+) : RoutesForLocationServiceAsync {
+
+    private val withRawResponse: RoutesForLocationServiceAsync.WithRawResponse by lazy { WithRawResponseImpl(clientOptions) }
 
     override fun withRawResponse(): RoutesForLocationServiceAsync.WithRawResponse = withRawResponse
 
-    override suspend fun list(
-        params: RoutesForLocationListParams,
-        requestOptions: RequestOptions,
-    ): RoutesForLocationListResponse =
+    override suspend fun list(params: RoutesForLocationListParams, requestOptions: RequestOptions): RoutesForLocationListResponse =
         // get /api/where/routes-for-location.json
         withRawResponse().list(params, requestOptions).parse()
 
-    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
-        RoutesForLocationServiceAsync.WithRawResponse {
+    class WithRawResponseImpl internal constructor(
+        private val clientOptions: ClientOptions,
 
-        private val errorHandler: Handler<OnebusawaySdkError> =
-            errorHandler(clientOptions.jsonMapper)
+    ) : RoutesForLocationServiceAsync.WithRawResponse {
 
-        private val listHandler: Handler<RoutesForLocationListResponse> =
-            jsonHandler<RoutesForLocationListResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
+        private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
 
-        override suspend fun list(
-            params: RoutesForLocationListParams,
-            requestOptions: RequestOptions,
-        ): HttpResponseFor<RoutesForLocationListResponse> {
-            val request =
-                HttpRequest.builder()
-                    .method(HttpMethod.GET)
-                    .addPathSegments("api", "where", "routes-for-location.json")
-                    .build()
-                    .prepareAsync(clientOptions, params)
-            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.executeAsync(request, requestOptions)
-            return response.parseable {
-                response
-                    .use { listHandler.handle(it) }
-                    .also {
-                        if (requestOptions.responseValidation!!) {
-                            it.validate()
-                        }
-                    }
-            }
+        private val listHandler: Handler<RoutesForLocationListResponse> = jsonHandler<RoutesForLocationListResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+
+        override suspend fun list(params: RoutesForLocationListParams, requestOptions: RequestOptions): HttpResponseFor<RoutesForLocationListResponse> {
+          val request = HttpRequest.builder()
+            .method(HttpMethod.GET)
+            .addPathSegments("api", "where", "routes-for-location.json")
+            .build()
+            .prepareAsync(clientOptions, params)
+          val requestOptions = requestOptions
+              .applyDefaults(RequestOptions.from(clientOptions))
+          val response = clientOptions.httpClient.executeAsync(
+            request, requestOptions
+          )
+          return response.parseable {
+              response.use {
+                  listHandler.handle(it)
+              }
+              .also {
+                  if (requestOptions.responseValidation!!) {
+                    it.validate()
+                  }
+              }
+          }
         }
     }
 }

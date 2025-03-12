@@ -14,21 +14,17 @@ class ScheduleForStopServiceTest {
 
     @Test
     fun retrieve() {
-        val client =
-            OnebusawaySdkOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
-        val scheduleForStopService = client.scheduleForStop()
+      val client = OnebusawaySdkOkHttpClient.builder()
+          .baseUrl(TestServerExtension.BASE_URL)
+          .apiKey("My API Key")
+          .build()
+      val scheduleForStopService = client.scheduleForStop()
 
-        val scheduleForStop =
-            scheduleForStopService.retrieve(
-                ScheduleForStopRetrieveParams.builder()
-                    .stopId("stopID")
-                    .date(LocalDate.parse("2019-12-27"))
-                    .build()
-            )
+      val scheduleForStop = scheduleForStopService.retrieve(ScheduleForStopRetrieveParams.builder()
+          .stopId("stopID")
+          .date(LocalDate.parse("2019-12-27"))
+          .build())
 
-        scheduleForStop.validate()
+      scheduleForStop.validate()
     }
 }
