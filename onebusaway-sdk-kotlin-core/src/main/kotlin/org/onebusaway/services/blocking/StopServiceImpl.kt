@@ -17,49 +17,52 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.StopRetrieveParams
 import org.onebusaway.models.StopRetrieveResponse
 
-class StopServiceImpl internal constructor(
-    private val clientOptions: ClientOptions,
+class StopServiceImpl internal constructor(private val clientOptions: ClientOptions) : StopService {
 
-) : StopService {
-
-    private val withRawResponse: StopService.WithRawResponse by lazy { WithRawResponseImpl(clientOptions) }
+    private val withRawResponse: StopService.WithRawResponse by lazy {
+        WithRawResponseImpl(clientOptions)
+    }
 
     override fun withRawResponse(): StopService.WithRawResponse = withRawResponse
 
-    override fun retrieve(params: StopRetrieveParams, requestOptions: RequestOptions): StopRetrieveResponse =
+    override fun retrieve(
+        params: StopRetrieveParams,
+        requestOptions: RequestOptions,
+    ): StopRetrieveResponse =
         // get /api/where/stop/{stopID}.json
         withRawResponse().retrieve(params, requestOptions).parse()
 
-    class WithRawResponseImpl internal constructor(
-        private val clientOptions: ClientOptions,
+    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
+        StopService.WithRawResponse {
 
-    ) : StopService.WithRawResponse {
+        private val errorHandler: Handler<OnebusawaySdkError> =
+            errorHandler(clientOptions.jsonMapper)
 
-        private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
+        private val retrieveHandler: Handler<StopRetrieveResponse> =
+            jsonHandler<StopRetrieveResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
 
-        private val retrieveHandler: Handler<StopRetrieveResponse> = jsonHandler<StopRetrieveResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
-
-        override fun retrieve(params: StopRetrieveParams, requestOptions: RequestOptions): HttpResponseFor<StopRetrieveResponse> {
-          val request = HttpRequest.builder()
-            .method(HttpMethod.GET)
-            .addPathSegments("api", "where", "stop", "${params.getPathParam(0)}.json")
-            .build()
-            .prepare(clientOptions, params)
-          val requestOptions = requestOptions
-              .applyDefaults(RequestOptions.from(clientOptions))
-          val response = clientOptions.httpClient.execute(
-            request, requestOptions
-          )
-          return response.parseable {
-              response.use {
-                  retrieveHandler.handle(it)
-              }
-              .also {
-                  if (requestOptions.responseValidation!!) {
-                    it.validate()
-                  }
-              }
-          }
+        override fun retrieve(
+            params: StopRetrieveParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<StopRetrieveResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .addPathSegments("api", "where", "stop", "${params.getPathParam(0)}.json")
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { retrieveHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
         }
     }
 }

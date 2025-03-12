@@ -11,26 +11,30 @@ import org.onebusaway.models.VehiclesForAgencyListResponse
 interface VehiclesForAgencyServiceAsync {
 
     /**
-     * Returns a view of this service that provides access to raw HTTP responses for
-     * each method.
+     * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
 
     /** Get vehicles for a specific agency */
-    suspend fun list(params: VehiclesForAgencyListParams, requestOptions: RequestOptions = RequestOptions.none()): VehiclesForAgencyListResponse
+    suspend fun list(
+        params: VehiclesForAgencyListParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): VehiclesForAgencyListResponse
 
     /**
-     * A view of [VehiclesForAgencyServiceAsync] that provides access to raw HTTP
-     * responses for each method.
+     * A view of [VehiclesForAgencyServiceAsync] that provides access to raw HTTP responses for each
+     * method.
      */
     interface WithRawResponse {
 
         /**
-         * Returns a raw HTTP response for
-         * `get /api/where/vehicles-for-agency/{agencyID}.json`, but is otherwise the same
-         * as [VehiclesForAgencyServiceAsync.list].
+         * Returns a raw HTTP response for `get /api/where/vehicles-for-agency/{agencyID}.json`, but
+         * is otherwise the same as [VehiclesForAgencyServiceAsync.list].
          */
         @MustBeClosed
-        suspend fun list(params: VehiclesForAgencyListParams, requestOptions: RequestOptions = RequestOptions.none()): HttpResponseFor<VehiclesForAgencyListResponse>
+        suspend fun list(
+            params: VehiclesForAgencyListParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<VehiclesForAgencyListResponse>
     }
 }

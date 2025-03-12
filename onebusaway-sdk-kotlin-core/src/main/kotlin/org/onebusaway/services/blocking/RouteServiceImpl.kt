@@ -17,49 +17,53 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.RouteRetrieveParams
 import org.onebusaway.models.RouteRetrieveResponse
 
-class RouteServiceImpl internal constructor(
-    private val clientOptions: ClientOptions,
+class RouteServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    RouteService {
 
-) : RouteService {
-
-    private val withRawResponse: RouteService.WithRawResponse by lazy { WithRawResponseImpl(clientOptions) }
+    private val withRawResponse: RouteService.WithRawResponse by lazy {
+        WithRawResponseImpl(clientOptions)
+    }
 
     override fun withRawResponse(): RouteService.WithRawResponse = withRawResponse
 
-    override fun retrieve(params: RouteRetrieveParams, requestOptions: RequestOptions): RouteRetrieveResponse =
+    override fun retrieve(
+        params: RouteRetrieveParams,
+        requestOptions: RequestOptions,
+    ): RouteRetrieveResponse =
         // get /api/where/route/{routeID}.json
         withRawResponse().retrieve(params, requestOptions).parse()
 
-    class WithRawResponseImpl internal constructor(
-        private val clientOptions: ClientOptions,
+    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
+        RouteService.WithRawResponse {
 
-    ) : RouteService.WithRawResponse {
+        private val errorHandler: Handler<OnebusawaySdkError> =
+            errorHandler(clientOptions.jsonMapper)
 
-        private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
+        private val retrieveHandler: Handler<RouteRetrieveResponse> =
+            jsonHandler<RouteRetrieveResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
 
-        private val retrieveHandler: Handler<RouteRetrieveResponse> = jsonHandler<RouteRetrieveResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
-
-        override fun retrieve(params: RouteRetrieveParams, requestOptions: RequestOptions): HttpResponseFor<RouteRetrieveResponse> {
-          val request = HttpRequest.builder()
-            .method(HttpMethod.GET)
-            .addPathSegments("api", "where", "route", "${params.getPathParam(0)}.json")
-            .build()
-            .prepare(clientOptions, params)
-          val requestOptions = requestOptions
-              .applyDefaults(RequestOptions.from(clientOptions))
-          val response = clientOptions.httpClient.execute(
-            request, requestOptions
-          )
-          return response.parseable {
-              response.use {
-                  retrieveHandler.handle(it)
-              }
-              .also {
-                  if (requestOptions.responseValidation!!) {
-                    it.validate()
-                  }
-              }
-          }
+        override fun retrieve(
+            params: RouteRetrieveParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<RouteRetrieveResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .addPathSegments("api", "where", "route", "${params.getPathParam(0)}.json")
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { retrieveHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
         }
     }
 }

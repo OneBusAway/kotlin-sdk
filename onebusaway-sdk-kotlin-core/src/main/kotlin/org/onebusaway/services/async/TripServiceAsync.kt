@@ -11,25 +11,27 @@ import org.onebusaway.models.TripRetrieveResponse
 interface TripServiceAsync {
 
     /**
-     * Returns a view of this service that provides access to raw HTTP responses for
-     * each method.
+     * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
 
     /** Get details of a specific trip */
-    suspend fun retrieve(params: TripRetrieveParams, requestOptions: RequestOptions = RequestOptions.none()): TripRetrieveResponse
+    suspend fun retrieve(
+        params: TripRetrieveParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): TripRetrieveResponse
 
-    /**
-     * A view of [TripServiceAsync] that provides access to raw HTTP responses for each
-     * method.
-     */
+    /** A view of [TripServiceAsync] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
 
         /**
-         * Returns a raw HTTP response for `get /api/where/trip/{tripID}.json`, but is
-         * otherwise the same as [TripServiceAsync.retrieve].
+         * Returns a raw HTTP response for `get /api/where/trip/{tripID}.json`, but is otherwise the
+         * same as [TripServiceAsync.retrieve].
          */
         @MustBeClosed
-        suspend fun retrieve(params: TripRetrieveParams, requestOptions: RequestOptions = RequestOptions.none()): HttpResponseFor<TripRetrieveResponse>
+        suspend fun retrieve(
+            params: TripRetrieveParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<TripRetrieveResponse>
     }
 }

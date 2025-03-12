@@ -13,16 +13,16 @@ class AgencyServiceTest {
 
     @Test
     fun retrieve() {
-      val client = OnebusawaySdkOkHttpClient.builder()
-          .baseUrl(TestServerExtension.BASE_URL)
-          .apiKey("My API Key")
-          .build()
-      val agencyService = client.agency()
+        val client =
+            OnebusawaySdkOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My API Key")
+                .build()
+        val agencyService = client.agency()
 
-      val agency = agencyService.retrieve(AgencyRetrieveParams.builder()
-          .agencyId("agencyID")
-          .build())
+        val agency =
+            agencyService.retrieve(AgencyRetrieveParams.builder().agencyId("agencyID").build())
 
-      agency.validate()
+        agency.validate()
     }
 }

@@ -13,17 +13,18 @@ class SearchForRouteServiceTest {
 
     @Test
     fun list() {
-      val client = OnebusawaySdkOkHttpClient.builder()
-          .baseUrl(TestServerExtension.BASE_URL)
-          .apiKey("My API Key")
-          .build()
-      val searchForRouteService = client.searchForRoute()
+        val client =
+            OnebusawaySdkOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My API Key")
+                .build()
+        val searchForRouteService = client.searchForRoute()
 
-      val searchForRoute = searchForRouteService.list(SearchForRouteListParams.builder()
-          .input("input")
-          .maxCount(0L)
-          .build())
+        val searchForRoute =
+            searchForRouteService.list(
+                SearchForRouteListParams.builder().input("input").maxCount(0L).build()
+            )
 
-      searchForRoute.validate()
+        searchForRoute.validate()
     }
 }

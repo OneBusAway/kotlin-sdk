@@ -17,49 +17,53 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.CurrentTimeRetrieveParams
 import org.onebusaway.models.CurrentTimeRetrieveResponse
 
-class CurrentTimeServiceImpl internal constructor(
-    private val clientOptions: ClientOptions,
+class CurrentTimeServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    CurrentTimeService {
 
-) : CurrentTimeService {
-
-    private val withRawResponse: CurrentTimeService.WithRawResponse by lazy { WithRawResponseImpl(clientOptions) }
+    private val withRawResponse: CurrentTimeService.WithRawResponse by lazy {
+        WithRawResponseImpl(clientOptions)
+    }
 
     override fun withRawResponse(): CurrentTimeService.WithRawResponse = withRawResponse
 
-    override fun retrieve(params: CurrentTimeRetrieveParams, requestOptions: RequestOptions): CurrentTimeRetrieveResponse =
+    override fun retrieve(
+        params: CurrentTimeRetrieveParams,
+        requestOptions: RequestOptions,
+    ): CurrentTimeRetrieveResponse =
         // get /api/where/current-time.json
         withRawResponse().retrieve(params, requestOptions).parse()
 
-    class WithRawResponseImpl internal constructor(
-        private val clientOptions: ClientOptions,
+    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
+        CurrentTimeService.WithRawResponse {
 
-    ) : CurrentTimeService.WithRawResponse {
+        private val errorHandler: Handler<OnebusawaySdkError> =
+            errorHandler(clientOptions.jsonMapper)
 
-        private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
+        private val retrieveHandler: Handler<CurrentTimeRetrieveResponse> =
+            jsonHandler<CurrentTimeRetrieveResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
 
-        private val retrieveHandler: Handler<CurrentTimeRetrieveResponse> = jsonHandler<CurrentTimeRetrieveResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
-
-        override fun retrieve(params: CurrentTimeRetrieveParams, requestOptions: RequestOptions): HttpResponseFor<CurrentTimeRetrieveResponse> {
-          val request = HttpRequest.builder()
-            .method(HttpMethod.GET)
-            .addPathSegments("api", "where", "current-time.json")
-            .build()
-            .prepare(clientOptions, params)
-          val requestOptions = requestOptions
-              .applyDefaults(RequestOptions.from(clientOptions))
-          val response = clientOptions.httpClient.execute(
-            request, requestOptions
-          )
-          return response.parseable {
-              response.use {
-                  retrieveHandler.handle(it)
-              }
-              .also {
-                  if (requestOptions.responseValidation!!) {
-                    it.validate()
-                  }
-              }
-          }
+        override fun retrieve(
+            params: CurrentTimeRetrieveParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<CurrentTimeRetrieveResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .addPathSegments("api", "where", "current-time.json")
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { retrieveHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
         }
     }
 }

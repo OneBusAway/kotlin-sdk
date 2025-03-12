@@ -11,32 +11,36 @@ import org.onebusaway.models.ConfigRetrieveResponse
 interface ConfigService {
 
     /**
-     * Returns a view of this service that provides access to raw HTTP responses for
-     * each method.
+     * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
 
     /** config */
-    fun retrieve(params: ConfigRetrieveParams = ConfigRetrieveParams.none(), requestOptions: RequestOptions = RequestOptions.none()): ConfigRetrieveResponse
+    fun retrieve(
+        params: ConfigRetrieveParams = ConfigRetrieveParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): ConfigRetrieveResponse
 
     /** @see [retrieve] */
-    fun retrieve(requestOptions: RequestOptions): ConfigRetrieveResponse = retrieve(ConfigRetrieveParams.none(), requestOptions)
+    fun retrieve(requestOptions: RequestOptions): ConfigRetrieveResponse =
+        retrieve(ConfigRetrieveParams.none(), requestOptions)
 
-    /**
-     * A view of [ConfigService] that provides access to raw HTTP responses for each
-     * method.
-     */
+    /** A view of [ConfigService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
 
         /**
-         * Returns a raw HTTP response for `get /api/where/config.json`, but is otherwise
-         * the same as [ConfigService.retrieve].
+         * Returns a raw HTTP response for `get /api/where/config.json`, but is otherwise the same
+         * as [ConfigService.retrieve].
          */
         @MustBeClosed
-        fun retrieve(params: ConfigRetrieveParams = ConfigRetrieveParams.none(), requestOptions: RequestOptions = RequestOptions.none()): HttpResponseFor<ConfigRetrieveResponse>
+        fun retrieve(
+            params: ConfigRetrieveParams = ConfigRetrieveParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<ConfigRetrieveResponse>
 
         /** @see [retrieve] */
         @MustBeClosed
-        fun retrieve(requestOptions: RequestOptions): HttpResponseFor<ConfigRetrieveResponse> = retrieve(ConfigRetrieveParams.none(), requestOptions)
+        fun retrieve(requestOptions: RequestOptions): HttpResponseFor<ConfigRetrieveResponse> =
+            retrieve(ConfigRetrieveParams.none(), requestOptions)
     }
 }

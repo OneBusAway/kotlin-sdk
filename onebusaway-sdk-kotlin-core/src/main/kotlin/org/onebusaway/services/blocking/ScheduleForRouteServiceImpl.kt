@@ -17,49 +17,58 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.ScheduleForRouteRetrieveParams
 import org.onebusaway.models.ScheduleForRouteRetrieveResponse
 
-class ScheduleForRouteServiceImpl internal constructor(
-    private val clientOptions: ClientOptions,
+class ScheduleForRouteServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    ScheduleForRouteService {
 
-) : ScheduleForRouteService {
-
-    private val withRawResponse: ScheduleForRouteService.WithRawResponse by lazy { WithRawResponseImpl(clientOptions) }
+    private val withRawResponse: ScheduleForRouteService.WithRawResponse by lazy {
+        WithRawResponseImpl(clientOptions)
+    }
 
     override fun withRawResponse(): ScheduleForRouteService.WithRawResponse = withRawResponse
 
-    override fun retrieve(params: ScheduleForRouteRetrieveParams, requestOptions: RequestOptions): ScheduleForRouteRetrieveResponse =
+    override fun retrieve(
+        params: ScheduleForRouteRetrieveParams,
+        requestOptions: RequestOptions,
+    ): ScheduleForRouteRetrieveResponse =
         // get /api/where/schedule-for-route/{routeID}.json
         withRawResponse().retrieve(params, requestOptions).parse()
 
-    class WithRawResponseImpl internal constructor(
-        private val clientOptions: ClientOptions,
+    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
+        ScheduleForRouteService.WithRawResponse {
 
-    ) : ScheduleForRouteService.WithRawResponse {
+        private val errorHandler: Handler<OnebusawaySdkError> =
+            errorHandler(clientOptions.jsonMapper)
 
-        private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
+        private val retrieveHandler: Handler<ScheduleForRouteRetrieveResponse> =
+            jsonHandler<ScheduleForRouteRetrieveResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
 
-        private val retrieveHandler: Handler<ScheduleForRouteRetrieveResponse> = jsonHandler<ScheduleForRouteRetrieveResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
-
-        override fun retrieve(params: ScheduleForRouteRetrieveParams, requestOptions: RequestOptions): HttpResponseFor<ScheduleForRouteRetrieveResponse> {
-          val request = HttpRequest.builder()
-            .method(HttpMethod.GET)
-            .addPathSegments("api", "where", "schedule-for-route", "${params.getPathParam(0)}.json")
-            .build()
-            .prepare(clientOptions, params)
-          val requestOptions = requestOptions
-              .applyDefaults(RequestOptions.from(clientOptions))
-          val response = clientOptions.httpClient.execute(
-            request, requestOptions
-          )
-          return response.parseable {
-              response.use {
-                  retrieveHandler.handle(it)
-              }
-              .also {
-                  if (requestOptions.responseValidation!!) {
-                    it.validate()
-                  }
-              }
-          }
+        override fun retrieve(
+            params: ScheduleForRouteRetrieveParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<ScheduleForRouteRetrieveResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .addPathSegments(
+                        "api",
+                        "where",
+                        "schedule-for-route",
+                        "${params.getPathParam(0)}.json",
+                    )
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { retrieveHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
         }
     }
 }

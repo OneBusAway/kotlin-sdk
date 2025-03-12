@@ -8,6 +8,6 @@ class CurrentTimeRetrieveParamsTest {
 
     @Test
     fun create() {
-      CurrentTimeRetrieveParams.builder().build()
+        CurrentTimeRetrieveParams.builder().build()
     }
 }

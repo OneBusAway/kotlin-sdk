@@ -17,49 +17,53 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.BlockRetrieveParams
 import org.onebusaway.models.BlockRetrieveResponse
 
-class BlockServiceAsyncImpl internal constructor(
-    private val clientOptions: ClientOptions,
+class BlockServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
+    BlockServiceAsync {
 
-) : BlockServiceAsync {
-
-    private val withRawResponse: BlockServiceAsync.WithRawResponse by lazy { WithRawResponseImpl(clientOptions) }
+    private val withRawResponse: BlockServiceAsync.WithRawResponse by lazy {
+        WithRawResponseImpl(clientOptions)
+    }
 
     override fun withRawResponse(): BlockServiceAsync.WithRawResponse = withRawResponse
 
-    override suspend fun retrieve(params: BlockRetrieveParams, requestOptions: RequestOptions): BlockRetrieveResponse =
+    override suspend fun retrieve(
+        params: BlockRetrieveParams,
+        requestOptions: RequestOptions,
+    ): BlockRetrieveResponse =
         // get /api/where/block/{blockID}.json
         withRawResponse().retrieve(params, requestOptions).parse()
 
-    class WithRawResponseImpl internal constructor(
-        private val clientOptions: ClientOptions,
+    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
+        BlockServiceAsync.WithRawResponse {
 
-    ) : BlockServiceAsync.WithRawResponse {
+        private val errorHandler: Handler<OnebusawaySdkError> =
+            errorHandler(clientOptions.jsonMapper)
 
-        private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
+        private val retrieveHandler: Handler<BlockRetrieveResponse> =
+            jsonHandler<BlockRetrieveResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
 
-        private val retrieveHandler: Handler<BlockRetrieveResponse> = jsonHandler<BlockRetrieveResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
-
-        override suspend fun retrieve(params: BlockRetrieveParams, requestOptions: RequestOptions): HttpResponseFor<BlockRetrieveResponse> {
-          val request = HttpRequest.builder()
-            .method(HttpMethod.GET)
-            .addPathSegments("api", "where", "block", "${params.getPathParam(0)}.json")
-            .build()
-            .prepareAsync(clientOptions, params)
-          val requestOptions = requestOptions
-              .applyDefaults(RequestOptions.from(clientOptions))
-          val response = clientOptions.httpClient.executeAsync(
-            request, requestOptions
-          )
-          return response.parseable {
-              response.use {
-                  retrieveHandler.handle(it)
-              }
-              .also {
-                  if (requestOptions.responseValidation!!) {
-                    it.validate()
-                  }
-              }
-          }
+        override suspend fun retrieve(
+            params: BlockRetrieveParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<BlockRetrieveResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .addPathSegments("api", "where", "block", "${params.getPathParam(0)}.json")
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.executeAsync(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { retrieveHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
         }
     }
 }

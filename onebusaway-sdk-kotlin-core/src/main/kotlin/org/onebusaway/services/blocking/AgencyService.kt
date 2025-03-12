@@ -11,25 +11,27 @@ import org.onebusaway.models.AgencyRetrieveResponse
 interface AgencyService {
 
     /**
-     * Returns a view of this service that provides access to raw HTTP responses for
-     * each method.
+     * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
 
     /** Retrieve information for a specific transit agency identified by its unique ID. */
-    fun retrieve(params: AgencyRetrieveParams, requestOptions: RequestOptions = RequestOptions.none()): AgencyRetrieveResponse
+    fun retrieve(
+        params: AgencyRetrieveParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): AgencyRetrieveResponse
 
-    /**
-     * A view of [AgencyService] that provides access to raw HTTP responses for each
-     * method.
-     */
+    /** A view of [AgencyService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
 
         /**
-         * Returns a raw HTTP response for `get /api/where/agency/{agencyID}.json`, but is
-         * otherwise the same as [AgencyService.retrieve].
+         * Returns a raw HTTP response for `get /api/where/agency/{agencyID}.json`, but is otherwise
+         * the same as [AgencyService.retrieve].
          */
         @MustBeClosed
-        fun retrieve(params: AgencyRetrieveParams, requestOptions: RequestOptions = RequestOptions.none()): HttpResponseFor<AgencyRetrieveResponse>
+        fun retrieve(
+            params: AgencyRetrieveParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<AgencyRetrieveResponse>
     }
 }

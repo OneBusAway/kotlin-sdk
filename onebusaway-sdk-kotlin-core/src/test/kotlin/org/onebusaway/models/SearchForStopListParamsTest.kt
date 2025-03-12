@@ -10,31 +10,23 @@ class SearchForStopListParamsTest {
 
     @Test
     fun create() {
-      SearchForStopListParams.builder()
-          .input("input")
-          .maxCount(0L)
-          .build()
+        SearchForStopListParams.builder().input("input").maxCount(0L).build()
     }
 
     @Test
     fun queryParams() {
-      val params = SearchForStopListParams.builder()
-          .input("input")
-          .maxCount(0L)
-          .build()
-      val expected = QueryParams.builder()
-      expected.put("input", "input")
-      expected.put("maxCount", "0")
-      assertThat(params._queryParams()).isEqualTo(expected.build())
+        val params = SearchForStopListParams.builder().input("input").maxCount(0L).build()
+        val expected = QueryParams.builder()
+        expected.put("input", "input")
+        expected.put("maxCount", "0")
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 
     @Test
     fun queryParamsWithoutOptionalFields() {
-      val params = SearchForStopListParams.builder()
-          .input("input")
-          .build()
-      val expected = QueryParams.builder()
-      expected.put("input", "input")
-      assertThat(params._queryParams()).isEqualTo(expected.build())
+        val params = SearchForStopListParams.builder().input("input").build()
+        val expected = QueryParams.builder()
+        expected.put("input", "input")
+        assertThat(params._queryParams()).isEqualTo(expected.build())
     }
 }

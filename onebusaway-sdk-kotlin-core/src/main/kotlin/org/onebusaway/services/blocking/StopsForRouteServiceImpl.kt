@@ -17,49 +17,58 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.StopsForRouteListParams
 import org.onebusaway.models.StopsForRouteListResponse
 
-class StopsForRouteServiceImpl internal constructor(
-    private val clientOptions: ClientOptions,
+class StopsForRouteServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    StopsForRouteService {
 
-) : StopsForRouteService {
-
-    private val withRawResponse: StopsForRouteService.WithRawResponse by lazy { WithRawResponseImpl(clientOptions) }
+    private val withRawResponse: StopsForRouteService.WithRawResponse by lazy {
+        WithRawResponseImpl(clientOptions)
+    }
 
     override fun withRawResponse(): StopsForRouteService.WithRawResponse = withRawResponse
 
-    override fun list(params: StopsForRouteListParams, requestOptions: RequestOptions): StopsForRouteListResponse =
+    override fun list(
+        params: StopsForRouteListParams,
+        requestOptions: RequestOptions,
+    ): StopsForRouteListResponse =
         // get /api/where/stops-for-route/{routeID}.json
         withRawResponse().list(params, requestOptions).parse()
 
-    class WithRawResponseImpl internal constructor(
-        private val clientOptions: ClientOptions,
+    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
+        StopsForRouteService.WithRawResponse {
 
-    ) : StopsForRouteService.WithRawResponse {
+        private val errorHandler: Handler<OnebusawaySdkError> =
+            errorHandler(clientOptions.jsonMapper)
 
-        private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
+        private val listHandler: Handler<StopsForRouteListResponse> =
+            jsonHandler<StopsForRouteListResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
 
-        private val listHandler: Handler<StopsForRouteListResponse> = jsonHandler<StopsForRouteListResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
-
-        override fun list(params: StopsForRouteListParams, requestOptions: RequestOptions): HttpResponseFor<StopsForRouteListResponse> {
-          val request = HttpRequest.builder()
-            .method(HttpMethod.GET)
-            .addPathSegments("api", "where", "stops-for-route", "${params.getPathParam(0)}.json")
-            .build()
-            .prepare(clientOptions, params)
-          val requestOptions = requestOptions
-              .applyDefaults(RequestOptions.from(clientOptions))
-          val response = clientOptions.httpClient.execute(
-            request, requestOptions
-          )
-          return response.parseable {
-              response.use {
-                  listHandler.handle(it)
-              }
-              .also {
-                  if (requestOptions.responseValidation!!) {
-                    it.validate()
-                  }
-              }
-          }
+        override fun list(
+            params: StopsForRouteListParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<StopsForRouteListResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .addPathSegments(
+                        "api",
+                        "where",
+                        "stops-for-route",
+                        "${params.getPathParam(0)}.json",
+                    )
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { listHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
         }
     }
 }

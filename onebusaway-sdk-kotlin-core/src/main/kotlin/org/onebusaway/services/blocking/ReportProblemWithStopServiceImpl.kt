@@ -17,49 +17,57 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.ReportProblemWithStopRetrieveParams
 import org.onebusaway.models.ResponseWrapper
 
-class ReportProblemWithStopServiceImpl internal constructor(
-    private val clientOptions: ClientOptions,
+class ReportProblemWithStopServiceImpl
+internal constructor(private val clientOptions: ClientOptions) : ReportProblemWithStopService {
 
-) : ReportProblemWithStopService {
-
-    private val withRawResponse: ReportProblemWithStopService.WithRawResponse by lazy { WithRawResponseImpl(clientOptions) }
+    private val withRawResponse: ReportProblemWithStopService.WithRawResponse by lazy {
+        WithRawResponseImpl(clientOptions)
+    }
 
     override fun withRawResponse(): ReportProblemWithStopService.WithRawResponse = withRawResponse
 
-    override fun retrieve(params: ReportProblemWithStopRetrieveParams, requestOptions: RequestOptions): ResponseWrapper =
+    override fun retrieve(
+        params: ReportProblemWithStopRetrieveParams,
+        requestOptions: RequestOptions,
+    ): ResponseWrapper =
         // get /api/where/report-problem-with-stop/{stopID}.json
         withRawResponse().retrieve(params, requestOptions).parse()
 
-    class WithRawResponseImpl internal constructor(
-        private val clientOptions: ClientOptions,
+    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
+        ReportProblemWithStopService.WithRawResponse {
 
-    ) : ReportProblemWithStopService.WithRawResponse {
+        private val errorHandler: Handler<OnebusawaySdkError> =
+            errorHandler(clientOptions.jsonMapper)
 
-        private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
+        private val retrieveHandler: Handler<ResponseWrapper> =
+            jsonHandler<ResponseWrapper>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
-        private val retrieveHandler: Handler<ResponseWrapper> = jsonHandler<ResponseWrapper>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
-
-        override fun retrieve(params: ReportProblemWithStopRetrieveParams, requestOptions: RequestOptions): HttpResponseFor<ResponseWrapper> {
-          val request = HttpRequest.builder()
-            .method(HttpMethod.GET)
-            .addPathSegments("api", "where", "report-problem-with-stop", "${params.getPathParam(0)}.json")
-            .build()
-            .prepare(clientOptions, params)
-          val requestOptions = requestOptions
-              .applyDefaults(RequestOptions.from(clientOptions))
-          val response = clientOptions.httpClient.execute(
-            request, requestOptions
-          )
-          return response.parseable {
-              response.use {
-                  retrieveHandler.handle(it)
-              }
-              .also {
-                  if (requestOptions.responseValidation!!) {
-                    it.validate()
-                  }
-              }
-          }
+        override fun retrieve(
+            params: ReportProblemWithStopRetrieveParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<ResponseWrapper> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .addPathSegments(
+                        "api",
+                        "where",
+                        "report-problem-with-stop",
+                        "${params.getPathParam(0)}.json",
+                    )
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { retrieveHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
         }
     }
 }

@@ -13,17 +13,18 @@ class VehiclesForAgencyServiceTest {
 
     @Test
     fun list() {
-      val client = OnebusawaySdkOkHttpClient.builder()
-          .baseUrl(TestServerExtension.BASE_URL)
-          .apiKey("My API Key")
-          .build()
-      val vehiclesForAgencyService = client.vehiclesForAgency()
+        val client =
+            OnebusawaySdkOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My API Key")
+                .build()
+        val vehiclesForAgencyService = client.vehiclesForAgency()
 
-      val vehiclesForAgency = vehiclesForAgencyService.list(VehiclesForAgencyListParams.builder()
-          .agencyId("agencyID")
-          .time("time")
-          .build())
+        val vehiclesForAgency =
+            vehiclesForAgencyService.list(
+                VehiclesForAgencyListParams.builder().agencyId("agencyID").time("time").build()
+            )
 
-      vehiclesForAgency.validate()
+        vehiclesForAgency.validate()
     }
 }

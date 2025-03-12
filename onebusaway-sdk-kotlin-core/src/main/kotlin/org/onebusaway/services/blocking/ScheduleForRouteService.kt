@@ -11,26 +11,30 @@ import org.onebusaway.models.ScheduleForRouteRetrieveResponse
 interface ScheduleForRouteService {
 
     /**
-     * Returns a view of this service that provides access to raw HTTP responses for
-     * each method.
+     * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
 
     /** Retrieve the full schedule for a route on a particular day */
-    fun retrieve(params: ScheduleForRouteRetrieveParams, requestOptions: RequestOptions = RequestOptions.none()): ScheduleForRouteRetrieveResponse
+    fun retrieve(
+        params: ScheduleForRouteRetrieveParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): ScheduleForRouteRetrieveResponse
 
     /**
-     * A view of [ScheduleForRouteService] that provides access to raw HTTP responses
-     * for each method.
+     * A view of [ScheduleForRouteService] that provides access to raw HTTP responses for each
+     * method.
      */
     interface WithRawResponse {
 
         /**
-         * Returns a raw HTTP response for
-         * `get /api/where/schedule-for-route/{routeID}.json`, but is otherwise the same as
-         * [ScheduleForRouteService.retrieve].
+         * Returns a raw HTTP response for `get /api/where/schedule-for-route/{routeID}.json`, but
+         * is otherwise the same as [ScheduleForRouteService.retrieve].
          */
         @MustBeClosed
-        fun retrieve(params: ScheduleForRouteRetrieveParams, requestOptions: RequestOptions = RequestOptions.none()): HttpResponseFor<ScheduleForRouteRetrieveResponse>
+        fun retrieve(
+            params: ScheduleForRouteRetrieveParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<ScheduleForRouteRetrieveResponse>
     }
 }

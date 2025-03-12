@@ -17,49 +17,53 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.SearchForStopListParams
 import org.onebusaway.models.SearchForStopListResponse
 
-class SearchForStopServiceImpl internal constructor(
-    private val clientOptions: ClientOptions,
+class SearchForStopServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    SearchForStopService {
 
-) : SearchForStopService {
-
-    private val withRawResponse: SearchForStopService.WithRawResponse by lazy { WithRawResponseImpl(clientOptions) }
+    private val withRawResponse: SearchForStopService.WithRawResponse by lazy {
+        WithRawResponseImpl(clientOptions)
+    }
 
     override fun withRawResponse(): SearchForStopService.WithRawResponse = withRawResponse
 
-    override fun list(params: SearchForStopListParams, requestOptions: RequestOptions): SearchForStopListResponse =
+    override fun list(
+        params: SearchForStopListParams,
+        requestOptions: RequestOptions,
+    ): SearchForStopListResponse =
         // get /api/where/search/stop.json
         withRawResponse().list(params, requestOptions).parse()
 
-    class WithRawResponseImpl internal constructor(
-        private val clientOptions: ClientOptions,
+    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
+        SearchForStopService.WithRawResponse {
 
-    ) : SearchForStopService.WithRawResponse {
+        private val errorHandler: Handler<OnebusawaySdkError> =
+            errorHandler(clientOptions.jsonMapper)
 
-        private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
+        private val listHandler: Handler<SearchForStopListResponse> =
+            jsonHandler<SearchForStopListResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
 
-        private val listHandler: Handler<SearchForStopListResponse> = jsonHandler<SearchForStopListResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
-
-        override fun list(params: SearchForStopListParams, requestOptions: RequestOptions): HttpResponseFor<SearchForStopListResponse> {
-          val request = HttpRequest.builder()
-            .method(HttpMethod.GET)
-            .addPathSegments("api", "where", "search", "stop.json")
-            .build()
-            .prepare(clientOptions, params)
-          val requestOptions = requestOptions
-              .applyDefaults(RequestOptions.from(clientOptions))
-          val response = clientOptions.httpClient.execute(
-            request, requestOptions
-          )
-          return response.parseable {
-              response.use {
-                  listHandler.handle(it)
-              }
-              .also {
-                  if (requestOptions.responseValidation!!) {
-                    it.validate()
-                  }
-              }
-          }
+        override fun list(
+            params: SearchForStopListParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<SearchForStopListResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .addPathSegments("api", "where", "search", "stop.json")
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { listHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
         }
     }
 }

@@ -18,14 +18,19 @@ import org.onebusaway.core.immutableEmptyMap
 import org.onebusaway.core.toImmutable
 
 @NoAutoDetect
-class ScheduleForRouteRetrieveResponse @JsonCreator private constructor(
+class ScheduleForRouteRetrieveResponse
+@JsonCreator
+private constructor(
     @JsonProperty("code") @ExcludeMissing private val code: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("currentTime") @ExcludeMissing private val currentTime: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("currentTime")
+    @ExcludeMissing
+    private val currentTime: JsonField<Long> = JsonMissing.of(),
     @JsonProperty("text") @ExcludeMissing private val text: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("version") @ExcludeMissing private val version: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("version")
+    @ExcludeMissing
+    private val version: JsonField<Long> = JsonMissing.of(),
     @JsonProperty("data") @ExcludeMissing private val data: JsonField<Data> = JsonMissing.of(),
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
-
 ) {
 
     fun code(): Long = code.getRequired("code")
@@ -38,25 +43,15 @@ class ScheduleForRouteRetrieveResponse @JsonCreator private constructor(
 
     fun data(): Data = data.getRequired("data")
 
-    @JsonProperty("code")
-    @ExcludeMissing
-    fun _code(): JsonField<Long> = code
+    @JsonProperty("code") @ExcludeMissing fun _code(): JsonField<Long> = code
 
-    @JsonProperty("currentTime")
-    @ExcludeMissing
-    fun _currentTime(): JsonField<Long> = currentTime
+    @JsonProperty("currentTime") @ExcludeMissing fun _currentTime(): JsonField<Long> = currentTime
 
-    @JsonProperty("text")
-    @ExcludeMissing
-    fun _text(): JsonField<String> = text
+    @JsonProperty("text") @ExcludeMissing fun _text(): JsonField<String> = text
 
-    @JsonProperty("version")
-    @ExcludeMissing
-    fun _version(): JsonField<Long> = version
+    @JsonProperty("version") @ExcludeMissing fun _version(): JsonField<Long> = version
 
-    @JsonProperty("data")
-    @ExcludeMissing
-    fun _data(): JsonField<Data> = data
+    @JsonProperty("data") @ExcludeMissing fun _data(): JsonField<Data> = data
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -72,19 +67,18 @@ class ScheduleForRouteRetrieveResponse @JsonCreator private constructor(
 
     private var validated: Boolean = false
 
-    fun validate(): ScheduleForRouteRetrieveResponse =
-        apply {
-            if (validated) {
-              return@apply
-            }
-
-            code()
-            currentTime()
-            text()
-            version()
-            data().validate()
-            validated = true
+    fun validate(): ScheduleForRouteRetrieveResponse = apply {
+        if (validated) {
+            return@apply
         }
+
+        code()
+        currentTime()
+        text()
+        version()
+        data().validate()
+        validated = true
+    }
 
     fun toBuilder() = Builder().from(this)
 
@@ -95,7 +89,6 @@ class ScheduleForRouteRetrieveResponse @JsonCreator private constructor(
          * [ScheduleForRouteRetrieveResponse].
          *
          * The following fields are required:
-         *
          * ```kotlin
          * .code()
          * .currentTime()
@@ -124,103 +117,74 @@ class ScheduleForRouteRetrieveResponse @JsonCreator private constructor(
                 text = scheduleForRouteRetrieveResponse.text
                 version = scheduleForRouteRetrieveResponse.version
                 data = scheduleForRouteRetrieveResponse.data
-                additionalProperties = scheduleForRouteRetrieveResponse.additionalProperties.toMutableMap()
+                additionalProperties =
+                    scheduleForRouteRetrieveResponse.additionalProperties.toMutableMap()
             }
 
         fun code(code: Long) = code(JsonField.of(code))
 
-        fun code(code: JsonField<Long>) =
-            apply {
-                this.code = code
-            }
+        fun code(code: JsonField<Long>) = apply { this.code = code }
 
         fun currentTime(currentTime: Long) = currentTime(JsonField.of(currentTime))
 
-        fun currentTime(currentTime: JsonField<Long>) =
-            apply {
-                this.currentTime = currentTime
-            }
+        fun currentTime(currentTime: JsonField<Long>) = apply { this.currentTime = currentTime }
 
         fun text(text: String) = text(JsonField.of(text))
 
-        fun text(text: JsonField<String>) =
-            apply {
-                this.text = text
-            }
+        fun text(text: JsonField<String>) = apply { this.text = text }
 
         fun version(version: Long) = version(JsonField.of(version))
 
-        fun version(version: JsonField<Long>) =
-            apply {
-                this.version = version
-            }
+        fun version(version: JsonField<Long>) = apply { this.version = version }
 
         fun data(data: Data) = data(JsonField.of(data))
 
-        fun data(data: JsonField<Data>) =
-            apply {
-                this.data = data
-            }
+        fun data(data: JsonField<Data>) = apply { this.data = data }
 
-        fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
-            apply {
-                this.additionalProperties.clear()
-                putAllAdditionalProperties(additionalProperties)
-            }
+        fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+            this.additionalProperties.clear()
+            putAllAdditionalProperties(additionalProperties)
+        }
 
-        fun putAdditionalProperty(key: String, value: JsonValue) =
-            apply {
-                additionalProperties.put(key, value)
-            }
+        fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+            additionalProperties.put(key, value)
+        }
 
-        fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
-            apply {
-                this.additionalProperties.putAll(additionalProperties)
-            }
+        fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+            this.additionalProperties.putAll(additionalProperties)
+        }
 
-        fun removeAdditionalProperty(key: String) =
-            apply {
-                additionalProperties.remove(key)
-            }
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
-        fun removeAllAdditionalProperties(keys: Set<String>) =
-            apply {
-                keys.forEach(::removeAdditionalProperty)
-            }
+        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+            keys.forEach(::removeAdditionalProperty)
+        }
 
         fun build(): ScheduleForRouteRetrieveResponse =
             ScheduleForRouteRetrieveResponse(
-              checkRequired(
-                "code", code
-              ),
-              checkRequired(
-                "currentTime", currentTime
-              ),
-              checkRequired(
-                "text", text
-              ),
-              checkRequired(
-                "version", version
-              ),
-              checkRequired(
-                "data", data
-              ),
-              additionalProperties.toImmutable(),
+                checkRequired("code", code),
+                checkRequired("currentTime", currentTime),
+                checkRequired("text", text),
+                checkRequired("version", version),
+                checkRequired("data", data),
+                additionalProperties.toImmutable(),
             )
     }
 
     @NoAutoDetect
-    class Data @JsonCreator private constructor(
-        @JsonProperty("entry") @ExcludeMissing private val entry: JsonField<Entry> = JsonMissing.of(),
-        @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
-
+    class Data
+    @JsonCreator
+    private constructor(
+        @JsonProperty("entry")
+        @ExcludeMissing
+        private val entry: JsonField<Entry> = JsonMissing.of(),
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         fun entry(): Entry = entry.getRequired("entry")
 
-        @JsonProperty("entry")
-        @ExcludeMissing
-        fun _entry(): JsonField<Entry> = entry
+        @JsonProperty("entry") @ExcludeMissing fun _entry(): JsonField<Entry> = entry
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -228,15 +192,14 @@ class ScheduleForRouteRetrieveResponse @JsonCreator private constructor(
 
         private var validated: Boolean = false
 
-        fun validate(): Data =
-            apply {
-                if (validated) {
-                  return@apply
-                }
-
-                entry().validate()
-                validated = true
+        fun validate(): Data = apply {
+            if (validated) {
+                return@apply
             }
+
+            entry().validate()
+            validated = true
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -246,7 +209,6 @@ class ScheduleForRouteRetrieveResponse @JsonCreator private constructor(
              * Returns a mutable builder for constructing an instance of [Data].
              *
              * The following fields are required:
-             *
              * ```kotlin
              * .entry()
              * ```
@@ -260,63 +222,62 @@ class ScheduleForRouteRetrieveResponse @JsonCreator private constructor(
             private var entry: JsonField<Entry>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
-            internal fun from(data: Data) =
-                apply {
-                    entry = data.entry
-                    additionalProperties = data.additionalProperties.toMutableMap()
-                }
+            internal fun from(data: Data) = apply {
+                entry = data.entry
+                additionalProperties = data.additionalProperties.toMutableMap()
+            }
 
             fun entry(entry: Entry) = entry(JsonField.of(entry))
 
-            fun entry(entry: JsonField<Entry>) =
-                apply {
-                    this.entry = entry
-                }
+            fun entry(entry: JsonField<Entry>) = apply { this.entry = entry }
 
-            fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
-                apply {
-                    this.additionalProperties.clear()
-                    putAllAdditionalProperties(additionalProperties)
-                }
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
 
-            fun putAdditionalProperty(key: String, value: JsonValue) =
-                apply {
-                    additionalProperties.put(key, value)
-                }
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
 
-            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
-                apply {
-                    this.additionalProperties.putAll(additionalProperties)
-                }
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
 
-            fun removeAdditionalProperty(key: String) =
-                apply {
-                    additionalProperties.remove(key)
-                }
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
 
-            fun removeAllAdditionalProperties(keys: Set<String>) =
-                apply {
-                    keys.forEach(::removeAdditionalProperty)
-                }
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
 
             fun build(): Data =
-                Data(
-                  checkRequired(
-                    "entry", entry
-                  ), additionalProperties.toImmutable()
-                )
+                Data(checkRequired("entry", entry), additionalProperties.toImmutable())
         }
 
         @NoAutoDetect
-        class Entry @JsonCreator private constructor(
-            @JsonProperty("routeId") @ExcludeMissing private val routeId: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("scheduleDate") @ExcludeMissing private val scheduleDate: JsonField<Long> = JsonMissing.of(),
-            @JsonProperty("serviceIds") @ExcludeMissing private val serviceIds: JsonField<List<String>> = JsonMissing.of(),
-            @JsonProperty("stops") @ExcludeMissing private val stops: JsonField<List<Stop>> = JsonMissing.of(),
-            @JsonProperty("stopTripGroupings") @ExcludeMissing private val stopTripGroupings: JsonField<List<StopTripGrouping>> = JsonMissing.of(),
-            @JsonProperty("trips") @ExcludeMissing private val trips: JsonField<List<Trip>> = JsonMissing.of(),
-            @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
-
+        class Entry
+        @JsonCreator
+        private constructor(
+            @JsonProperty("routeId")
+            @ExcludeMissing
+            private val routeId: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("scheduleDate")
+            @ExcludeMissing
+            private val scheduleDate: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("serviceIds")
+            @ExcludeMissing
+            private val serviceIds: JsonField<List<String>> = JsonMissing.of(),
+            @JsonProperty("stops")
+            @ExcludeMissing
+            private val stops: JsonField<List<Stop>> = JsonMissing.of(),
+            @JsonProperty("stopTripGroupings")
+            @ExcludeMissing
+            private val stopTripGroupings: JsonField<List<StopTripGrouping>> = JsonMissing.of(),
+            @JsonProperty("trips")
+            @ExcludeMissing
+            private val trips: JsonField<List<Trip>> = JsonMissing.of(),
+            @JsonAnySetter
+            private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
         ) {
 
             fun routeId(): String = routeId.getRequired("routeId")
@@ -327,13 +288,12 @@ class ScheduleForRouteRetrieveResponse @JsonCreator private constructor(
 
             fun stops(): List<Stop> = stops.getRequired("stops")
 
-            fun stopTripGroupings(): List<StopTripGrouping> = stopTripGroupings.getRequired("stopTripGroupings")
+            fun stopTripGroupings(): List<StopTripGrouping> =
+                stopTripGroupings.getRequired("stopTripGroupings")
 
             fun trips(): List<Trip> = trips.getRequired("trips")
 
-            @JsonProperty("routeId")
-            @ExcludeMissing
-            fun _routeId(): JsonField<String> = routeId
+            @JsonProperty("routeId") @ExcludeMissing fun _routeId(): JsonField<String> = routeId
 
             @JsonProperty("scheduleDate")
             @ExcludeMissing
@@ -343,17 +303,13 @@ class ScheduleForRouteRetrieveResponse @JsonCreator private constructor(
             @ExcludeMissing
             fun _serviceIds(): JsonField<List<String>> = serviceIds
 
-            @JsonProperty("stops")
-            @ExcludeMissing
-            fun _stops(): JsonField<List<Stop>> = stops
+            @JsonProperty("stops") @ExcludeMissing fun _stops(): JsonField<List<Stop>> = stops
 
             @JsonProperty("stopTripGroupings")
             @ExcludeMissing
             fun _stopTripGroupings(): JsonField<List<StopTripGrouping>> = stopTripGroupings
 
-            @JsonProperty("trips")
-            @ExcludeMissing
-            fun _trips(): JsonField<List<Trip>> = trips
+            @JsonProperty("trips") @ExcludeMissing fun _trips(): JsonField<List<Trip>> = trips
 
             @JsonAnyGetter
             @ExcludeMissing
@@ -361,20 +317,19 @@ class ScheduleForRouteRetrieveResponse @JsonCreator private constructor(
 
             private var validated: Boolean = false
 
-            fun validate(): Entry =
-                apply {
-                    if (validated) {
-                      return@apply
-                    }
-
-                    routeId()
-                    scheduleDate()
-                    serviceIds()
-                    stops().forEach { it.validate() }
-                    stopTripGroupings().forEach { it.validate() }
-                    trips().forEach { it.validate() }
-                    validated = true
+            fun validate(): Entry = apply {
+                if (validated) {
+                    return@apply
                 }
+
+                routeId()
+                scheduleDate()
+                serviceIds()
+                stops().forEach { it.validate() }
+                stopTripGroupings().forEach { it.validate() }
+                trips().forEach { it.validate() }
+                validated = true
+            }
 
             fun toBuilder() = Builder().from(this)
 
@@ -384,7 +339,6 @@ class ScheduleForRouteRetrieveResponse @JsonCreator private constructor(
                  * Returns a mutable builder for constructing an instance of [Entry].
                  *
                  * The following fields are required:
-                 *
                  * ```kotlin
                  * .routeId()
                  * .scheduleDate()
@@ -408,152 +362,155 @@ class ScheduleForRouteRetrieveResponse @JsonCreator private constructor(
                 private var trips: JsonField<MutableList<Trip>>? = null
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
-                internal fun from(entry: Entry) =
-                    apply {
-                        routeId = entry.routeId
-                        scheduleDate = entry.scheduleDate
-                        serviceIds = entry.serviceIds.map { it.toMutableList() }
-                        stops = entry.stops.map { it.toMutableList() }
-                        stopTripGroupings = entry.stopTripGroupings.map { it.toMutableList() }
-                        trips = entry.trips.map { it.toMutableList() }
-                        additionalProperties = entry.additionalProperties.toMutableMap()
-                    }
+                internal fun from(entry: Entry) = apply {
+                    routeId = entry.routeId
+                    scheduleDate = entry.scheduleDate
+                    serviceIds = entry.serviceIds.map { it.toMutableList() }
+                    stops = entry.stops.map { it.toMutableList() }
+                    stopTripGroupings = entry.stopTripGroupings.map { it.toMutableList() }
+                    trips = entry.trips.map { it.toMutableList() }
+                    additionalProperties = entry.additionalProperties.toMutableMap()
+                }
 
                 fun routeId(routeId: String) = routeId(JsonField.of(routeId))
 
-                fun routeId(routeId: JsonField<String>) =
-                    apply {
-                        this.routeId = routeId
-                    }
+                fun routeId(routeId: JsonField<String>) = apply { this.routeId = routeId }
 
                 fun scheduleDate(scheduleDate: Long) = scheduleDate(JsonField.of(scheduleDate))
 
-                fun scheduleDate(scheduleDate: JsonField<Long>) =
-                    apply {
-                        this.scheduleDate = scheduleDate
-                    }
+                fun scheduleDate(scheduleDate: JsonField<Long>) = apply {
+                    this.scheduleDate = scheduleDate
+                }
 
                 fun serviceIds(serviceIds: List<String>) = serviceIds(JsonField.of(serviceIds))
 
-                fun serviceIds(serviceIds: JsonField<List<String>>) =
-                    apply {
-                        this.serviceIds = serviceIds.map { it.toMutableList() }
-                    }
+                fun serviceIds(serviceIds: JsonField<List<String>>) = apply {
+                    this.serviceIds = serviceIds.map { it.toMutableList() }
+                }
 
-                fun addServiceId(serviceId: String) =
-                    apply {
-                        serviceIds = (serviceIds ?: JsonField.of(mutableListOf())).also {
+                fun addServiceId(serviceId: String) = apply {
+                    serviceIds =
+                        (serviceIds ?: JsonField.of(mutableListOf())).also {
                             checkKnown("serviceIds", it).add(serviceId)
                         }
-                    }
+                }
 
                 fun stops(stops: List<Stop>) = stops(JsonField.of(stops))
 
-                fun stops(stops: JsonField<List<Stop>>) =
-                    apply {
-                        this.stops = stops.map { it.toMutableList() }
-                    }
+                fun stops(stops: JsonField<List<Stop>>) = apply {
+                    this.stops = stops.map { it.toMutableList() }
+                }
 
-                fun addStop(stop: Stop) =
-                    apply {
-                        stops = (stops ?: JsonField.of(mutableListOf())).also {
+                fun addStop(stop: Stop) = apply {
+                    stops =
+                        (stops ?: JsonField.of(mutableListOf())).also {
                             checkKnown("stops", it).add(stop)
                         }
-                    }
+                }
 
-                fun stopTripGroupings(stopTripGroupings: List<StopTripGrouping>) = stopTripGroupings(JsonField.of(stopTripGroupings))
+                fun stopTripGroupings(stopTripGroupings: List<StopTripGrouping>) =
+                    stopTripGroupings(JsonField.of(stopTripGroupings))
 
                 fun stopTripGroupings(stopTripGroupings: JsonField<List<StopTripGrouping>>) =
                     apply {
                         this.stopTripGroupings = stopTripGroupings.map { it.toMutableList() }
                     }
 
-                fun addStopTripGrouping(stopTripGrouping: StopTripGrouping) =
-                    apply {
-                        stopTripGroupings = (stopTripGroupings ?: JsonField.of(mutableListOf())).also {
+                fun addStopTripGrouping(stopTripGrouping: StopTripGrouping) = apply {
+                    stopTripGroupings =
+                        (stopTripGroupings ?: JsonField.of(mutableListOf())).also {
                             checkKnown("stopTripGroupings", it).add(stopTripGrouping)
                         }
-                    }
+                }
 
                 fun trips(trips: List<Trip>) = trips(JsonField.of(trips))
 
-                fun trips(trips: JsonField<List<Trip>>) =
-                    apply {
-                        this.trips = trips.map { it.toMutableList() }
-                    }
+                fun trips(trips: JsonField<List<Trip>>) = apply {
+                    this.trips = trips.map { it.toMutableList() }
+                }
 
-                fun addTrip(trip: Trip) =
-                    apply {
-                        trips = (trips ?: JsonField.of(mutableListOf())).also {
+                fun addTrip(trip: Trip) = apply {
+                    trips =
+                        (trips ?: JsonField.of(mutableListOf())).also {
                             checkKnown("trips", it).add(trip)
                         }
-                    }
+                }
 
-                fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
-                    apply {
-                        this.additionalProperties.clear()
-                        putAllAdditionalProperties(additionalProperties)
-                    }
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    putAllAdditionalProperties(additionalProperties)
+                }
 
-                fun putAdditionalProperty(key: String, value: JsonValue) =
-                    apply {
-                        additionalProperties.put(key, value)
-                    }
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    additionalProperties.put(key, value)
+                }
 
                 fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
                     apply {
                         this.additionalProperties.putAll(additionalProperties)
                     }
 
-                fun removeAdditionalProperty(key: String) =
-                    apply {
-                        additionalProperties.remove(key)
-                    }
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
 
-                fun removeAllAdditionalProperties(keys: Set<String>) =
-                    apply {
-                        keys.forEach(::removeAdditionalProperty)
-                    }
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
 
                 fun build(): Entry =
                     Entry(
-                      checkRequired(
-                        "routeId", routeId
-                      ),
-                      checkRequired(
-                        "scheduleDate", scheduleDate
-                      ),
-                      checkRequired(
-                        "serviceIds", serviceIds
-                      ).map { it.toImmutable() },
-                      checkRequired(
-                        "stops", stops
-                      ).map { it.toImmutable() },
-                      checkRequired(
-                        "stopTripGroupings", stopTripGroupings
-                      ).map { it.toImmutable() },
-                      checkRequired(
-                        "trips", trips
-                      ).map { it.toImmutable() },
-                      additionalProperties.toImmutable(),
+                        checkRequired("routeId", routeId),
+                        checkRequired("scheduleDate", scheduleDate),
+                        checkRequired("serviceIds", serviceIds).map { it.toImmutable() },
+                        checkRequired("stops", stops).map { it.toImmutable() },
+                        checkRequired("stopTripGroupings", stopTripGroupings).map {
+                            it.toImmutable()
+                        },
+                        checkRequired("trips", trips).map { it.toImmutable() },
+                        additionalProperties.toImmutable(),
                     )
             }
 
             @NoAutoDetect
-            class Stop @JsonCreator private constructor(
-                @JsonProperty("id") @ExcludeMissing private val id: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("lat") @ExcludeMissing private val lat: JsonField<Double> = JsonMissing.of(),
-                @JsonProperty("lon") @ExcludeMissing private val lon: JsonField<Double> = JsonMissing.of(),
-                @JsonProperty("name") @ExcludeMissing private val name: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("parent") @ExcludeMissing private val parent: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("routeIds") @ExcludeMissing private val routeIds: JsonField<List<String>> = JsonMissing.of(),
-                @JsonProperty("staticRouteIds") @ExcludeMissing private val staticRouteIds: JsonField<List<String>> = JsonMissing.of(),
-                @JsonProperty("code") @ExcludeMissing private val code: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("direction") @ExcludeMissing private val direction: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("locationType") @ExcludeMissing private val locationType: JsonField<Long> = JsonMissing.of(),
-                @JsonProperty("wheelchairBoarding") @ExcludeMissing private val wheelchairBoarding: JsonField<String> = JsonMissing.of(),
-                @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
-
+            class Stop
+            @JsonCreator
+            private constructor(
+                @JsonProperty("id")
+                @ExcludeMissing
+                private val id: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("lat")
+                @ExcludeMissing
+                private val lat: JsonField<Double> = JsonMissing.of(),
+                @JsonProperty("lon")
+                @ExcludeMissing
+                private val lon: JsonField<Double> = JsonMissing.of(),
+                @JsonProperty("name")
+                @ExcludeMissing
+                private val name: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("parent")
+                @ExcludeMissing
+                private val parent: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("routeIds")
+                @ExcludeMissing
+                private val routeIds: JsonField<List<String>> = JsonMissing.of(),
+                @JsonProperty("staticRouteIds")
+                @ExcludeMissing
+                private val staticRouteIds: JsonField<List<String>> = JsonMissing.of(),
+                @JsonProperty("code")
+                @ExcludeMissing
+                private val code: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("direction")
+                @ExcludeMissing
+                private val direction: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("locationType")
+                @ExcludeMissing
+                private val locationType: JsonField<Long> = JsonMissing.of(),
+                @JsonProperty("wheelchairBoarding")
+                @ExcludeMissing
+                private val wheelchairBoarding: JsonField<String> = JsonMissing.of(),
+                @JsonAnySetter
+                private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
             ) {
 
                 fun id(): String = id.getRequired("id")
@@ -576,27 +533,18 @@ class ScheduleForRouteRetrieveResponse @JsonCreator private constructor(
 
                 fun locationType(): Long? = locationType.getNullable("locationType")
 
-                fun wheelchairBoarding(): String? = wheelchairBoarding.getNullable("wheelchairBoarding")
+                fun wheelchairBoarding(): String? =
+                    wheelchairBoarding.getNullable("wheelchairBoarding")
 
-                @JsonProperty("id")
-                @ExcludeMissing
-                fun _id(): JsonField<String> = id
+                @JsonProperty("id") @ExcludeMissing fun _id(): JsonField<String> = id
 
-                @JsonProperty("lat")
-                @ExcludeMissing
-                fun _lat(): JsonField<Double> = lat
+                @JsonProperty("lat") @ExcludeMissing fun _lat(): JsonField<Double> = lat
 
-                @JsonProperty("lon")
-                @ExcludeMissing
-                fun _lon(): JsonField<Double> = lon
+                @JsonProperty("lon") @ExcludeMissing fun _lon(): JsonField<Double> = lon
 
-                @JsonProperty("name")
-                @ExcludeMissing
-                fun _name(): JsonField<String> = name
+                @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
 
-                @JsonProperty("parent")
-                @ExcludeMissing
-                fun _parent(): JsonField<String> = parent
+                @JsonProperty("parent") @ExcludeMissing fun _parent(): JsonField<String> = parent
 
                 @JsonProperty("routeIds")
                 @ExcludeMissing
@@ -606,9 +554,7 @@ class ScheduleForRouteRetrieveResponse @JsonCreator private constructor(
                 @ExcludeMissing
                 fun _staticRouteIds(): JsonField<List<String>> = staticRouteIds
 
-                @JsonProperty("code")
-                @ExcludeMissing
-                fun _code(): JsonField<String> = code
+                @JsonProperty("code") @ExcludeMissing fun _code(): JsonField<String> = code
 
                 @JsonProperty("direction")
                 @ExcludeMissing
@@ -628,25 +574,24 @@ class ScheduleForRouteRetrieveResponse @JsonCreator private constructor(
 
                 private var validated: Boolean = false
 
-                fun validate(): Stop =
-                    apply {
-                        if (validated) {
-                          return@apply
-                        }
-
-                        id()
-                        lat()
-                        lon()
-                        name()
-                        parent()
-                        routeIds()
-                        staticRouteIds()
-                        code()
-                        direction()
-                        locationType()
-                        wheelchairBoarding()
-                        validated = true
+                fun validate(): Stop = apply {
+                    if (validated) {
+                        return@apply
                     }
+
+                    id()
+                    lat()
+                    lon()
+                    name()
+                    parent()
+                    routeIds()
+                    staticRouteIds()
+                    code()
+                    direction()
+                    locationType()
+                    wheelchairBoarding()
+                    validated = true
+                }
 
                 fun toBuilder() = Builder().from(this)
 
@@ -656,7 +601,6 @@ class ScheduleForRouteRetrieveResponse @JsonCreator private constructor(
                      * Returns a mutable builder for constructing an instance of [Stop].
                      *
                      * The following fields are required:
-                     *
                      * ```kotlin
                      * .id()
                      * .lat()
@@ -686,176 +630,138 @@ class ScheduleForRouteRetrieveResponse @JsonCreator private constructor(
                     private var wheelchairBoarding: JsonField<String> = JsonMissing.of()
                     private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
-                    internal fun from(stop: Stop) =
-                        apply {
-                            id = stop.id
-                            lat = stop.lat
-                            lon = stop.lon
-                            name = stop.name
-                            parent = stop.parent
-                            routeIds = stop.routeIds.map { it.toMutableList() }
-                            staticRouteIds = stop.staticRouteIds.map { it.toMutableList() }
-                            code = stop.code
-                            direction = stop.direction
-                            locationType = stop.locationType
-                            wheelchairBoarding = stop.wheelchairBoarding
-                            additionalProperties = stop.additionalProperties.toMutableMap()
-                        }
+                    internal fun from(stop: Stop) = apply {
+                        id = stop.id
+                        lat = stop.lat
+                        lon = stop.lon
+                        name = stop.name
+                        parent = stop.parent
+                        routeIds = stop.routeIds.map { it.toMutableList() }
+                        staticRouteIds = stop.staticRouteIds.map { it.toMutableList() }
+                        code = stop.code
+                        direction = stop.direction
+                        locationType = stop.locationType
+                        wheelchairBoarding = stop.wheelchairBoarding
+                        additionalProperties = stop.additionalProperties.toMutableMap()
+                    }
 
                     fun id(id: String) = id(JsonField.of(id))
 
-                    fun id(id: JsonField<String>) =
-                        apply {
-                            this.id = id
-                        }
+                    fun id(id: JsonField<String>) = apply { this.id = id }
 
                     fun lat(lat: Double) = lat(JsonField.of(lat))
 
-                    fun lat(lat: JsonField<Double>) =
-                        apply {
-                            this.lat = lat
-                        }
+                    fun lat(lat: JsonField<Double>) = apply { this.lat = lat }
 
                     fun lon(lon: Double) = lon(JsonField.of(lon))
 
-                    fun lon(lon: JsonField<Double>) =
-                        apply {
-                            this.lon = lon
-                        }
+                    fun lon(lon: JsonField<Double>) = apply { this.lon = lon }
 
                     fun name(name: String) = name(JsonField.of(name))
 
-                    fun name(name: JsonField<String>) =
-                        apply {
-                            this.name = name
-                        }
+                    fun name(name: JsonField<String>) = apply { this.name = name }
 
                     fun parent(parent: String) = parent(JsonField.of(parent))
 
-                    fun parent(parent: JsonField<String>) =
-                        apply {
-                            this.parent = parent
-                        }
+                    fun parent(parent: JsonField<String>) = apply { this.parent = parent }
 
                     fun routeIds(routeIds: List<String>) = routeIds(JsonField.of(routeIds))
 
-                    fun routeIds(routeIds: JsonField<List<String>>) =
-                        apply {
-                            this.routeIds = routeIds.map { it.toMutableList() }
-                        }
+                    fun routeIds(routeIds: JsonField<List<String>>) = apply {
+                        this.routeIds = routeIds.map { it.toMutableList() }
+                    }
 
-                    fun addRouteId(routeId: String) =
-                        apply {
-                            routeIds = (routeIds ?: JsonField.of(mutableListOf())).also {
+                    fun addRouteId(routeId: String) = apply {
+                        routeIds =
+                            (routeIds ?: JsonField.of(mutableListOf())).also {
                                 checkKnown("routeIds", it).add(routeId)
                             }
-                        }
+                    }
 
-                    fun staticRouteIds(staticRouteIds: List<String>) = staticRouteIds(JsonField.of(staticRouteIds))
+                    fun staticRouteIds(staticRouteIds: List<String>) =
+                        staticRouteIds(JsonField.of(staticRouteIds))
 
-                    fun staticRouteIds(staticRouteIds: JsonField<List<String>>) =
-                        apply {
-                            this.staticRouteIds = staticRouteIds.map { it.toMutableList() }
-                        }
+                    fun staticRouteIds(staticRouteIds: JsonField<List<String>>) = apply {
+                        this.staticRouteIds = staticRouteIds.map { it.toMutableList() }
+                    }
 
-                    fun addStaticRouteId(staticRouteId: String) =
-                        apply {
-                            staticRouteIds = (staticRouteIds ?: JsonField.of(mutableListOf())).also {
+                    fun addStaticRouteId(staticRouteId: String) = apply {
+                        staticRouteIds =
+                            (staticRouteIds ?: JsonField.of(mutableListOf())).also {
                                 checkKnown("staticRouteIds", it).add(staticRouteId)
                             }
-                        }
+                    }
 
                     fun code(code: String) = code(JsonField.of(code))
 
-                    fun code(code: JsonField<String>) =
-                        apply {
-                            this.code = code
-                        }
+                    fun code(code: JsonField<String>) = apply { this.code = code }
 
                     fun direction(direction: String) = direction(JsonField.of(direction))
 
-                    fun direction(direction: JsonField<String>) =
-                        apply {
-                            this.direction = direction
-                        }
+                    fun direction(direction: JsonField<String>) = apply {
+                        this.direction = direction
+                    }
 
                     fun locationType(locationType: Long) = locationType(JsonField.of(locationType))
 
-                    fun locationType(locationType: JsonField<Long>) =
-                        apply {
-                            this.locationType = locationType
-                        }
+                    fun locationType(locationType: JsonField<Long>) = apply {
+                        this.locationType = locationType
+                    }
 
-                    fun wheelchairBoarding(wheelchairBoarding: String) = wheelchairBoarding(JsonField.of(wheelchairBoarding))
+                    fun wheelchairBoarding(wheelchairBoarding: String) =
+                        wheelchairBoarding(JsonField.of(wheelchairBoarding))
 
-                    fun wheelchairBoarding(wheelchairBoarding: JsonField<String>) =
-                        apply {
-                            this.wheelchairBoarding = wheelchairBoarding
-                        }
+                    fun wheelchairBoarding(wheelchairBoarding: JsonField<String>) = apply {
+                        this.wheelchairBoarding = wheelchairBoarding
+                    }
 
-                    fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
-                        apply {
-                            this.additionalProperties.clear()
-                            putAllAdditionalProperties(additionalProperties)
-                        }
+                    fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                        this.additionalProperties.clear()
+                        putAllAdditionalProperties(additionalProperties)
+                    }
 
-                    fun putAdditionalProperty(key: String, value: JsonValue) =
-                        apply {
-                            additionalProperties.put(key, value)
-                        }
+                    fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                        additionalProperties.put(key, value)
+                    }
 
                     fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
                         apply {
                             this.additionalProperties.putAll(additionalProperties)
                         }
 
-                    fun removeAdditionalProperty(key: String) =
-                        apply {
-                            additionalProperties.remove(key)
-                        }
+                    fun removeAdditionalProperty(key: String) = apply {
+                        additionalProperties.remove(key)
+                    }
 
-                    fun removeAllAdditionalProperties(keys: Set<String>) =
-                        apply {
-                            keys.forEach(::removeAdditionalProperty)
-                        }
+                    fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                        keys.forEach(::removeAdditionalProperty)
+                    }
 
                     fun build(): Stop =
                         Stop(
-                          checkRequired(
-                            "id", id
-                          ),
-                          checkRequired(
-                            "lat", lat
-                          ),
-                          checkRequired(
-                            "lon", lon
-                          ),
-                          checkRequired(
-                            "name", name
-                          ),
-                          checkRequired(
-                            "parent", parent
-                          ),
-                          checkRequired(
-                            "routeIds", routeIds
-                          ).map { it.toImmutable() },
-                          checkRequired(
-                            "staticRouteIds", staticRouteIds
-                          ).map { it.toImmutable() },
-                          code,
-                          direction,
-                          locationType,
-                          wheelchairBoarding,
-                          additionalProperties.toImmutable(),
+                            checkRequired("id", id),
+                            checkRequired("lat", lat),
+                            checkRequired("lon", lon),
+                            checkRequired("name", name),
+                            checkRequired("parent", parent),
+                            checkRequired("routeIds", routeIds).map { it.toImmutable() },
+                            checkRequired("staticRouteIds", staticRouteIds).map {
+                                it.toImmutable()
+                            },
+                            code,
+                            direction,
+                            locationType,
+                            wheelchairBoarding,
+                            additionalProperties.toImmutable(),
                         )
                 }
 
                 override fun equals(other: Any?): Boolean {
-                  if (this === other) {
-                      return true
-                  }
+                    if (this === other) {
+                        return true
+                    }
 
-                  return /* spotless:off */ other is Stop && id == other.id && lat == other.lat && lon == other.lon && name == other.name && parent == other.parent && routeIds == other.routeIds && staticRouteIds == other.staticRouteIds && code == other.code && direction == other.direction && locationType == other.locationType && wheelchairBoarding == other.wheelchairBoarding && additionalProperties == other.additionalProperties /* spotless:on */
+                    return /* spotless:off */ other is Stop && id == other.id && lat == other.lat && lon == other.lon && name == other.name && parent == other.parent && routeIds == other.routeIds && staticRouteIds == other.staticRouteIds && code == other.code && direction == other.direction && locationType == other.locationType && wheelchairBoarding == other.wheelchairBoarding && additionalProperties == other.additionalProperties /* spotless:on */
                 }
 
                 /* spotless:off */
@@ -864,18 +770,32 @@ class ScheduleForRouteRetrieveResponse @JsonCreator private constructor(
 
                 override fun hashCode(): Int = hashCode
 
-                override fun toString() = "Stop{id=$id, lat=$lat, lon=$lon, name=$name, parent=$parent, routeIds=$routeIds, staticRouteIds=$staticRouteIds, code=$code, direction=$direction, locationType=$locationType, wheelchairBoarding=$wheelchairBoarding, additionalProperties=$additionalProperties}"
+                override fun toString() =
+                    "Stop{id=$id, lat=$lat, lon=$lon, name=$name, parent=$parent, routeIds=$routeIds, staticRouteIds=$staticRouteIds, code=$code, direction=$direction, locationType=$locationType, wheelchairBoarding=$wheelchairBoarding, additionalProperties=$additionalProperties}"
             }
 
             @NoAutoDetect
-            class StopTripGrouping @JsonCreator private constructor(
-                @JsonProperty("directionId") @ExcludeMissing private val directionId: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("stopIds") @ExcludeMissing private val stopIds: JsonField<List<String>> = JsonMissing.of(),
-                @JsonProperty("tripHeadsigns") @ExcludeMissing private val tripHeadsigns: JsonField<List<String>> = JsonMissing.of(),
-                @JsonProperty("tripIds") @ExcludeMissing private val tripIds: JsonField<List<String>> = JsonMissing.of(),
-                @JsonProperty("tripsWithStopTimes") @ExcludeMissing private val tripsWithStopTimes: JsonField<List<TripsWithStopTime>> = JsonMissing.of(),
-                @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
-
+            class StopTripGrouping
+            @JsonCreator
+            private constructor(
+                @JsonProperty("directionId")
+                @ExcludeMissing
+                private val directionId: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("stopIds")
+                @ExcludeMissing
+                private val stopIds: JsonField<List<String>> = JsonMissing.of(),
+                @JsonProperty("tripHeadsigns")
+                @ExcludeMissing
+                private val tripHeadsigns: JsonField<List<String>> = JsonMissing.of(),
+                @JsonProperty("tripIds")
+                @ExcludeMissing
+                private val tripIds: JsonField<List<String>> = JsonMissing.of(),
+                @JsonProperty("tripsWithStopTimes")
+                @ExcludeMissing
+                private val tripsWithStopTimes: JsonField<List<TripsWithStopTime>> =
+                    JsonMissing.of(),
+                @JsonAnySetter
+                private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
             ) {
 
                 fun directionId(): String = directionId.getRequired("directionId")
@@ -886,7 +806,8 @@ class ScheduleForRouteRetrieveResponse @JsonCreator private constructor(
 
                 fun tripIds(): List<String> = tripIds.getRequired("tripIds")
 
-                fun tripsWithStopTimes(): List<TripsWithStopTime>? = tripsWithStopTimes.getNullable("tripsWithStopTimes")
+                fun tripsWithStopTimes(): List<TripsWithStopTime>? =
+                    tripsWithStopTimes.getNullable("tripsWithStopTimes")
 
                 @JsonProperty("directionId")
                 @ExcludeMissing
@@ -914,19 +835,18 @@ class ScheduleForRouteRetrieveResponse @JsonCreator private constructor(
 
                 private var validated: Boolean = false
 
-                fun validate(): StopTripGrouping =
-                    apply {
-                        if (validated) {
-                          return@apply
-                        }
-
-                        directionId()
-                        stopIds()
-                        tripHeadsigns()
-                        tripIds()
-                        tripsWithStopTimes()?.forEach { it.validate() }
-                        validated = true
+                fun validate(): StopTripGrouping = apply {
+                    if (validated) {
+                        return@apply
                     }
+
+                    directionId()
+                    stopIds()
+                    tripHeadsigns()
+                    tripIds()
+                    tripsWithStopTimes()?.forEach { it.validate() }
+                    validated = true
+                }
 
                 fun toBuilder() = Builder().from(this)
 
@@ -936,7 +856,6 @@ class ScheduleForRouteRetrieveResponse @JsonCreator private constructor(
                      * Returns a mutable builder for constructing an instance of [StopTripGrouping].
                      *
                      * The following fields are required:
-                     *
                      * ```kotlin
                      * .directionId()
                      * .stopIds()
@@ -954,133 +873,126 @@ class ScheduleForRouteRetrieveResponse @JsonCreator private constructor(
                     private var stopIds: JsonField<MutableList<String>>? = null
                     private var tripHeadsigns: JsonField<MutableList<String>>? = null
                     private var tripIds: JsonField<MutableList<String>>? = null
-                    private var tripsWithStopTimes: JsonField<MutableList<TripsWithStopTime>>? = null
+                    private var tripsWithStopTimes: JsonField<MutableList<TripsWithStopTime>>? =
+                        null
                     private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
-                    internal fun from(stopTripGrouping: StopTripGrouping) =
-                        apply {
-                            directionId = stopTripGrouping.directionId
-                            stopIds = stopTripGrouping.stopIds.map { it.toMutableList() }
-                            tripHeadsigns = stopTripGrouping.tripHeadsigns.map { it.toMutableList() }
-                            tripIds = stopTripGrouping.tripIds.map { it.toMutableList() }
-                            tripsWithStopTimes = stopTripGrouping.tripsWithStopTimes.map { it.toMutableList() }
-                            additionalProperties = stopTripGrouping.additionalProperties.toMutableMap()
-                        }
+                    internal fun from(stopTripGrouping: StopTripGrouping) = apply {
+                        directionId = stopTripGrouping.directionId
+                        stopIds = stopTripGrouping.stopIds.map { it.toMutableList() }
+                        tripHeadsigns = stopTripGrouping.tripHeadsigns.map { it.toMutableList() }
+                        tripIds = stopTripGrouping.tripIds.map { it.toMutableList() }
+                        tripsWithStopTimes =
+                            stopTripGrouping.tripsWithStopTimes.map { it.toMutableList() }
+                        additionalProperties = stopTripGrouping.additionalProperties.toMutableMap()
+                    }
 
                     fun directionId(directionId: String) = directionId(JsonField.of(directionId))
 
-                    fun directionId(directionId: JsonField<String>) =
-                        apply {
-                            this.directionId = directionId
-                        }
+                    fun directionId(directionId: JsonField<String>) = apply {
+                        this.directionId = directionId
+                    }
 
                     fun stopIds(stopIds: List<String>) = stopIds(JsonField.of(stopIds))
 
-                    fun stopIds(stopIds: JsonField<List<String>>) =
-                        apply {
-                            this.stopIds = stopIds.map { it.toMutableList() }
-                        }
+                    fun stopIds(stopIds: JsonField<List<String>>) = apply {
+                        this.stopIds = stopIds.map { it.toMutableList() }
+                    }
 
-                    fun addStopId(stopId: String) =
-                        apply {
-                            stopIds = (stopIds ?: JsonField.of(mutableListOf())).also {
+                    fun addStopId(stopId: String) = apply {
+                        stopIds =
+                            (stopIds ?: JsonField.of(mutableListOf())).also {
                                 checkKnown("stopIds", it).add(stopId)
                             }
-                        }
+                    }
 
-                    fun tripHeadsigns(tripHeadsigns: List<String>) = tripHeadsigns(JsonField.of(tripHeadsigns))
+                    fun tripHeadsigns(tripHeadsigns: List<String>) =
+                        tripHeadsigns(JsonField.of(tripHeadsigns))
 
-                    fun tripHeadsigns(tripHeadsigns: JsonField<List<String>>) =
-                        apply {
-                            this.tripHeadsigns = tripHeadsigns.map { it.toMutableList() }
-                        }
+                    fun tripHeadsigns(tripHeadsigns: JsonField<List<String>>) = apply {
+                        this.tripHeadsigns = tripHeadsigns.map { it.toMutableList() }
+                    }
 
-                    fun addTripHeadsign(tripHeadsign: String) =
-                        apply {
-                            tripHeadsigns = (tripHeadsigns ?: JsonField.of(mutableListOf())).also {
+                    fun addTripHeadsign(tripHeadsign: String) = apply {
+                        tripHeadsigns =
+                            (tripHeadsigns ?: JsonField.of(mutableListOf())).also {
                                 checkKnown("tripHeadsigns", it).add(tripHeadsign)
                             }
-                        }
+                    }
 
                     fun tripIds(tripIds: List<String>) = tripIds(JsonField.of(tripIds))
 
-                    fun tripIds(tripIds: JsonField<List<String>>) =
-                        apply {
-                            this.tripIds = tripIds.map { it.toMutableList() }
-                        }
+                    fun tripIds(tripIds: JsonField<List<String>>) = apply {
+                        this.tripIds = tripIds.map { it.toMutableList() }
+                    }
 
-                    fun addTripId(tripId: String) =
-                        apply {
-                            tripIds = (tripIds ?: JsonField.of(mutableListOf())).also {
+                    fun addTripId(tripId: String) = apply {
+                        tripIds =
+                            (tripIds ?: JsonField.of(mutableListOf())).also {
                                 checkKnown("tripIds", it).add(tripId)
                             }
-                        }
+                    }
 
-                    fun tripsWithStopTimes(tripsWithStopTimes: List<TripsWithStopTime>) = tripsWithStopTimes(JsonField.of(tripsWithStopTimes))
+                    fun tripsWithStopTimes(tripsWithStopTimes: List<TripsWithStopTime>) =
+                        tripsWithStopTimes(JsonField.of(tripsWithStopTimes))
 
                     fun tripsWithStopTimes(tripsWithStopTimes: JsonField<List<TripsWithStopTime>>) =
                         apply {
                             this.tripsWithStopTimes = tripsWithStopTimes.map { it.toMutableList() }
                         }
 
-                    fun addTripsWithStopTime(tripsWithStopTime: TripsWithStopTime) =
-                        apply {
-                            tripsWithStopTimes = (tripsWithStopTimes ?: JsonField.of(mutableListOf())).also {
+                    fun addTripsWithStopTime(tripsWithStopTime: TripsWithStopTime) = apply {
+                        tripsWithStopTimes =
+                            (tripsWithStopTimes ?: JsonField.of(mutableListOf())).also {
                                 checkKnown("tripsWithStopTimes", it).add(tripsWithStopTime)
                             }
-                        }
+                    }
 
-                    fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
-                        apply {
-                            this.additionalProperties.clear()
-                            putAllAdditionalProperties(additionalProperties)
-                        }
+                    fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                        this.additionalProperties.clear()
+                        putAllAdditionalProperties(additionalProperties)
+                    }
 
-                    fun putAdditionalProperty(key: String, value: JsonValue) =
-                        apply {
-                            additionalProperties.put(key, value)
-                        }
+                    fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                        additionalProperties.put(key, value)
+                    }
 
                     fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
                         apply {
                             this.additionalProperties.putAll(additionalProperties)
                         }
 
-                    fun removeAdditionalProperty(key: String) =
-                        apply {
-                            additionalProperties.remove(key)
-                        }
+                    fun removeAdditionalProperty(key: String) = apply {
+                        additionalProperties.remove(key)
+                    }
 
-                    fun removeAllAdditionalProperties(keys: Set<String>) =
-                        apply {
-                            keys.forEach(::removeAdditionalProperty)
-                        }
+                    fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                        keys.forEach(::removeAdditionalProperty)
+                    }
 
                     fun build(): StopTripGrouping =
                         StopTripGrouping(
-                          checkRequired(
-                            "directionId", directionId
-                          ),
-                          checkRequired(
-                            "stopIds", stopIds
-                          ).map { it.toImmutable() },
-                          checkRequired(
-                            "tripHeadsigns", tripHeadsigns
-                          ).map { it.toImmutable() },
-                          checkRequired(
-                            "tripIds", tripIds
-                          ).map { it.toImmutable() },
-                          (tripsWithStopTimes ?: JsonMissing.of()).map { it.toImmutable() },
-                          additionalProperties.toImmutable(),
+                            checkRequired("directionId", directionId),
+                            checkRequired("stopIds", stopIds).map { it.toImmutable() },
+                            checkRequired("tripHeadsigns", tripHeadsigns).map { it.toImmutable() },
+                            checkRequired("tripIds", tripIds).map { it.toImmutable() },
+                            (tripsWithStopTimes ?: JsonMissing.of()).map { it.toImmutable() },
+                            additionalProperties.toImmutable(),
                         )
                 }
 
                 @NoAutoDetect
-                class TripsWithStopTime @JsonCreator private constructor(
-                    @JsonProperty("stopTimes") @ExcludeMissing private val stopTimes: JsonField<List<StopTime>> = JsonMissing.of(),
-                    @JsonProperty("tripId") @ExcludeMissing private val tripId: JsonField<String> = JsonMissing.of(),
-                    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
-
+                class TripsWithStopTime
+                @JsonCreator
+                private constructor(
+                    @JsonProperty("stopTimes")
+                    @ExcludeMissing
+                    private val stopTimes: JsonField<List<StopTime>> = JsonMissing.of(),
+                    @JsonProperty("tripId")
+                    @ExcludeMissing
+                    private val tripId: JsonField<String> = JsonMissing.of(),
+                    @JsonAnySetter
+                    private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
                 ) {
 
                     fun stopTimes(): List<StopTime> = stopTimes.getRequired("stopTimes")
@@ -1101,26 +1013,25 @@ class ScheduleForRouteRetrieveResponse @JsonCreator private constructor(
 
                     private var validated: Boolean = false
 
-                    fun validate(): TripsWithStopTime =
-                        apply {
-                            if (validated) {
-                              return@apply
-                            }
-
-                            stopTimes().forEach { it.validate() }
-                            tripId()
-                            validated = true
+                    fun validate(): TripsWithStopTime = apply {
+                        if (validated) {
+                            return@apply
                         }
+
+                        stopTimes().forEach { it.validate() }
+                        tripId()
+                        validated = true
+                    }
 
                     fun toBuilder() = Builder().from(this)
 
                     companion object {
 
                         /**
-                         * Returns a mutable builder for constructing an instance of [TripsWithStopTime].
+                         * Returns a mutable builder for constructing an instance of
+                         * [TripsWithStopTime].
                          *
                          * The following fields are required:
-                         *
                          * ```kotlin
                          * .stopTimes()
                          * .tripId()
@@ -1134,35 +1045,33 @@ class ScheduleForRouteRetrieveResponse @JsonCreator private constructor(
 
                         private var stopTimes: JsonField<MutableList<StopTime>>? = null
                         private var tripId: JsonField<String>? = null
-                        private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+                        private var additionalProperties: MutableMap<String, JsonValue> =
+                            mutableMapOf()
 
-                        internal fun from(tripsWithStopTime: TripsWithStopTime) =
-                            apply {
-                                stopTimes = tripsWithStopTime.stopTimes.map { it.toMutableList() }
-                                tripId = tripsWithStopTime.tripId
-                                additionalProperties = tripsWithStopTime.additionalProperties.toMutableMap()
-                            }
+                        internal fun from(tripsWithStopTime: TripsWithStopTime) = apply {
+                            stopTimes = tripsWithStopTime.stopTimes.map { it.toMutableList() }
+                            tripId = tripsWithStopTime.tripId
+                            additionalProperties =
+                                tripsWithStopTime.additionalProperties.toMutableMap()
+                        }
 
-                        fun stopTimes(stopTimes: List<StopTime>) = stopTimes(JsonField.of(stopTimes))
+                        fun stopTimes(stopTimes: List<StopTime>) =
+                            stopTimes(JsonField.of(stopTimes))
 
-                        fun stopTimes(stopTimes: JsonField<List<StopTime>>) =
-                            apply {
-                                this.stopTimes = stopTimes.map { it.toMutableList() }
-                            }
+                        fun stopTimes(stopTimes: JsonField<List<StopTime>>) = apply {
+                            this.stopTimes = stopTimes.map { it.toMutableList() }
+                        }
 
-                        fun addStopTime(stopTime: StopTime) =
-                            apply {
-                                stopTimes = (stopTimes ?: JsonField.of(mutableListOf())).also {
+                        fun addStopTime(stopTime: StopTime) = apply {
+                            stopTimes =
+                                (stopTimes ?: JsonField.of(mutableListOf())).also {
                                     checkKnown("stopTimes", it).add(stopTime)
                                 }
-                            }
+                        }
 
                         fun tripId(tripId: String) = tripId(JsonField.of(tripId))
 
-                        fun tripId(tripId: JsonField<String>) =
-                            apply {
-                                this.tripId = tripId
-                            }
+                        fun tripId(tripId: JsonField<String>) = apply { this.tripId = tripId }
 
                         fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
                             apply {
@@ -1170,57 +1079,69 @@ class ScheduleForRouteRetrieveResponse @JsonCreator private constructor(
                                 putAllAdditionalProperties(additionalProperties)
                             }
 
-                        fun putAdditionalProperty(key: String, value: JsonValue) =
-                            apply {
-                                additionalProperties.put(key, value)
-                            }
+                        fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                            additionalProperties.put(key, value)
+                        }
 
-                        fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
-                            apply {
-                                this.additionalProperties.putAll(additionalProperties)
-                            }
+                        fun putAllAdditionalProperties(
+                            additionalProperties: Map<String, JsonValue>
+                        ) = apply { this.additionalProperties.putAll(additionalProperties) }
 
-                        fun removeAdditionalProperty(key: String) =
-                            apply {
-                                additionalProperties.remove(key)
-                            }
+                        fun removeAdditionalProperty(key: String) = apply {
+                            additionalProperties.remove(key)
+                        }
 
-                        fun removeAllAdditionalProperties(keys: Set<String>) =
-                            apply {
-                                keys.forEach(::removeAdditionalProperty)
-                            }
+                        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                            keys.forEach(::removeAdditionalProperty)
+                        }
 
                         fun build(): TripsWithStopTime =
                             TripsWithStopTime(
-                              checkRequired(
-                                "stopTimes", stopTimes
-                              ).map { it.toImmutable() },
-                              checkRequired(
-                                "tripId", tripId
-                              ),
-                              additionalProperties.toImmutable(),
+                                checkRequired("stopTimes", stopTimes).map { it.toImmutable() },
+                                checkRequired("tripId", tripId),
+                                additionalProperties.toImmutable(),
                             )
                     }
 
                     @NoAutoDetect
-                    class StopTime @JsonCreator private constructor(
-                        @JsonProperty("arrivalEnabled") @ExcludeMissing private val arrivalEnabled: JsonField<Boolean> = JsonMissing.of(),
-                        @JsonProperty("arrivalTime") @ExcludeMissing private val arrivalTime: JsonField<Long> = JsonMissing.of(),
-                        @JsonProperty("departureEnabled") @ExcludeMissing private val departureEnabled: JsonField<Boolean> = JsonMissing.of(),
-                        @JsonProperty("departureTime") @ExcludeMissing private val departureTime: JsonField<Long> = JsonMissing.of(),
-                        @JsonProperty("stopId") @ExcludeMissing private val stopId: JsonField<String> = JsonMissing.of(),
-                        @JsonProperty("tripId") @ExcludeMissing private val tripId: JsonField<String> = JsonMissing.of(),
-                        @JsonProperty("serviceId") @ExcludeMissing private val serviceId: JsonField<String> = JsonMissing.of(),
-                        @JsonProperty("stopHeadsign") @ExcludeMissing private val stopHeadsign: JsonField<String> = JsonMissing.of(),
-                        @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
-
+                    class StopTime
+                    @JsonCreator
+                    private constructor(
+                        @JsonProperty("arrivalEnabled")
+                        @ExcludeMissing
+                        private val arrivalEnabled: JsonField<Boolean> = JsonMissing.of(),
+                        @JsonProperty("arrivalTime")
+                        @ExcludeMissing
+                        private val arrivalTime: JsonField<Long> = JsonMissing.of(),
+                        @JsonProperty("departureEnabled")
+                        @ExcludeMissing
+                        private val departureEnabled: JsonField<Boolean> = JsonMissing.of(),
+                        @JsonProperty("departureTime")
+                        @ExcludeMissing
+                        private val departureTime: JsonField<Long> = JsonMissing.of(),
+                        @JsonProperty("stopId")
+                        @ExcludeMissing
+                        private val stopId: JsonField<String> = JsonMissing.of(),
+                        @JsonProperty("tripId")
+                        @ExcludeMissing
+                        private val tripId: JsonField<String> = JsonMissing.of(),
+                        @JsonProperty("serviceId")
+                        @ExcludeMissing
+                        private val serviceId: JsonField<String> = JsonMissing.of(),
+                        @JsonProperty("stopHeadsign")
+                        @ExcludeMissing
+                        private val stopHeadsign: JsonField<String> = JsonMissing.of(),
+                        @JsonAnySetter
+                        private val additionalProperties: Map<String, JsonValue> =
+                            immutableEmptyMap(),
                     ) {
 
                         fun arrivalEnabled(): Boolean = arrivalEnabled.getRequired("arrivalEnabled")
 
                         fun arrivalTime(): Long = arrivalTime.getRequired("arrivalTime")
 
-                        fun departureEnabled(): Boolean = departureEnabled.getRequired("departureEnabled")
+                        fun departureEnabled(): Boolean =
+                            departureEnabled.getRequired("departureEnabled")
 
                         fun departureTime(): Long = departureTime.getRequired("departureTime")
 
@@ -1270,22 +1191,21 @@ class ScheduleForRouteRetrieveResponse @JsonCreator private constructor(
 
                         private var validated: Boolean = false
 
-                        fun validate(): StopTime =
-                            apply {
-                                if (validated) {
-                                  return@apply
-                                }
-
-                                arrivalEnabled()
-                                arrivalTime()
-                                departureEnabled()
-                                departureTime()
-                                stopId()
-                                tripId()
-                                serviceId()
-                                stopHeadsign()
-                                validated = true
+                        fun validate(): StopTime = apply {
+                            if (validated) {
+                                return@apply
                             }
+
+                            arrivalEnabled()
+                            arrivalTime()
+                            departureEnabled()
+                            departureTime()
+                            stopId()
+                            tripId()
+                            serviceId()
+                            stopHeadsign()
+                            validated = true
+                        }
 
                         fun toBuilder() = Builder().from(this)
 
@@ -1295,7 +1215,6 @@ class ScheduleForRouteRetrieveResponse @JsonCreator private constructor(
                              * Returns a mutable builder for constructing an instance of [StopTime].
                              *
                              * The following fields are required:
-                             *
                              * ```kotlin
                              * .arrivalEnabled()
                              * .arrivalTime()
@@ -1319,76 +1238,69 @@ class ScheduleForRouteRetrieveResponse @JsonCreator private constructor(
                             private var tripId: JsonField<String>? = null
                             private var serviceId: JsonField<String> = JsonMissing.of()
                             private var stopHeadsign: JsonField<String> = JsonMissing.of()
-                            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+                            private var additionalProperties: MutableMap<String, JsonValue> =
+                                mutableMapOf()
 
-                            internal fun from(stopTime: StopTime) =
-                                apply {
-                                    arrivalEnabled = stopTime.arrivalEnabled
-                                    arrivalTime = stopTime.arrivalTime
-                                    departureEnabled = stopTime.departureEnabled
-                                    departureTime = stopTime.departureTime
-                                    stopId = stopTime.stopId
-                                    tripId = stopTime.tripId
-                                    serviceId = stopTime.serviceId
-                                    stopHeadsign = stopTime.stopHeadsign
-                                    additionalProperties = stopTime.additionalProperties.toMutableMap()
-                                }
+                            internal fun from(stopTime: StopTime) = apply {
+                                arrivalEnabled = stopTime.arrivalEnabled
+                                arrivalTime = stopTime.arrivalTime
+                                departureEnabled = stopTime.departureEnabled
+                                departureTime = stopTime.departureTime
+                                stopId = stopTime.stopId
+                                tripId = stopTime.tripId
+                                serviceId = stopTime.serviceId
+                                stopHeadsign = stopTime.stopHeadsign
+                                additionalProperties = stopTime.additionalProperties.toMutableMap()
+                            }
 
-                            fun arrivalEnabled(arrivalEnabled: Boolean) = arrivalEnabled(JsonField.of(arrivalEnabled))
+                            fun arrivalEnabled(arrivalEnabled: Boolean) =
+                                arrivalEnabled(JsonField.of(arrivalEnabled))
 
-                            fun arrivalEnabled(arrivalEnabled: JsonField<Boolean>) =
-                                apply {
-                                    this.arrivalEnabled = arrivalEnabled
-                                }
+                            fun arrivalEnabled(arrivalEnabled: JsonField<Boolean>) = apply {
+                                this.arrivalEnabled = arrivalEnabled
+                            }
 
-                            fun arrivalTime(arrivalTime: Long) = arrivalTime(JsonField.of(arrivalTime))
+                            fun arrivalTime(arrivalTime: Long) =
+                                arrivalTime(JsonField.of(arrivalTime))
 
-                            fun arrivalTime(arrivalTime: JsonField<Long>) =
-                                apply {
-                                    this.arrivalTime = arrivalTime
-                                }
+                            fun arrivalTime(arrivalTime: JsonField<Long>) = apply {
+                                this.arrivalTime = arrivalTime
+                            }
 
-                            fun departureEnabled(departureEnabled: Boolean) = departureEnabled(JsonField.of(departureEnabled))
+                            fun departureEnabled(departureEnabled: Boolean) =
+                                departureEnabled(JsonField.of(departureEnabled))
 
-                            fun departureEnabled(departureEnabled: JsonField<Boolean>) =
-                                apply {
-                                    this.departureEnabled = departureEnabled
-                                }
+                            fun departureEnabled(departureEnabled: JsonField<Boolean>) = apply {
+                                this.departureEnabled = departureEnabled
+                            }
 
-                            fun departureTime(departureTime: Long) = departureTime(JsonField.of(departureTime))
+                            fun departureTime(departureTime: Long) =
+                                departureTime(JsonField.of(departureTime))
 
-                            fun departureTime(departureTime: JsonField<Long>) =
-                                apply {
-                                    this.departureTime = departureTime
-                                }
+                            fun departureTime(departureTime: JsonField<Long>) = apply {
+                                this.departureTime = departureTime
+                            }
 
                             fun stopId(stopId: String) = stopId(JsonField.of(stopId))
 
-                            fun stopId(stopId: JsonField<String>) =
-                                apply {
-                                    this.stopId = stopId
-                                }
+                            fun stopId(stopId: JsonField<String>) = apply { this.stopId = stopId }
 
                             fun tripId(tripId: String) = tripId(JsonField.of(tripId))
 
-                            fun tripId(tripId: JsonField<String>) =
-                                apply {
-                                    this.tripId = tripId
-                                }
+                            fun tripId(tripId: JsonField<String>) = apply { this.tripId = tripId }
 
                             fun serviceId(serviceId: String) = serviceId(JsonField.of(serviceId))
 
-                            fun serviceId(serviceId: JsonField<String>) =
-                                apply {
-                                    this.serviceId = serviceId
-                                }
+                            fun serviceId(serviceId: JsonField<String>) = apply {
+                                this.serviceId = serviceId
+                            }
 
-                            fun stopHeadsign(stopHeadsign: String) = stopHeadsign(JsonField.of(stopHeadsign))
+                            fun stopHeadsign(stopHeadsign: String) =
+                                stopHeadsign(JsonField.of(stopHeadsign))
 
-                            fun stopHeadsign(stopHeadsign: JsonField<String>) =
-                                apply {
-                                    this.stopHeadsign = stopHeadsign
-                                }
+                            fun stopHeadsign(stopHeadsign: JsonField<String>) = apply {
+                                this.stopHeadsign = stopHeadsign
+                            }
 
                             fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
                                 apply {
@@ -1396,58 +1308,42 @@ class ScheduleForRouteRetrieveResponse @JsonCreator private constructor(
                                     putAllAdditionalProperties(additionalProperties)
                                 }
 
-                            fun putAdditionalProperty(key: String, value: JsonValue) =
-                                apply {
-                                    additionalProperties.put(key, value)
-                                }
+                            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                                additionalProperties.put(key, value)
+                            }
 
-                            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
-                                apply {
-                                    this.additionalProperties.putAll(additionalProperties)
-                                }
+                            fun putAllAdditionalProperties(
+                                additionalProperties: Map<String, JsonValue>
+                            ) = apply { this.additionalProperties.putAll(additionalProperties) }
 
-                            fun removeAdditionalProperty(key: String) =
-                                apply {
-                                    additionalProperties.remove(key)
-                                }
+                            fun removeAdditionalProperty(key: String) = apply {
+                                additionalProperties.remove(key)
+                            }
 
-                            fun removeAllAdditionalProperties(keys: Set<String>) =
-                                apply {
-                                    keys.forEach(::removeAdditionalProperty)
-                                }
+                            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                                keys.forEach(::removeAdditionalProperty)
+                            }
 
                             fun build(): StopTime =
                                 StopTime(
-                                  checkRequired(
-                                    "arrivalEnabled", arrivalEnabled
-                                  ),
-                                  checkRequired(
-                                    "arrivalTime", arrivalTime
-                                  ),
-                                  checkRequired(
-                                    "departureEnabled", departureEnabled
-                                  ),
-                                  checkRequired(
-                                    "departureTime", departureTime
-                                  ),
-                                  checkRequired(
-                                    "stopId", stopId
-                                  ),
-                                  checkRequired(
-                                    "tripId", tripId
-                                  ),
-                                  serviceId,
-                                  stopHeadsign,
-                                  additionalProperties.toImmutable(),
+                                    checkRequired("arrivalEnabled", arrivalEnabled),
+                                    checkRequired("arrivalTime", arrivalTime),
+                                    checkRequired("departureEnabled", departureEnabled),
+                                    checkRequired("departureTime", departureTime),
+                                    checkRequired("stopId", stopId),
+                                    checkRequired("tripId", tripId),
+                                    serviceId,
+                                    stopHeadsign,
+                                    additionalProperties.toImmutable(),
                                 )
                         }
 
                         override fun equals(other: Any?): Boolean {
-                          if (this === other) {
-                              return true
-                          }
+                            if (this === other) {
+                                return true
+                            }
 
-                          return /* spotless:off */ other is StopTime && arrivalEnabled == other.arrivalEnabled && arrivalTime == other.arrivalTime && departureEnabled == other.departureEnabled && departureTime == other.departureTime && stopId == other.stopId && tripId == other.tripId && serviceId == other.serviceId && stopHeadsign == other.stopHeadsign && additionalProperties == other.additionalProperties /* spotless:on */
+                            return /* spotless:off */ other is StopTime && arrivalEnabled == other.arrivalEnabled && arrivalTime == other.arrivalTime && departureEnabled == other.departureEnabled && departureTime == other.departureTime && stopId == other.stopId && tripId == other.tripId && serviceId == other.serviceId && stopHeadsign == other.stopHeadsign && additionalProperties == other.additionalProperties /* spotless:on */
                         }
 
                         /* spotless:off */
@@ -1456,15 +1352,16 @@ class ScheduleForRouteRetrieveResponse @JsonCreator private constructor(
 
                         override fun hashCode(): Int = hashCode
 
-                        override fun toString() = "StopTime{arrivalEnabled=$arrivalEnabled, arrivalTime=$arrivalTime, departureEnabled=$departureEnabled, departureTime=$departureTime, stopId=$stopId, tripId=$tripId, serviceId=$serviceId, stopHeadsign=$stopHeadsign, additionalProperties=$additionalProperties}"
+                        override fun toString() =
+                            "StopTime{arrivalEnabled=$arrivalEnabled, arrivalTime=$arrivalTime, departureEnabled=$departureEnabled, departureTime=$departureTime, stopId=$stopId, tripId=$tripId, serviceId=$serviceId, stopHeadsign=$stopHeadsign, additionalProperties=$additionalProperties}"
                     }
 
                     override fun equals(other: Any?): Boolean {
-                      if (this === other) {
-                          return true
-                      }
+                        if (this === other) {
+                            return true
+                        }
 
-                      return /* spotless:off */ other is TripsWithStopTime && stopTimes == other.stopTimes && tripId == other.tripId && additionalProperties == other.additionalProperties /* spotless:on */
+                        return /* spotless:off */ other is TripsWithStopTime && stopTimes == other.stopTimes && tripId == other.tripId && additionalProperties == other.additionalProperties /* spotless:on */
                     }
 
                     /* spotless:off */
@@ -1473,15 +1370,16 @@ class ScheduleForRouteRetrieveResponse @JsonCreator private constructor(
 
                     override fun hashCode(): Int = hashCode
 
-                    override fun toString() = "TripsWithStopTime{stopTimes=$stopTimes, tripId=$tripId, additionalProperties=$additionalProperties}"
+                    override fun toString() =
+                        "TripsWithStopTime{stopTimes=$stopTimes, tripId=$tripId, additionalProperties=$additionalProperties}"
                 }
 
                 override fun equals(other: Any?): Boolean {
-                  if (this === other) {
-                      return true
-                  }
+                    if (this === other) {
+                        return true
+                    }
 
-                  return /* spotless:off */ other is StopTripGrouping && directionId == other.directionId && stopIds == other.stopIds && tripHeadsigns == other.tripHeadsigns && tripIds == other.tripIds && tripsWithStopTimes == other.tripsWithStopTimes && additionalProperties == other.additionalProperties /* spotless:on */
+                    return /* spotless:off */ other is StopTripGrouping && directionId == other.directionId && stopIds == other.stopIds && tripHeadsigns == other.tripHeadsigns && tripIds == other.tripIds && tripsWithStopTimes == other.tripsWithStopTimes && additionalProperties == other.additionalProperties /* spotless:on */
                 }
 
                 /* spotless:off */
@@ -1490,24 +1388,49 @@ class ScheduleForRouteRetrieveResponse @JsonCreator private constructor(
 
                 override fun hashCode(): Int = hashCode
 
-                override fun toString() = "StopTripGrouping{directionId=$directionId, stopIds=$stopIds, tripHeadsigns=$tripHeadsigns, tripIds=$tripIds, tripsWithStopTimes=$tripsWithStopTimes, additionalProperties=$additionalProperties}"
+                override fun toString() =
+                    "StopTripGrouping{directionId=$directionId, stopIds=$stopIds, tripHeadsigns=$tripHeadsigns, tripIds=$tripIds, tripsWithStopTimes=$tripsWithStopTimes, additionalProperties=$additionalProperties}"
             }
 
             @NoAutoDetect
-            class Trip @JsonCreator private constructor(
-                @JsonProperty("id") @ExcludeMissing private val id: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("routeId") @ExcludeMissing private val routeId: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("serviceId") @ExcludeMissing private val serviceId: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("blockId") @ExcludeMissing private val blockId: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("directionId") @ExcludeMissing private val directionId: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("peakOffpeak") @ExcludeMissing private val peakOffpeak: JsonField<Long> = JsonMissing.of(),
-                @JsonProperty("routeShortName") @ExcludeMissing private val routeShortName: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("shapeId") @ExcludeMissing private val shapeId: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("timeZone") @ExcludeMissing private val timeZone: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("tripHeadsign") @ExcludeMissing private val tripHeadsign: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("tripShortName") @ExcludeMissing private val tripShortName: JsonField<String> = JsonMissing.of(),
-                @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
-
+            class Trip
+            @JsonCreator
+            private constructor(
+                @JsonProperty("id")
+                @ExcludeMissing
+                private val id: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("routeId")
+                @ExcludeMissing
+                private val routeId: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("serviceId")
+                @ExcludeMissing
+                private val serviceId: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("blockId")
+                @ExcludeMissing
+                private val blockId: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("directionId")
+                @ExcludeMissing
+                private val directionId: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("peakOffpeak")
+                @ExcludeMissing
+                private val peakOffpeak: JsonField<Long> = JsonMissing.of(),
+                @JsonProperty("routeShortName")
+                @ExcludeMissing
+                private val routeShortName: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("shapeId")
+                @ExcludeMissing
+                private val shapeId: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("timeZone")
+                @ExcludeMissing
+                private val timeZone: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("tripHeadsign")
+                @ExcludeMissing
+                private val tripHeadsign: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("tripShortName")
+                @ExcludeMissing
+                private val tripShortName: JsonField<String> = JsonMissing.of(),
+                @JsonAnySetter
+                private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
             ) {
 
                 fun id(): String = id.getRequired("id")
@@ -1532,21 +1455,15 @@ class ScheduleForRouteRetrieveResponse @JsonCreator private constructor(
 
                 fun tripShortName(): String? = tripShortName.getNullable("tripShortName")
 
-                @JsonProperty("id")
-                @ExcludeMissing
-                fun _id(): JsonField<String> = id
+                @JsonProperty("id") @ExcludeMissing fun _id(): JsonField<String> = id
 
-                @JsonProperty("routeId")
-                @ExcludeMissing
-                fun _routeId(): JsonField<String> = routeId
+                @JsonProperty("routeId") @ExcludeMissing fun _routeId(): JsonField<String> = routeId
 
                 @JsonProperty("serviceId")
                 @ExcludeMissing
                 fun _serviceId(): JsonField<String> = serviceId
 
-                @JsonProperty("blockId")
-                @ExcludeMissing
-                fun _blockId(): JsonField<String> = blockId
+                @JsonProperty("blockId") @ExcludeMissing fun _blockId(): JsonField<String> = blockId
 
                 @JsonProperty("directionId")
                 @ExcludeMissing
@@ -1560,9 +1477,7 @@ class ScheduleForRouteRetrieveResponse @JsonCreator private constructor(
                 @ExcludeMissing
                 fun _routeShortName(): JsonField<String> = routeShortName
 
-                @JsonProperty("shapeId")
-                @ExcludeMissing
-                fun _shapeId(): JsonField<String> = shapeId
+                @JsonProperty("shapeId") @ExcludeMissing fun _shapeId(): JsonField<String> = shapeId
 
                 @JsonProperty("timeZone")
                 @ExcludeMissing
@@ -1582,25 +1497,24 @@ class ScheduleForRouteRetrieveResponse @JsonCreator private constructor(
 
                 private var validated: Boolean = false
 
-                fun validate(): Trip =
-                    apply {
-                        if (validated) {
-                          return@apply
-                        }
-
-                        id()
-                        routeId()
-                        serviceId()
-                        blockId()
-                        directionId()
-                        peakOffpeak()
-                        routeShortName()
-                        shapeId()
-                        timeZone()
-                        tripHeadsign()
-                        tripShortName()
-                        validated = true
+                fun validate(): Trip = apply {
+                    if (validated) {
+                        return@apply
                     }
+
+                    id()
+                    routeId()
+                    serviceId()
+                    blockId()
+                    directionId()
+                    peakOffpeak()
+                    routeShortName()
+                    shapeId()
+                    timeZone()
+                    tripHeadsign()
+                    tripShortName()
+                    validated = true
+                }
 
                 fun toBuilder() = Builder().from(this)
 
@@ -1610,7 +1524,6 @@ class ScheduleForRouteRetrieveResponse @JsonCreator private constructor(
                      * Returns a mutable builder for constructing an instance of [Trip].
                      *
                      * The following fields are required:
-                     *
                      * ```kotlin
                      * .id()
                      * .routeId()
@@ -1636,154 +1549,125 @@ class ScheduleForRouteRetrieveResponse @JsonCreator private constructor(
                     private var tripShortName: JsonField<String> = JsonMissing.of()
                     private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
-                    internal fun from(trip: Trip) =
-                        apply {
-                            id = trip.id
-                            routeId = trip.routeId
-                            serviceId = trip.serviceId
-                            blockId = trip.blockId
-                            directionId = trip.directionId
-                            peakOffpeak = trip.peakOffpeak
-                            routeShortName = trip.routeShortName
-                            shapeId = trip.shapeId
-                            timeZone = trip.timeZone
-                            tripHeadsign = trip.tripHeadsign
-                            tripShortName = trip.tripShortName
-                            additionalProperties = trip.additionalProperties.toMutableMap()
-                        }
+                    internal fun from(trip: Trip) = apply {
+                        id = trip.id
+                        routeId = trip.routeId
+                        serviceId = trip.serviceId
+                        blockId = trip.blockId
+                        directionId = trip.directionId
+                        peakOffpeak = trip.peakOffpeak
+                        routeShortName = trip.routeShortName
+                        shapeId = trip.shapeId
+                        timeZone = trip.timeZone
+                        tripHeadsign = trip.tripHeadsign
+                        tripShortName = trip.tripShortName
+                        additionalProperties = trip.additionalProperties.toMutableMap()
+                    }
 
                     fun id(id: String) = id(JsonField.of(id))
 
-                    fun id(id: JsonField<String>) =
-                        apply {
-                            this.id = id
-                        }
+                    fun id(id: JsonField<String>) = apply { this.id = id }
 
                     fun routeId(routeId: String) = routeId(JsonField.of(routeId))
 
-                    fun routeId(routeId: JsonField<String>) =
-                        apply {
-                            this.routeId = routeId
-                        }
+                    fun routeId(routeId: JsonField<String>) = apply { this.routeId = routeId }
 
                     fun serviceId(serviceId: String) = serviceId(JsonField.of(serviceId))
 
-                    fun serviceId(serviceId: JsonField<String>) =
-                        apply {
-                            this.serviceId = serviceId
-                        }
+                    fun serviceId(serviceId: JsonField<String>) = apply {
+                        this.serviceId = serviceId
+                    }
 
                     fun blockId(blockId: String) = blockId(JsonField.of(blockId))
 
-                    fun blockId(blockId: JsonField<String>) =
-                        apply {
-                            this.blockId = blockId
-                        }
+                    fun blockId(blockId: JsonField<String>) = apply { this.blockId = blockId }
 
                     fun directionId(directionId: String) = directionId(JsonField.of(directionId))
 
-                    fun directionId(directionId: JsonField<String>) =
-                        apply {
-                            this.directionId = directionId
-                        }
+                    fun directionId(directionId: JsonField<String>) = apply {
+                        this.directionId = directionId
+                    }
 
                     fun peakOffpeak(peakOffpeak: Long) = peakOffpeak(JsonField.of(peakOffpeak))
 
-                    fun peakOffpeak(peakOffpeak: JsonField<Long>) =
-                        apply {
-                            this.peakOffpeak = peakOffpeak
-                        }
+                    fun peakOffpeak(peakOffpeak: JsonField<Long>) = apply {
+                        this.peakOffpeak = peakOffpeak
+                    }
 
-                    fun routeShortName(routeShortName: String) = routeShortName(JsonField.of(routeShortName))
+                    fun routeShortName(routeShortName: String) =
+                        routeShortName(JsonField.of(routeShortName))
 
-                    fun routeShortName(routeShortName: JsonField<String>) =
-                        apply {
-                            this.routeShortName = routeShortName
-                        }
+                    fun routeShortName(routeShortName: JsonField<String>) = apply {
+                        this.routeShortName = routeShortName
+                    }
 
                     fun shapeId(shapeId: String) = shapeId(JsonField.of(shapeId))
 
-                    fun shapeId(shapeId: JsonField<String>) =
-                        apply {
-                            this.shapeId = shapeId
-                        }
+                    fun shapeId(shapeId: JsonField<String>) = apply { this.shapeId = shapeId }
 
                     fun timeZone(timeZone: String) = timeZone(JsonField.of(timeZone))
 
-                    fun timeZone(timeZone: JsonField<String>) =
-                        apply {
-                            this.timeZone = timeZone
-                        }
+                    fun timeZone(timeZone: JsonField<String>) = apply { this.timeZone = timeZone }
 
-                    fun tripHeadsign(tripHeadsign: String) = tripHeadsign(JsonField.of(tripHeadsign))
+                    fun tripHeadsign(tripHeadsign: String) =
+                        tripHeadsign(JsonField.of(tripHeadsign))
 
-                    fun tripHeadsign(tripHeadsign: JsonField<String>) =
-                        apply {
-                            this.tripHeadsign = tripHeadsign
-                        }
+                    fun tripHeadsign(tripHeadsign: JsonField<String>) = apply {
+                        this.tripHeadsign = tripHeadsign
+                    }
 
-                    fun tripShortName(tripShortName: String) = tripShortName(JsonField.of(tripShortName))
+                    fun tripShortName(tripShortName: String) =
+                        tripShortName(JsonField.of(tripShortName))
 
-                    fun tripShortName(tripShortName: JsonField<String>) =
-                        apply {
-                            this.tripShortName = tripShortName
-                        }
+                    fun tripShortName(tripShortName: JsonField<String>) = apply {
+                        this.tripShortName = tripShortName
+                    }
 
-                    fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
-                        apply {
-                            this.additionalProperties.clear()
-                            putAllAdditionalProperties(additionalProperties)
-                        }
+                    fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                        this.additionalProperties.clear()
+                        putAllAdditionalProperties(additionalProperties)
+                    }
 
-                    fun putAdditionalProperty(key: String, value: JsonValue) =
-                        apply {
-                            additionalProperties.put(key, value)
-                        }
+                    fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                        additionalProperties.put(key, value)
+                    }
 
                     fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
                         apply {
                             this.additionalProperties.putAll(additionalProperties)
                         }
 
-                    fun removeAdditionalProperty(key: String) =
-                        apply {
-                            additionalProperties.remove(key)
-                        }
+                    fun removeAdditionalProperty(key: String) = apply {
+                        additionalProperties.remove(key)
+                    }
 
-                    fun removeAllAdditionalProperties(keys: Set<String>) =
-                        apply {
-                            keys.forEach(::removeAdditionalProperty)
-                        }
+                    fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                        keys.forEach(::removeAdditionalProperty)
+                    }
 
                     fun build(): Trip =
                         Trip(
-                          checkRequired(
-                            "id", id
-                          ),
-                          checkRequired(
-                            "routeId", routeId
-                          ),
-                          checkRequired(
-                            "serviceId", serviceId
-                          ),
-                          blockId,
-                          directionId,
-                          peakOffpeak,
-                          routeShortName,
-                          shapeId,
-                          timeZone,
-                          tripHeadsign,
-                          tripShortName,
-                          additionalProperties.toImmutable(),
+                            checkRequired("id", id),
+                            checkRequired("routeId", routeId),
+                            checkRequired("serviceId", serviceId),
+                            blockId,
+                            directionId,
+                            peakOffpeak,
+                            routeShortName,
+                            shapeId,
+                            timeZone,
+                            tripHeadsign,
+                            tripShortName,
+                            additionalProperties.toImmutable(),
                         )
                 }
 
                 override fun equals(other: Any?): Boolean {
-                  if (this === other) {
-                      return true
-                  }
+                    if (this === other) {
+                        return true
+                    }
 
-                  return /* spotless:off */ other is Trip && id == other.id && routeId == other.routeId && serviceId == other.serviceId && blockId == other.blockId && directionId == other.directionId && peakOffpeak == other.peakOffpeak && routeShortName == other.routeShortName && shapeId == other.shapeId && timeZone == other.timeZone && tripHeadsign == other.tripHeadsign && tripShortName == other.tripShortName && additionalProperties == other.additionalProperties /* spotless:on */
+                    return /* spotless:off */ other is Trip && id == other.id && routeId == other.routeId && serviceId == other.serviceId && blockId == other.blockId && directionId == other.directionId && peakOffpeak == other.peakOffpeak && routeShortName == other.routeShortName && shapeId == other.shapeId && timeZone == other.timeZone && tripHeadsign == other.tripHeadsign && tripShortName == other.tripShortName && additionalProperties == other.additionalProperties /* spotless:on */
                 }
 
                 /* spotless:off */
@@ -1792,15 +1676,16 @@ class ScheduleForRouteRetrieveResponse @JsonCreator private constructor(
 
                 override fun hashCode(): Int = hashCode
 
-                override fun toString() = "Trip{id=$id, routeId=$routeId, serviceId=$serviceId, blockId=$blockId, directionId=$directionId, peakOffpeak=$peakOffpeak, routeShortName=$routeShortName, shapeId=$shapeId, timeZone=$timeZone, tripHeadsign=$tripHeadsign, tripShortName=$tripShortName, additionalProperties=$additionalProperties}"
+                override fun toString() =
+                    "Trip{id=$id, routeId=$routeId, serviceId=$serviceId, blockId=$blockId, directionId=$directionId, peakOffpeak=$peakOffpeak, routeShortName=$routeShortName, shapeId=$shapeId, timeZone=$timeZone, tripHeadsign=$tripHeadsign, tripShortName=$tripShortName, additionalProperties=$additionalProperties}"
             }
 
             override fun equals(other: Any?): Boolean {
-              if (this === other) {
-                  return true
-              }
+                if (this === other) {
+                    return true
+                }
 
-              return /* spotless:off */ other is Entry && routeId == other.routeId && scheduleDate == other.scheduleDate && serviceIds == other.serviceIds && stops == other.stops && stopTripGroupings == other.stopTripGroupings && trips == other.trips && additionalProperties == other.additionalProperties /* spotless:on */
+                return /* spotless:off */ other is Entry && routeId == other.routeId && scheduleDate == other.scheduleDate && serviceIds == other.serviceIds && stops == other.stops && stopTripGroupings == other.stopTripGroupings && trips == other.trips && additionalProperties == other.additionalProperties /* spotless:on */
             }
 
             /* spotless:off */
@@ -1809,15 +1694,16 @@ class ScheduleForRouteRetrieveResponse @JsonCreator private constructor(
 
             override fun hashCode(): Int = hashCode
 
-            override fun toString() = "Entry{routeId=$routeId, scheduleDate=$scheduleDate, serviceIds=$serviceIds, stops=$stops, stopTripGroupings=$stopTripGroupings, trips=$trips, additionalProperties=$additionalProperties}"
+            override fun toString() =
+                "Entry{routeId=$routeId, scheduleDate=$scheduleDate, serviceIds=$serviceIds, stops=$stops, stopTripGroupings=$stopTripGroupings, trips=$trips, additionalProperties=$additionalProperties}"
         }
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return /* spotless:off */ other is Data && entry == other.entry && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Data && entry == other.entry && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
@@ -1830,11 +1716,11 @@ class ScheduleForRouteRetrieveResponse @JsonCreator private constructor(
     }
 
     override fun equals(other: Any?): Boolean {
-      if (this === other) {
-          return true
-      }
+        if (this === other) {
+            return true
+        }
 
-      return /* spotless:off */ other is ScheduleForRouteRetrieveResponse && code == other.code && currentTime == other.currentTime && text == other.text && version == other.version && data == other.data && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is ScheduleForRouteRetrieveResponse && code == other.code && currentTime == other.currentTime && text == other.text && version == other.version && data == other.data && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
@@ -1843,5 +1729,6 @@ class ScheduleForRouteRetrieveResponse @JsonCreator private constructor(
 
     override fun hashCode(): Int = hashCode
 
-    override fun toString() = "ScheduleForRouteRetrieveResponse{code=$code, currentTime=$currentTime, text=$text, version=$version, data=$data, additionalProperties=$additionalProperties}"
+    override fun toString() =
+        "ScheduleForRouteRetrieveResponse{code=$code, currentTime=$currentTime, text=$text, version=$version, data=$data, additionalProperties=$additionalProperties}"
 }

@@ -3,21 +3,20 @@
 package org.onebusaway.core.handlers
 
 import com.fasterxml.jackson.databind.json.JsonMapper
+import java.io.ByteArrayInputStream
+import java.io.InputStream
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.HttpResponse
 import org.onebusaway.core.http.HttpResponse.Handler
 import org.onebusaway.errors.BadRequestException
 import org.onebusaway.errors.InternalServerException
 import org.onebusaway.errors.NotFoundException
+import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.errors.PermissionDeniedException
 import org.onebusaway.errors.RateLimitException
-import org.onebusaway.errors.OnebusawaySdkError
-import org.onebusaway.errors.OnebusawaySdkException
 import org.onebusaway.errors.UnauthorizedException
 import org.onebusaway.errors.UnexpectedStatusCodeException
 import org.onebusaway.errors.UnprocessableEntityException
-import java.io.ByteArrayInputStream
-import java.io.InputStream
 
 internal fun errorHandler(jsonMapper: JsonMapper): Handler<OnebusawaySdkError> {
     val handler = jsonHandler<OnebusawaySdkError>(jsonMapper)
@@ -32,7 +31,9 @@ internal fun errorHandler(jsonMapper: JsonMapper): Handler<OnebusawaySdkError> {
     }
 }
 
-internal fun <T> Handler<T>.withErrorHandler(errorHandler: Handler<OnebusawaySdkError>): Handler<T> =
+internal fun <T> Handler<T>.withErrorHandler(
+    errorHandler: Handler<OnebusawaySdkError>
+): Handler<T> =
     object : Handler<T> {
         override fun handle(response: HttpResponse): T {
             when (val statusCode = response.statusCode()) {

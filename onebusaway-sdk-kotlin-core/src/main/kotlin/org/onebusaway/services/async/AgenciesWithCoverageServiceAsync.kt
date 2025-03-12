@@ -11,35 +11,44 @@ import org.onebusaway.models.AgenciesWithCoverageListResponse
 interface AgenciesWithCoverageServiceAsync {
 
     /**
-     * Returns a view of this service that provides access to raw HTTP responses for
-     * each method.
+     * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
 
     /**
-     * Returns a list of all transit agencies currently supported by OneBusAway along
-     * with the center of their coverage area.
+     * Returns a list of all transit agencies currently supported by OneBusAway along with the
+     * center of their coverage area.
      */
-    suspend fun list(params: AgenciesWithCoverageListParams = AgenciesWithCoverageListParams.none(), requestOptions: RequestOptions = RequestOptions.none()): AgenciesWithCoverageListResponse
+    suspend fun list(
+        params: AgenciesWithCoverageListParams = AgenciesWithCoverageListParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): AgenciesWithCoverageListResponse
 
     /** @see [list] */
-    suspend fun list(requestOptions: RequestOptions): AgenciesWithCoverageListResponse = list(AgenciesWithCoverageListParams.none(), requestOptions)
+    suspend fun list(requestOptions: RequestOptions): AgenciesWithCoverageListResponse =
+        list(AgenciesWithCoverageListParams.none(), requestOptions)
 
     /**
-     * A view of [AgenciesWithCoverageServiceAsync] that provides access to raw HTTP
-     * responses for each method.
+     * A view of [AgenciesWithCoverageServiceAsync] that provides access to raw HTTP responses for
+     * each method.
      */
     interface WithRawResponse {
 
         /**
-         * Returns a raw HTTP response for `get /api/where/agencies-with-coverage.json`,
-         * but is otherwise the same as [AgenciesWithCoverageServiceAsync.list].
+         * Returns a raw HTTP response for `get /api/where/agencies-with-coverage.json`, but is
+         * otherwise the same as [AgenciesWithCoverageServiceAsync.list].
          */
         @MustBeClosed
-        suspend fun list(params: AgenciesWithCoverageListParams = AgenciesWithCoverageListParams.none(), requestOptions: RequestOptions = RequestOptions.none()): HttpResponseFor<AgenciesWithCoverageListResponse>
+        suspend fun list(
+            params: AgenciesWithCoverageListParams = AgenciesWithCoverageListParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<AgenciesWithCoverageListResponse>
 
         /** @see [list] */
         @MustBeClosed
-        suspend fun list(requestOptions: RequestOptions): HttpResponseFor<AgenciesWithCoverageListResponse> = list(AgenciesWithCoverageListParams.none(), requestOptions)
+        suspend fun list(
+            requestOptions: RequestOptions
+        ): HttpResponseFor<AgenciesWithCoverageListResponse> =
+            list(AgenciesWithCoverageListParams.none(), requestOptions)
     }
 }

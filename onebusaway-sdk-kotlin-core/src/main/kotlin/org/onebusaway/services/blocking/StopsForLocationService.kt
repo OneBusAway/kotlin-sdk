@@ -11,17 +11,19 @@ import org.onebusaway.models.StopsForLocationListResponse
 interface StopsForLocationService {
 
     /**
-     * Returns a view of this service that provides access to raw HTTP responses for
-     * each method.
+     * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
 
     /** stops-for-location */
-    fun list(params: StopsForLocationListParams, requestOptions: RequestOptions = RequestOptions.none()): StopsForLocationListResponse
+    fun list(
+        params: StopsForLocationListParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): StopsForLocationListResponse
 
     /**
-     * A view of [StopsForLocationService] that provides access to raw HTTP responses
-     * for each method.
+     * A view of [StopsForLocationService] that provides access to raw HTTP responses for each
+     * method.
      */
     interface WithRawResponse {
 
@@ -30,6 +32,9 @@ interface StopsForLocationService {
          * otherwise the same as [StopsForLocationService.list].
          */
         @MustBeClosed
-        fun list(params: StopsForLocationListParams, requestOptions: RequestOptions = RequestOptions.none()): HttpResponseFor<StopsForLocationListResponse>
+        fun list(
+            params: StopsForLocationListParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<StopsForLocationListResponse>
     }
 }

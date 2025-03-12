@@ -17,49 +17,53 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.SearchForRouteListParams
 import org.onebusaway.models.SearchForRouteListResponse
 
-class SearchForRouteServiceImpl internal constructor(
-    private val clientOptions: ClientOptions,
+class SearchForRouteServiceImpl internal constructor(private val clientOptions: ClientOptions) :
+    SearchForRouteService {
 
-) : SearchForRouteService {
-
-    private val withRawResponse: SearchForRouteService.WithRawResponse by lazy { WithRawResponseImpl(clientOptions) }
+    private val withRawResponse: SearchForRouteService.WithRawResponse by lazy {
+        WithRawResponseImpl(clientOptions)
+    }
 
     override fun withRawResponse(): SearchForRouteService.WithRawResponse = withRawResponse
 
-    override fun list(params: SearchForRouteListParams, requestOptions: RequestOptions): SearchForRouteListResponse =
+    override fun list(
+        params: SearchForRouteListParams,
+        requestOptions: RequestOptions,
+    ): SearchForRouteListResponse =
         // get /api/where/search/route.json
         withRawResponse().list(params, requestOptions).parse()
 
-    class WithRawResponseImpl internal constructor(
-        private val clientOptions: ClientOptions,
+    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
+        SearchForRouteService.WithRawResponse {
 
-    ) : SearchForRouteService.WithRawResponse {
+        private val errorHandler: Handler<OnebusawaySdkError> =
+            errorHandler(clientOptions.jsonMapper)
 
-        private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
+        private val listHandler: Handler<SearchForRouteListResponse> =
+            jsonHandler<SearchForRouteListResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
 
-        private val listHandler: Handler<SearchForRouteListResponse> = jsonHandler<SearchForRouteListResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
-
-        override fun list(params: SearchForRouteListParams, requestOptions: RequestOptions): HttpResponseFor<SearchForRouteListResponse> {
-          val request = HttpRequest.builder()
-            .method(HttpMethod.GET)
-            .addPathSegments("api", "where", "search", "route.json")
-            .build()
-            .prepare(clientOptions, params)
-          val requestOptions = requestOptions
-              .applyDefaults(RequestOptions.from(clientOptions))
-          val response = clientOptions.httpClient.execute(
-            request, requestOptions
-          )
-          return response.parseable {
-              response.use {
-                  listHandler.handle(it)
-              }
-              .also {
-                  if (requestOptions.responseValidation!!) {
-                    it.validate()
-                  }
-              }
-          }
+        override fun list(
+            params: SearchForRouteListParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<SearchForRouteListResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .addPathSegments("api", "where", "search", "route.json")
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { listHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
         }
     }
 }

@@ -13,16 +13,15 @@ class StopServiceTest {
 
     @Test
     fun retrieve() {
-      val client = OnebusawaySdkOkHttpClient.builder()
-          .baseUrl(TestServerExtension.BASE_URL)
-          .apiKey("My API Key")
-          .build()
-      val stopService = client.stop()
+        val client =
+            OnebusawaySdkOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My API Key")
+                .build()
+        val stopService = client.stop()
 
-      val stop = stopService.retrieve(StopRetrieveParams.builder()
-          .stopId("stopID")
-          .build())
+        val stop = stopService.retrieve(StopRetrieveParams.builder().stopId("stopID").build())
 
-      stop.validate()
+        stop.validate()
     }
 }
