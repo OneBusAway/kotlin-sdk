@@ -17,58 +17,49 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.StopIdsForAgencyListParams
 import org.onebusaway.models.StopIdsForAgencyListResponse
 
-class StopIdsForAgencyServiceAsyncImpl
-internal constructor(private val clientOptions: ClientOptions) : StopIdsForAgencyServiceAsync {
+class StopIdsForAgencyServiceAsyncImpl internal constructor(
+    private val clientOptions: ClientOptions,
 
-    private val withRawResponse: StopIdsForAgencyServiceAsync.WithRawResponse by lazy {
-        WithRawResponseImpl(clientOptions)
-    }
+) : StopIdsForAgencyServiceAsync {
+
+    private val withRawResponse: StopIdsForAgencyServiceAsync.WithRawResponse by lazy { WithRawResponseImpl(clientOptions) }
 
     override fun withRawResponse(): StopIdsForAgencyServiceAsync.WithRawResponse = withRawResponse
 
-    override suspend fun list(
-        params: StopIdsForAgencyListParams,
-        requestOptions: RequestOptions,
-    ): StopIdsForAgencyListResponse =
+    override suspend fun list(params: StopIdsForAgencyListParams, requestOptions: RequestOptions): StopIdsForAgencyListResponse =
         // get /api/where/stop-ids-for-agency/{agencyID}.json
         withRawResponse().list(params, requestOptions).parse()
 
-    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
-        StopIdsForAgencyServiceAsync.WithRawResponse {
+    class WithRawResponseImpl internal constructor(
+        private val clientOptions: ClientOptions,
 
-        private val errorHandler: Handler<OnebusawaySdkError> =
-            errorHandler(clientOptions.jsonMapper)
+    ) : StopIdsForAgencyServiceAsync.WithRawResponse {
 
-        private val listHandler: Handler<StopIdsForAgencyListResponse> =
-            jsonHandler<StopIdsForAgencyListResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
+        private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
 
-        override suspend fun list(
-            params: StopIdsForAgencyListParams,
-            requestOptions: RequestOptions,
-        ): HttpResponseFor<StopIdsForAgencyListResponse> {
-            val request =
-                HttpRequest.builder()
-                    .method(HttpMethod.GET)
-                    .addPathSegments(
-                        "api",
-                        "where",
-                        "stop-ids-for-agency",
-                        "${params.getPathParam(0)}.json",
-                    )
-                    .build()
-                    .prepareAsync(clientOptions, params)
-            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.executeAsync(request, requestOptions)
-            return response.parseable {
-                response
-                    .use { listHandler.handle(it) }
-                    .also {
-                        if (requestOptions.responseValidation!!) {
-                            it.validate()
-                        }
-                    }
-            }
+        private val listHandler: Handler<StopIdsForAgencyListResponse> = jsonHandler<StopIdsForAgencyListResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+
+        override suspend fun list(params: StopIdsForAgencyListParams, requestOptions: RequestOptions): HttpResponseFor<StopIdsForAgencyListResponse> {
+          val request = HttpRequest.builder()
+            .method(HttpMethod.GET)
+            .addPathSegments("api", "where", "stop-ids-for-agency", "${params.getPathParam(0)}.json")
+            .build()
+            .prepareAsync(clientOptions, params)
+          val requestOptions = requestOptions
+              .applyDefaults(RequestOptions.from(clientOptions))
+          val response = clientOptions.httpClient.executeAsync(
+            request, requestOptions
+          )
+          return response.parseable {
+              response.use {
+                  listHandler.handle(it)
+              }
+              .also {
+                  if (requestOptions.responseValidation!!) {
+                    it.validate()
+                  }
+              }
+          }
         }
     }
 }

@@ -11,27 +11,25 @@ import org.onebusaway.models.StopRetrieveResponse
 interface StopService {
 
     /**
-     * Returns a view of this service that provides access to raw HTTP responses for each method.
+     * Returns a view of this service that provides access to raw HTTP responses for
+     * each method.
      */
     fun withRawResponse(): WithRawResponse
 
     /** Get details of a specific stop */
-    fun retrieve(
-        params: StopRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): StopRetrieveResponse
+    fun retrieve(params: StopRetrieveParams, requestOptions: RequestOptions = RequestOptions.none()): StopRetrieveResponse
 
-    /** A view of [StopService] that provides access to raw HTTP responses for each method. */
+    /**
+     * A view of [StopService] that provides access to raw HTTP responses for each
+     * method.
+     */
     interface WithRawResponse {
 
         /**
-         * Returns a raw HTTP response for `get /api/where/stop/{stopID}.json`, but is otherwise the
-         * same as [StopService.retrieve].
+         * Returns a raw HTTP response for `get /api/where/stop/{stopID}.json`, but is
+         * otherwise the same as [StopService.retrieve].
          */
         @MustBeClosed
-        fun retrieve(
-            params: StopRetrieveParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<StopRetrieveResponse>
+        fun retrieve(params: StopRetrieveParams, requestOptions: RequestOptions = RequestOptions.none()): HttpResponseFor<StopRetrieveResponse>
     }
 }

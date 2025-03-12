@@ -13,25 +13,21 @@ class TripDetailServiceAsyncTest {
 
     @Test
     suspend fun retrieve() {
-        val client =
-            OnebusawaySdkOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
-        val tripDetailServiceAsync = client.tripDetails()
+      val client = OnebusawaySdkOkHttpClientAsync.builder()
+          .baseUrl(TestServerExtension.BASE_URL)
+          .apiKey("My API Key")
+          .build()
+      val tripDetailServiceAsync = client.tripDetails()
 
-        val tripDetail =
-            tripDetailServiceAsync.retrieve(
-                TripDetailRetrieveParams.builder()
-                    .tripId("tripID")
-                    .includeSchedule(true)
-                    .includeStatus(true)
-                    .includeTrip(true)
-                    .serviceDate(0L)
-                    .time(0L)
-                    .build()
-            )
+      val tripDetail = tripDetailServiceAsync.retrieve(TripDetailRetrieveParams.builder()
+          .tripId("tripID")
+          .includeSchedule(true)
+          .includeStatus(true)
+          .includeTrip(true)
+          .serviceDate(0L)
+          .time(0L)
+          .build())
 
-        tripDetail.validate()
+      tripDetail.validate()
     }
 }

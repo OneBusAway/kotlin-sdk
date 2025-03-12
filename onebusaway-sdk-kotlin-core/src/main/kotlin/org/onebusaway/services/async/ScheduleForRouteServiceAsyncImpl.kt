@@ -17,58 +17,49 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.ScheduleForRouteRetrieveParams
 import org.onebusaway.models.ScheduleForRouteRetrieveResponse
 
-class ScheduleForRouteServiceAsyncImpl
-internal constructor(private val clientOptions: ClientOptions) : ScheduleForRouteServiceAsync {
+class ScheduleForRouteServiceAsyncImpl internal constructor(
+    private val clientOptions: ClientOptions,
 
-    private val withRawResponse: ScheduleForRouteServiceAsync.WithRawResponse by lazy {
-        WithRawResponseImpl(clientOptions)
-    }
+) : ScheduleForRouteServiceAsync {
+
+    private val withRawResponse: ScheduleForRouteServiceAsync.WithRawResponse by lazy { WithRawResponseImpl(clientOptions) }
 
     override fun withRawResponse(): ScheduleForRouteServiceAsync.WithRawResponse = withRawResponse
 
-    override suspend fun retrieve(
-        params: ScheduleForRouteRetrieveParams,
-        requestOptions: RequestOptions,
-    ): ScheduleForRouteRetrieveResponse =
+    override suspend fun retrieve(params: ScheduleForRouteRetrieveParams, requestOptions: RequestOptions): ScheduleForRouteRetrieveResponse =
         // get /api/where/schedule-for-route/{routeID}.json
         withRawResponse().retrieve(params, requestOptions).parse()
 
-    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
-        ScheduleForRouteServiceAsync.WithRawResponse {
+    class WithRawResponseImpl internal constructor(
+        private val clientOptions: ClientOptions,
 
-        private val errorHandler: Handler<OnebusawaySdkError> =
-            errorHandler(clientOptions.jsonMapper)
+    ) : ScheduleForRouteServiceAsync.WithRawResponse {
 
-        private val retrieveHandler: Handler<ScheduleForRouteRetrieveResponse> =
-            jsonHandler<ScheduleForRouteRetrieveResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
+        private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
 
-        override suspend fun retrieve(
-            params: ScheduleForRouteRetrieveParams,
-            requestOptions: RequestOptions,
-        ): HttpResponseFor<ScheduleForRouteRetrieveResponse> {
-            val request =
-                HttpRequest.builder()
-                    .method(HttpMethod.GET)
-                    .addPathSegments(
-                        "api",
-                        "where",
-                        "schedule-for-route",
-                        "${params.getPathParam(0)}.json",
-                    )
-                    .build()
-                    .prepareAsync(clientOptions, params)
-            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.executeAsync(request, requestOptions)
-            return response.parseable {
-                response
-                    .use { retrieveHandler.handle(it) }
-                    .also {
-                        if (requestOptions.responseValidation!!) {
-                            it.validate()
-                        }
-                    }
-            }
+        private val retrieveHandler: Handler<ScheduleForRouteRetrieveResponse> = jsonHandler<ScheduleForRouteRetrieveResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+
+        override suspend fun retrieve(params: ScheduleForRouteRetrieveParams, requestOptions: RequestOptions): HttpResponseFor<ScheduleForRouteRetrieveResponse> {
+          val request = HttpRequest.builder()
+            .method(HttpMethod.GET)
+            .addPathSegments("api", "where", "schedule-for-route", "${params.getPathParam(0)}.json")
+            .build()
+            .prepareAsync(clientOptions, params)
+          val requestOptions = requestOptions
+              .applyDefaults(RequestOptions.from(clientOptions))
+          val response = clientOptions.httpClient.executeAsync(
+            request, requestOptions
+          )
+          return response.parseable {
+              response.use {
+                  retrieveHandler.handle(it)
+              }
+              .also {
+                  if (requestOptions.responseValidation!!) {
+                    it.validate()
+                  }
+              }
+          }
         }
     }
 }

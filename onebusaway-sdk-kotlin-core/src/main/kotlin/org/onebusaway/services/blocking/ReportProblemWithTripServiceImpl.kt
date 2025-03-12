@@ -17,57 +17,49 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.ReportProblemWithTripRetrieveParams
 import org.onebusaway.models.ResponseWrapper
 
-class ReportProblemWithTripServiceImpl
-internal constructor(private val clientOptions: ClientOptions) : ReportProblemWithTripService {
+class ReportProblemWithTripServiceImpl internal constructor(
+    private val clientOptions: ClientOptions,
 
-    private val withRawResponse: ReportProblemWithTripService.WithRawResponse by lazy {
-        WithRawResponseImpl(clientOptions)
-    }
+) : ReportProblemWithTripService {
+
+    private val withRawResponse: ReportProblemWithTripService.WithRawResponse by lazy { WithRawResponseImpl(clientOptions) }
 
     override fun withRawResponse(): ReportProblemWithTripService.WithRawResponse = withRawResponse
 
-    override fun retrieve(
-        params: ReportProblemWithTripRetrieveParams,
-        requestOptions: RequestOptions,
-    ): ResponseWrapper =
+    override fun retrieve(params: ReportProblemWithTripRetrieveParams, requestOptions: RequestOptions): ResponseWrapper =
         // get /api/where/report-problem-with-trip/{tripID}.json
         withRawResponse().retrieve(params, requestOptions).parse()
 
-    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
-        ReportProblemWithTripService.WithRawResponse {
+    class WithRawResponseImpl internal constructor(
+        private val clientOptions: ClientOptions,
 
-        private val errorHandler: Handler<OnebusawaySdkError> =
-            errorHandler(clientOptions.jsonMapper)
+    ) : ReportProblemWithTripService.WithRawResponse {
 
-        private val retrieveHandler: Handler<ResponseWrapper> =
-            jsonHandler<ResponseWrapper>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+        private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
 
-        override fun retrieve(
-            params: ReportProblemWithTripRetrieveParams,
-            requestOptions: RequestOptions,
-        ): HttpResponseFor<ResponseWrapper> {
-            val request =
-                HttpRequest.builder()
-                    .method(HttpMethod.GET)
-                    .addPathSegments(
-                        "api",
-                        "where",
-                        "report-problem-with-trip",
-                        "${params.getPathParam(0)}.json",
-                    )
-                    .build()
-                    .prepare(clientOptions, params)
-            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
-                response
-                    .use { retrieveHandler.handle(it) }
-                    .also {
-                        if (requestOptions.responseValidation!!) {
-                            it.validate()
-                        }
-                    }
-            }
+        private val retrieveHandler: Handler<ResponseWrapper> = jsonHandler<ResponseWrapper>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+
+        override fun retrieve(params: ReportProblemWithTripRetrieveParams, requestOptions: RequestOptions): HttpResponseFor<ResponseWrapper> {
+          val request = HttpRequest.builder()
+            .method(HttpMethod.GET)
+            .addPathSegments("api", "where", "report-problem-with-trip", "${params.getPathParam(0)}.json")
+            .build()
+            .prepare(clientOptions, params)
+          val requestOptions = requestOptions
+              .applyDefaults(RequestOptions.from(clientOptions))
+          val response = clientOptions.httpClient.execute(
+            request, requestOptions
+          )
+          return response.parseable {
+              response.use {
+                  retrieveHandler.handle(it)
+              }
+              .also {
+                  if (requestOptions.responseValidation!!) {
+                    it.validate()
+                  }
+              }
+          }
         }
     }
 }

@@ -17,58 +17,49 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.ScheduleForStopRetrieveParams
 import org.onebusaway.models.ScheduleForStopRetrieveResponse
 
-class ScheduleForStopServiceImpl internal constructor(private val clientOptions: ClientOptions) :
-    ScheduleForStopService {
+class ScheduleForStopServiceImpl internal constructor(
+    private val clientOptions: ClientOptions,
 
-    private val withRawResponse: ScheduleForStopService.WithRawResponse by lazy {
-        WithRawResponseImpl(clientOptions)
-    }
+) : ScheduleForStopService {
+
+    private val withRawResponse: ScheduleForStopService.WithRawResponse by lazy { WithRawResponseImpl(clientOptions) }
 
     override fun withRawResponse(): ScheduleForStopService.WithRawResponse = withRawResponse
 
-    override fun retrieve(
-        params: ScheduleForStopRetrieveParams,
-        requestOptions: RequestOptions,
-    ): ScheduleForStopRetrieveResponse =
+    override fun retrieve(params: ScheduleForStopRetrieveParams, requestOptions: RequestOptions): ScheduleForStopRetrieveResponse =
         // get /api/where/schedule-for-stop/{stopID}.json
         withRawResponse().retrieve(params, requestOptions).parse()
 
-    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
-        ScheduleForStopService.WithRawResponse {
+    class WithRawResponseImpl internal constructor(
+        private val clientOptions: ClientOptions,
 
-        private val errorHandler: Handler<OnebusawaySdkError> =
-            errorHandler(clientOptions.jsonMapper)
+    ) : ScheduleForStopService.WithRawResponse {
 
-        private val retrieveHandler: Handler<ScheduleForStopRetrieveResponse> =
-            jsonHandler<ScheduleForStopRetrieveResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
+        private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
 
-        override fun retrieve(
-            params: ScheduleForStopRetrieveParams,
-            requestOptions: RequestOptions,
-        ): HttpResponseFor<ScheduleForStopRetrieveResponse> {
-            val request =
-                HttpRequest.builder()
-                    .method(HttpMethod.GET)
-                    .addPathSegments(
-                        "api",
-                        "where",
-                        "schedule-for-stop",
-                        "${params.getPathParam(0)}.json",
-                    )
-                    .build()
-                    .prepare(clientOptions, params)
-            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
-                response
-                    .use { retrieveHandler.handle(it) }
-                    .also {
-                        if (requestOptions.responseValidation!!) {
-                            it.validate()
-                        }
-                    }
-            }
+        private val retrieveHandler: Handler<ScheduleForStopRetrieveResponse> = jsonHandler<ScheduleForStopRetrieveResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+
+        override fun retrieve(params: ScheduleForStopRetrieveParams, requestOptions: RequestOptions): HttpResponseFor<ScheduleForStopRetrieveResponse> {
+          val request = HttpRequest.builder()
+            .method(HttpMethod.GET)
+            .addPathSegments("api", "where", "schedule-for-stop", "${params.getPathParam(0)}.json")
+            .build()
+            .prepare(clientOptions, params)
+          val requestOptions = requestOptions
+              .applyDefaults(RequestOptions.from(clientOptions))
+          val response = clientOptions.httpClient.execute(
+            request, requestOptions
+          )
+          return response.parseable {
+              response.use {
+                  retrieveHandler.handle(it)
+              }
+              .also {
+                  if (requestOptions.responseValidation!!) {
+                    it.validate()
+                  }
+              }
+          }
         }
     }
 }

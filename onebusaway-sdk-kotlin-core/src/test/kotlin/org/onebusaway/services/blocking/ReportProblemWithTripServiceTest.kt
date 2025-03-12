@@ -13,30 +13,26 @@ class ReportProblemWithTripServiceTest {
 
     @Test
     fun retrieve() {
-        val client =
-            OnebusawaySdkOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
-        val reportProblemWithTripService = client.reportProblemWithTrip()
+      val client = OnebusawaySdkOkHttpClient.builder()
+          .baseUrl(TestServerExtension.BASE_URL)
+          .apiKey("My API Key")
+          .build()
+      val reportProblemWithTripService = client.reportProblemWithTrip()
 
-        val responseWrapper =
-            reportProblemWithTripService.retrieve(
-                ReportProblemWithTripRetrieveParams.builder()
-                    .tripId("tripID")
-                    .code(ReportProblemWithTripRetrieveParams.Code.VEHICLE_NEVER_CAME)
-                    .serviceDate(0L)
-                    .stopId("stopID")
-                    .userComment("userComment")
-                    .userLat(0.0)
-                    .userLocationAccuracy(0.0)
-                    .userLon(0.0)
-                    .userOnVehicle(true)
-                    .userVehicleNumber("userVehicleNumber")
-                    .vehicleId("vehicleID")
-                    .build()
-            )
+      val responseWrapper = reportProblemWithTripService.retrieve(ReportProblemWithTripRetrieveParams.builder()
+          .tripId("tripID")
+          .code(ReportProblemWithTripRetrieveParams.Code.VEHICLE_NEVER_CAME)
+          .serviceDate(0L)
+          .stopId("stopID")
+          .userComment("userComment")
+          .userLat(0.0)
+          .userLocationAccuracy(0.0)
+          .userLon(0.0)
+          .userOnVehicle(true)
+          .userVehicleNumber("userVehicleNumber")
+          .vehicleId("vehicleID")
+          .build())
 
-        responseWrapper.validate()
+      responseWrapper.validate()
     }
 }

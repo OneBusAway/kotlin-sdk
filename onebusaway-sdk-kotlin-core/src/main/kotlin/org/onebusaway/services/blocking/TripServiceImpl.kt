@@ -17,52 +17,49 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.TripRetrieveParams
 import org.onebusaway.models.TripRetrieveResponse
 
-class TripServiceImpl internal constructor(private val clientOptions: ClientOptions) : TripService {
+class TripServiceImpl internal constructor(
+    private val clientOptions: ClientOptions,
 
-    private val withRawResponse: TripService.WithRawResponse by lazy {
-        WithRawResponseImpl(clientOptions)
-    }
+) : TripService {
+
+    private val withRawResponse: TripService.WithRawResponse by lazy { WithRawResponseImpl(clientOptions) }
 
     override fun withRawResponse(): TripService.WithRawResponse = withRawResponse
 
-    override fun retrieve(
-        params: TripRetrieveParams,
-        requestOptions: RequestOptions,
-    ): TripRetrieveResponse =
+    override fun retrieve(params: TripRetrieveParams, requestOptions: RequestOptions): TripRetrieveResponse =
         // get /api/where/trip/{tripID}.json
         withRawResponse().retrieve(params, requestOptions).parse()
 
-    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
-        TripService.WithRawResponse {
+    class WithRawResponseImpl internal constructor(
+        private val clientOptions: ClientOptions,
 
-        private val errorHandler: Handler<OnebusawaySdkError> =
-            errorHandler(clientOptions.jsonMapper)
+    ) : TripService.WithRawResponse {
 
-        private val retrieveHandler: Handler<TripRetrieveResponse> =
-            jsonHandler<TripRetrieveResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
+        private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
 
-        override fun retrieve(
-            params: TripRetrieveParams,
-            requestOptions: RequestOptions,
-        ): HttpResponseFor<TripRetrieveResponse> {
-            val request =
-                HttpRequest.builder()
-                    .method(HttpMethod.GET)
-                    .addPathSegments("api", "where", "trip", "${params.getPathParam(0)}.json")
-                    .build()
-                    .prepare(clientOptions, params)
-            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
-                response
-                    .use { retrieveHandler.handle(it) }
-                    .also {
-                        if (requestOptions.responseValidation!!) {
-                            it.validate()
-                        }
-                    }
-            }
+        private val retrieveHandler: Handler<TripRetrieveResponse> = jsonHandler<TripRetrieveResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+
+        override fun retrieve(params: TripRetrieveParams, requestOptions: RequestOptions): HttpResponseFor<TripRetrieveResponse> {
+          val request = HttpRequest.builder()
+            .method(HttpMethod.GET)
+            .addPathSegments("api", "where", "trip", "${params.getPathParam(0)}.json")
+            .build()
+            .prepare(clientOptions, params)
+          val requestOptions = requestOptions
+              .applyDefaults(RequestOptions.from(clientOptions))
+          val response = clientOptions.httpClient.execute(
+            request, requestOptions
+          )
+          return response.parseable {
+              response.use {
+                  retrieveHandler.handle(it)
+              }
+              .also {
+                  if (requestOptions.responseValidation!!) {
+                    it.validate()
+                  }
+              }
+          }
         }
     }
 }

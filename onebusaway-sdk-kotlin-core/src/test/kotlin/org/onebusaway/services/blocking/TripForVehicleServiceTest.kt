@@ -13,24 +13,20 @@ class TripForVehicleServiceTest {
 
     @Test
     fun retrieve() {
-        val client =
-            OnebusawaySdkOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
-        val tripForVehicleService = client.tripForVehicle()
+      val client = OnebusawaySdkOkHttpClient.builder()
+          .baseUrl(TestServerExtension.BASE_URL)
+          .apiKey("My API Key")
+          .build()
+      val tripForVehicleService = client.tripForVehicle()
 
-        val tripForVehicle =
-            tripForVehicleService.retrieve(
-                TripForVehicleRetrieveParams.builder()
-                    .vehicleId("vehicleID")
-                    .includeSchedule(true)
-                    .includeStatus(true)
-                    .includeTrip(true)
-                    .time(0L)
-                    .build()
-            )
+      val tripForVehicle = tripForVehicleService.retrieve(TripForVehicleRetrieveParams.builder()
+          .vehicleId("vehicleID")
+          .includeSchedule(true)
+          .includeStatus(true)
+          .includeTrip(true)
+          .time(0L)
+          .build())
 
-        tripForVehicle.validate()
+      tripForVehicle.validate()
     }
 }

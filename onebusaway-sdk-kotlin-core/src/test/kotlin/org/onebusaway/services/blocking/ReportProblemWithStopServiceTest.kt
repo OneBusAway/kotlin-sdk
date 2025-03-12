@@ -13,25 +13,21 @@ class ReportProblemWithStopServiceTest {
 
     @Test
     fun retrieve() {
-        val client =
-            OnebusawaySdkOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
-        val reportProblemWithStopService = client.reportProblemWithStop()
+      val client = OnebusawaySdkOkHttpClient.builder()
+          .baseUrl(TestServerExtension.BASE_URL)
+          .apiKey("My API Key")
+          .build()
+      val reportProblemWithStopService = client.reportProblemWithStop()
 
-        val responseWrapper =
-            reportProblemWithStopService.retrieve(
-                ReportProblemWithStopRetrieveParams.builder()
-                    .stopId("stopID")
-                    .code(ReportProblemWithStopRetrieveParams.Code.STOP_NAME_WRONG)
-                    .userComment("userComment")
-                    .userLat(0.0)
-                    .userLocationAccuracy(0.0)
-                    .userLon(0.0)
-                    .build()
-            )
+      val responseWrapper = reportProblemWithStopService.retrieve(ReportProblemWithStopRetrieveParams.builder()
+          .stopId("stopID")
+          .code(ReportProblemWithStopRetrieveParams.Code.STOP_NAME_WRONG)
+          .userComment("userComment")
+          .userLat(0.0)
+          .userLocationAccuracy(0.0)
+          .userLon(0.0)
+          .build())
 
-        responseWrapper.validate()
+      responseWrapper.validate()
     }
 }

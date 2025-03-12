@@ -11,27 +11,25 @@ import org.onebusaway.models.ShapeRetrieveResponse
 interface ShapeService {
 
     /**
-     * Returns a view of this service that provides access to raw HTTP responses for each method.
+     * Returns a view of this service that provides access to raw HTTP responses for
+     * each method.
      */
     fun withRawResponse(): WithRawResponse
 
     /** Retrieve a shape (the path traveled by a transit vehicle) by ID. */
-    fun retrieve(
-        params: ShapeRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): ShapeRetrieveResponse
+    fun retrieve(params: ShapeRetrieveParams, requestOptions: RequestOptions = RequestOptions.none()): ShapeRetrieveResponse
 
-    /** A view of [ShapeService] that provides access to raw HTTP responses for each method. */
+    /**
+     * A view of [ShapeService] that provides access to raw HTTP responses for each
+     * method.
+     */
     interface WithRawResponse {
 
         /**
-         * Returns a raw HTTP response for `get /api/where/shape/{shapeID}.json`, but is otherwise
-         * the same as [ShapeService.retrieve].
+         * Returns a raw HTTP response for `get /api/where/shape/{shapeID}.json`, but is
+         * otherwise the same as [ShapeService.retrieve].
          */
         @MustBeClosed
-        fun retrieve(
-            params: ShapeRetrieveParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<ShapeRetrieveResponse>
+        fun retrieve(params: ShapeRetrieveParams, requestOptions: RequestOptions = RequestOptions.none()): HttpResponseFor<ShapeRetrieveResponse>
     }
 }

@@ -17,58 +17,49 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.TripDetailRetrieveParams
 import org.onebusaway.models.TripDetailRetrieveResponse
 
-class TripDetailServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
-    TripDetailServiceAsync {
+class TripDetailServiceAsyncImpl internal constructor(
+    private val clientOptions: ClientOptions,
 
-    private val withRawResponse: TripDetailServiceAsync.WithRawResponse by lazy {
-        WithRawResponseImpl(clientOptions)
-    }
+) : TripDetailServiceAsync {
+
+    private val withRawResponse: TripDetailServiceAsync.WithRawResponse by lazy { WithRawResponseImpl(clientOptions) }
 
     override fun withRawResponse(): TripDetailServiceAsync.WithRawResponse = withRawResponse
 
-    override suspend fun retrieve(
-        params: TripDetailRetrieveParams,
-        requestOptions: RequestOptions,
-    ): TripDetailRetrieveResponse =
+    override suspend fun retrieve(params: TripDetailRetrieveParams, requestOptions: RequestOptions): TripDetailRetrieveResponse =
         // get /api/where/trip-details/{tripID}.json
         withRawResponse().retrieve(params, requestOptions).parse()
 
-    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
-        TripDetailServiceAsync.WithRawResponse {
+    class WithRawResponseImpl internal constructor(
+        private val clientOptions: ClientOptions,
 
-        private val errorHandler: Handler<OnebusawaySdkError> =
-            errorHandler(clientOptions.jsonMapper)
+    ) : TripDetailServiceAsync.WithRawResponse {
 
-        private val retrieveHandler: Handler<TripDetailRetrieveResponse> =
-            jsonHandler<TripDetailRetrieveResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
+        private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
 
-        override suspend fun retrieve(
-            params: TripDetailRetrieveParams,
-            requestOptions: RequestOptions,
-        ): HttpResponseFor<TripDetailRetrieveResponse> {
-            val request =
-                HttpRequest.builder()
-                    .method(HttpMethod.GET)
-                    .addPathSegments(
-                        "api",
-                        "where",
-                        "trip-details",
-                        "${params.getPathParam(0)}.json",
-                    )
-                    .build()
-                    .prepareAsync(clientOptions, params)
-            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.executeAsync(request, requestOptions)
-            return response.parseable {
-                response
-                    .use { retrieveHandler.handle(it) }
-                    .also {
-                        if (requestOptions.responseValidation!!) {
-                            it.validate()
-                        }
-                    }
-            }
+        private val retrieveHandler: Handler<TripDetailRetrieveResponse> = jsonHandler<TripDetailRetrieveResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+
+        override suspend fun retrieve(params: TripDetailRetrieveParams, requestOptions: RequestOptions): HttpResponseFor<TripDetailRetrieveResponse> {
+          val request = HttpRequest.builder()
+            .method(HttpMethod.GET)
+            .addPathSegments("api", "where", "trip-details", "${params.getPathParam(0)}.json")
+            .build()
+            .prepareAsync(clientOptions, params)
+          val requestOptions = requestOptions
+              .applyDefaults(RequestOptions.from(clientOptions))
+          val response = clientOptions.httpClient.executeAsync(
+            request, requestOptions
+          )
+          return response.parseable {
+              response.use {
+                  retrieveHandler.handle(it)
+              }
+              .also {
+                  if (requestOptions.responseValidation!!) {
+                    it.validate()
+                  }
+              }
+          }
         }
     }
 }

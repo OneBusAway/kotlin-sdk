@@ -17,18 +17,13 @@ import org.onebusaway.core.immutableEmptyMap
 import org.onebusaway.core.toImmutable
 
 @NoAutoDetect
-class ResponseWrapper
-@JsonCreator
-private constructor(
+class ResponseWrapper @JsonCreator private constructor(
     @JsonProperty("code") @ExcludeMissing private val code: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("currentTime")
-    @ExcludeMissing
-    private val currentTime: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("currentTime") @ExcludeMissing private val currentTime: JsonField<Long> = JsonMissing.of(),
     @JsonProperty("text") @ExcludeMissing private val text: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("version")
-    @ExcludeMissing
-    private val version: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("version") @ExcludeMissing private val version: JsonField<Long> = JsonMissing.of(),
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+
 ) {
 
     fun code(): Long = code.getRequired("code")
@@ -39,13 +34,21 @@ private constructor(
 
     fun version(): Long = version.getRequired("version")
 
-    @JsonProperty("code") @ExcludeMissing fun _code(): JsonField<Long> = code
+    @JsonProperty("code")
+    @ExcludeMissing
+    fun _code(): JsonField<Long> = code
 
-    @JsonProperty("currentTime") @ExcludeMissing fun _currentTime(): JsonField<Long> = currentTime
+    @JsonProperty("currentTime")
+    @ExcludeMissing
+    fun _currentTime(): JsonField<Long> = currentTime
 
-    @JsonProperty("text") @ExcludeMissing fun _text(): JsonField<String> = text
+    @JsonProperty("text")
+    @ExcludeMissing
+    fun _text(): JsonField<String> = text
 
-    @JsonProperty("version") @ExcludeMissing fun _version(): JsonField<Long> = version
+    @JsonProperty("version")
+    @ExcludeMissing
+    fun _version(): JsonField<Long> = version
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -53,17 +56,18 @@ private constructor(
 
     private var validated: Boolean = false
 
-    fun validate(): ResponseWrapper = apply {
-        if (validated) {
-            return@apply
-        }
+    fun validate(): ResponseWrapper =
+        apply {
+            if (validated) {
+              return@apply
+            }
 
-        code()
-        currentTime()
-        text()
-        version()
-        validated = true
-    }
+            code()
+            currentTime()
+            text()
+            version()
+            validated = true
+        }
 
     fun toBuilder() = Builder().from(this)
 
@@ -73,6 +77,7 @@ private constructor(
          * Returns a mutable builder for constructing an instance of [ResponseWrapper].
          *
          * The following fields are required:
+         *
          * ```kotlin
          * .code()
          * .currentTime()
@@ -92,65 +97,93 @@ private constructor(
         private var version: JsonField<Long>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
-        internal fun from(responseWrapper: ResponseWrapper) = apply {
-            code = responseWrapper.code
-            currentTime = responseWrapper.currentTime
-            text = responseWrapper.text
-            version = responseWrapper.version
-            additionalProperties = responseWrapper.additionalProperties.toMutableMap()
-        }
+        internal fun from(responseWrapper: ResponseWrapper) =
+            apply {
+                code = responseWrapper.code
+                currentTime = responseWrapper.currentTime
+                text = responseWrapper.text
+                version = responseWrapper.version
+                additionalProperties = responseWrapper.additionalProperties.toMutableMap()
+            }
 
         fun code(code: Long) = code(JsonField.of(code))
 
-        fun code(code: JsonField<Long>) = apply { this.code = code }
+        fun code(code: JsonField<Long>) =
+            apply {
+                this.code = code
+            }
 
         fun currentTime(currentTime: Long) = currentTime(JsonField.of(currentTime))
 
-        fun currentTime(currentTime: JsonField<Long>) = apply { this.currentTime = currentTime }
+        fun currentTime(currentTime: JsonField<Long>) =
+            apply {
+                this.currentTime = currentTime
+            }
 
         fun text(text: String) = text(JsonField.of(text))
 
-        fun text(text: JsonField<String>) = apply { this.text = text }
+        fun text(text: JsonField<String>) =
+            apply {
+                this.text = text
+            }
 
         fun version(version: Long) = version(JsonField.of(version))
 
-        fun version(version: JsonField<Long>) = apply { this.version = version }
+        fun version(version: JsonField<Long>) =
+            apply {
+                this.version = version
+            }
 
-        fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-            this.additionalProperties.clear()
-            putAllAdditionalProperties(additionalProperties)
-        }
+        fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
+            apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
 
-        fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-            additionalProperties.put(key, value)
-        }
+        fun putAdditionalProperty(key: String, value: JsonValue) =
+            apply {
+                additionalProperties.put(key, value)
+            }
 
-        fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-            this.additionalProperties.putAll(additionalProperties)
-        }
+        fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+            apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
 
-        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+        fun removeAdditionalProperty(key: String) =
+            apply {
+                additionalProperties.remove(key)
+            }
 
-        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
-            keys.forEach(::removeAdditionalProperty)
-        }
+        fun removeAllAdditionalProperties(keys: Set<String>) =
+            apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
 
         fun build(): ResponseWrapper =
             ResponseWrapper(
-                checkRequired("code", code),
-                checkRequired("currentTime", currentTime),
-                checkRequired("text", text),
-                checkRequired("version", version),
-                additionalProperties.toImmutable(),
+              checkRequired(
+                "code", code
+              ),
+              checkRequired(
+                "currentTime", currentTime
+              ),
+              checkRequired(
+                "text", text
+              ),
+              checkRequired(
+                "version", version
+              ),
+              additionalProperties.toImmutable(),
             )
     }
 
     override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
+      if (this === other) {
+          return true
+      }
 
-        return /* spotless:off */ other is ResponseWrapper && code == other.code && currentTime == other.currentTime && text == other.text && version == other.version && additionalProperties == other.additionalProperties /* spotless:on */
+      return /* spotless:off */ other is ResponseWrapper && code == other.code && currentTime == other.currentTime && text == other.text && version == other.version && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
@@ -159,6 +192,5 @@ private constructor(
 
     override fun hashCode(): Int = hashCode
 
-    override fun toString() =
-        "ResponseWrapper{code=$code, currentTime=$currentTime, text=$text, version=$version, additionalProperties=$additionalProperties}"
+    override fun toString() = "ResponseWrapper{code=$code, currentTime=$currentTime, text=$text, version=$version, additionalProperties=$additionalProperties}"
 }

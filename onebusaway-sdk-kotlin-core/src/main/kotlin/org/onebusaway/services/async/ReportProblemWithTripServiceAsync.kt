@@ -11,30 +11,26 @@ import org.onebusaway.models.ResponseWrapper
 interface ReportProblemWithTripServiceAsync {
 
     /**
-     * Returns a view of this service that provides access to raw HTTP responses for each method.
+     * Returns a view of this service that provides access to raw HTTP responses for
+     * each method.
      */
     fun withRawResponse(): WithRawResponse
 
     /** Submit a user-generated problem report for a particular trip. */
-    suspend fun retrieve(
-        params: ReportProblemWithTripRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): ResponseWrapper
+    suspend fun retrieve(params: ReportProblemWithTripRetrieveParams, requestOptions: RequestOptions = RequestOptions.none()): ResponseWrapper
 
     /**
-     * A view of [ReportProblemWithTripServiceAsync] that provides access to raw HTTP responses for
-     * each method.
+     * A view of [ReportProblemWithTripServiceAsync] that provides access to raw HTTP
+     * responses for each method.
      */
     interface WithRawResponse {
 
         /**
-         * Returns a raw HTTP response for `get /api/where/report-problem-with-trip/{tripID}.json`,
-         * but is otherwise the same as [ReportProblemWithTripServiceAsync.retrieve].
+         * Returns a raw HTTP response for
+         * `get /api/where/report-problem-with-trip/{tripID}.json`, but is otherwise the
+         * same as [ReportProblemWithTripServiceAsync.retrieve].
          */
         @MustBeClosed
-        suspend fun retrieve(
-            params: ReportProblemWithTripRetrieveParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<ResponseWrapper>
+        suspend fun retrieve(params: ReportProblemWithTripRetrieveParams, requestOptions: RequestOptions = RequestOptions.none()): HttpResponseFor<ResponseWrapper>
     }
 }

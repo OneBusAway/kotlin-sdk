@@ -11,30 +11,26 @@ import org.onebusaway.models.StopIdsForAgencyListResponse
 interface StopIdsForAgencyServiceAsync {
 
     /**
-     * Returns a view of this service that provides access to raw HTTP responses for each method.
+     * Returns a view of this service that provides access to raw HTTP responses for
+     * each method.
      */
     fun withRawResponse(): WithRawResponse
 
     /** Get stop IDs for a specific agency */
-    suspend fun list(
-        params: StopIdsForAgencyListParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): StopIdsForAgencyListResponse
+    suspend fun list(params: StopIdsForAgencyListParams, requestOptions: RequestOptions = RequestOptions.none()): StopIdsForAgencyListResponse
 
     /**
-     * A view of [StopIdsForAgencyServiceAsync] that provides access to raw HTTP responses for each
-     * method.
+     * A view of [StopIdsForAgencyServiceAsync] that provides access to raw HTTP
+     * responses for each method.
      */
     interface WithRawResponse {
 
         /**
-         * Returns a raw HTTP response for `get /api/where/stop-ids-for-agency/{agencyID}.json`, but
-         * is otherwise the same as [StopIdsForAgencyServiceAsync.list].
+         * Returns a raw HTTP response for
+         * `get /api/where/stop-ids-for-agency/{agencyID}.json`, but is otherwise the same
+         * as [StopIdsForAgencyServiceAsync.list].
          */
         @MustBeClosed
-        suspend fun list(
-            params: StopIdsForAgencyListParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<StopIdsForAgencyListResponse>
+        suspend fun list(params: StopIdsForAgencyListParams, requestOptions: RequestOptions = RequestOptions.none()): HttpResponseFor<StopIdsForAgencyListResponse>
     }
 }

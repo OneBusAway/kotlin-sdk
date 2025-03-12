@@ -11,19 +11,17 @@ import org.onebusaway.models.TripsForLocationListResponse
 interface TripsForLocationService {
 
     /**
-     * Returns a view of this service that provides access to raw HTTP responses for each method.
+     * Returns a view of this service that provides access to raw HTTP responses for
+     * each method.
      */
     fun withRawResponse(): WithRawResponse
 
     /** Retrieve trips for a given location */
-    fun list(
-        params: TripsForLocationListParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): TripsForLocationListResponse
+    fun list(params: TripsForLocationListParams, requestOptions: RequestOptions = RequestOptions.none()): TripsForLocationListResponse
 
     /**
-     * A view of [TripsForLocationService] that provides access to raw HTTP responses for each
-     * method.
+     * A view of [TripsForLocationService] that provides access to raw HTTP responses
+     * for each method.
      */
     interface WithRawResponse {
 
@@ -32,9 +30,6 @@ interface TripsForLocationService {
          * otherwise the same as [TripsForLocationService.list].
          */
         @MustBeClosed
-        fun list(
-            params: TripsForLocationListParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<TripsForLocationListResponse>
+        fun list(params: TripsForLocationListParams, requestOptions: RequestOptions = RequestOptions.none()): HttpResponseFor<TripsForLocationListResponse>
     }
 }

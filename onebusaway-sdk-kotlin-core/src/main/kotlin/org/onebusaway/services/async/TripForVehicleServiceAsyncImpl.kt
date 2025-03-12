@@ -17,58 +17,49 @@ import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.models.TripForVehicleRetrieveParams
 import org.onebusaway.models.TripForVehicleRetrieveResponse
 
-class TripForVehicleServiceAsyncImpl
-internal constructor(private val clientOptions: ClientOptions) : TripForVehicleServiceAsync {
+class TripForVehicleServiceAsyncImpl internal constructor(
+    private val clientOptions: ClientOptions,
 
-    private val withRawResponse: TripForVehicleServiceAsync.WithRawResponse by lazy {
-        WithRawResponseImpl(clientOptions)
-    }
+) : TripForVehicleServiceAsync {
+
+    private val withRawResponse: TripForVehicleServiceAsync.WithRawResponse by lazy { WithRawResponseImpl(clientOptions) }
 
     override fun withRawResponse(): TripForVehicleServiceAsync.WithRawResponse = withRawResponse
 
-    override suspend fun retrieve(
-        params: TripForVehicleRetrieveParams,
-        requestOptions: RequestOptions,
-    ): TripForVehicleRetrieveResponse =
+    override suspend fun retrieve(params: TripForVehicleRetrieveParams, requestOptions: RequestOptions): TripForVehicleRetrieveResponse =
         // get /api/where/trip-for-vehicle/{vehicleID}.json
         withRawResponse().retrieve(params, requestOptions).parse()
 
-    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
-        TripForVehicleServiceAsync.WithRawResponse {
+    class WithRawResponseImpl internal constructor(
+        private val clientOptions: ClientOptions,
 
-        private val errorHandler: Handler<OnebusawaySdkError> =
-            errorHandler(clientOptions.jsonMapper)
+    ) : TripForVehicleServiceAsync.WithRawResponse {
 
-        private val retrieveHandler: Handler<TripForVehicleRetrieveResponse> =
-            jsonHandler<TripForVehicleRetrieveResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
+        private val errorHandler: Handler<OnebusawaySdkError> = errorHandler(clientOptions.jsonMapper)
 
-        override suspend fun retrieve(
-            params: TripForVehicleRetrieveParams,
-            requestOptions: RequestOptions,
-        ): HttpResponseFor<TripForVehicleRetrieveResponse> {
-            val request =
-                HttpRequest.builder()
-                    .method(HttpMethod.GET)
-                    .addPathSegments(
-                        "api",
-                        "where",
-                        "trip-for-vehicle",
-                        "${params.getPathParam(0)}.json",
-                    )
-                    .build()
-                    .prepareAsync(clientOptions, params)
-            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.executeAsync(request, requestOptions)
-            return response.parseable {
-                response
-                    .use { retrieveHandler.handle(it) }
-                    .also {
-                        if (requestOptions.responseValidation!!) {
-                            it.validate()
-                        }
-                    }
-            }
+        private val retrieveHandler: Handler<TripForVehicleRetrieveResponse> = jsonHandler<TripForVehicleRetrieveResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+
+        override suspend fun retrieve(params: TripForVehicleRetrieveParams, requestOptions: RequestOptions): HttpResponseFor<TripForVehicleRetrieveResponse> {
+          val request = HttpRequest.builder()
+            .method(HttpMethod.GET)
+            .addPathSegments("api", "where", "trip-for-vehicle", "${params.getPathParam(0)}.json")
+            .build()
+            .prepareAsync(clientOptions, params)
+          val requestOptions = requestOptions
+              .applyDefaults(RequestOptions.from(clientOptions))
+          val response = clientOptions.httpClient.executeAsync(
+            request, requestOptions
+          )
+          return response.parseable {
+              response.use {
+                  retrieveHandler.handle(it)
+              }
+              .also {
+                  if (requestOptions.responseValidation!!) {
+                    it.validate()
+                  }
+              }
+          }
         }
     }
 }
