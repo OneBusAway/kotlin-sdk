@@ -98,16 +98,31 @@ private constructor(
 
         fun latSpan(latSpan: Double?) = apply { this.latSpan = latSpan }
 
+        /**
+         * Alias for [Builder.latSpan].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
         fun latSpan(latSpan: Double) = latSpan(latSpan as Double?)
 
         fun lonSpan(lonSpan: Double?) = apply { this.lonSpan = lonSpan }
 
+        /**
+         * Alias for [Builder.lonSpan].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
         fun lonSpan(lonSpan: Double) = lonSpan(lonSpan as Double?)
 
         fun query(query: String?) = apply { this.query = query }
 
         fun radius(radius: Double?) = apply { this.radius = radius }
 
+        /**
+         * Alias for [Builder.radius].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
         fun radius(radius: Double) = radius(radius as Double?)
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {

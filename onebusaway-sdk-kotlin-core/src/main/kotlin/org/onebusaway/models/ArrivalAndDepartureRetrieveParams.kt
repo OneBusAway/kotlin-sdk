@@ -110,10 +110,20 @@ private constructor(
 
         fun stopSequence(stopSequence: Long?) = apply { this.stopSequence = stopSequence }
 
+        /**
+         * Alias for [Builder.stopSequence].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
         fun stopSequence(stopSequence: Long) = stopSequence(stopSequence as Long?)
 
         fun time(time: Long?) = apply { this.time = time }
 
+        /**
+         * Alias for [Builder.time].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
         fun time(time: Long) = time(time as Long?)
 
         fun vehicleId(vehicleId: String?) = apply { this.vehicleId = vehicleId }
