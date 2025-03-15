@@ -98,13 +98,21 @@ private constructor(
         /** Include vehicles arriving or departing in the next n minutes. */
         fun minutesAfter(minutesAfter: Long?) = apply { this.minutesAfter = minutesAfter }
 
-        /** Include vehicles arriving or departing in the next n minutes. */
+        /**
+         * Alias for [Builder.minutesAfter].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
         fun minutesAfter(minutesAfter: Long) = minutesAfter(minutesAfter as Long?)
 
         /** Include vehicles having arrived or departed in the previous n minutes. */
         fun minutesBefore(minutesBefore: Long?) = apply { this.minutesBefore = minutesBefore }
 
-        /** Include vehicles having arrived or departed in the previous n minutes. */
+        /**
+         * Alias for [Builder.minutesBefore].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
         fun minutesBefore(minutesBefore: Long) = minutesBefore(minutesBefore as Long?)
 
         /** The specific time for querying the system status. */

@@ -115,8 +115,9 @@ private constructor(
         }
 
         /**
-         * Whether to include the full schedule element in the tripDetails section (defaults to
-         * true).
+         * Alias for [Builder.includeSchedule].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
          */
         fun includeSchedule(includeSchedule: Boolean) = includeSchedule(includeSchedule as Boolean?)
 
@@ -126,7 +127,9 @@ private constructor(
         fun includeStatus(includeStatus: Boolean?) = apply { this.includeStatus = includeStatus }
 
         /**
-         * Whether to include the full status element in the tripDetails section (defaults to true).
+         * Alias for [Builder.includeStatus].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
          */
         fun includeStatus(includeStatus: Boolean) = includeStatus(includeStatus as Boolean?)
 
@@ -136,20 +139,30 @@ private constructor(
         fun includeTrip(includeTrip: Boolean?) = apply { this.includeTrip = includeTrip }
 
         /**
-         * Whether to include the full trip element in the references section (defaults to true).
+         * Alias for [Builder.includeTrip].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
          */
         fun includeTrip(includeTrip: Boolean) = includeTrip(includeTrip as Boolean?)
 
         /** Service date for the trip as Unix time in milliseconds (optional). */
         fun serviceDate(serviceDate: Long?) = apply { this.serviceDate = serviceDate }
 
-        /** Service date for the trip as Unix time in milliseconds (optional). */
+        /**
+         * Alias for [Builder.serviceDate].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
         fun serviceDate(serviceDate: Long) = serviceDate(serviceDate as Long?)
 
         /** Time parameter to query the system at a specific time (optional). */
         fun time(time: Long?) = apply { this.time = time }
 
-        /** Time parameter to query the system at a specific time (optional). */
+        /**
+         * Alias for [Builder.time].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
         fun time(time: Long) = time(time as Long?)
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {

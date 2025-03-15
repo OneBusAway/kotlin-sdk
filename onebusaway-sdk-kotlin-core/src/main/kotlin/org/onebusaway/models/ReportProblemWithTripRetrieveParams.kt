@@ -155,7 +155,11 @@ private constructor(
         /** The service date of the trip */
         fun serviceDate(serviceDate: Long?) = apply { this.serviceDate = serviceDate }
 
-        /** The service date of the trip */
+        /**
+         * Alias for [Builder.serviceDate].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
         fun serviceDate(serviceDate: Long) = serviceDate(serviceDate as Long?)
 
         /** A stop ID indicating where the user is experiencing the problem */
@@ -167,7 +171,11 @@ private constructor(
         /** The reporting user’s current latitude */
         fun userLat(userLat: Double?) = apply { this.userLat = userLat }
 
-        /** The reporting user’s current latitude */
+        /**
+         * Alias for [Builder.userLat].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
         fun userLat(userLat: Double) = userLat(userLat as Double?)
 
         /** The reporting user’s location accuracy, in meters */
@@ -175,20 +183,32 @@ private constructor(
             this.userLocationAccuracy = userLocationAccuracy
         }
 
-        /** The reporting user’s location accuracy, in meters */
+        /**
+         * Alias for [Builder.userLocationAccuracy].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
         fun userLocationAccuracy(userLocationAccuracy: Double) =
             userLocationAccuracy(userLocationAccuracy as Double?)
 
         /** The reporting user’s current longitude */
         fun userLon(userLon: Double?) = apply { this.userLon = userLon }
 
-        /** The reporting user’s current longitude */
+        /**
+         * Alias for [Builder.userLon].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
         fun userLon(userLon: Double) = userLon(userLon as Double?)
 
         /** Indicator if the user is on the transit vehicle experiencing the problem */
         fun userOnVehicle(userOnVehicle: Boolean?) = apply { this.userOnVehicle = userOnVehicle }
 
-        /** Indicator if the user is on the transit vehicle experiencing the problem */
+        /**
+         * Alias for [Builder.userOnVehicle].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
         fun userOnVehicle(userOnVehicle: Boolean) = userOnVehicle(userOnVehicle as Boolean?)
 
         /** The vehicle number, as reported by the user */

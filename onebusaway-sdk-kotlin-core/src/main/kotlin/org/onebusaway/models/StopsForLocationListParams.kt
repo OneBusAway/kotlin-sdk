@@ -103,13 +103,21 @@ private constructor(
         /** An alternative to radius to set the search bounding box (optional) */
         fun latSpan(latSpan: Double?) = apply { this.latSpan = latSpan }
 
-        /** An alternative to radius to set the search bounding box (optional) */
+        /**
+         * Alias for [Builder.latSpan].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
         fun latSpan(latSpan: Double) = latSpan(latSpan as Double?)
 
         /** An alternative to radius to set the search bounding box (optional) */
         fun lonSpan(lonSpan: Double?) = apply { this.lonSpan = lonSpan }
 
-        /** An alternative to radius to set the search bounding box (optional) */
+        /**
+         * Alias for [Builder.lonSpan].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
         fun lonSpan(lonSpan: Double) = lonSpan(lonSpan as Double?)
 
         /** A search query string to filter the results */
@@ -118,7 +126,11 @@ private constructor(
         /** The radius in meters to search within */
         fun radius(radius: Double?) = apply { this.radius = radius }
 
-        /** The radius in meters to search within */
+        /**
+         * Alias for [Builder.radius].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
         fun radius(radius: Double) = radius(radius as Double?)
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {

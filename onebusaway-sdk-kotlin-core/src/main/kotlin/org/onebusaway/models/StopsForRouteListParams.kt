@@ -88,7 +88,11 @@ private constructor(
             this.includePolylines = includePolylines
         }
 
-        /** Include polyline elements in the response (default true) */
+        /**
+         * Alias for [Builder.includePolylines].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
         fun includePolylines(includePolylines: Boolean) =
             includePolylines(includePolylines as Boolean?)
 

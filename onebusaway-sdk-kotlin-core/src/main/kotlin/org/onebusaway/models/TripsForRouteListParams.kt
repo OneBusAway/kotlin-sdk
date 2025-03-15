@@ -98,7 +98,11 @@ private constructor(
             this.includeSchedule = includeSchedule
         }
 
-        /** Determine whether full schedule elements are included. Defaults to false. */
+        /**
+         * Alias for [Builder.includeSchedule].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
         fun includeSchedule(includeSchedule: Boolean) = includeSchedule(includeSchedule as Boolean?)
 
         /**
@@ -108,15 +112,20 @@ private constructor(
         fun includeStatus(includeStatus: Boolean?) = apply { this.includeStatus = includeStatus }
 
         /**
-         * Determine whether full tripStatus elements with real-time information are included.
-         * Defaults to false.
+         * Alias for [Builder.includeStatus].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
          */
         fun includeStatus(includeStatus: Boolean) = includeStatus(includeStatus as Boolean?)
 
         /** Query the system at a specific time. Useful for testing. */
         fun time(time: Long?) = apply { this.time = time }
 
-        /** Query the system at a specific time. Useful for testing. */
+        /**
+         * Alias for [Builder.time].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
         fun time(time: Long) = time(time as Long?)
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
