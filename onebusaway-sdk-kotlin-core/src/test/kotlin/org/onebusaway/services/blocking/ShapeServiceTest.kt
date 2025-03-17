@@ -9,7 +9,7 @@ import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
 import org.onebusaway.models.ShapeRetrieveParams
 
 @ExtendWith(TestServerExtension::class)
-class ShapeServiceTest {
+internal class ShapeServiceTest {
 
     @Test
     fun retrieve() {

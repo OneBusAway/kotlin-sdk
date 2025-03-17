@@ -9,7 +9,7 @@ import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClientAsync
 import org.onebusaway.models.StopIdsForAgencyListParams
 
 @ExtendWith(TestServerExtension::class)
-class StopIdsForAgencyServiceAsyncTest {
+internal class StopIdsForAgencyServiceAsyncTest {
 
     @Test
     suspend fun list() {

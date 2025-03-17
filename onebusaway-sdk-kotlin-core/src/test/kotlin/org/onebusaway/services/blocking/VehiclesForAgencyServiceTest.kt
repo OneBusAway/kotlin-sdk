@@ -9,7 +9,7 @@ import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
 import org.onebusaway.models.VehiclesForAgencyListParams
 
 @ExtendWith(TestServerExtension::class)
-class VehiclesForAgencyServiceTest {
+internal class VehiclesForAgencyServiceTest {
 
     @Test
     fun list() {

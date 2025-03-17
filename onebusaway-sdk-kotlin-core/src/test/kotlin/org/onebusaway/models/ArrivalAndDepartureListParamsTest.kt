@@ -7,7 +7,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.onebusaway.core.http.QueryParams
 
-class ArrivalAndDepartureListParamsTest {
+internal class ArrivalAndDepartureListParamsTest {
 
     @Test
     fun create() {

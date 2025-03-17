@@ -8,7 +8,7 @@ import org.onebusaway.TestServerExtension
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClientAsync
 
 @ExtendWith(TestServerExtension::class)
-class CurrentTimeServiceAsyncTest {
+internal class CurrentTimeServiceAsyncTest {
 
     @Test
     suspend fun retrieve() {

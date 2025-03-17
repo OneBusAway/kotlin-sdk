@@ -11,7 +11,7 @@ import org.onebusaway.models.ArrivalAndDepartureListParams
 import org.onebusaway.models.ArrivalAndDepartureRetrieveParams
 
 @ExtendWith(TestServerExtension::class)
-class ArrivalAndDepartureServiceAsyncTest {
+internal class ArrivalAndDepartureServiceAsyncTest {
 
     @Test
     suspend fun retrieve() {

@@ -8,7 +8,7 @@ import org.onebusaway.TestServerExtension
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
 
 @ExtendWith(TestServerExtension::class)
-class ConfigServiceTest {
+internal class ConfigServiceTest {
 
     @Test
     fun retrieve() {

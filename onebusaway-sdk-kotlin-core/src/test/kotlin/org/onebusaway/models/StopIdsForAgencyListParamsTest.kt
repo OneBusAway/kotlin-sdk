@@ -5,7 +5,7 @@ package org.onebusaway.models
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class StopIdsForAgencyListParamsTest {
+internal class StopIdsForAgencyListParamsTest {
 
     @Test
     fun create() {
