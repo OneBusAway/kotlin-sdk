@@ -6,7 +6,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.onebusaway.core.http.QueryParams
 
-class RoutesForLocationListParamsTest {
+internal class RoutesForLocationListParamsTest {
 
     @Test
     fun create() {

@@ -4,7 +4,7 @@ package org.onebusaway.models
 
 import org.junit.jupiter.api.Test
 
-class CurrentTimeRetrieveParamsTest {
+internal class CurrentTimeRetrieveParamsTest {
 
     @Test
     fun create() {

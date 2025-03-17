@@ -9,7 +9,7 @@ import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClientAsync
 import org.onebusaway.models.StopsForLocationListParams
 
 @ExtendWith(TestServerExtension::class)
-class StopsForLocationServiceAsyncTest {
+internal class StopsForLocationServiceAsyncTest {
 
     @Test
     suspend fun list() {

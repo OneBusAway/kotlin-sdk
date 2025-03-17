@@ -8,7 +8,7 @@ import org.onebusaway.TestServerExtension
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClientAsync
 
 @ExtendWith(TestServerExtension::class)
-class AgenciesWithCoverageServiceAsyncTest {
+internal class AgenciesWithCoverageServiceAsyncTest {
 
     @Test
     suspend fun list() {

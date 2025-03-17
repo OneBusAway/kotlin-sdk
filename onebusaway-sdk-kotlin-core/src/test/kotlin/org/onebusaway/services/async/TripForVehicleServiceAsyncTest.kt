@@ -9,7 +9,7 @@ import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClientAsync
 import org.onebusaway.models.TripForVehicleRetrieveParams
 
 @ExtendWith(TestServerExtension::class)
-class TripForVehicleServiceAsyncTest {
+internal class TripForVehicleServiceAsyncTest {
 
     @Test
     suspend fun retrieve() {
