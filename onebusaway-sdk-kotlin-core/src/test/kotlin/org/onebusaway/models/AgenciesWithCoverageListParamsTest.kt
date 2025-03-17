@@ -4,7 +4,7 @@ package org.onebusaway.models
 
 import org.junit.jupiter.api.Test
 
-class AgenciesWithCoverageListParamsTest {
+internal class AgenciesWithCoverageListParamsTest {
 
     @Test
     fun create() {

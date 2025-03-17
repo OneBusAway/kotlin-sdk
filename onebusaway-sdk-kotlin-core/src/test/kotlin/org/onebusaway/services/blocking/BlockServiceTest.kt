@@ -9,7 +9,7 @@ import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
 import org.onebusaway.models.BlockRetrieveParams
 
 @ExtendWith(TestServerExtension::class)
-class BlockServiceTest {
+internal class BlockServiceTest {
 
     @Test
     fun retrieve() {

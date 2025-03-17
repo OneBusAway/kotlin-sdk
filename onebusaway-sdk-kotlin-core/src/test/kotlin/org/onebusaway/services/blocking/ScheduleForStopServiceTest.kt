@@ -10,7 +10,7 @@ import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
 import org.onebusaway.models.ScheduleForStopRetrieveParams
 
 @ExtendWith(TestServerExtension::class)
-class ScheduleForStopServiceTest {
+internal class ScheduleForStopServiceTest {
 
     @Test
     fun retrieve() {

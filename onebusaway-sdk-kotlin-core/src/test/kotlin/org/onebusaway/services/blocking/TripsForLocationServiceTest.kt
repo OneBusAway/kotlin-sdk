@@ -9,7 +9,7 @@ import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
 import org.onebusaway.models.TripsForLocationListParams
 
 @ExtendWith(TestServerExtension::class)
-class TripsForLocationServiceTest {
+internal class TripsForLocationServiceTest {
 
     @Test
     fun list() {

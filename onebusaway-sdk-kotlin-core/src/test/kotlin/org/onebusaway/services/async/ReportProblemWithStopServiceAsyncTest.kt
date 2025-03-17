@@ -9,7 +9,7 @@ import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClientAsync
 import org.onebusaway.models.ReportProblemWithStopRetrieveParams
 
 @ExtendWith(TestServerExtension::class)
-class ReportProblemWithStopServiceAsyncTest {
+internal class ReportProblemWithStopServiceAsyncTest {
 
     @Test
     suspend fun retrieve() {

@@ -9,7 +9,7 @@ import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClientAsync
 import org.onebusaway.models.AgencyRetrieveParams
 
 @ExtendWith(TestServerExtension::class)
-class AgencyServiceAsyncTest {
+internal class AgencyServiceAsyncTest {
 
     @Test
     suspend fun retrieve() {

@@ -9,7 +9,7 @@ import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
 import org.onebusaway.models.RouteRetrieveParams
 
 @ExtendWith(TestServerExtension::class)
-class RouteServiceTest {
+internal class RouteServiceTest {
 
     @Test
     fun retrieve() {

@@ -4,7 +4,7 @@ package org.onebusaway.models
 
 import org.junit.jupiter.api.Test
 
-class ConfigRetrieveParamsTest {
+internal class ConfigRetrieveParamsTest {
 
     @Test
     fun create() {

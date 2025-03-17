@@ -9,7 +9,7 @@ import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
 import org.onebusaway.models.SearchForRouteListParams
 
 @ExtendWith(TestServerExtension::class)
-class SearchForRouteServiceTest {
+internal class SearchForRouteServiceTest {
 
     @Test
     fun list() {

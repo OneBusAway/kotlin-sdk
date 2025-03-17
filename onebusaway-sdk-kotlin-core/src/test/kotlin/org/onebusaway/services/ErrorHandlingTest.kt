@@ -30,7 +30,7 @@ import org.onebusaway.errors.UnexpectedStatusCodeException
 import org.onebusaway.errors.UnprocessableEntityException
 
 @WireMockTest
-class ErrorHandlingTest {
+internal class ErrorHandlingTest {
 
     companion object {
 

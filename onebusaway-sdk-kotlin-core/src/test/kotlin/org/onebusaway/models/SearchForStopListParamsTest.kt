@@ -6,7 +6,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.onebusaway.core.http.QueryParams
 
-class SearchForStopListParamsTest {
+internal class SearchForStopListParamsTest {
 
     @Test
     fun create() {
