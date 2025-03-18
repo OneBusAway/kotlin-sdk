@@ -50,7 +50,7 @@ class ShapeServiceAsyncImpl internal constructor(private val clientOptions: Clie
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
-                    .addPathSegments("api", "where", "shape", "${params.getPathParam(0)}.json")
+                    .addPathSegments("api", "where", "shape", "${params._pathParam(0)}.json")
                     .build()
                     .prepareAsync(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))

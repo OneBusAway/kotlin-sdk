@@ -54,7 +54,7 @@ internal constructor(private val clientOptions: ClientOptions) : ScheduleForStop
                         "api",
                         "where",
                         "schedule-for-stop",
-                        "${params.getPathParam(0)}.json",
+                        "${params._pathParam(0)}.json",
                     )
                     .build()
                     .prepareAsync(clientOptions, params)

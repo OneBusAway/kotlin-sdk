@@ -19,6 +19,15 @@ internal class TripsForRouteListParamsTest {
     }
 
     @Test
+    fun pathParams() {
+        val params = TripsForRouteListParams.builder().routeId("routeID").build()
+
+        assertThat(params._pathParam(0)).isEqualTo("routeID")
+        // out-of-bound path param
+        assertThat(params._pathParam(1)).isEqualTo("")
+    }
+
+    @Test
     fun queryParams() {
         val params =
             TripsForRouteListParams.builder()
@@ -47,15 +56,5 @@ internal class TripsForRouteListParamsTest {
         val queryParams = params._queryParams()
 
         assertThat(queryParams).isEqualTo(QueryParams.builder().build())
-    }
-
-    @Test
-    fun getPathParam() {
-        val params = TripsForRouteListParams.builder().routeId("routeID").build()
-        assertThat(params).isNotNull
-        // path param "routeId"
-        assertThat(params.getPathParam(0)).isEqualTo("routeID")
-        // out-of-bound path param
-        assertThat(params.getPathParam(1)).isEqualTo("")
     }
 }

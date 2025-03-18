@@ -14,6 +14,15 @@ internal class VehiclesForAgencyListParamsTest {
     }
 
     @Test
+    fun pathParams() {
+        val params = VehiclesForAgencyListParams.builder().agencyId("agencyID").build()
+
+        assertThat(params._pathParam(0)).isEqualTo("agencyID")
+        // out-of-bound path param
+        assertThat(params._pathParam(1)).isEqualTo("")
+    }
+
+    @Test
     fun queryParams() {
         val params = VehiclesForAgencyListParams.builder().agencyId("agencyID").time("time").build()
 
@@ -29,15 +38,5 @@ internal class VehiclesForAgencyListParamsTest {
         val queryParams = params._queryParams()
 
         assertThat(queryParams).isEqualTo(QueryParams.builder().build())
-    }
-
-    @Test
-    fun getPathParam() {
-        val params = VehiclesForAgencyListParams.builder().agencyId("agencyID").build()
-        assertThat(params).isNotNull
-        // path param "agencyId"
-        assertThat(params.getPathParam(0)).isEqualTo("agencyID")
-        // out-of-bound path param
-        assertThat(params.getPathParam(1)).isEqualTo("")
     }
 }

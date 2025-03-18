@@ -54,7 +54,7 @@ class TripForVehicleServiceImpl internal constructor(private val clientOptions: 
                         "api",
                         "where",
                         "trip-for-vehicle",
-                        "${params.getPathParam(0)}.json",
+                        "${params._pathParam(0)}.json",
                     )
                     .build()
                     .prepare(clientOptions, params)

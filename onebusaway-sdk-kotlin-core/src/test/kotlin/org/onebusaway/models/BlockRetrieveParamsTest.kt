@@ -13,12 +13,11 @@ internal class BlockRetrieveParamsTest {
     }
 
     @Test
-    fun getPathParam() {
+    fun pathParams() {
         val params = BlockRetrieveParams.builder().blockId("blockID").build()
-        assertThat(params).isNotNull
-        // path param "blockId"
-        assertThat(params.getPathParam(0)).isEqualTo("blockID")
+
+        assertThat(params._pathParam(0)).isEqualTo("blockID")
         // out-of-bound path param
-        assertThat(params.getPathParam(1)).isEqualTo("")
+        assertThat(params._pathParam(1)).isEqualTo("")
     }
 }

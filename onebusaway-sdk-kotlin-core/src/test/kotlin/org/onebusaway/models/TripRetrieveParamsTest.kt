@@ -13,12 +13,11 @@ internal class TripRetrieveParamsTest {
     }
 
     @Test
-    fun getPathParam() {
+    fun pathParams() {
         val params = TripRetrieveParams.builder().tripId("tripID").build()
-        assertThat(params).isNotNull
-        // path param "tripId"
-        assertThat(params.getPathParam(0)).isEqualTo("tripID")
+
+        assertThat(params._pathParam(0)).isEqualTo("tripID")
         // out-of-bound path param
-        assertThat(params.getPathParam(1)).isEqualTo("")
+        assertThat(params._pathParam(1)).isEqualTo("")
     }
 }

@@ -21,6 +21,20 @@ internal class ArrivalAndDepartureRetrieveParamsTest {
     }
 
     @Test
+    fun pathParams() {
+        val params =
+            ArrivalAndDepartureRetrieveParams.builder()
+                .stopId("1_75403")
+                .serviceDate(0L)
+                .tripId("tripId")
+                .build()
+
+        assertThat(params._pathParam(0)).isEqualTo("1_75403")
+        // out-of-bound path param
+        assertThat(params._pathParam(1)).isEqualTo("")
+    }
+
+    @Test
     fun queryParams() {
         val params =
             ArrivalAndDepartureRetrieveParams.builder()
@@ -61,20 +75,5 @@ internal class ArrivalAndDepartureRetrieveParamsTest {
             .isEqualTo(
                 QueryParams.builder().put("serviceDate", "0").put("tripId", "tripId").build()
             )
-    }
-
-    @Test
-    fun getPathParam() {
-        val params =
-            ArrivalAndDepartureRetrieveParams.builder()
-                .stopId("1_75403")
-                .serviceDate(0L)
-                .tripId("tripId")
-                .build()
-        assertThat(params).isNotNull
-        // path param "stopId"
-        assertThat(params.getPathParam(0)).isEqualTo("1_75403")
-        // out-of-bound path param
-        assertThat(params.getPathParam(1)).isEqualTo("")
     }
 }

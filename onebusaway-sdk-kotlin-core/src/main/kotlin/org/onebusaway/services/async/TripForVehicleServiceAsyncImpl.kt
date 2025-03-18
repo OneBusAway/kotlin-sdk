@@ -54,7 +54,7 @@ internal constructor(private val clientOptions: ClientOptions) : TripForVehicleS
                         "api",
                         "where",
                         "trip-for-vehicle",
-                        "${params.getPathParam(0)}.json",
+                        "${params._pathParam(0)}.json",
                     )
                     .build()
                     .prepareAsync(clientOptions, params)
