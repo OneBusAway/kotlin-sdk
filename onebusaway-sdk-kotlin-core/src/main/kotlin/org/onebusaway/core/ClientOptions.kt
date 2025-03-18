@@ -172,6 +172,19 @@ private constructor(
 
         fun fromEnv() = apply { System.getenv("ONEBUSAWAY_API_KEY")?.let { apiKey(it) } }
 
+        /**
+         * Returns an immutable instance of [ClientOptions].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```kotlin
+         * .httpClient()
+         * .apiKey()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): ClientOptions {
             val httpClient = checkRequired("httpClient", httpClient)
             val apiKey = checkRequired("apiKey", apiKey)

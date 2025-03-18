@@ -234,6 +234,22 @@ private constructor(
             keys.forEach(::removeAdditionalProperty)
         }
 
+        /**
+         * Returns an immutable instance of [StopsForRouteListResponse].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```kotlin
+         * .code()
+         * .currentTime()
+         * .text()
+         * .version()
+         * .data()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): StopsForRouteListResponse =
             StopsForRouteListResponse(
                 checkRequired("code", code),
@@ -375,6 +391,19 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
+            /**
+             * Returns an immutable instance of [Data].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```kotlin
+             * .entry()
+             * .references()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
             fun build(): Data =
                 Data(
                     checkRequired("entry", entry),
@@ -615,6 +644,11 @@ private constructor(
                     keys.forEach(::removeAdditionalProperty)
                 }
 
+                /**
+                 * Returns an immutable instance of [Entry].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 */
                 fun build(): Entry =
                     Entry(
                         (polylines ?: JsonMissing.of()).map { it.toImmutable() },
@@ -779,6 +813,11 @@ private constructor(
                         keys.forEach(::removeAdditionalProperty)
                     }
 
+                    /**
+                     * Returns an immutable instance of [Polyline].
+                     *
+                     * Further updates to this [Builder] will not mutate the returned instance.
+                     */
                     fun build(): Polyline =
                         Polyline(length, levels, points, additionalProperties.toImmutable())
                 }
@@ -1017,6 +1056,11 @@ private constructor(
                         keys.forEach(::removeAdditionalProperty)
                     }
 
+                    /**
+                     * Returns an immutable instance of [StopGrouping].
+                     *
+                     * Further updates to this [Builder] will not mutate the returned instance.
+                     */
                     fun build(): StopGrouping =
                         StopGrouping(
                             id,
@@ -1199,6 +1243,11 @@ private constructor(
                             keys.forEach(::removeAdditionalProperty)
                         }
 
+                        /**
+                         * Returns an immutable instance of [Name].
+                         *
+                         * Further updates to this [Builder] will not mutate the returned instance.
+                         */
                         fun build(): Name =
                             Name(
                                 name,
@@ -1385,6 +1434,11 @@ private constructor(
                             keys.forEach(::removeAdditionalProperty)
                         }
 
+                        /**
+                         * Returns an immutable instance of [Polyline].
+                         *
+                         * Further updates to this [Builder] will not mutate the returned instance.
+                         */
                         fun build(): Polyline =
                             Polyline(length, levels, points, additionalProperties.toImmutable())
                     }
