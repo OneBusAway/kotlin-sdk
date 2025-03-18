@@ -69,23 +69,22 @@ private constructor(
 
     override fun _headers(): Headers = additionalHeaders
 
-    override fun _queryParams(): QueryParams {
-        val queryParams = QueryParams.builder()
-        this.code?.let { queryParams.put("code", listOf(it.toString())) }
-        this.serviceDate?.let { queryParams.put("serviceDate", listOf(it.toString())) }
-        this.stopId?.let { queryParams.put("stopID", listOf(it.toString())) }
-        this.userComment?.let { queryParams.put("userComment", listOf(it.toString())) }
-        this.userLat?.let { queryParams.put("userLat", listOf(it.toString())) }
-        this.userLocationAccuracy?.let {
-            queryParams.put("userLocationAccuracy", listOf(it.toString()))
-        }
-        this.userLon?.let { queryParams.put("userLon", listOf(it.toString())) }
-        this.userOnVehicle?.let { queryParams.put("userOnVehicle", listOf(it.toString())) }
-        this.userVehicleNumber?.let { queryParams.put("userVehicleNumber", listOf(it.toString())) }
-        this.vehicleId?.let { queryParams.put("vehicleID", listOf(it.toString())) }
-        queryParams.putAll(additionalQueryParams)
-        return queryParams.build()
-    }
+    override fun _queryParams(): QueryParams =
+        QueryParams.builder()
+            .apply {
+                code?.let { put("code", it.asString()) }
+                serviceDate?.let { put("serviceDate", it.toString()) }
+                stopId?.let { put("stopID", it) }
+                userComment?.let { put("userComment", it) }
+                userLat?.let { put("userLat", it.toString()) }
+                userLocationAccuracy?.let { put("userLocationAccuracy", it.toString()) }
+                userLon?.let { put("userLon", it.toString()) }
+                userOnVehicle?.let { put("userOnVehicle", it.toString()) }
+                userVehicleNumber?.let { put("userVehicleNumber", it) }
+                vehicleId?.let { put("vehicleID", it) }
+                putAll(additionalQueryParams)
+            }
+            .build()
 
     fun getPathParam(index: Int): String {
         return when (index) {

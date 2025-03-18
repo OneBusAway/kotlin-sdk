@@ -24,16 +24,19 @@ internal class ScheduleForStopRetrieveParamsTest {
                 .stopId("stopID")
                 .date(LocalDate.parse("2019-12-27"))
                 .build()
-        val expected = QueryParams.builder()
-        expected.put("date", "2019-12-27")
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams).isEqualTo(QueryParams.builder().put("date", "2019-12-27").build())
     }
 
     @Test
     fun queryParamsWithoutOptionalFields() {
         val params = ScheduleForStopRetrieveParams.builder().stopId("stopID").build()
-        val expected = QueryParams.builder()
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams).isEqualTo(QueryParams.builder().build())
     }
 
     @Test
