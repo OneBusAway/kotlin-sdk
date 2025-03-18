@@ -40,16 +40,17 @@ private constructor(
 
     override fun _headers(): Headers = additionalHeaders
 
-    override fun _queryParams(): QueryParams {
-        val queryParams = QueryParams.builder()
-        this.serviceDate.let { queryParams.put("serviceDate", listOf(it.toString())) }
-        this.tripId.let { queryParams.put("tripId", listOf(it.toString())) }
-        this.stopSequence?.let { queryParams.put("stopSequence", listOf(it.toString())) }
-        this.time?.let { queryParams.put("time", listOf(it.toString())) }
-        this.vehicleId?.let { queryParams.put("vehicleId", listOf(it.toString())) }
-        queryParams.putAll(additionalQueryParams)
-        return queryParams.build()
-    }
+    override fun _queryParams(): QueryParams =
+        QueryParams.builder()
+            .apply {
+                put("serviceDate", serviceDate.toString())
+                put("tripId", tripId)
+                stopSequence?.let { put("stopSequence", it.toString()) }
+                time?.let { put("time", it.toString()) }
+                vehicleId?.let { put("vehicleId", it) }
+                putAll(additionalQueryParams)
+            }
+            .build()
 
     fun getPathParam(index: Int): String {
         return when (index) {

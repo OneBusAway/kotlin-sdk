@@ -25,17 +25,22 @@ internal class StopsForRouteListParamsTest {
                 .includePolylines(true)
                 .time("time")
                 .build()
-        val expected = QueryParams.builder()
-        expected.put("includePolylines", "true")
-        expected.put("time", "time")
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams)
+            .isEqualTo(
+                QueryParams.builder().put("includePolylines", "true").put("time", "time").build()
+            )
     }
 
     @Test
     fun queryParamsWithoutOptionalFields() {
         val params = StopsForRouteListParams.builder().routeId("routeID").build()
-        val expected = QueryParams.builder()
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams).isEqualTo(QueryParams.builder().build())
     }
 
     @Test

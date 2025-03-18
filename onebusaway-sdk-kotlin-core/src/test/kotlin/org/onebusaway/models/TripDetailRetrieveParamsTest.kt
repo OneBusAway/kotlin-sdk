@@ -31,20 +31,28 @@ internal class TripDetailRetrieveParamsTest {
                 .serviceDate(0L)
                 .time(0L)
                 .build()
-        val expected = QueryParams.builder()
-        expected.put("includeSchedule", "true")
-        expected.put("includeStatus", "true")
-        expected.put("includeTrip", "true")
-        expected.put("serviceDate", "0")
-        expected.put("time", "0")
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams)
+            .isEqualTo(
+                QueryParams.builder()
+                    .put("includeSchedule", "true")
+                    .put("includeStatus", "true")
+                    .put("includeTrip", "true")
+                    .put("serviceDate", "0")
+                    .put("time", "0")
+                    .build()
+            )
     }
 
     @Test
     fun queryParamsWithoutOptionalFields() {
         val params = TripDetailRetrieveParams.builder().tripId("tripID").build()
-        val expected = QueryParams.builder()
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams).isEqualTo(QueryParams.builder().build())
     }
 
     @Test

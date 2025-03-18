@@ -24,16 +24,19 @@ internal class ScheduleForRouteRetrieveParamsTest {
                 .routeId("1_100223")
                 .date(LocalDate.parse("2019-12-27"))
                 .build()
-        val expected = QueryParams.builder()
-        expected.put("date", "2019-12-27")
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams).isEqualTo(QueryParams.builder().put("date", "2019-12-27").build())
     }
 
     @Test
     fun queryParamsWithoutOptionalFields() {
         val params = ScheduleForRouteRetrieveParams.builder().routeId("1_100223").build()
-        val expected = QueryParams.builder()
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams).isEqualTo(QueryParams.builder().build())
     }
 
     @Test

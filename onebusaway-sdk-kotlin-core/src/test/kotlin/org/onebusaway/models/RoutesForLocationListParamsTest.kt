@@ -31,22 +31,29 @@ internal class RoutesForLocationListParamsTest {
                 .query("query")
                 .radius(0.0)
                 .build()
-        val expected = QueryParams.builder()
-        expected.put("lat", "0.0")
-        expected.put("lon", "0.0")
-        expected.put("latSpan", "0.0")
-        expected.put("lonSpan", "0.0")
-        expected.put("query", "query")
-        expected.put("radius", "0.0")
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams)
+            .isEqualTo(
+                QueryParams.builder()
+                    .put("lat", "0.0")
+                    .put("lon", "0.0")
+                    .put("latSpan", "0.0")
+                    .put("lonSpan", "0.0")
+                    .put("query", "query")
+                    .put("radius", "0.0")
+                    .build()
+            )
     }
 
     @Test
     fun queryParamsWithoutOptionalFields() {
         val params = RoutesForLocationListParams.builder().lat(0.0).lon(0.0).build()
-        val expected = QueryParams.builder()
-        expected.put("lat", "0.0")
-        expected.put("lon", "0.0")
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams)
+            .isEqualTo(QueryParams.builder().put("lat", "0.0").put("lon", "0.0").build())
     }
 }

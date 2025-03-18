@@ -28,18 +28,26 @@ internal class ArrivalAndDepartureListParamsTest {
                 .minutesBefore(0L)
                 .time(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .build()
-        val expected = QueryParams.builder()
-        expected.put("minutesAfter", "0")
-        expected.put("minutesBefore", "0")
-        expected.put("time", "2019-12-27T18:11:19.117Z")
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams)
+            .isEqualTo(
+                QueryParams.builder()
+                    .put("minutesAfter", "0")
+                    .put("minutesBefore", "0")
+                    .put("time", "2019-12-27T18:11:19.117Z")
+                    .build()
+            )
     }
 
     @Test
     fun queryParamsWithoutOptionalFields() {
         val params = ArrivalAndDepartureListParams.builder().stopId("1_75403").build()
-        val expected = QueryParams.builder()
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams).isEqualTo(QueryParams.builder().build())
     }
 
     @Test

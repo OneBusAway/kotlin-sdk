@@ -33,26 +33,38 @@ internal class TripsForLocationListParamsTest {
                 .includeTrip(true)
                 .time(0L)
                 .build()
-        val expected = QueryParams.builder()
-        expected.put("lat", "0.0")
-        expected.put("latSpan", "0.0")
-        expected.put("lon", "0.0")
-        expected.put("lonSpan", "0.0")
-        expected.put("includeSchedule", "true")
-        expected.put("includeTrip", "true")
-        expected.put("time", "0")
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams)
+            .isEqualTo(
+                QueryParams.builder()
+                    .put("lat", "0.0")
+                    .put("latSpan", "0.0")
+                    .put("lon", "0.0")
+                    .put("lonSpan", "0.0")
+                    .put("includeSchedule", "true")
+                    .put("includeTrip", "true")
+                    .put("time", "0")
+                    .build()
+            )
     }
 
     @Test
     fun queryParamsWithoutOptionalFields() {
         val params =
             TripsForLocationListParams.builder().lat(0.0).latSpan(0.0).lon(0.0).lonSpan(0.0).build()
-        val expected = QueryParams.builder()
-        expected.put("lat", "0.0")
-        expected.put("latSpan", "0.0")
-        expected.put("lon", "0.0")
-        expected.put("lonSpan", "0.0")
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams)
+            .isEqualTo(
+                QueryParams.builder()
+                    .put("lat", "0.0")
+                    .put("latSpan", "0.0")
+                    .put("lon", "0.0")
+                    .put("lonSpan", "0.0")
+                    .build()
+            )
     }
 }

@@ -49,18 +49,17 @@ private constructor(
 
     override fun _headers(): Headers = additionalHeaders
 
-    override fun _queryParams(): QueryParams {
-        val queryParams = QueryParams.builder()
-        this.code?.let { queryParams.put("code", listOf(it.toString())) }
-        this.userComment?.let { queryParams.put("userComment", listOf(it.toString())) }
-        this.userLat?.let { queryParams.put("userLat", listOf(it.toString())) }
-        this.userLocationAccuracy?.let {
-            queryParams.put("userLocationAccuracy", listOf(it.toString()))
-        }
-        this.userLon?.let { queryParams.put("userLon", listOf(it.toString())) }
-        queryParams.putAll(additionalQueryParams)
-        return queryParams.build()
-    }
+    override fun _queryParams(): QueryParams =
+        QueryParams.builder()
+            .apply {
+                code?.let { put("code", it.asString()) }
+                userComment?.let { put("userComment", it) }
+                userLat?.let { put("userLat", it.toString()) }
+                userLocationAccuracy?.let { put("userLocationAccuracy", it.toString()) }
+                userLon?.let { put("userLon", it.toString()) }
+                putAll(additionalQueryParams)
+            }
+            .build()
 
     fun getPathParam(index: Int): String {
         return when (index) {

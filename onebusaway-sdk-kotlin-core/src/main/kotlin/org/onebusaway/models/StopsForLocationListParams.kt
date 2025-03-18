@@ -44,17 +44,18 @@ private constructor(
 
     override fun _headers(): Headers = additionalHeaders
 
-    override fun _queryParams(): QueryParams {
-        val queryParams = QueryParams.builder()
-        this.lat.let { queryParams.put("lat", listOf(it.toString())) }
-        this.lon.let { queryParams.put("lon", listOf(it.toString())) }
-        this.latSpan?.let { queryParams.put("latSpan", listOf(it.toString())) }
-        this.lonSpan?.let { queryParams.put("lonSpan", listOf(it.toString())) }
-        this.query?.let { queryParams.put("query", listOf(it.toString())) }
-        this.radius?.let { queryParams.put("radius", listOf(it.toString())) }
-        queryParams.putAll(additionalQueryParams)
-        return queryParams.build()
-    }
+    override fun _queryParams(): QueryParams =
+        QueryParams.builder()
+            .apply {
+                put("lat", lat.toString())
+                put("lon", lon.toString())
+                latSpan?.let { put("latSpan", it.toString()) }
+                lonSpan?.let { put("lonSpan", it.toString()) }
+                query?.let { put("query", it) }
+                radius?.let { put("radius", it.toString()) }
+                putAll(additionalQueryParams)
+            }
+            .build()
 
     fun toBuilder() = Builder().from(this)
 
