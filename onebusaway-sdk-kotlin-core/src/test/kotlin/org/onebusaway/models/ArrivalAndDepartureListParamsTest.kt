@@ -20,6 +20,15 @@ internal class ArrivalAndDepartureListParamsTest {
     }
 
     @Test
+    fun pathParams() {
+        val params = ArrivalAndDepartureListParams.builder().stopId("1_75403").build()
+
+        assertThat(params._pathParam(0)).isEqualTo("1_75403")
+        // out-of-bound path param
+        assertThat(params._pathParam(1)).isEqualTo("")
+    }
+
+    @Test
     fun queryParams() {
         val params =
             ArrivalAndDepartureListParams.builder()
@@ -48,15 +57,5 @@ internal class ArrivalAndDepartureListParamsTest {
         val queryParams = params._queryParams()
 
         assertThat(queryParams).isEqualTo(QueryParams.builder().build())
-    }
-
-    @Test
-    fun getPathParam() {
-        val params = ArrivalAndDepartureListParams.builder().stopId("1_75403").build()
-        assertThat(params).isNotNull
-        // path param "stopId"
-        assertThat(params.getPathParam(0)).isEqualTo("1_75403")
-        // out-of-bound path param
-        assertThat(params.getPathParam(1)).isEqualTo("")
     }
 }

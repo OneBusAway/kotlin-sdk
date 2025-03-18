@@ -13,12 +13,11 @@ internal class RouteRetrieveParamsTest {
     }
 
     @Test
-    fun getPathParam() {
+    fun pathParams() {
         val params = RouteRetrieveParams.builder().routeId("routeID").build()
-        assertThat(params).isNotNull
-        // path param "routeId"
-        assertThat(params.getPathParam(0)).isEqualTo("routeID")
+
+        assertThat(params._pathParam(0)).isEqualTo("routeID")
         // out-of-bound path param
-        assertThat(params.getPathParam(1)).isEqualTo("")
+        assertThat(params._pathParam(1)).isEqualTo("")
     }
 }

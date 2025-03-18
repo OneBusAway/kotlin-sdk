@@ -64,7 +64,7 @@ internal constructor(private val clientOptions: ClientOptions) : ArrivalAndDepar
                         "api",
                         "where",
                         "arrival-and-departure-for-stop",
-                        "${params.getPathParam(0)}.json",
+                        "${params._pathParam(0)}.json",
                     )
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -96,7 +96,7 @@ internal constructor(private val clientOptions: ClientOptions) : ArrivalAndDepar
                         "api",
                         "where",
                         "arrivals-and-departures-for-stop",
-                        "${params.getPathParam(0)}.json",
+                        "${params._pathParam(0)}.json",
                     )
                     .build()
                     .prepareAsync(clientOptions, params)

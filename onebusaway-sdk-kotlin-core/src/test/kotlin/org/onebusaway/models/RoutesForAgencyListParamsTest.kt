@@ -13,12 +13,11 @@ internal class RoutesForAgencyListParamsTest {
     }
 
     @Test
-    fun getPathParam() {
+    fun pathParams() {
         val params = RoutesForAgencyListParams.builder().agencyId("40").build()
-        assertThat(params).isNotNull
-        // path param "agencyId"
-        assertThat(params.getPathParam(0)).isEqualTo("40")
+
+        assertThat(params._pathParam(0)).isEqualTo("40")
         // out-of-bound path param
-        assertThat(params.getPathParam(1)).isEqualTo("")
+        assertThat(params._pathParam(1)).isEqualTo("")
     }
 }

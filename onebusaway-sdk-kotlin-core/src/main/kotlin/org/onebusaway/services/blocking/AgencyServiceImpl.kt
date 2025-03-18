@@ -50,7 +50,7 @@ class AgencyServiceImpl internal constructor(private val clientOptions: ClientOp
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
-                    .addPathSegments("api", "where", "agency", "${params.getPathParam(0)}.json")
+                    .addPathSegments("api", "where", "agency", "${params._pathParam(0)}.json")
                     .build()
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))

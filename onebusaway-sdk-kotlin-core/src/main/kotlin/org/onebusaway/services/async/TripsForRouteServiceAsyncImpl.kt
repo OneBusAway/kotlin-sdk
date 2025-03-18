@@ -54,7 +54,7 @@ class TripsForRouteServiceAsyncImpl internal constructor(private val clientOptio
                         "api",
                         "where",
                         "trips-for-route",
-                        "${params.getPathParam(0)}.json",
+                        "${params._pathParam(0)}.json",
                     )
                     .build()
                     .prepareAsync(clientOptions, params)

@@ -54,7 +54,7 @@ class StopsForRouteServiceImpl internal constructor(private val clientOptions: C
                         "api",
                         "where",
                         "stops-for-route",
-                        "${params.getPathParam(0)}.json",
+                        "${params._pathParam(0)}.json",
                     )
                     .build()
                     .prepare(clientOptions, params)

@@ -13,12 +13,11 @@ internal class AgencyRetrieveParamsTest {
     }
 
     @Test
-    fun getPathParam() {
+    fun pathParams() {
         val params = AgencyRetrieveParams.builder().agencyId("agencyID").build()
-        assertThat(params).isNotNull
-        // path param "agencyId"
-        assertThat(params.getPathParam(0)).isEqualTo("agencyID")
+
+        assertThat(params._pathParam(0)).isEqualTo("agencyID")
         // out-of-bound path param
-        assertThat(params.getPathParam(1)).isEqualTo("")
+        assertThat(params._pathParam(1)).isEqualTo("")
     }
 }

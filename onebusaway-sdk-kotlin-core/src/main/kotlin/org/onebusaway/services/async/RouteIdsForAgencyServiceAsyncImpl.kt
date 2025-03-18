@@ -54,7 +54,7 @@ internal constructor(private val clientOptions: ClientOptions) : RouteIdsForAgen
                         "api",
                         "where",
                         "route-ids-for-agency",
-                        "${params.getPathParam(0)}.json",
+                        "${params._pathParam(0)}.json",
                     )
                     .build()
                     .prepareAsync(clientOptions, params)

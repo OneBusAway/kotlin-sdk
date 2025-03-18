@@ -50,7 +50,7 @@ class BlockServiceImpl internal constructor(private val clientOptions: ClientOpt
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
-                    .addPathSegments("api", "where", "block", "${params.getPathParam(0)}.json")
+                    .addPathSegments("api", "where", "block", "${params._pathParam(0)}.json")
                     .build()
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))

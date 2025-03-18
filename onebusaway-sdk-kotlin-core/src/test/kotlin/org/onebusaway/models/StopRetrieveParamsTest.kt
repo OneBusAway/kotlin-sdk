@@ -13,12 +13,11 @@ internal class StopRetrieveParamsTest {
     }
 
     @Test
-    fun getPathParam() {
+    fun pathParams() {
         val params = StopRetrieveParams.builder().stopId("stopID").build()
-        assertThat(params).isNotNull
-        // path param "stopId"
-        assertThat(params.getPathParam(0)).isEqualTo("stopID")
+
+        assertThat(params._pathParam(0)).isEqualTo("stopID")
         // out-of-bound path param
-        assertThat(params.getPathParam(1)).isEqualTo("")
+        assertThat(params._pathParam(1)).isEqualTo("")
     }
 }

@@ -53,7 +53,7 @@ internal constructor(private val clientOptions: ClientOptions) : ReportProblemWi
                         "api",
                         "where",
                         "report-problem-with-trip",
-                        "${params.getPathParam(0)}.json",
+                        "${params._pathParam(0)}.json",
                     )
                     .build()
                     .prepare(clientOptions, params)
