@@ -13,12 +13,11 @@ internal class ShapeRetrieveParamsTest {
     }
 
     @Test
-    fun getPathParam() {
+    fun pathParams() {
         val params = ShapeRetrieveParams.builder().shapeId("shapeID").build()
-        assertThat(params).isNotNull
-        // path param "shapeId"
-        assertThat(params.getPathParam(0)).isEqualTo("shapeID")
+
+        assertThat(params._pathParam(0)).isEqualTo("shapeID")
         // out-of-bound path param
-        assertThat(params.getPathParam(1)).isEqualTo("")
+        assertThat(params._pathParam(1)).isEqualTo("")
     }
 }

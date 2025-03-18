@@ -20,6 +20,15 @@ internal class TripForVehicleRetrieveParamsTest {
     }
 
     @Test
+    fun pathParams() {
+        val params = TripForVehicleRetrieveParams.builder().vehicleId("vehicleID").build()
+
+        assertThat(params._pathParam(0)).isEqualTo("vehicleID")
+        // out-of-bound path param
+        assertThat(params._pathParam(1)).isEqualTo("")
+    }
+
+    @Test
     fun queryParams() {
         val params =
             TripForVehicleRetrieveParams.builder()
@@ -50,15 +59,5 @@ internal class TripForVehicleRetrieveParamsTest {
         val queryParams = params._queryParams()
 
         assertThat(queryParams).isEqualTo(QueryParams.builder().build())
-    }
-
-    @Test
-    fun getPathParam() {
-        val params = TripForVehicleRetrieveParams.builder().vehicleId("vehicleID").build()
-        assertThat(params).isNotNull
-        // path param "vehicleId"
-        assertThat(params.getPathParam(0)).isEqualTo("vehicleID")
-        // out-of-bound path param
-        assertThat(params.getPathParam(1)).isEqualTo("")
     }
 }

@@ -50,7 +50,7 @@ class TripServiceAsyncImpl internal constructor(private val clientOptions: Clien
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
-                    .addPathSegments("api", "where", "trip", "${params.getPathParam(0)}.json")
+                    .addPathSegments("api", "where", "trip", "${params._pathParam(0)}.json")
                     .build()
                     .prepareAsync(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
