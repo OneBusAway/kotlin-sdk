@@ -148,6 +148,11 @@ class OnebusawaySdkOkHttpClient private constructor() {
 
         fun fromEnv() = apply { clientOptions.fromEnv() }
 
+        /**
+         * Returns an immutable instance of [OnebusawaySdkClient].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         */
         fun build(): OnebusawaySdkClient =
             OnebusawaySdkClientImpl(
                 clientOptions

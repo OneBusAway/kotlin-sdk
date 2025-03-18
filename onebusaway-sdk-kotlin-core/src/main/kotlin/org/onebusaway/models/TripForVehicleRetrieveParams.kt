@@ -255,6 +255,18 @@ private constructor(
             additionalQueryParams.removeAll(keys)
         }
 
+        /**
+         * Returns an immutable instance of [TripForVehicleRetrieveParams].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```kotlin
+         * .vehicleId()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): TripForVehicleRetrieveParams =
             TripForVehicleRetrieveParams(
                 checkRequired("vehicleId", vehicleId),

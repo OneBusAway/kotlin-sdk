@@ -352,6 +352,23 @@ private constructor(
             keys.forEach(::removeAdditionalProperty)
         }
 
+        /**
+         * Returns an immutable instance of [References].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```kotlin
+         * .agencies()
+         * .routes()
+         * .situations()
+         * .stops()
+         * .stopTimes()
+         * .trips()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): References =
             References(
                 checkRequired("agencies", agencies).map { it.toImmutable() },
@@ -736,6 +753,21 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
+            /**
+             * Returns an immutable instance of [Agency].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```kotlin
+             * .id()
+             * .name()
+             * .timezone()
+             * .url()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
             fun build(): Agency =
                 Agency(
                     checkRequired("id", id),
@@ -1141,6 +1173,20 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
+            /**
+             * Returns an immutable instance of [Route].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```kotlin
+             * .id()
+             * .agencyId()
+             * .type()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
             fun build(): Route =
                 Route(
                     checkRequired("id", id),
@@ -1698,6 +1744,19 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
+            /**
+             * Returns an immutable instance of [Situation].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```kotlin
+             * .id()
+             * .creationTime()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
             fun build(): Situation =
                 Situation(
                     checkRequired("id", id),
@@ -1841,6 +1900,11 @@ private constructor(
                     keys.forEach(::removeAdditionalProperty)
                 }
 
+                /**
+                 * Returns an immutable instance of [ActiveWindow].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 */
                 fun build(): ActiveWindow =
                     ActiveWindow(from, to, additionalProperties.toImmutable())
             }
@@ -2134,6 +2198,11 @@ private constructor(
                     keys.forEach(::removeAdditionalProperty)
                 }
 
+                /**
+                 * Returns an immutable instance of [AllAffect].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 */
                 fun build(): AllAffect =
                     AllAffect(
                         agencyId,
@@ -2298,6 +2367,11 @@ private constructor(
                     keys.forEach(::removeAdditionalProperty)
                 }
 
+                /**
+                 * Returns an immutable instance of [Consequence].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 */
                 fun build(): Consequence =
                     Consequence(condition, conditionDetails, additionalProperties.toImmutable())
             }
@@ -2451,6 +2525,11 @@ private constructor(
                         keys.forEach(::removeAdditionalProperty)
                     }
 
+                    /**
+                     * Returns an immutable instance of [ConditionDetails].
+                     *
+                     * Further updates to this [Builder] will not mutate the returned instance.
+                     */
                     fun build(): ConditionDetails =
                         ConditionDetails(
                             diversionPath,
@@ -2630,6 +2709,11 @@ private constructor(
                             keys.forEach(::removeAdditionalProperty)
                         }
 
+                        /**
+                         * Returns an immutable instance of [DiversionPath].
+                         *
+                         * Further updates to this [Builder] will not mutate the returned instance.
+                         */
                         fun build(): DiversionPath =
                             DiversionPath(
                                 length,
@@ -2820,6 +2904,11 @@ private constructor(
                     keys.forEach(::removeAdditionalProperty)
                 }
 
+                /**
+                 * Returns an immutable instance of [Description].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 */
                 fun build(): Description =
                     Description(lang, value, additionalProperties.toImmutable())
             }
@@ -2977,6 +3066,19 @@ private constructor(
                     keys.forEach(::removeAdditionalProperty)
                 }
 
+                /**
+                 * Returns an immutable instance of [PublicationWindow].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 *
+                 * The following fields are required:
+                 * ```kotlin
+                 * .from()
+                 * .to()
+                 * ```
+                 *
+                 * @throws IllegalStateException if any required field is unset.
+                 */
                 fun build(): PublicationWindow =
                     PublicationWindow(
                         checkRequired("from", from),
@@ -3250,6 +3352,11 @@ private constructor(
                     keys.forEach(::removeAdditionalProperty)
                 }
 
+                /**
+                 * Returns an immutable instance of [Summary].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 */
                 fun build(): Summary = Summary(lang, value, additionalProperties.toImmutable())
             }
 
@@ -3398,6 +3505,11 @@ private constructor(
                     keys.forEach(::removeAdditionalProperty)
                 }
 
+                /**
+                 * Returns an immutable instance of [Url].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 */
                 fun build(): Url = Url(lang, value, additionalProperties.toImmutable())
             }
 
@@ -3877,6 +3989,24 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
+            /**
+             * Returns an immutable instance of [Stop].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```kotlin
+             * .id()
+             * .lat()
+             * .lon()
+             * .name()
+             * .parent()
+             * .routeIds()
+             * .staticRouteIds()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
             fun build(): Stop =
                 Stop(
                     checkRequired("id", id),
@@ -4174,6 +4304,11 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
+            /**
+             * Returns an immutable instance of [StopTime].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             */
             fun build(): StopTime =
                 StopTime(
                     arrivalTime,
@@ -4621,6 +4756,20 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
+            /**
+             * Returns an immutable instance of [Trip].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```kotlin
+             * .id()
+             * .routeId()
+             * .serviceId()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
             fun build(): Trip =
                 Trip(
                     checkRequired("id", id),

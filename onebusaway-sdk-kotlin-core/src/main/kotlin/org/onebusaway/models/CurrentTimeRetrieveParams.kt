@@ -145,6 +145,11 @@ private constructor(
             additionalQueryParams.removeAll(keys)
         }
 
+        /**
+         * Returns an immutable instance of [CurrentTimeRetrieveParams].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         */
         fun build(): CurrentTimeRetrieveParams =
             CurrentTimeRetrieveParams(additionalHeaders.build(), additionalQueryParams.build())
     }

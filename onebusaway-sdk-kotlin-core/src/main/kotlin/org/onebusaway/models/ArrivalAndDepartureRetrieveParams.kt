@@ -226,6 +226,20 @@ private constructor(
             additionalQueryParams.removeAll(keys)
         }
 
+        /**
+         * Returns an immutable instance of [ArrivalAndDepartureRetrieveParams].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```kotlin
+         * .stopId()
+         * .serviceDate()
+         * .tripId()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): ArrivalAndDepartureRetrieveParams =
             ArrivalAndDepartureRetrieveParams(
                 checkRequired("stopId", stopId),
