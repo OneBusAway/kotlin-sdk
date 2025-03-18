@@ -237,6 +237,22 @@ private constructor(
             keys.forEach(::removeAdditionalProperty)
         }
 
+        /**
+         * Returns an immutable instance of [ScheduleForRouteRetrieveResponse].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```kotlin
+         * .code()
+         * .currentTime()
+         * .text()
+         * .version()
+         * .data()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): ScheduleForRouteRetrieveResponse =
             ScheduleForRouteRetrieveResponse(
                 checkRequired("code", code),
@@ -343,6 +359,18 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
+            /**
+             * Returns an immutable instance of [Data].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```kotlin
+             * .entry()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
             fun build(): Data =
                 Data(checkRequired("entry", entry), additionalProperties.toImmutable())
         }
@@ -676,6 +704,23 @@ private constructor(
                     keys.forEach(::removeAdditionalProperty)
                 }
 
+                /**
+                 * Returns an immutable instance of [Entry].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 *
+                 * The following fields are required:
+                 * ```kotlin
+                 * .routeId()
+                 * .scheduleDate()
+                 * .serviceIds()
+                 * .stops()
+                 * .stopTripGroupings()
+                 * .trips()
+                 * ```
+                 *
+                 * @throws IllegalStateException if any required field is unset.
+                 */
                 fun build(): Entry =
                     Entry(
                         checkRequired("routeId", routeId),
@@ -1156,6 +1201,24 @@ private constructor(
                         keys.forEach(::removeAdditionalProperty)
                     }
 
+                    /**
+                     * Returns an immutable instance of [Stop].
+                     *
+                     * Further updates to this [Builder] will not mutate the returned instance.
+                     *
+                     * The following fields are required:
+                     * ```kotlin
+                     * .id()
+                     * .lat()
+                     * .lon()
+                     * .name()
+                     * .parent()
+                     * .routeIds()
+                     * .staticRouteIds()
+                     * ```
+                     *
+                     * @throws IllegalStateException if any required field is unset.
+                     */
                     fun build(): Stop =
                         Stop(
                             checkRequired("id", id),
@@ -1498,6 +1561,21 @@ private constructor(
                         keys.forEach(::removeAdditionalProperty)
                     }
 
+                    /**
+                     * Returns an immutable instance of [StopTripGrouping].
+                     *
+                     * Further updates to this [Builder] will not mutate the returned instance.
+                     *
+                     * The following fields are required:
+                     * ```kotlin
+                     * .directionId()
+                     * .stopIds()
+                     * .tripHeadsigns()
+                     * .tripIds()
+                     * ```
+                     *
+                     * @throws IllegalStateException if any required field is unset.
+                     */
                     fun build(): StopTripGrouping =
                         StopTripGrouping(
                             checkRequired("directionId", directionId),
@@ -1665,6 +1743,19 @@ private constructor(
                             keys.forEach(::removeAdditionalProperty)
                         }
 
+                        /**
+                         * Returns an immutable instance of [TripsWithStopTime].
+                         *
+                         * Further updates to this [Builder] will not mutate the returned instance.
+                         *
+                         * The following fields are required:
+                         * ```kotlin
+                         * .stopTimes()
+                         * .tripId()
+                         * ```
+                         *
+                         * @throws IllegalStateException if any required field is unset.
+                         */
                         fun build(): TripsWithStopTime =
                             TripsWithStopTime(
                                 checkRequired("stopTimes", stopTimes).map { it.toImmutable() },
@@ -2038,6 +2129,24 @@ private constructor(
                                 keys.forEach(::removeAdditionalProperty)
                             }
 
+                            /**
+                             * Returns an immutable instance of [StopTime].
+                             *
+                             * Further updates to this [Builder] will not mutate the returned
+                             * instance.
+                             *
+                             * The following fields are required:
+                             * ```kotlin
+                             * .arrivalEnabled()
+                             * .arrivalTime()
+                             * .departureEnabled()
+                             * .departureTime()
+                             * .stopId()
+                             * .tripId()
+                             * ```
+                             *
+                             * @throws IllegalStateException if any required field is unset.
+                             */
                             fun build(): StopTime =
                                 StopTime(
                                     checkRequired("arrivalEnabled", arrivalEnabled),
@@ -2548,6 +2657,20 @@ private constructor(
                         keys.forEach(::removeAdditionalProperty)
                     }
 
+                    /**
+                     * Returns an immutable instance of [Trip].
+                     *
+                     * Further updates to this [Builder] will not mutate the returned instance.
+                     *
+                     * The following fields are required:
+                     * ```kotlin
+                     * .id()
+                     * .routeId()
+                     * .serviceId()
+                     * ```
+                     *
+                     * @throws IllegalStateException if any required field is unset.
+                     */
                     fun build(): Trip =
                         Trip(
                             checkRequired("id", id),

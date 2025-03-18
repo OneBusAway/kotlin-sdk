@@ -234,6 +234,22 @@ private constructor(
             keys.forEach(::removeAdditionalProperty)
         }
 
+        /**
+         * Returns an immutable instance of [TripsForRouteListResponse].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```kotlin
+         * .code()
+         * .currentTime()
+         * .text()
+         * .version()
+         * .data()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): TripsForRouteListResponse =
             TripsForRouteListResponse(
                 checkRequired("code", code),
@@ -425,6 +441,20 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
+            /**
+             * Returns an immutable instance of [Data].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```kotlin
+             * .limitExceeded()
+             * .list()
+             * .references()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
             fun build(): Data =
                 Data(
                     checkRequired("limitExceeded", limitExceeded),
@@ -716,6 +746,20 @@ private constructor(
                     keys.forEach(::removeAdditionalProperty)
                 }
 
+                /**
+                 * Returns an immutable instance of [List].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 *
+                 * The following fields are required:
+                 * ```kotlin
+                 * .schedule()
+                 * .status()
+                 * .tripId()
+                 * ```
+                 *
+                 * @throws IllegalStateException if any required field is unset.
+                 */
                 fun build(): List =
                     List(
                         checkRequired("schedule", schedule),
@@ -989,6 +1033,21 @@ private constructor(
                         keys.forEach(::removeAdditionalProperty)
                     }
 
+                    /**
+                     * Returns an immutable instance of [Schedule].
+                     *
+                     * Further updates to this [Builder] will not mutate the returned instance.
+                     *
+                     * The following fields are required:
+                     * ```kotlin
+                     * .nextTripId()
+                     * .previousTripId()
+                     * .stopTimes()
+                     * .timeZone()
+                     * ```
+                     *
+                     * @throws IllegalStateException if any required field is unset.
+                     */
                     fun build(): Schedule =
                         Schedule(
                             checkRequired("nextTripId", nextTripId),
@@ -1276,6 +1335,11 @@ private constructor(
                             keys.forEach(::removeAdditionalProperty)
                         }
 
+                        /**
+                         * Returns an immutable instance of [StopTime].
+                         *
+                         * Further updates to this [Builder] will not mutate the returned instance.
+                         */
                         fun build(): StopTime =
                             StopTime(
                                 arrivalTime,
@@ -2507,6 +2571,33 @@ private constructor(
                         keys.forEach(::removeAdditionalProperty)
                     }
 
+                    /**
+                     * Returns an immutable instance of [Status].
+                     *
+                     * Further updates to this [Builder] will not mutate the returned instance.
+                     *
+                     * The following fields are required:
+                     * ```kotlin
+                     * .activeTripId()
+                     * .blockTripSequence()
+                     * .closestStop()
+                     * .distanceAlongTrip()
+                     * .lastKnownDistanceAlongTrip()
+                     * .lastLocationUpdateTime()
+                     * .lastUpdateTime()
+                     * .occupancyCapacity()
+                     * .occupancyCount()
+                     * .occupancyStatus()
+                     * .phase()
+                     * .predicted()
+                     * .scheduleDeviation()
+                     * .serviceDate()
+                     * .status()
+                     * .totalDistanceAlongTrip()
+                     * ```
+                     *
+                     * @throws IllegalStateException if any required field is unset.
+                     */
                     fun build(): Status =
                         Status(
                             checkRequired("activeTripId", activeTripId),
@@ -2675,6 +2766,11 @@ private constructor(
                             keys.forEach(::removeAdditionalProperty)
                         }
 
+                        /**
+                         * Returns an immutable instance of [LastKnownLocation].
+                         *
+                         * Further updates to this [Builder] will not mutate the returned instance.
+                         */
                         fun build(): LastKnownLocation =
                             LastKnownLocation(lat, lon, additionalProperties.toImmutable())
                     }
@@ -2828,6 +2924,11 @@ private constructor(
                             keys.forEach(::removeAdditionalProperty)
                         }
 
+                        /**
+                         * Returns an immutable instance of [Position].
+                         *
+                         * Further updates to this [Builder] will not mutate the returned instance.
+                         */
                         fun build(): Position =
                             Position(lat, lon, additionalProperties.toImmutable())
                     }
