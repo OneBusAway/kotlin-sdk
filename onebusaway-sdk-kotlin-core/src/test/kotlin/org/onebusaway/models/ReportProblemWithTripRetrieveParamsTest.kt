@@ -41,25 +41,33 @@ internal class ReportProblemWithTripRetrieveParamsTest {
                 .userVehicleNumber("userVehicleNumber")
                 .vehicleId("vehicleID")
                 .build()
-        val expected = QueryParams.builder()
-        expected.put("code", ReportProblemWithTripRetrieveParams.Code.VEHICLE_NEVER_CAME.toString())
-        expected.put("serviceDate", "0")
-        expected.put("stopID", "stopID")
-        expected.put("userComment", "userComment")
-        expected.put("userLat", "0.0")
-        expected.put("userLocationAccuracy", "0.0")
-        expected.put("userLon", "0.0")
-        expected.put("userOnVehicle", "true")
-        expected.put("userVehicleNumber", "userVehicleNumber")
-        expected.put("vehicleID", "vehicleID")
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams)
+            .isEqualTo(
+                QueryParams.builder()
+                    .put("code", "vehicle_never_came")
+                    .put("serviceDate", "0")
+                    .put("stopID", "stopID")
+                    .put("userComment", "userComment")
+                    .put("userLat", "0.0")
+                    .put("userLocationAccuracy", "0.0")
+                    .put("userLon", "0.0")
+                    .put("userOnVehicle", "true")
+                    .put("userVehicleNumber", "userVehicleNumber")
+                    .put("vehicleID", "vehicleID")
+                    .build()
+            )
     }
 
     @Test
     fun queryParamsWithoutOptionalFields() {
         val params = ReportProblemWithTripRetrieveParams.builder().tripId("tripID").build()
-        val expected = QueryParams.builder()
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams).isEqualTo(QueryParams.builder().build())
     }
 
     @Test

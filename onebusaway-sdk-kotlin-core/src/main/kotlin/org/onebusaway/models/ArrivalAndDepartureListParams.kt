@@ -39,16 +39,15 @@ private constructor(
 
     override fun _headers(): Headers = additionalHeaders
 
-    override fun _queryParams(): QueryParams {
-        val queryParams = QueryParams.builder()
-        this.minutesAfter?.let { queryParams.put("minutesAfter", listOf(it.toString())) }
-        this.minutesBefore?.let { queryParams.put("minutesBefore", listOf(it.toString())) }
-        this.time?.let {
-            queryParams.put("time", listOf(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)))
-        }
-        queryParams.putAll(additionalQueryParams)
-        return queryParams.build()
-    }
+    override fun _queryParams(): QueryParams =
+        QueryParams.builder()
+            .apply {
+                minutesAfter?.let { put("minutesAfter", it.toString()) }
+                minutesBefore?.let { put("minutesBefore", it.toString()) }
+                time?.let { put("time", DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)) }
+                putAll(additionalQueryParams)
+            }
+            .build()
 
     fun getPathParam(index: Int): String {
         return when (index) {

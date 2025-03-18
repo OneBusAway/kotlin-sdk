@@ -40,14 +40,15 @@ private constructor(
 
     override fun _headers(): Headers = additionalHeaders
 
-    override fun _queryParams(): QueryParams {
-        val queryParams = QueryParams.builder()
-        this.includeSchedule?.let { queryParams.put("includeSchedule", listOf(it.toString())) }
-        this.includeStatus?.let { queryParams.put("includeStatus", listOf(it.toString())) }
-        this.time?.let { queryParams.put("time", listOf(it.toString())) }
-        queryParams.putAll(additionalQueryParams)
-        return queryParams.build()
-    }
+    override fun _queryParams(): QueryParams =
+        QueryParams.builder()
+            .apply {
+                includeSchedule?.let { put("includeSchedule", it.toString()) }
+                includeStatus?.let { put("includeStatus", it.toString()) }
+                time?.let { put("time", it.toString()) }
+                putAll(additionalQueryParams)
+            }
+            .build()
 
     fun getPathParam(index: Int): String {
         return when (index) {

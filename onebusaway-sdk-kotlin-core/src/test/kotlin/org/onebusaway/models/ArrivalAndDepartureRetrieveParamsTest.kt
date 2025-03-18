@@ -31,13 +31,19 @@ internal class ArrivalAndDepartureRetrieveParamsTest {
                 .time(0L)
                 .vehicleId("vehicleId")
                 .build()
-        val expected = QueryParams.builder()
-        expected.put("serviceDate", "0")
-        expected.put("tripId", "tripId")
-        expected.put("stopSequence", "0")
-        expected.put("time", "0")
-        expected.put("vehicleId", "vehicleId")
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams)
+            .isEqualTo(
+                QueryParams.builder()
+                    .put("serviceDate", "0")
+                    .put("tripId", "tripId")
+                    .put("stopSequence", "0")
+                    .put("time", "0")
+                    .put("vehicleId", "vehicleId")
+                    .build()
+            )
     }
 
     @Test
@@ -48,10 +54,13 @@ internal class ArrivalAndDepartureRetrieveParamsTest {
                 .serviceDate(0L)
                 .tripId("tripId")
                 .build()
-        val expected = QueryParams.builder()
-        expected.put("serviceDate", "0")
-        expected.put("tripId", "tripId")
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams)
+            .isEqualTo(
+                QueryParams.builder().put("serviceDate", "0").put("tripId", "tripId").build()
+            )
     }
 
     @Test

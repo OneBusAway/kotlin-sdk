@@ -33,13 +33,14 @@ private constructor(
 
     override fun _headers(): Headers = additionalHeaders
 
-    override fun _queryParams(): QueryParams {
-        val queryParams = QueryParams.builder()
-        this.includePolylines?.let { queryParams.put("includePolylines", listOf(it.toString())) }
-        this.time?.let { queryParams.put("time", listOf(it.toString())) }
-        queryParams.putAll(additionalQueryParams)
-        return queryParams.build()
-    }
+    override fun _queryParams(): QueryParams =
+        QueryParams.builder()
+            .apply {
+                includePolylines?.let { put("includePolylines", it.toString()) }
+                time?.let { put("time", it) }
+                putAll(additionalQueryParams)
+            }
+            .build()
 
     fun getPathParam(index: Int): String {
         return when (index) {

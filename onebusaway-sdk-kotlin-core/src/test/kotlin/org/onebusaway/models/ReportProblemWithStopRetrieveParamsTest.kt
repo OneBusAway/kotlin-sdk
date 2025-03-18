@@ -31,20 +31,28 @@ internal class ReportProblemWithStopRetrieveParamsTest {
                 .userLocationAccuracy(0.0)
                 .userLon(0.0)
                 .build()
-        val expected = QueryParams.builder()
-        expected.put("code", ReportProblemWithStopRetrieveParams.Code.STOP_NAME_WRONG.toString())
-        expected.put("userComment", "userComment")
-        expected.put("userLat", "0.0")
-        expected.put("userLocationAccuracy", "0.0")
-        expected.put("userLon", "0.0")
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams)
+            .isEqualTo(
+                QueryParams.builder()
+                    .put("code", "stop_name_wrong")
+                    .put("userComment", "userComment")
+                    .put("userLat", "0.0")
+                    .put("userLocationAccuracy", "0.0")
+                    .put("userLon", "0.0")
+                    .build()
+            )
     }
 
     @Test
     fun queryParamsWithoutOptionalFields() {
         val params = ReportProblemWithStopRetrieveParams.builder().stopId("stopID").build()
-        val expected = QueryParams.builder()
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams).isEqualTo(QueryParams.builder().build())
     }
 
     @Test

@@ -16,16 +16,19 @@ internal class VehiclesForAgencyListParamsTest {
     @Test
     fun queryParams() {
         val params = VehiclesForAgencyListParams.builder().agencyId("agencyID").time("time").build()
-        val expected = QueryParams.builder()
-        expected.put("time", "time")
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams).isEqualTo(QueryParams.builder().put("time", "time").build())
     }
 
     @Test
     fun queryParamsWithoutOptionalFields() {
         val params = VehiclesForAgencyListParams.builder().agencyId("agencyID").build()
-        val expected = QueryParams.builder()
-        assertThat(params._queryParams()).isEqualTo(expected.build())
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams).isEqualTo(QueryParams.builder().build())
     }
 
     @Test
