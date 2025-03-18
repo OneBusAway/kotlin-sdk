@@ -1,3 +1,5 @@
+// File generated from our OpenAPI spec by Stainless.
+
 package org.onebusaway.core.http
 
 import org.onebusaway.core.toImmutable
