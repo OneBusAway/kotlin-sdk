@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 internal class ReferencesTest {
 
     @Test
-    fun createReferences() {
+    fun create() {
         val references =
             References.builder()
                 .addAgency(
@@ -137,7 +137,7 @@ internal class ReferencesTest {
                         .build()
                 )
                 .build()
-        assertThat(references).isNotNull
+
         assertThat(references.agencies())
             .containsExactly(
                 References.Agency.builder()
