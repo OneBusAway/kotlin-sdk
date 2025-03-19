@@ -58,7 +58,7 @@ private constructor(
     override fun _queryParams(): QueryParams =
         QueryParams.builder()
             .apply {
-                code?.let { put("code", it.asString()) }
+                code?.let { put("code", it.toString()) }
                 userComment?.let { put("userComment", it) }
                 userLat?.let { put("userLat", it.toString()) }
                 userLocationAccuracy?.let { put("userLocationAccuracy", it.toString()) }

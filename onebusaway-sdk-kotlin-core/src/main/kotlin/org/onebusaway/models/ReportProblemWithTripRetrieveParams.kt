@@ -78,7 +78,7 @@ private constructor(
     override fun _queryParams(): QueryParams =
         QueryParams.builder()
             .apply {
-                code?.let { put("code", it.asString()) }
+                code?.let { put("code", it.toString()) }
                 serviceDate?.let { put("serviceDate", it.toString()) }
                 stopId?.let { put("stopID", it) }
                 userComment?.let { put("userComment", it) }
