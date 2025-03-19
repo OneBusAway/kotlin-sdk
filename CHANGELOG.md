@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.1.0-alpha.66 (2025-03-07)
+
+Full Changelog: [v0.1.0-alpha.65...v0.1.0-alpha.66](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.65...v0.1.0-alpha.66)
+
+### Features
+
+* **client:** detect binary incompatible jackson versions ([#273](https://github.com/OneBusAway/kotlin-sdk/issues/273)) ([711013a](https://github.com/OneBusAway/kotlin-sdk/commit/711013a6c3ab1376fe3600a750086b8a84b9b032))
+
+
+### Chores
+
+* **internal:** codegen related update ([#271](https://github.com/OneBusAway/kotlin-sdk/issues/271)) ([991b3d1](https://github.com/OneBusAway/kotlin-sdk/commit/991b3d18b52ee9a65079f8d7485d3458a4596c12))
+
 ## 0.1.0-alpha.65 (2025-03-05)
 
 Full Changelog: [v0.1.0-alpha.64...v0.1.0-alpha.65](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.64...v0.1.0-alpha.65)
