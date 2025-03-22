@@ -183,16 +183,16 @@ The SDK throws custom unchecked exception types:
 
 - [`OnebusawaySdkServiceException`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/errors/OnebusawaySdkServiceException.kt): Base class for HTTP errors. See this table for which exception subclass is thrown for each HTTP status code:
 
-  | Status | Exception                       |
-  | ------ | ------------------------------- |
-  | 400    | `BadRequestException`           |
-  | 401    | `AuthenticationException`       |
-  | 403    | `PermissionDeniedException`     |
-  | 404    | `NotFoundException`             |
-  | 422    | `UnprocessableEntityException`  |
-  | 429    | `RateLimitException`            |
-  | 5xx    | `InternalServerException`       |
-  | others | `UnexpectedStatusCodeException` |
+  | Status | Exception                                                                                                                            |
+  | ------ | ------------------------------------------------------------------------------------------------------------------------------------ |
+  | 400    | [`BadRequestException`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/errors/BadRequestException.kt)                     |
+  | 401    | [`UnauthorizedException`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/errors/UnauthorizedException.kt)                 |
+  | 403    | [`PermissionDeniedException`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/errors/PermissionDeniedException.kt)         |
+  | 404    | [`NotFoundException`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/errors/NotFoundException.kt)                         |
+  | 422    | [`UnprocessableEntityException`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/errors/UnprocessableEntityException.kt)   |
+  | 429    | [`RateLimitException`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/errors/RateLimitException.kt)                       |
+  | 5xx    | [`InternalServerException`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/errors/InternalServerException.kt)             |
+  | others | [`UnexpectedStatusCodeException`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/errors/UnexpectedStatusCodeException.kt) |
 
 - [`OnebusawaySdkIoException`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/errors/OnebusawaySdkIoException.kt): I/O networking errors.
 
