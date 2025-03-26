@@ -6,32 +6,43 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
+import java.util.Collections
 import java.util.Objects
 import org.onebusaway.core.ExcludeMissing
 import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonMissing
 import org.onebusaway.core.JsonValue
-import org.onebusaway.core.NoAutoDetect
 import org.onebusaway.core.checkRequired
-import org.onebusaway.core.immutableEmptyMap
-import org.onebusaway.core.toImmutable
 import org.onebusaway.errors.OnebusawaySdkInvalidDataException
 
-@NoAutoDetect
 class CurrentTimeRetrieveResponse
-@JsonCreator
 private constructor(
-    @JsonProperty("code") @ExcludeMissing private val code: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("currentTime")
-    @ExcludeMissing
-    private val currentTime: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("text") @ExcludeMissing private val text: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("version")
-    @ExcludeMissing
-    private val version: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("data") @ExcludeMissing private val data: JsonField<Data> = JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val code: JsonField<Long>,
+    private val currentTime: JsonField<Long>,
+    private val text: JsonField<String>,
+    private val version: JsonField<Long>,
+    private val data: JsonField<Data>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("code") @ExcludeMissing code: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("currentTime")
+        @ExcludeMissing
+        currentTime: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("text") @ExcludeMissing text: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("version") @ExcludeMissing version: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("data") @ExcludeMissing data: JsonField<Data> = JsonMissing.of(),
+    ) : this(code, currentTime, text, version, data, mutableMapOf())
+
+    fun toResponseWrapper(): ResponseWrapper =
+        ResponseWrapper.builder()
+            .code(code)
+            .currentTime(currentTime)
+            .text(text)
+            .version(version)
+            .build()
 
     /**
      * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
@@ -98,32 +109,15 @@ private constructor(
      */
     @JsonProperty("data") @ExcludeMissing fun _data(): JsonField<Data> = data
 
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    fun toResponseWrapper(): ResponseWrapper =
-        ResponseWrapper.builder()
-            .code(code)
-            .currentTime(currentTime)
-            .text(text)
-            .version(version)
-            .build()
-
-    private var validated: Boolean = false
-
-    fun validate(): CurrentTimeRetrieveResponse = apply {
-        if (validated) {
-            return@apply
-        }
-
-        code()
-        currentTime()
-        text()
-        version()
-        data().validate()
-        validated = true
-    }
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -256,23 +250,39 @@ private constructor(
                 checkRequired("text", text),
                 checkRequired("version", version),
                 checkRequired("data", data),
-                additionalProperties.toImmutable(),
+                additionalProperties.toMutableMap(),
             )
     }
 
-    @NoAutoDetect
+    private var validated: Boolean = false
+
+    fun validate(): CurrentTimeRetrieveResponse = apply {
+        if (validated) {
+            return@apply
+        }
+
+        code()
+        currentTime()
+        text()
+        version()
+        data().validate()
+        validated = true
+    }
+
     class Data
-    @JsonCreator
     private constructor(
-        @JsonProperty("entry")
-        @ExcludeMissing
-        private val entry: JsonField<Entry> = JsonMissing.of(),
-        @JsonProperty("references")
-        @ExcludeMissing
-        private val references: JsonField<References> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+        private val entry: JsonField<Entry>,
+        private val references: JsonField<References>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("entry") @ExcludeMissing entry: JsonField<Entry> = JsonMissing.of(),
+            @JsonProperty("references")
+            @ExcludeMissing
+            references: JsonField<References> = JsonMissing.of(),
+        ) : this(entry, references, mutableMapOf())
 
         /**
          * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
@@ -302,21 +312,15 @@ private constructor(
         @ExcludeMissing
         fun _references(): JsonField<References> = references
 
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
         @JsonAnyGetter
         @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): Data = apply {
-            if (validated) {
-                return@apply
-            }
-
-            entry().validate()
-            references().validate()
-            validated = true
-        }
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
 
         fun toBuilder() = Builder().from(this)
 
@@ -407,23 +411,36 @@ private constructor(
                 Data(
                     checkRequired("entry", entry),
                     checkRequired("references", references),
-                    additionalProperties.toImmutable(),
+                    additionalProperties.toMutableMap(),
                 )
         }
 
-        @NoAutoDetect
+        private var validated: Boolean = false
+
+        fun validate(): Data = apply {
+            if (validated) {
+                return@apply
+            }
+
+            entry().validate()
+            references().validate()
+            validated = true
+        }
+
         class Entry
-        @JsonCreator
         private constructor(
-            @JsonProperty("readableTime")
-            @ExcludeMissing
-            private val readableTime: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("time")
-            @ExcludeMissing
-            private val time: JsonField<Long> = JsonMissing.of(),
-            @JsonAnySetter
-            private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+            private val readableTime: JsonField<String>,
+            private val time: JsonField<Long>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
+
+            @JsonCreator
+            private constructor(
+                @JsonProperty("readableTime")
+                @ExcludeMissing
+                readableTime: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("time") @ExcludeMissing time: JsonField<Long> = JsonMissing.of(),
+            ) : this(readableTime, time, mutableMapOf())
 
             /**
              * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type
@@ -454,21 +471,15 @@ private constructor(
              */
             @JsonProperty("time") @ExcludeMissing fun _time(): JsonField<Long> = time
 
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
             @JsonAnyGetter
             @ExcludeMissing
-            fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-            private var validated: Boolean = false
-
-            fun validate(): Entry = apply {
-                if (validated) {
-                    return@apply
-                }
-
-                readableTime()
-                time()
-                validated = true
-            }
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
 
             fun toBuilder() = Builder().from(this)
 
@@ -542,7 +553,19 @@ private constructor(
                  *
                  * Further updates to this [Builder] will not mutate the returned instance.
                  */
-                fun build(): Entry = Entry(readableTime, time, additionalProperties.toImmutable())
+                fun build(): Entry = Entry(readableTime, time, additionalProperties.toMutableMap())
+            }
+
+            private var validated: Boolean = false
+
+            fun validate(): Entry = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                readableTime()
+                time()
+                validated = true
             }
 
             override fun equals(other: Any?): Boolean {

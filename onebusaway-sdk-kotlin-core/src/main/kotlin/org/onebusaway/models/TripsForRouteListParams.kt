@@ -3,7 +3,6 @@
 package org.onebusaway.models
 
 import java.util.Objects
-import org.onebusaway.core.NoAutoDetect
 import org.onebusaway.core.Params
 import org.onebusaway.core.checkRequired
 import org.onebusaway.core.http.Headers
@@ -38,24 +37,6 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    fun _pathParam(index: Int): String =
-        when (index) {
-            0 -> routeId
-            else -> ""
-        }
-
-    override fun _headers(): Headers = additionalHeaders
-
-    override fun _queryParams(): QueryParams =
-        QueryParams.builder()
-            .apply {
-                includeSchedule?.let { put("includeSchedule", it.toString()) }
-                includeStatus?.let { put("includeStatus", it.toString()) }
-                time?.let { put("time", it.toString()) }
-                putAll(additionalQueryParams)
-            }
-            .build()
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -72,7 +53,6 @@ private constructor(
     }
 
     /** A builder for [TripsForRouteListParams]. */
-    @NoAutoDetect
     class Builder internal constructor() {
 
         private var routeId: String? = null
@@ -248,6 +228,24 @@ private constructor(
                 additionalQueryParams.build(),
             )
     }
+
+    fun _pathParam(index: Int): String =
+        when (index) {
+            0 -> routeId
+            else -> ""
+        }
+
+    override fun _headers(): Headers = additionalHeaders
+
+    override fun _queryParams(): QueryParams =
+        QueryParams.builder()
+            .apply {
+                includeSchedule?.let { put("includeSchedule", it.toString()) }
+                includeStatus?.let { put("includeStatus", it.toString()) }
+                time?.let { put("time", it.toString()) }
+                putAll(additionalQueryParams)
+            }
+            .build()
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {

@@ -6,32 +6,43 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
+import java.util.Collections
 import java.util.Objects
 import org.onebusaway.core.ExcludeMissing
 import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonMissing
 import org.onebusaway.core.JsonValue
-import org.onebusaway.core.NoAutoDetect
 import org.onebusaway.core.checkRequired
-import org.onebusaway.core.immutableEmptyMap
-import org.onebusaway.core.toImmutable
 import org.onebusaway.errors.OnebusawaySdkInvalidDataException
 
-@NoAutoDetect
 class ConfigRetrieveResponse
-@JsonCreator
 private constructor(
-    @JsonProperty("code") @ExcludeMissing private val code: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("currentTime")
-    @ExcludeMissing
-    private val currentTime: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("text") @ExcludeMissing private val text: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("version")
-    @ExcludeMissing
-    private val version: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("data") @ExcludeMissing private val data: JsonField<Data> = JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val code: JsonField<Long>,
+    private val currentTime: JsonField<Long>,
+    private val text: JsonField<String>,
+    private val version: JsonField<Long>,
+    private val data: JsonField<Data>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("code") @ExcludeMissing code: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("currentTime")
+        @ExcludeMissing
+        currentTime: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("text") @ExcludeMissing text: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("version") @ExcludeMissing version: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("data") @ExcludeMissing data: JsonField<Data> = JsonMissing.of(),
+    ) : this(code, currentTime, text, version, data, mutableMapOf())
+
+    fun toResponseWrapper(): ResponseWrapper =
+        ResponseWrapper.builder()
+            .code(code)
+            .currentTime(currentTime)
+            .text(text)
+            .version(version)
+            .build()
 
     /**
      * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
@@ -98,32 +109,15 @@ private constructor(
      */
     @JsonProperty("data") @ExcludeMissing fun _data(): JsonField<Data> = data
 
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    fun toResponseWrapper(): ResponseWrapper =
-        ResponseWrapper.builder()
-            .code(code)
-            .currentTime(currentTime)
-            .text(text)
-            .version(version)
-            .build()
-
-    private var validated: Boolean = false
-
-    fun validate(): ConfigRetrieveResponse = apply {
-        if (validated) {
-            return@apply
-        }
-
-        code()
-        currentTime()
-        text()
-        version()
-        data().validate()
-        validated = true
-    }
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -256,23 +250,39 @@ private constructor(
                 checkRequired("text", text),
                 checkRequired("version", version),
                 checkRequired("data", data),
-                additionalProperties.toImmutable(),
+                additionalProperties.toMutableMap(),
             )
     }
 
-    @NoAutoDetect
+    private var validated: Boolean = false
+
+    fun validate(): ConfigRetrieveResponse = apply {
+        if (validated) {
+            return@apply
+        }
+
+        code()
+        currentTime()
+        text()
+        version()
+        data().validate()
+        validated = true
+    }
+
     class Data
-    @JsonCreator
     private constructor(
-        @JsonProperty("entry")
-        @ExcludeMissing
-        private val entry: JsonField<Entry> = JsonMissing.of(),
-        @JsonProperty("references")
-        @ExcludeMissing
-        private val references: JsonField<References> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+        private val entry: JsonField<Entry>,
+        private val references: JsonField<References>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("entry") @ExcludeMissing entry: JsonField<Entry> = JsonMissing.of(),
+            @JsonProperty("references")
+            @ExcludeMissing
+            references: JsonField<References> = JsonMissing.of(),
+        ) : this(entry, references, mutableMapOf())
 
         /**
          * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
@@ -302,21 +312,15 @@ private constructor(
         @ExcludeMissing
         fun _references(): JsonField<References> = references
 
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
         @JsonAnyGetter
         @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): Data = apply {
-            if (validated) {
-                return@apply
-            }
-
-            entry().validate()
-            references().validate()
-            validated = true
-        }
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
 
         fun toBuilder() = Builder().from(this)
 
@@ -407,32 +411,46 @@ private constructor(
                 Data(
                     checkRequired("entry", entry),
                     checkRequired("references", references),
-                    additionalProperties.toImmutable(),
+                    additionalProperties.toMutableMap(),
                 )
         }
 
-        @NoAutoDetect
+        private var validated: Boolean = false
+
+        fun validate(): Data = apply {
+            if (validated) {
+                return@apply
+            }
+
+            entry().validate()
+            references().validate()
+            validated = true
+        }
+
         class Entry
-        @JsonCreator
         private constructor(
-            @JsonProperty("id")
-            @ExcludeMissing
-            private val id: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("gitProperties")
-            @ExcludeMissing
-            private val gitProperties: JsonField<GitProperties> = JsonMissing.of(),
-            @JsonProperty("name")
-            @ExcludeMissing
-            private val name: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("serviceDateFrom")
-            @ExcludeMissing
-            private val serviceDateFrom: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("serviceDateTo")
-            @ExcludeMissing
-            private val serviceDateTo: JsonField<String> = JsonMissing.of(),
-            @JsonAnySetter
-            private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+            private val id: JsonField<String>,
+            private val gitProperties: JsonField<GitProperties>,
+            private val name: JsonField<String>,
+            private val serviceDateFrom: JsonField<String>,
+            private val serviceDateTo: JsonField<String>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
+
+            @JsonCreator
+            private constructor(
+                @JsonProperty("id") @ExcludeMissing id: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("gitProperties")
+                @ExcludeMissing
+                gitProperties: JsonField<GitProperties> = JsonMissing.of(),
+                @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("serviceDateFrom")
+                @ExcludeMissing
+                serviceDateFrom: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("serviceDateTo")
+                @ExcludeMissing
+                serviceDateTo: JsonField<String> = JsonMissing.of(),
+            ) : this(id, gitProperties, name, serviceDateFrom, serviceDateTo, mutableMapOf())
 
             /**
              * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type
@@ -508,24 +526,15 @@ private constructor(
             @ExcludeMissing
             fun _serviceDateTo(): JsonField<String> = serviceDateTo
 
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
             @JsonAnyGetter
             @ExcludeMissing
-            fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-            private var validated: Boolean = false
-
-            fun validate(): Entry = apply {
-                if (validated) {
-                    return@apply
-                }
-
-                id()
-                gitProperties()?.validate()
-                name()
-                serviceDateFrom()
-                serviceDateTo()
-                validated = true
-            }
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
 
             fun toBuilder() = Builder().from(this)
 
@@ -652,77 +661,135 @@ private constructor(
                         name,
                         serviceDateFrom,
                         serviceDateTo,
-                        additionalProperties.toImmutable(),
+                        additionalProperties.toMutableMap(),
                     )
             }
 
-            @NoAutoDetect
+            private var validated: Boolean = false
+
+            fun validate(): Entry = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                id()
+                gitProperties()?.validate()
+                name()
+                serviceDateFrom()
+                serviceDateTo()
+                validated = true
+            }
+
             class GitProperties
-            @JsonCreator
             private constructor(
-                @JsonProperty("git.branch")
-                @ExcludeMissing
-                private val gitBranch: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("git.build.host")
-                @ExcludeMissing
-                private val gitBuildHost: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("git.build.time")
-                @ExcludeMissing
-                private val gitBuildTime: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("git.build.user.email")
-                @ExcludeMissing
-                private val gitBuildUserEmail: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("git.build.user.name")
-                @ExcludeMissing
-                private val gitBuildUserName: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("git.build.version")
-                @ExcludeMissing
-                private val gitBuildVersion: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("git.closest.tag.commit.count")
-                @ExcludeMissing
-                private val gitClosestTagCommitCount: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("git.closest.tag.name")
-                @ExcludeMissing
-                private val gitClosestTagName: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("git.commit.id")
-                @ExcludeMissing
-                private val gitCommitId: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("git.commit.id.abbrev")
-                @ExcludeMissing
-                private val gitCommitIdAbbrev: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("git.commit.id.describe")
-                @ExcludeMissing
-                private val gitCommitIdDescribe: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("git.commit.id.describe-short")
-                @ExcludeMissing
-                private val gitCommitIdDescribeShort: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("git.commit.message.full")
-                @ExcludeMissing
-                private val gitCommitMessageFull: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("git.commit.message.short")
-                @ExcludeMissing
-                private val gitCommitMessageShort: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("git.commit.time")
-                @ExcludeMissing
-                private val gitCommitTime: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("git.commit.user.email")
-                @ExcludeMissing
-                private val gitCommitUserEmail: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("git.commit.user.name")
-                @ExcludeMissing
-                private val gitCommitUserName: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("git.dirty")
-                @ExcludeMissing
-                private val gitDirty: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("git.remote.origin.url")
-                @ExcludeMissing
-                private val gitRemoteOriginUrl: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("git.tags")
-                @ExcludeMissing
-                private val gitTags: JsonField<String> = JsonMissing.of(),
-                @JsonAnySetter
-                private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+                private val gitBranch: JsonField<String>,
+                private val gitBuildHost: JsonField<String>,
+                private val gitBuildTime: JsonField<String>,
+                private val gitBuildUserEmail: JsonField<String>,
+                private val gitBuildUserName: JsonField<String>,
+                private val gitBuildVersion: JsonField<String>,
+                private val gitClosestTagCommitCount: JsonField<String>,
+                private val gitClosestTagName: JsonField<String>,
+                private val gitCommitId: JsonField<String>,
+                private val gitCommitIdAbbrev: JsonField<String>,
+                private val gitCommitIdDescribe: JsonField<String>,
+                private val gitCommitIdDescribeShort: JsonField<String>,
+                private val gitCommitMessageFull: JsonField<String>,
+                private val gitCommitMessageShort: JsonField<String>,
+                private val gitCommitTime: JsonField<String>,
+                private val gitCommitUserEmail: JsonField<String>,
+                private val gitCommitUserName: JsonField<String>,
+                private val gitDirty: JsonField<String>,
+                private val gitRemoteOriginUrl: JsonField<String>,
+                private val gitTags: JsonField<String>,
+                private val additionalProperties: MutableMap<String, JsonValue>,
             ) {
+
+                @JsonCreator
+                private constructor(
+                    @JsonProperty("git.branch")
+                    @ExcludeMissing
+                    gitBranch: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("git.build.host")
+                    @ExcludeMissing
+                    gitBuildHost: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("git.build.time")
+                    @ExcludeMissing
+                    gitBuildTime: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("git.build.user.email")
+                    @ExcludeMissing
+                    gitBuildUserEmail: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("git.build.user.name")
+                    @ExcludeMissing
+                    gitBuildUserName: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("git.build.version")
+                    @ExcludeMissing
+                    gitBuildVersion: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("git.closest.tag.commit.count")
+                    @ExcludeMissing
+                    gitClosestTagCommitCount: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("git.closest.tag.name")
+                    @ExcludeMissing
+                    gitClosestTagName: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("git.commit.id")
+                    @ExcludeMissing
+                    gitCommitId: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("git.commit.id.abbrev")
+                    @ExcludeMissing
+                    gitCommitIdAbbrev: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("git.commit.id.describe")
+                    @ExcludeMissing
+                    gitCommitIdDescribe: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("git.commit.id.describe-short")
+                    @ExcludeMissing
+                    gitCommitIdDescribeShort: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("git.commit.message.full")
+                    @ExcludeMissing
+                    gitCommitMessageFull: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("git.commit.message.short")
+                    @ExcludeMissing
+                    gitCommitMessageShort: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("git.commit.time")
+                    @ExcludeMissing
+                    gitCommitTime: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("git.commit.user.email")
+                    @ExcludeMissing
+                    gitCommitUserEmail: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("git.commit.user.name")
+                    @ExcludeMissing
+                    gitCommitUserName: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("git.dirty")
+                    @ExcludeMissing
+                    gitDirty: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("git.remote.origin.url")
+                    @ExcludeMissing
+                    gitRemoteOriginUrl: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("git.tags")
+                    @ExcludeMissing
+                    gitTags: JsonField<String> = JsonMissing.of(),
+                ) : this(
+                    gitBranch,
+                    gitBuildHost,
+                    gitBuildTime,
+                    gitBuildUserEmail,
+                    gitBuildUserName,
+                    gitBuildVersion,
+                    gitClosestTagCommitCount,
+                    gitClosestTagName,
+                    gitCommitId,
+                    gitCommitIdAbbrev,
+                    gitCommitIdDescribe,
+                    gitCommitIdDescribeShort,
+                    gitCommitMessageFull,
+                    gitCommitMessageShort,
+                    gitCommitTime,
+                    gitCommitUserEmail,
+                    gitCommitUserName,
+                    gitDirty,
+                    gitRemoteOriginUrl,
+                    gitTags,
+                    mutableMapOf(),
+                )
 
                 /**
                  * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected
@@ -1056,39 +1123,15 @@ private constructor(
                 @ExcludeMissing
                 fun _gitTags(): JsonField<String> = gitTags
 
+                @JsonAnySetter
+                private fun putAdditionalProperty(key: String, value: JsonValue) {
+                    additionalProperties.put(key, value)
+                }
+
                 @JsonAnyGetter
                 @ExcludeMissing
-                fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-                private var validated: Boolean = false
-
-                fun validate(): GitProperties = apply {
-                    if (validated) {
-                        return@apply
-                    }
-
-                    gitBranch()
-                    gitBuildHost()
-                    gitBuildTime()
-                    gitBuildUserEmail()
-                    gitBuildUserName()
-                    gitBuildVersion()
-                    gitClosestTagCommitCount()
-                    gitClosestTagName()
-                    gitCommitId()
-                    gitCommitIdAbbrev()
-                    gitCommitIdDescribe()
-                    gitCommitIdDescribeShort()
-                    gitCommitMessageFull()
-                    gitCommitMessageShort()
-                    gitCommitTime()
-                    gitCommitUserEmail()
-                    gitCommitUserName()
-                    gitDirty()
-                    gitRemoteOriginUrl()
-                    gitTags()
-                    validated = true
-                }
+                fun _additionalProperties(): Map<String, JsonValue> =
+                    Collections.unmodifiableMap(additionalProperties)
 
                 fun toBuilder() = Builder().from(this)
 
@@ -1472,8 +1515,38 @@ private constructor(
                             gitDirty,
                             gitRemoteOriginUrl,
                             gitTags,
-                            additionalProperties.toImmutable(),
+                            additionalProperties.toMutableMap(),
                         )
+                }
+
+                private var validated: Boolean = false
+
+                fun validate(): GitProperties = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    gitBranch()
+                    gitBuildHost()
+                    gitBuildTime()
+                    gitBuildUserEmail()
+                    gitBuildUserName()
+                    gitBuildVersion()
+                    gitClosestTagCommitCount()
+                    gitClosestTagName()
+                    gitCommitId()
+                    gitCommitIdAbbrev()
+                    gitCommitIdDescribe()
+                    gitCommitIdDescribeShort()
+                    gitCommitMessageFull()
+                    gitCommitMessageShort()
+                    gitCommitTime()
+                    gitCommitUserEmail()
+                    gitCommitUserName()
+                    gitDirty()
+                    gitRemoteOriginUrl()
+                    gitTags()
+                    validated = true
                 }
 
                 override fun equals(other: Any?): Boolean {

@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import java.util.Objects
 import org.onebusaway.core.Enum
 import org.onebusaway.core.JsonField
-import org.onebusaway.core.NoAutoDetect
 import org.onebusaway.core.Params
 import org.onebusaway.core.checkRequired
 import org.onebusaway.core.http.Headers
@@ -67,31 +66,6 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    fun _pathParam(index: Int): String =
-        when (index) {
-            0 -> tripId
-            else -> ""
-        }
-
-    override fun _headers(): Headers = additionalHeaders
-
-    override fun _queryParams(): QueryParams =
-        QueryParams.builder()
-            .apply {
-                code?.let { put("code", it.toString()) }
-                serviceDate?.let { put("serviceDate", it.toString()) }
-                stopId?.let { put("stopID", it) }
-                userComment?.let { put("userComment", it) }
-                userLat?.let { put("userLat", it.toString()) }
-                userLocationAccuracy?.let { put("userLocationAccuracy", it.toString()) }
-                userLon?.let { put("userLon", it.toString()) }
-                userOnVehicle?.let { put("userOnVehicle", it.toString()) }
-                userVehicleNumber?.let { put("userVehicleNumber", it) }
-                vehicleId?.let { put("vehicleID", it) }
-                putAll(additionalQueryParams)
-            }
-            .build()
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -109,7 +83,6 @@ private constructor(
     }
 
     /** A builder for [ReportProblemWithTripRetrieveParams]. */
-    @NoAutoDetect
     class Builder internal constructor() {
 
         private var tripId: String? = null
@@ -344,6 +317,31 @@ private constructor(
                 additionalQueryParams.build(),
             )
     }
+
+    fun _pathParam(index: Int): String =
+        when (index) {
+            0 -> tripId
+            else -> ""
+        }
+
+    override fun _headers(): Headers = additionalHeaders
+
+    override fun _queryParams(): QueryParams =
+        QueryParams.builder()
+            .apply {
+                code?.let { put("code", it.toString()) }
+                serviceDate?.let { put("serviceDate", it.toString()) }
+                stopId?.let { put("stopID", it) }
+                userComment?.let { put("userComment", it) }
+                userLat?.let { put("userLat", it.toString()) }
+                userLocationAccuracy?.let { put("userLocationAccuracy", it.toString()) }
+                userLon?.let { put("userLon", it.toString()) }
+                userOnVehicle?.let { put("userOnVehicle", it.toString()) }
+                userVehicleNumber?.let { put("userVehicleNumber", it) }
+                vehicleId?.let { put("vehicleID", it) }
+                putAll(additionalQueryParams)
+            }
+            .build()
 
     /** A string code identifying the nature of the problem */
     class Code @JsonCreator private constructor(private val value: JsonField<String>) : Enum {

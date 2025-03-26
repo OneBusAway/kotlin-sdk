@@ -6,33 +6,45 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
+import java.util.Collections
 import java.util.Objects
 import org.onebusaway.core.ExcludeMissing
 import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonMissing
 import org.onebusaway.core.JsonValue
-import org.onebusaway.core.NoAutoDetect
 import org.onebusaway.core.checkKnown
 import org.onebusaway.core.checkRequired
-import org.onebusaway.core.immutableEmptyMap
 import org.onebusaway.core.toImmutable
 import org.onebusaway.errors.OnebusawaySdkInvalidDataException
 
-@NoAutoDetect
 class ScheduleForRouteRetrieveResponse
-@JsonCreator
 private constructor(
-    @JsonProperty("code") @ExcludeMissing private val code: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("currentTime")
-    @ExcludeMissing
-    private val currentTime: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("text") @ExcludeMissing private val text: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("version")
-    @ExcludeMissing
-    private val version: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("data") @ExcludeMissing private val data: JsonField<Data> = JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val code: JsonField<Long>,
+    private val currentTime: JsonField<Long>,
+    private val text: JsonField<String>,
+    private val version: JsonField<Long>,
+    private val data: JsonField<Data>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("code") @ExcludeMissing code: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("currentTime")
+        @ExcludeMissing
+        currentTime: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("text") @ExcludeMissing text: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("version") @ExcludeMissing version: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("data") @ExcludeMissing data: JsonField<Data> = JsonMissing.of(),
+    ) : this(code, currentTime, text, version, data, mutableMapOf())
+
+    fun toResponseWrapper(): ResponseWrapper =
+        ResponseWrapper.builder()
+            .code(code)
+            .currentTime(currentTime)
+            .text(text)
+            .version(version)
+            .build()
 
     /**
      * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
@@ -99,32 +111,15 @@ private constructor(
      */
     @JsonProperty("data") @ExcludeMissing fun _data(): JsonField<Data> = data
 
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    fun toResponseWrapper(): ResponseWrapper =
-        ResponseWrapper.builder()
-            .code(code)
-            .currentTime(currentTime)
-            .text(text)
-            .version(version)
-            .build()
-
-    private var validated: Boolean = false
-
-    fun validate(): ScheduleForRouteRetrieveResponse = apply {
-        if (validated) {
-            return@apply
-        }
-
-        code()
-        currentTime()
-        text()
-        version()
-        data().validate()
-        validated = true
-    }
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -260,20 +255,35 @@ private constructor(
                 checkRequired("text", text),
                 checkRequired("version", version),
                 checkRequired("data", data),
-                additionalProperties.toImmutable(),
+                additionalProperties.toMutableMap(),
             )
     }
 
-    @NoAutoDetect
+    private var validated: Boolean = false
+
+    fun validate(): ScheduleForRouteRetrieveResponse = apply {
+        if (validated) {
+            return@apply
+        }
+
+        code()
+        currentTime()
+        text()
+        version()
+        data().validate()
+        validated = true
+    }
+
     class Data
-    @JsonCreator
     private constructor(
-        @JsonProperty("entry")
-        @ExcludeMissing
-        private val entry: JsonField<Entry> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+        private val entry: JsonField<Entry>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("entry") @ExcludeMissing entry: JsonField<Entry> = JsonMissing.of()
+        ) : this(entry, mutableMapOf())
 
         /**
          * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
@@ -288,20 +298,15 @@ private constructor(
          */
         @JsonProperty("entry") @ExcludeMissing fun _entry(): JsonField<Entry> = entry
 
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
         @JsonAnyGetter
         @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): Data = apply {
-            if (validated) {
-                return@apply
-            }
-
-            entry().validate()
-            validated = true
-        }
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
 
         fun toBuilder() = Builder().from(this)
 
@@ -372,34 +377,60 @@ private constructor(
              * @throws IllegalStateException if any required field is unset.
              */
             fun build(): Data =
-                Data(checkRequired("entry", entry), additionalProperties.toImmutable())
+                Data(checkRequired("entry", entry), additionalProperties.toMutableMap())
         }
 
-        @NoAutoDetect
+        private var validated: Boolean = false
+
+        fun validate(): Data = apply {
+            if (validated) {
+                return@apply
+            }
+
+            entry().validate()
+            validated = true
+        }
+
         class Entry
-        @JsonCreator
         private constructor(
-            @JsonProperty("routeId")
-            @ExcludeMissing
-            private val routeId: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("scheduleDate")
-            @ExcludeMissing
-            private val scheduleDate: JsonField<Long> = JsonMissing.of(),
-            @JsonProperty("serviceIds")
-            @ExcludeMissing
-            private val serviceIds: JsonField<List<String>> = JsonMissing.of(),
-            @JsonProperty("stops")
-            @ExcludeMissing
-            private val stops: JsonField<List<Stop>> = JsonMissing.of(),
-            @JsonProperty("stopTripGroupings")
-            @ExcludeMissing
-            private val stopTripGroupings: JsonField<List<StopTripGrouping>> = JsonMissing.of(),
-            @JsonProperty("trips")
-            @ExcludeMissing
-            private val trips: JsonField<List<Trip>> = JsonMissing.of(),
-            @JsonAnySetter
-            private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+            private val routeId: JsonField<String>,
+            private val scheduleDate: JsonField<Long>,
+            private val serviceIds: JsonField<List<String>>,
+            private val stops: JsonField<List<Stop>>,
+            private val stopTripGroupings: JsonField<List<StopTripGrouping>>,
+            private val trips: JsonField<List<Trip>>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
+
+            @JsonCreator
+            private constructor(
+                @JsonProperty("routeId")
+                @ExcludeMissing
+                routeId: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("scheduleDate")
+                @ExcludeMissing
+                scheduleDate: JsonField<Long> = JsonMissing.of(),
+                @JsonProperty("serviceIds")
+                @ExcludeMissing
+                serviceIds: JsonField<List<String>> = JsonMissing.of(),
+                @JsonProperty("stops")
+                @ExcludeMissing
+                stops: JsonField<List<Stop>> = JsonMissing.of(),
+                @JsonProperty("stopTripGroupings")
+                @ExcludeMissing
+                stopTripGroupings: JsonField<List<StopTripGrouping>> = JsonMissing.of(),
+                @JsonProperty("trips")
+                @ExcludeMissing
+                trips: JsonField<List<Trip>> = JsonMissing.of(),
+            ) : this(
+                routeId,
+                scheduleDate,
+                serviceIds,
+                stops,
+                stopTripGroupings,
+                trips,
+                mutableMapOf(),
+            )
 
             /**
              * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or
@@ -495,25 +526,15 @@ private constructor(
              */
             @JsonProperty("trips") @ExcludeMissing fun _trips(): JsonField<List<Trip>> = trips
 
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
             @JsonAnyGetter
             @ExcludeMissing
-            fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-            private var validated: Boolean = false
-
-            fun validate(): Entry = apply {
-                if (validated) {
-                    return@apply
-                }
-
-                routeId()
-                scheduleDate()
-                serviceIds()
-                stops().forEach { it.validate() }
-                stopTripGroupings().forEach { it.validate() }
-                trips().forEach { it.validate() }
-                validated = true
-            }
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
 
             fun toBuilder() = Builder().from(this)
 
@@ -731,50 +752,85 @@ private constructor(
                             it.toImmutable()
                         },
                         checkRequired("trips", trips).map { it.toImmutable() },
-                        additionalProperties.toImmutable(),
+                        additionalProperties.toMutableMap(),
                     )
             }
 
-            @NoAutoDetect
+            private var validated: Boolean = false
+
+            fun validate(): Entry = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                routeId()
+                scheduleDate()
+                serviceIds()
+                stops().forEach { it.validate() }
+                stopTripGroupings().forEach { it.validate() }
+                trips().forEach { it.validate() }
+                validated = true
+            }
+
             class Stop
-            @JsonCreator
             private constructor(
-                @JsonProperty("id")
-                @ExcludeMissing
-                private val id: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("lat")
-                @ExcludeMissing
-                private val lat: JsonField<Double> = JsonMissing.of(),
-                @JsonProperty("lon")
-                @ExcludeMissing
-                private val lon: JsonField<Double> = JsonMissing.of(),
-                @JsonProperty("name")
-                @ExcludeMissing
-                private val name: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("parent")
-                @ExcludeMissing
-                private val parent: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("routeIds")
-                @ExcludeMissing
-                private val routeIds: JsonField<List<String>> = JsonMissing.of(),
-                @JsonProperty("staticRouteIds")
-                @ExcludeMissing
-                private val staticRouteIds: JsonField<List<String>> = JsonMissing.of(),
-                @JsonProperty("code")
-                @ExcludeMissing
-                private val code: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("direction")
-                @ExcludeMissing
-                private val direction: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("locationType")
-                @ExcludeMissing
-                private val locationType: JsonField<Long> = JsonMissing.of(),
-                @JsonProperty("wheelchairBoarding")
-                @ExcludeMissing
-                private val wheelchairBoarding: JsonField<String> = JsonMissing.of(),
-                @JsonAnySetter
-                private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+                private val id: JsonField<String>,
+                private val lat: JsonField<Double>,
+                private val lon: JsonField<Double>,
+                private val name: JsonField<String>,
+                private val parent: JsonField<String>,
+                private val routeIds: JsonField<List<String>>,
+                private val staticRouteIds: JsonField<List<String>>,
+                private val code: JsonField<String>,
+                private val direction: JsonField<String>,
+                private val locationType: JsonField<Long>,
+                private val wheelchairBoarding: JsonField<String>,
+                private val additionalProperties: MutableMap<String, JsonValue>,
             ) {
+
+                @JsonCreator
+                private constructor(
+                    @JsonProperty("id") @ExcludeMissing id: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("lat") @ExcludeMissing lat: JsonField<Double> = JsonMissing.of(),
+                    @JsonProperty("lon") @ExcludeMissing lon: JsonField<Double> = JsonMissing.of(),
+                    @JsonProperty("name")
+                    @ExcludeMissing
+                    name: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("parent")
+                    @ExcludeMissing
+                    parent: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("routeIds")
+                    @ExcludeMissing
+                    routeIds: JsonField<List<String>> = JsonMissing.of(),
+                    @JsonProperty("staticRouteIds")
+                    @ExcludeMissing
+                    staticRouteIds: JsonField<List<String>> = JsonMissing.of(),
+                    @JsonProperty("code")
+                    @ExcludeMissing
+                    code: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("direction")
+                    @ExcludeMissing
+                    direction: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("locationType")
+                    @ExcludeMissing
+                    locationType: JsonField<Long> = JsonMissing.of(),
+                    @JsonProperty("wheelchairBoarding")
+                    @ExcludeMissing
+                    wheelchairBoarding: JsonField<String> = JsonMissing.of(),
+                ) : this(
+                    id,
+                    lat,
+                    lon,
+                    name,
+                    parent,
+                    routeIds,
+                    staticRouteIds,
+                    code,
+                    direction,
+                    locationType,
+                    wheelchairBoarding,
+                    mutableMapOf(),
+                )
 
                 /**
                  * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected
@@ -945,30 +1001,15 @@ private constructor(
                 @ExcludeMissing
                 fun _wheelchairBoarding(): JsonField<String> = wheelchairBoarding
 
+                @JsonAnySetter
+                private fun putAdditionalProperty(key: String, value: JsonValue) {
+                    additionalProperties.put(key, value)
+                }
+
                 @JsonAnyGetter
                 @ExcludeMissing
-                fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-                private var validated: Boolean = false
-
-                fun validate(): Stop = apply {
-                    if (validated) {
-                        return@apply
-                    }
-
-                    id()
-                    lat()
-                    lon()
-                    name()
-                    parent()
-                    routeIds()
-                    staticRouteIds()
-                    code()
-                    direction()
-                    locationType()
-                    wheelchairBoarding()
-                    validated = true
-                }
+                fun _additionalProperties(): Map<String, JsonValue> =
+                    Collections.unmodifiableMap(additionalProperties)
 
                 fun toBuilder() = Builder().from(this)
 
@@ -1234,8 +1275,29 @@ private constructor(
                             direction,
                             locationType,
                             wheelchairBoarding,
-                            additionalProperties.toImmutable(),
+                            additionalProperties.toMutableMap(),
                         )
+                }
+
+                private var validated: Boolean = false
+
+                fun validate(): Stop = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    id()
+                    lat()
+                    lon()
+                    name()
+                    parent()
+                    routeIds()
+                    staticRouteIds()
+                    code()
+                    direction()
+                    locationType()
+                    wheelchairBoarding()
+                    validated = true
                 }
 
                 override fun equals(other: Any?): Boolean {
@@ -1256,29 +1318,41 @@ private constructor(
                     "Stop{id=$id, lat=$lat, lon=$lon, name=$name, parent=$parent, routeIds=$routeIds, staticRouteIds=$staticRouteIds, code=$code, direction=$direction, locationType=$locationType, wheelchairBoarding=$wheelchairBoarding, additionalProperties=$additionalProperties}"
             }
 
-            @NoAutoDetect
             class StopTripGrouping
-            @JsonCreator
             private constructor(
-                @JsonProperty("directionId")
-                @ExcludeMissing
-                private val directionId: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("stopIds")
-                @ExcludeMissing
-                private val stopIds: JsonField<List<String>> = JsonMissing.of(),
-                @JsonProperty("tripHeadsigns")
-                @ExcludeMissing
-                private val tripHeadsigns: JsonField<List<String>> = JsonMissing.of(),
-                @JsonProperty("tripIds")
-                @ExcludeMissing
-                private val tripIds: JsonField<List<String>> = JsonMissing.of(),
-                @JsonProperty("tripsWithStopTimes")
-                @ExcludeMissing
-                private val tripsWithStopTimes: JsonField<List<TripsWithStopTime>> =
-                    JsonMissing.of(),
-                @JsonAnySetter
-                private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+                private val directionId: JsonField<String>,
+                private val stopIds: JsonField<List<String>>,
+                private val tripHeadsigns: JsonField<List<String>>,
+                private val tripIds: JsonField<List<String>>,
+                private val tripsWithStopTimes: JsonField<List<TripsWithStopTime>>,
+                private val additionalProperties: MutableMap<String, JsonValue>,
             ) {
+
+                @JsonCreator
+                private constructor(
+                    @JsonProperty("directionId")
+                    @ExcludeMissing
+                    directionId: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("stopIds")
+                    @ExcludeMissing
+                    stopIds: JsonField<List<String>> = JsonMissing.of(),
+                    @JsonProperty("tripHeadsigns")
+                    @ExcludeMissing
+                    tripHeadsigns: JsonField<List<String>> = JsonMissing.of(),
+                    @JsonProperty("tripIds")
+                    @ExcludeMissing
+                    tripIds: JsonField<List<String>> = JsonMissing.of(),
+                    @JsonProperty("tripsWithStopTimes")
+                    @ExcludeMissing
+                    tripsWithStopTimes: JsonField<List<TripsWithStopTime>> = JsonMissing.of(),
+                ) : this(
+                    directionId,
+                    stopIds,
+                    tripHeadsigns,
+                    tripIds,
+                    tripsWithStopTimes,
+                    mutableMapOf(),
+                )
 
                 /**
                  * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected
@@ -1365,24 +1439,15 @@ private constructor(
                 @ExcludeMissing
                 fun _tripsWithStopTimes(): JsonField<List<TripsWithStopTime>> = tripsWithStopTimes
 
+                @JsonAnySetter
+                private fun putAdditionalProperty(key: String, value: JsonValue) {
+                    additionalProperties.put(key, value)
+                }
+
                 @JsonAnyGetter
                 @ExcludeMissing
-                fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-                private var validated: Boolean = false
-
-                fun validate(): StopTripGrouping = apply {
-                    if (validated) {
-                        return@apply
-                    }
-
-                    directionId()
-                    stopIds()
-                    tripHeadsigns()
-                    tripIds()
-                    tripsWithStopTimes()?.forEach { it.validate() }
-                    validated = true
-                }
+                fun _additionalProperties(): Map<String, JsonValue> =
+                    Collections.unmodifiableMap(additionalProperties)
 
                 fun toBuilder() = Builder().from(this)
 
@@ -1583,23 +1648,41 @@ private constructor(
                             checkRequired("tripHeadsigns", tripHeadsigns).map { it.toImmutable() },
                             checkRequired("tripIds", tripIds).map { it.toImmutable() },
                             (tripsWithStopTimes ?: JsonMissing.of()).map { it.toImmutable() },
-                            additionalProperties.toImmutable(),
+                            additionalProperties.toMutableMap(),
                         )
                 }
 
-                @NoAutoDetect
+                private var validated: Boolean = false
+
+                fun validate(): StopTripGrouping = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    directionId()
+                    stopIds()
+                    tripHeadsigns()
+                    tripIds()
+                    tripsWithStopTimes()?.forEach { it.validate() }
+                    validated = true
+                }
+
                 class TripsWithStopTime
-                @JsonCreator
                 private constructor(
-                    @JsonProperty("stopTimes")
-                    @ExcludeMissing
-                    private val stopTimes: JsonField<List<StopTime>> = JsonMissing.of(),
-                    @JsonProperty("tripId")
-                    @ExcludeMissing
-                    private val tripId: JsonField<String> = JsonMissing.of(),
-                    @JsonAnySetter
-                    private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+                    private val stopTimes: JsonField<List<StopTime>>,
+                    private val tripId: JsonField<String>,
+                    private val additionalProperties: MutableMap<String, JsonValue>,
                 ) {
+
+                    @JsonCreator
+                    private constructor(
+                        @JsonProperty("stopTimes")
+                        @ExcludeMissing
+                        stopTimes: JsonField<List<StopTime>> = JsonMissing.of(),
+                        @JsonProperty("tripId")
+                        @ExcludeMissing
+                        tripId: JsonField<String> = JsonMissing.of(),
+                    ) : this(stopTimes, tripId, mutableMapOf())
 
                     /**
                      * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected
@@ -1635,21 +1718,15 @@ private constructor(
                     @ExcludeMissing
                     fun _tripId(): JsonField<String> = tripId
 
+                    @JsonAnySetter
+                    private fun putAdditionalProperty(key: String, value: JsonValue) {
+                        additionalProperties.put(key, value)
+                    }
+
                     @JsonAnyGetter
                     @ExcludeMissing
-                    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-                    private var validated: Boolean = false
-
-                    fun validate(): TripsWithStopTime = apply {
-                        if (validated) {
-                            return@apply
-                        }
-
-                        stopTimes().forEach { it.validate() }
-                        tripId()
-                        validated = true
-                    }
+                    fun _additionalProperties(): Map<String, JsonValue> =
+                        Collections.unmodifiableMap(additionalProperties)
 
                     fun toBuilder() = Builder().from(this)
 
@@ -1760,42 +1837,72 @@ private constructor(
                             TripsWithStopTime(
                                 checkRequired("stopTimes", stopTimes).map { it.toImmutable() },
                                 checkRequired("tripId", tripId),
-                                additionalProperties.toImmutable(),
+                                additionalProperties.toMutableMap(),
                             )
                     }
 
-                    @NoAutoDetect
+                    private var validated: Boolean = false
+
+                    fun validate(): TripsWithStopTime = apply {
+                        if (validated) {
+                            return@apply
+                        }
+
+                        stopTimes().forEach { it.validate() }
+                        tripId()
+                        validated = true
+                    }
+
                     class StopTime
-                    @JsonCreator
                     private constructor(
-                        @JsonProperty("arrivalEnabled")
-                        @ExcludeMissing
-                        private val arrivalEnabled: JsonField<Boolean> = JsonMissing.of(),
-                        @JsonProperty("arrivalTime")
-                        @ExcludeMissing
-                        private val arrivalTime: JsonField<Long> = JsonMissing.of(),
-                        @JsonProperty("departureEnabled")
-                        @ExcludeMissing
-                        private val departureEnabled: JsonField<Boolean> = JsonMissing.of(),
-                        @JsonProperty("departureTime")
-                        @ExcludeMissing
-                        private val departureTime: JsonField<Long> = JsonMissing.of(),
-                        @JsonProperty("stopId")
-                        @ExcludeMissing
-                        private val stopId: JsonField<String> = JsonMissing.of(),
-                        @JsonProperty("tripId")
-                        @ExcludeMissing
-                        private val tripId: JsonField<String> = JsonMissing.of(),
-                        @JsonProperty("serviceId")
-                        @ExcludeMissing
-                        private val serviceId: JsonField<String> = JsonMissing.of(),
-                        @JsonProperty("stopHeadsign")
-                        @ExcludeMissing
-                        private val stopHeadsign: JsonField<String> = JsonMissing.of(),
-                        @JsonAnySetter
-                        private val additionalProperties: Map<String, JsonValue> =
-                            immutableEmptyMap(),
+                        private val arrivalEnabled: JsonField<Boolean>,
+                        private val arrivalTime: JsonField<Long>,
+                        private val departureEnabled: JsonField<Boolean>,
+                        private val departureTime: JsonField<Long>,
+                        private val stopId: JsonField<String>,
+                        private val tripId: JsonField<String>,
+                        private val serviceId: JsonField<String>,
+                        private val stopHeadsign: JsonField<String>,
+                        private val additionalProperties: MutableMap<String, JsonValue>,
                     ) {
+
+                        @JsonCreator
+                        private constructor(
+                            @JsonProperty("arrivalEnabled")
+                            @ExcludeMissing
+                            arrivalEnabled: JsonField<Boolean> = JsonMissing.of(),
+                            @JsonProperty("arrivalTime")
+                            @ExcludeMissing
+                            arrivalTime: JsonField<Long> = JsonMissing.of(),
+                            @JsonProperty("departureEnabled")
+                            @ExcludeMissing
+                            departureEnabled: JsonField<Boolean> = JsonMissing.of(),
+                            @JsonProperty("departureTime")
+                            @ExcludeMissing
+                            departureTime: JsonField<Long> = JsonMissing.of(),
+                            @JsonProperty("stopId")
+                            @ExcludeMissing
+                            stopId: JsonField<String> = JsonMissing.of(),
+                            @JsonProperty("tripId")
+                            @ExcludeMissing
+                            tripId: JsonField<String> = JsonMissing.of(),
+                            @JsonProperty("serviceId")
+                            @ExcludeMissing
+                            serviceId: JsonField<String> = JsonMissing.of(),
+                            @JsonProperty("stopHeadsign")
+                            @ExcludeMissing
+                            stopHeadsign: JsonField<String> = JsonMissing.of(),
+                        ) : this(
+                            arrivalEnabled,
+                            arrivalTime,
+                            departureEnabled,
+                            departureTime,
+                            stopId,
+                            tripId,
+                            serviceId,
+                            stopHeadsign,
+                            mutableMapOf(),
+                        )
 
                         /**
                          * @throws OnebusawaySdkInvalidDataException if the JSON field has an
@@ -1934,27 +2041,15 @@ private constructor(
                         @ExcludeMissing
                         fun _stopHeadsign(): JsonField<String> = stopHeadsign
 
+                        @JsonAnySetter
+                        private fun putAdditionalProperty(key: String, value: JsonValue) {
+                            additionalProperties.put(key, value)
+                        }
+
                         @JsonAnyGetter
                         @ExcludeMissing
-                        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-                        private var validated: Boolean = false
-
-                        fun validate(): StopTime = apply {
-                            if (validated) {
-                                return@apply
-                            }
-
-                            arrivalEnabled()
-                            arrivalTime()
-                            departureEnabled()
-                            departureTime()
-                            stopId()
-                            tripId()
-                            serviceId()
-                            stopHeadsign()
-                            validated = true
-                        }
+                        fun _additionalProperties(): Map<String, JsonValue> =
+                            Collections.unmodifiableMap(additionalProperties)
 
                         fun toBuilder() = Builder().from(this)
 
@@ -2157,8 +2252,26 @@ private constructor(
                                     checkRequired("tripId", tripId),
                                     serviceId,
                                     stopHeadsign,
-                                    additionalProperties.toImmutable(),
+                                    additionalProperties.toMutableMap(),
                                 )
+                        }
+
+                        private var validated: Boolean = false
+
+                        fun validate(): StopTime = apply {
+                            if (validated) {
+                                return@apply
+                            }
+
+                            arrivalEnabled()
+                            arrivalTime()
+                            departureEnabled()
+                            departureTime()
+                            stopId()
+                            tripId()
+                            serviceId()
+                            stopHeadsign()
+                            validated = true
                         }
 
                         override fun equals(other: Any?): Boolean {
@@ -2215,46 +2328,69 @@ private constructor(
                     "StopTripGrouping{directionId=$directionId, stopIds=$stopIds, tripHeadsigns=$tripHeadsigns, tripIds=$tripIds, tripsWithStopTimes=$tripsWithStopTimes, additionalProperties=$additionalProperties}"
             }
 
-            @NoAutoDetect
             class Trip
-            @JsonCreator
             private constructor(
-                @JsonProperty("id")
-                @ExcludeMissing
-                private val id: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("routeId")
-                @ExcludeMissing
-                private val routeId: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("serviceId")
-                @ExcludeMissing
-                private val serviceId: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("blockId")
-                @ExcludeMissing
-                private val blockId: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("directionId")
-                @ExcludeMissing
-                private val directionId: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("peakOffpeak")
-                @ExcludeMissing
-                private val peakOffpeak: JsonField<Long> = JsonMissing.of(),
-                @JsonProperty("routeShortName")
-                @ExcludeMissing
-                private val routeShortName: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("shapeId")
-                @ExcludeMissing
-                private val shapeId: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("timeZone")
-                @ExcludeMissing
-                private val timeZone: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("tripHeadsign")
-                @ExcludeMissing
-                private val tripHeadsign: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("tripShortName")
-                @ExcludeMissing
-                private val tripShortName: JsonField<String> = JsonMissing.of(),
-                @JsonAnySetter
-                private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+                private val id: JsonField<String>,
+                private val routeId: JsonField<String>,
+                private val serviceId: JsonField<String>,
+                private val blockId: JsonField<String>,
+                private val directionId: JsonField<String>,
+                private val peakOffpeak: JsonField<Long>,
+                private val routeShortName: JsonField<String>,
+                private val shapeId: JsonField<String>,
+                private val timeZone: JsonField<String>,
+                private val tripHeadsign: JsonField<String>,
+                private val tripShortName: JsonField<String>,
+                private val additionalProperties: MutableMap<String, JsonValue>,
             ) {
+
+                @JsonCreator
+                private constructor(
+                    @JsonProperty("id") @ExcludeMissing id: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("routeId")
+                    @ExcludeMissing
+                    routeId: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("serviceId")
+                    @ExcludeMissing
+                    serviceId: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("blockId")
+                    @ExcludeMissing
+                    blockId: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("directionId")
+                    @ExcludeMissing
+                    directionId: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("peakOffpeak")
+                    @ExcludeMissing
+                    peakOffpeak: JsonField<Long> = JsonMissing.of(),
+                    @JsonProperty("routeShortName")
+                    @ExcludeMissing
+                    routeShortName: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("shapeId")
+                    @ExcludeMissing
+                    shapeId: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("timeZone")
+                    @ExcludeMissing
+                    timeZone: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("tripHeadsign")
+                    @ExcludeMissing
+                    tripHeadsign: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("tripShortName")
+                    @ExcludeMissing
+                    tripShortName: JsonField<String> = JsonMissing.of(),
+                ) : this(
+                    id,
+                    routeId,
+                    serviceId,
+                    blockId,
+                    directionId,
+                    peakOffpeak,
+                    routeShortName,
+                    shapeId,
+                    timeZone,
+                    tripHeadsign,
+                    tripShortName,
+                    mutableMapOf(),
+                )
 
                 /**
                  * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected
@@ -2426,30 +2562,15 @@ private constructor(
                 @ExcludeMissing
                 fun _tripShortName(): JsonField<String> = tripShortName
 
+                @JsonAnySetter
+                private fun putAdditionalProperty(key: String, value: JsonValue) {
+                    additionalProperties.put(key, value)
+                }
+
                 @JsonAnyGetter
                 @ExcludeMissing
-                fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-                private var validated: Boolean = false
-
-                fun validate(): Trip = apply {
-                    if (validated) {
-                        return@apply
-                    }
-
-                    id()
-                    routeId()
-                    serviceId()
-                    blockId()
-                    directionId()
-                    peakOffpeak()
-                    routeShortName()
-                    shapeId()
-                    timeZone()
-                    tripHeadsign()
-                    tripShortName()
-                    validated = true
-                }
+                fun _additionalProperties(): Map<String, JsonValue> =
+                    Collections.unmodifiableMap(additionalProperties)
 
                 fun toBuilder() = Builder().from(this)
 
@@ -2684,8 +2805,29 @@ private constructor(
                             timeZone,
                             tripHeadsign,
                             tripShortName,
-                            additionalProperties.toImmutable(),
+                            additionalProperties.toMutableMap(),
                         )
+                }
+
+                private var validated: Boolean = false
+
+                fun validate(): Trip = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    id()
+                    routeId()
+                    serviceId()
+                    blockId()
+                    directionId()
+                    peakOffpeak()
+                    routeShortName()
+                    shapeId()
+                    timeZone()
+                    tripHeadsign()
+                    tripShortName()
+                    validated = true
                 }
 
                 override fun equals(other: Any?): Boolean {

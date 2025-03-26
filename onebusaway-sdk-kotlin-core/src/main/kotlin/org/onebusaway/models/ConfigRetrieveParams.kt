@@ -3,7 +3,6 @@
 package org.onebusaway.models
 
 import java.util.Objects
-import org.onebusaway.core.NoAutoDetect
 import org.onebusaway.core.Params
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.QueryParams
@@ -19,10 +18,6 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    override fun _headers(): Headers = additionalHeaders
-
-    override fun _queryParams(): QueryParams = additionalQueryParams
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -34,7 +29,6 @@ private constructor(
     }
 
     /** A builder for [ConfigRetrieveParams]. */
-    @NoAutoDetect
     class Builder internal constructor() {
 
         private var additionalHeaders: Headers.Builder = Headers.builder()
@@ -151,6 +145,10 @@ private constructor(
         fun build(): ConfigRetrieveParams =
             ConfigRetrieveParams(additionalHeaders.build(), additionalQueryParams.build())
     }
+
+    override fun _headers(): Headers = additionalHeaders
+
+    override fun _queryParams(): QueryParams = additionalQueryParams
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {
