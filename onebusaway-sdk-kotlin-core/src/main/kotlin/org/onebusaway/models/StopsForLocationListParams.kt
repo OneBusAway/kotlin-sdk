@@ -3,7 +3,6 @@
 package org.onebusaway.models
 
 import java.util.Objects
-import org.onebusaway.core.NoAutoDetect
 import org.onebusaway.core.Params
 import org.onebusaway.core.checkRequired
 import org.onebusaway.core.http.Headers
@@ -42,21 +41,6 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    override fun _headers(): Headers = additionalHeaders
-
-    override fun _queryParams(): QueryParams =
-        QueryParams.builder()
-            .apply {
-                put("lat", lat.toString())
-                put("lon", lon.toString())
-                latSpan?.let { put("latSpan", it.toString()) }
-                lonSpan?.let { put("lonSpan", it.toString()) }
-                query?.let { put("query", it) }
-                radius?.let { put("radius", it.toString()) }
-                putAll(additionalQueryParams)
-            }
-            .build()
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -74,7 +58,6 @@ private constructor(
     }
 
     /** A builder for [StopsForLocationListParams]. */
-    @NoAutoDetect
     class Builder internal constructor() {
 
         private var lat: Double? = null
@@ -257,6 +240,21 @@ private constructor(
                 additionalQueryParams.build(),
             )
     }
+
+    override fun _headers(): Headers = additionalHeaders
+
+    override fun _queryParams(): QueryParams =
+        QueryParams.builder()
+            .apply {
+                put("lat", lat.toString())
+                put("lon", lon.toString())
+                latSpan?.let { put("latSpan", it.toString()) }
+                lonSpan?.let { put("lonSpan", it.toString()) }
+                query?.let { put("query", it) }
+                radius?.let { put("radius", it.toString()) }
+                putAll(additionalQueryParams)
+            }
+            .build()
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {

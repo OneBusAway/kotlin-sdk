@@ -6,33 +6,45 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
+import java.util.Collections
 import java.util.Objects
 import org.onebusaway.core.ExcludeMissing
 import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonMissing
 import org.onebusaway.core.JsonValue
-import org.onebusaway.core.NoAutoDetect
 import org.onebusaway.core.checkKnown
 import org.onebusaway.core.checkRequired
-import org.onebusaway.core.immutableEmptyMap
 import org.onebusaway.core.toImmutable
 import org.onebusaway.errors.OnebusawaySdkInvalidDataException
 
-@NoAutoDetect
 class StopsForRouteListResponse
-@JsonCreator
 private constructor(
-    @JsonProperty("code") @ExcludeMissing private val code: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("currentTime")
-    @ExcludeMissing
-    private val currentTime: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("text") @ExcludeMissing private val text: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("version")
-    @ExcludeMissing
-    private val version: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("data") @ExcludeMissing private val data: JsonField<Data> = JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val code: JsonField<Long>,
+    private val currentTime: JsonField<Long>,
+    private val text: JsonField<String>,
+    private val version: JsonField<Long>,
+    private val data: JsonField<Data>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
+
+    @JsonCreator
+    private constructor(
+        @JsonProperty("code") @ExcludeMissing code: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("currentTime")
+        @ExcludeMissing
+        currentTime: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("text") @ExcludeMissing text: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("version") @ExcludeMissing version: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("data") @ExcludeMissing data: JsonField<Data> = JsonMissing.of(),
+    ) : this(code, currentTime, text, version, data, mutableMapOf())
+
+    fun toResponseWrapper(): ResponseWrapper =
+        ResponseWrapper.builder()
+            .code(code)
+            .currentTime(currentTime)
+            .text(text)
+            .version(version)
+            .build()
 
     /**
      * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
@@ -99,32 +111,15 @@ private constructor(
      */
     @JsonProperty("data") @ExcludeMissing fun _data(): JsonField<Data> = data
 
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
+
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    fun toResponseWrapper(): ResponseWrapper =
-        ResponseWrapper.builder()
-            .code(code)
-            .currentTime(currentTime)
-            .text(text)
-            .version(version)
-            .build()
-
-    private var validated: Boolean = false
-
-    fun validate(): StopsForRouteListResponse = apply {
-        if (validated) {
-            return@apply
-        }
-
-        code()
-        currentTime()
-        text()
-        version()
-        data().validate()
-        validated = true
-    }
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -257,23 +252,39 @@ private constructor(
                 checkRequired("text", text),
                 checkRequired("version", version),
                 checkRequired("data", data),
-                additionalProperties.toImmutable(),
+                additionalProperties.toMutableMap(),
             )
     }
 
-    @NoAutoDetect
+    private var validated: Boolean = false
+
+    fun validate(): StopsForRouteListResponse = apply {
+        if (validated) {
+            return@apply
+        }
+
+        code()
+        currentTime()
+        text()
+        version()
+        data().validate()
+        validated = true
+    }
+
     class Data
-    @JsonCreator
     private constructor(
-        @JsonProperty("entry")
-        @ExcludeMissing
-        private val entry: JsonField<Entry> = JsonMissing.of(),
-        @JsonProperty("references")
-        @ExcludeMissing
-        private val references: JsonField<References> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+        private val entry: JsonField<Entry>,
+        private val references: JsonField<References>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("entry") @ExcludeMissing entry: JsonField<Entry> = JsonMissing.of(),
+            @JsonProperty("references")
+            @ExcludeMissing
+            references: JsonField<References> = JsonMissing.of(),
+        ) : this(entry, references, mutableMapOf())
 
         /**
          * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
@@ -303,21 +314,15 @@ private constructor(
         @ExcludeMissing
         fun _references(): JsonField<References> = references
 
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
         @JsonAnyGetter
         @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): Data = apply {
-            if (validated) {
-                return@apply
-            }
-
-            entry().validate()
-            references().validate()
-            validated = true
-        }
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
 
         fun toBuilder() = Builder().from(this)
 
@@ -408,29 +413,46 @@ private constructor(
                 Data(
                     checkRequired("entry", entry),
                     checkRequired("references", references),
-                    additionalProperties.toImmutable(),
+                    additionalProperties.toMutableMap(),
                 )
         }
 
-        @NoAutoDetect
+        private var validated: Boolean = false
+
+        fun validate(): Data = apply {
+            if (validated) {
+                return@apply
+            }
+
+            entry().validate()
+            references().validate()
+            validated = true
+        }
+
         class Entry
-        @JsonCreator
         private constructor(
-            @JsonProperty("polylines")
-            @ExcludeMissing
-            private val polylines: JsonField<List<Polyline>> = JsonMissing.of(),
-            @JsonProperty("routeId")
-            @ExcludeMissing
-            private val routeId: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("stopGroupings")
-            @ExcludeMissing
-            private val stopGroupings: JsonField<List<StopGrouping>> = JsonMissing.of(),
-            @JsonProperty("stopIds")
-            @ExcludeMissing
-            private val stopIds: JsonField<List<String>> = JsonMissing.of(),
-            @JsonAnySetter
-            private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+            private val polylines: JsonField<List<Polyline>>,
+            private val routeId: JsonField<String>,
+            private val stopGroupings: JsonField<List<StopGrouping>>,
+            private val stopIds: JsonField<List<String>>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
+
+            @JsonCreator
+            private constructor(
+                @JsonProperty("polylines")
+                @ExcludeMissing
+                polylines: JsonField<List<Polyline>> = JsonMissing.of(),
+                @JsonProperty("routeId")
+                @ExcludeMissing
+                routeId: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("stopGroupings")
+                @ExcludeMissing
+                stopGroupings: JsonField<List<StopGrouping>> = JsonMissing.of(),
+                @JsonProperty("stopIds")
+                @ExcludeMissing
+                stopIds: JsonField<List<String>> = JsonMissing.of(),
+            ) : this(polylines, routeId, stopGroupings, stopIds, mutableMapOf())
 
             /**
              * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type
@@ -492,23 +514,15 @@ private constructor(
             @ExcludeMissing
             fun _stopIds(): JsonField<List<String>> = stopIds
 
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
             @JsonAnyGetter
             @ExcludeMissing
-            fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-            private var validated: Boolean = false
-
-            fun validate(): Entry = apply {
-                if (validated) {
-                    return@apply
-                }
-
-                polylines()?.forEach { it.validate() }
-                routeId()
-                stopGroupings()?.forEach { it.validate() }
-                stopIds()
-                validated = true
-            }
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
 
             fun toBuilder() = Builder().from(this)
 
@@ -655,26 +669,44 @@ private constructor(
                         routeId,
                         (stopGroupings ?: JsonMissing.of()).map { it.toImmutable() },
                         (stopIds ?: JsonMissing.of()).map { it.toImmutable() },
-                        additionalProperties.toImmutable(),
+                        additionalProperties.toMutableMap(),
                     )
             }
 
-            @NoAutoDetect
+            private var validated: Boolean = false
+
+            fun validate(): Entry = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                polylines()?.forEach { it.validate() }
+                routeId()
+                stopGroupings()?.forEach { it.validate() }
+                stopIds()
+                validated = true
+            }
+
             class Polyline
-            @JsonCreator
             private constructor(
-                @JsonProperty("length")
-                @ExcludeMissing
-                private val length: JsonField<Long> = JsonMissing.of(),
-                @JsonProperty("levels")
-                @ExcludeMissing
-                private val levels: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("points")
-                @ExcludeMissing
-                private val points: JsonField<String> = JsonMissing.of(),
-                @JsonAnySetter
-                private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+                private val length: JsonField<Long>,
+                private val levels: JsonField<String>,
+                private val points: JsonField<String>,
+                private val additionalProperties: MutableMap<String, JsonValue>,
             ) {
+
+                @JsonCreator
+                private constructor(
+                    @JsonProperty("length")
+                    @ExcludeMissing
+                    length: JsonField<Long> = JsonMissing.of(),
+                    @JsonProperty("levels")
+                    @ExcludeMissing
+                    levels: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("points")
+                    @ExcludeMissing
+                    points: JsonField<String> = JsonMissing.of(),
+                ) : this(length, levels, points, mutableMapOf())
 
                 /**
                  * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected
@@ -718,22 +750,15 @@ private constructor(
                  */
                 @JsonProperty("points") @ExcludeMissing fun _points(): JsonField<String> = points
 
+                @JsonAnySetter
+                private fun putAdditionalProperty(key: String, value: JsonValue) {
+                    additionalProperties.put(key, value)
+                }
+
                 @JsonAnyGetter
                 @ExcludeMissing
-                fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-                private var validated: Boolean = false
-
-                fun validate(): Polyline = apply {
-                    if (validated) {
-                        return@apply
-                    }
-
-                    length()
-                    levels()
-                    points()
-                    validated = true
-                }
+                fun _additionalProperties(): Map<String, JsonValue> =
+                    Collections.unmodifiableMap(additionalProperties)
 
                 fun toBuilder() = Builder().from(this)
 
@@ -819,7 +844,20 @@ private constructor(
                      * Further updates to this [Builder] will not mutate the returned instance.
                      */
                     fun build(): Polyline =
-                        Polyline(length, levels, points, additionalProperties.toImmutable())
+                        Polyline(length, levels, points, additionalProperties.toMutableMap())
+                }
+
+                private var validated: Boolean = false
+
+                fun validate(): Polyline = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    length()
+                    levels()
+                    points()
+                    validated = true
                 }
 
                 override fun equals(other: Any?): Boolean {
@@ -840,25 +878,26 @@ private constructor(
                     "Polyline{length=$length, levels=$levels, points=$points, additionalProperties=$additionalProperties}"
             }
 
-            @NoAutoDetect
             class StopGrouping
-            @JsonCreator
             private constructor(
-                @JsonProperty("id")
-                @ExcludeMissing
-                private val id: JsonField<String> = JsonMissing.of(),
-                @JsonProperty("name")
-                @ExcludeMissing
-                private val name: JsonField<Name> = JsonMissing.of(),
-                @JsonProperty("polylines")
-                @ExcludeMissing
-                private val polylines: JsonField<List<Polyline>> = JsonMissing.of(),
-                @JsonProperty("stopIds")
-                @ExcludeMissing
-                private val stopIds: JsonField<List<String>> = JsonMissing.of(),
-                @JsonAnySetter
-                private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+                private val id: JsonField<String>,
+                private val name: JsonField<Name>,
+                private val polylines: JsonField<List<Polyline>>,
+                private val stopIds: JsonField<List<String>>,
+                private val additionalProperties: MutableMap<String, JsonValue>,
             ) {
+
+                @JsonCreator
+                private constructor(
+                    @JsonProperty("id") @ExcludeMissing id: JsonField<String> = JsonMissing.of(),
+                    @JsonProperty("name") @ExcludeMissing name: JsonField<Name> = JsonMissing.of(),
+                    @JsonProperty("polylines")
+                    @ExcludeMissing
+                    polylines: JsonField<List<Polyline>> = JsonMissing.of(),
+                    @JsonProperty("stopIds")
+                    @ExcludeMissing
+                    stopIds: JsonField<List<String>> = JsonMissing.of(),
+                ) : this(id, name, polylines, stopIds, mutableMapOf())
 
                 /**
                  * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected
@@ -919,23 +958,15 @@ private constructor(
                 @ExcludeMissing
                 fun _stopIds(): JsonField<List<String>> = stopIds
 
+                @JsonAnySetter
+                private fun putAdditionalProperty(key: String, value: JsonValue) {
+                    additionalProperties.put(key, value)
+                }
+
                 @JsonAnyGetter
                 @ExcludeMissing
-                fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-                private var validated: Boolean = false
-
-                fun validate(): StopGrouping = apply {
-                    if (validated) {
-                        return@apply
-                    }
-
-                    id()
-                    name()?.validate()
-                    polylines()?.forEach { it.validate() }
-                    stopIds()
-                    validated = true
-                }
+                fun _additionalProperties(): Map<String, JsonValue> =
+                    Collections.unmodifiableMap(additionalProperties)
 
                 fun toBuilder() = Builder().from(this)
 
@@ -1067,26 +1098,44 @@ private constructor(
                             name,
                             (polylines ?: JsonMissing.of()).map { it.toImmutable() },
                             (stopIds ?: JsonMissing.of()).map { it.toImmutable() },
-                            additionalProperties.toImmutable(),
+                            additionalProperties.toMutableMap(),
                         )
                 }
 
-                @NoAutoDetect
+                private var validated: Boolean = false
+
+                fun validate(): StopGrouping = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    id()
+                    name()?.validate()
+                    polylines()?.forEach { it.validate() }
+                    stopIds()
+                    validated = true
+                }
+
                 class Name
-                @JsonCreator
                 private constructor(
-                    @JsonProperty("name")
-                    @ExcludeMissing
-                    private val name: JsonField<String> = JsonMissing.of(),
-                    @JsonProperty("names")
-                    @ExcludeMissing
-                    private val names: JsonField<List<String>> = JsonMissing.of(),
-                    @JsonProperty("type")
-                    @ExcludeMissing
-                    private val type: JsonField<String> = JsonMissing.of(),
-                    @JsonAnySetter
-                    private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+                    private val name: JsonField<String>,
+                    private val names: JsonField<List<String>>,
+                    private val type: JsonField<String>,
+                    private val additionalProperties: MutableMap<String, JsonValue>,
                 ) {
+
+                    @JsonCreator
+                    private constructor(
+                        @JsonProperty("name")
+                        @ExcludeMissing
+                        name: JsonField<String> = JsonMissing.of(),
+                        @JsonProperty("names")
+                        @ExcludeMissing
+                        names: JsonField<List<String>> = JsonMissing.of(),
+                        @JsonProperty("type")
+                        @ExcludeMissing
+                        type: JsonField<String> = JsonMissing.of(),
+                    ) : this(name, names, type, mutableMapOf())
 
                     /**
                      * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected
@@ -1132,22 +1181,15 @@ private constructor(
                      */
                     @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<String> = type
 
+                    @JsonAnySetter
+                    private fun putAdditionalProperty(key: String, value: JsonValue) {
+                        additionalProperties.put(key, value)
+                    }
+
                     @JsonAnyGetter
                     @ExcludeMissing
-                    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-                    private var validated: Boolean = false
-
-                    fun validate(): Name = apply {
-                        if (validated) {
-                            return@apply
-                        }
-
-                        name()
-                        names()
-                        type()
-                        validated = true
-                    }
+                    fun _additionalProperties(): Map<String, JsonValue> =
+                        Collections.unmodifiableMap(additionalProperties)
 
                     fun toBuilder() = Builder().from(this)
 
@@ -1253,8 +1295,21 @@ private constructor(
                                 name,
                                 (names ?: JsonMissing.of()).map { it.toImmutable() },
                                 type,
-                                additionalProperties.toImmutable(),
+                                additionalProperties.toMutableMap(),
                             )
+                    }
+
+                    private var validated: Boolean = false
+
+                    fun validate(): Name = apply {
+                        if (validated) {
+                            return@apply
+                        }
+
+                        name()
+                        names()
+                        type()
+                        validated = true
                     }
 
                     override fun equals(other: Any?): Boolean {
@@ -1275,22 +1330,26 @@ private constructor(
                         "Name{name=$name, names=$names, type=$type, additionalProperties=$additionalProperties}"
                 }
 
-                @NoAutoDetect
                 class Polyline
-                @JsonCreator
                 private constructor(
-                    @JsonProperty("length")
-                    @ExcludeMissing
-                    private val length: JsonField<Long> = JsonMissing.of(),
-                    @JsonProperty("levels")
-                    @ExcludeMissing
-                    private val levels: JsonField<String> = JsonMissing.of(),
-                    @JsonProperty("points")
-                    @ExcludeMissing
-                    private val points: JsonField<String> = JsonMissing.of(),
-                    @JsonAnySetter
-                    private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+                    private val length: JsonField<Long>,
+                    private val levels: JsonField<String>,
+                    private val points: JsonField<String>,
+                    private val additionalProperties: MutableMap<String, JsonValue>,
                 ) {
+
+                    @JsonCreator
+                    private constructor(
+                        @JsonProperty("length")
+                        @ExcludeMissing
+                        length: JsonField<Long> = JsonMissing.of(),
+                        @JsonProperty("levels")
+                        @ExcludeMissing
+                        levels: JsonField<String> = JsonMissing.of(),
+                        @JsonProperty("points")
+                        @ExcludeMissing
+                        points: JsonField<String> = JsonMissing.of(),
+                    ) : this(length, levels, points, mutableMapOf())
 
                     /**
                      * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected
@@ -1338,22 +1397,15 @@ private constructor(
                     @ExcludeMissing
                     fun _points(): JsonField<String> = points
 
+                    @JsonAnySetter
+                    private fun putAdditionalProperty(key: String, value: JsonValue) {
+                        additionalProperties.put(key, value)
+                    }
+
                     @JsonAnyGetter
                     @ExcludeMissing
-                    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-                    private var validated: Boolean = false
-
-                    fun validate(): Polyline = apply {
-                        if (validated) {
-                            return@apply
-                        }
-
-                        length()
-                        levels()
-                        points()
-                        validated = true
-                    }
+                    fun _additionalProperties(): Map<String, JsonValue> =
+                        Collections.unmodifiableMap(additionalProperties)
 
                     fun toBuilder() = Builder().from(this)
 
@@ -1440,7 +1492,20 @@ private constructor(
                          * Further updates to this [Builder] will not mutate the returned instance.
                          */
                         fun build(): Polyline =
-                            Polyline(length, levels, points, additionalProperties.toImmutable())
+                            Polyline(length, levels, points, additionalProperties.toMutableMap())
+                    }
+
+                    private var validated: Boolean = false
+
+                    fun validate(): Polyline = apply {
+                        if (validated) {
+                            return@apply
+                        }
+
+                        length()
+                        levels()
+                        points()
+                        validated = true
                     }
 
                     override fun equals(other: Any?): Boolean {

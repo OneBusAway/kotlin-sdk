@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import java.util.Objects
 import org.onebusaway.core.Enum
 import org.onebusaway.core.JsonField
-import org.onebusaway.core.NoAutoDetect
 import org.onebusaway.core.Params
 import org.onebusaway.core.checkRequired
 import org.onebusaway.core.http.Headers
@@ -47,26 +46,6 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    fun _pathParam(index: Int): String =
-        when (index) {
-            0 -> stopId
-            else -> ""
-        }
-
-    override fun _headers(): Headers = additionalHeaders
-
-    override fun _queryParams(): QueryParams =
-        QueryParams.builder()
-            .apply {
-                code?.let { put("code", it.toString()) }
-                userComment?.let { put("userComment", it) }
-                userLat?.let { put("userLat", it.toString()) }
-                userLocationAccuracy?.let { put("userLocationAccuracy", it.toString()) }
-                userLon?.let { put("userLon", it.toString()) }
-                putAll(additionalQueryParams)
-            }
-            .build()
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -84,7 +63,6 @@ private constructor(
     }
 
     /** A builder for [ReportProblemWithStopRetrieveParams]. */
-    @NoAutoDetect
     class Builder internal constructor() {
 
         private var stopId: String? = null
@@ -273,6 +251,26 @@ private constructor(
                 additionalQueryParams.build(),
             )
     }
+
+    fun _pathParam(index: Int): String =
+        when (index) {
+            0 -> stopId
+            else -> ""
+        }
+
+    override fun _headers(): Headers = additionalHeaders
+
+    override fun _queryParams(): QueryParams =
+        QueryParams.builder()
+            .apply {
+                code?.let { put("code", it.toString()) }
+                userComment?.let { put("userComment", it) }
+                userLat?.let { put("userLat", it.toString()) }
+                userLocationAccuracy?.let { put("userLocationAccuracy", it.toString()) }
+                userLon?.let { put("userLon", it.toString()) }
+                putAll(additionalQueryParams)
+            }
+            .build()
 
     /** A string code identifying the nature of the problem */
     class Code @JsonCreator private constructor(private val value: JsonField<String>) : Enum {

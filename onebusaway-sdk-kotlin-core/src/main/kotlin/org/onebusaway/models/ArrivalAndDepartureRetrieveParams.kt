@@ -3,7 +3,6 @@
 package org.onebusaway.models
 
 import java.util.Objects
-import org.onebusaway.core.NoAutoDetect
 import org.onebusaway.core.Params
 import org.onebusaway.core.checkRequired
 import org.onebusaway.core.http.Headers
@@ -38,26 +37,6 @@ private constructor(
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    fun _pathParam(index: Int): String =
-        when (index) {
-            0 -> stopId
-            else -> ""
-        }
-
-    override fun _headers(): Headers = additionalHeaders
-
-    override fun _queryParams(): QueryParams =
-        QueryParams.builder()
-            .apply {
-                put("serviceDate", serviceDate.toString())
-                put("tripId", tripId)
-                stopSequence?.let { put("stopSequence", it.toString()) }
-                time?.let { put("time", it.toString()) }
-                vehicleId?.let { put("vehicleId", it) }
-                putAll(additionalQueryParams)
-            }
-            .build()
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -77,7 +56,6 @@ private constructor(
     }
 
     /** A builder for [ArrivalAndDepartureRetrieveParams]. */
-    @NoAutoDetect
     class Builder internal constructor() {
 
         private var stopId: String? = null
@@ -252,6 +230,26 @@ private constructor(
                 additionalQueryParams.build(),
             )
     }
+
+    fun _pathParam(index: Int): String =
+        when (index) {
+            0 -> stopId
+            else -> ""
+        }
+
+    override fun _headers(): Headers = additionalHeaders
+
+    override fun _queryParams(): QueryParams =
+        QueryParams.builder()
+            .apply {
+                put("serviceDate", serviceDate.toString())
+                put("tripId", tripId)
+                stopSequence?.let { put("stopSequence", it.toString()) }
+                time?.let { put("time", it.toString()) }
+                vehicleId?.let { put("vehicleId", it) }
+                putAll(additionalQueryParams)
+            }
+            .build()
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {
