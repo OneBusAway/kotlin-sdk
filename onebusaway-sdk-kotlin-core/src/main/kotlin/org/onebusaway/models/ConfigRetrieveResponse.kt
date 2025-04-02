@@ -269,6 +269,26 @@ private constructor(
         validated = true
     }
 
+    fun isValid(): Boolean =
+        try {
+            validate()
+            true
+        } catch (e: OnebusawaySdkInvalidDataException) {
+            false
+        }
+
+    /**
+     * Returns a score indicating how many valid values are contained in this object recursively.
+     *
+     * Used for best match union deserialization.
+     */
+    internal fun validity(): Int =
+        (if (code.asKnown() == null) 0 else 1) +
+            (if (currentTime.asKnown() == null) 0 else 1) +
+            (if (text.asKnown() == null) 0 else 1) +
+            (if (version.asKnown() == null) 0 else 1) +
+            (data.asKnown()?.validity() ?: 0)
+
     class Data
     private constructor(
         private val entry: JsonField<Entry>,
@@ -426,6 +446,23 @@ private constructor(
             references().validate()
             validated = true
         }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: OnebusawaySdkInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        internal fun validity(): Int =
+            (entry.asKnown()?.validity() ?: 0) + (references.asKnown()?.validity() ?: 0)
 
         class Entry
         private constructor(
@@ -679,6 +716,27 @@ private constructor(
                 serviceDateTo()
                 validated = true
             }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: OnebusawaySdkInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            internal fun validity(): Int =
+                (if (id.asKnown() == null) 0 else 1) +
+                    (gitProperties.asKnown()?.validity() ?: 0) +
+                    (if (name.asKnown() == null) 0 else 1) +
+                    (if (serviceDateFrom.asKnown() == null) 0 else 1) +
+                    (if (serviceDateTo.asKnown() == null) 0 else 1)
 
             class GitProperties
             private constructor(
@@ -1548,6 +1606,42 @@ private constructor(
                     gitTags()
                     validated = true
                 }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: OnebusawaySdkInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                internal fun validity(): Int =
+                    (if (gitBranch.asKnown() == null) 0 else 1) +
+                        (if (gitBuildHost.asKnown() == null) 0 else 1) +
+                        (if (gitBuildTime.asKnown() == null) 0 else 1) +
+                        (if (gitBuildUserEmail.asKnown() == null) 0 else 1) +
+                        (if (gitBuildUserName.asKnown() == null) 0 else 1) +
+                        (if (gitBuildVersion.asKnown() == null) 0 else 1) +
+                        (if (gitClosestTagCommitCount.asKnown() == null) 0 else 1) +
+                        (if (gitClosestTagName.asKnown() == null) 0 else 1) +
+                        (if (gitCommitId.asKnown() == null) 0 else 1) +
+                        (if (gitCommitIdAbbrev.asKnown() == null) 0 else 1) +
+                        (if (gitCommitIdDescribe.asKnown() == null) 0 else 1) +
+                        (if (gitCommitIdDescribeShort.asKnown() == null) 0 else 1) +
+                        (if (gitCommitMessageFull.asKnown() == null) 0 else 1) +
+                        (if (gitCommitMessageShort.asKnown() == null) 0 else 1) +
+                        (if (gitCommitTime.asKnown() == null) 0 else 1) +
+                        (if (gitCommitUserEmail.asKnown() == null) 0 else 1) +
+                        (if (gitCommitUserName.asKnown() == null) 0 else 1) +
+                        (if (gitDirty.asKnown() == null) 0 else 1) +
+                        (if (gitRemoteOriginUrl.asKnown() == null) 0 else 1) +
+                        (if (gitTags.asKnown() == null) 0 else 1)
 
                 override fun equals(other: Any?): Boolean {
                     if (this === other) {

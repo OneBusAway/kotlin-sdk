@@ -271,6 +271,26 @@ private constructor(
         validated = true
     }
 
+    fun isValid(): Boolean =
+        try {
+            validate()
+            true
+        } catch (e: OnebusawaySdkInvalidDataException) {
+            false
+        }
+
+    /**
+     * Returns a score indicating how many valid values are contained in this object recursively.
+     *
+     * Used for best match union deserialization.
+     */
+    internal fun validity(): Int =
+        (if (code.asKnown() == null) 0 else 1) +
+            (if (currentTime.asKnown() == null) 0 else 1) +
+            (if (text.asKnown() == null) 0 else 1) +
+            (if (version.asKnown() == null) 0 else 1) +
+            (data.asKnown()?.validity() ?: 0)
+
     class Data
     private constructor(
         private val entry: JsonField<Entry>,
@@ -428,6 +448,23 @@ private constructor(
             references().validate()
             validated = true
         }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: OnebusawaySdkInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        internal fun validity(): Int =
+            (entry.asKnown()?.validity() ?: 0) + (references.asKnown()?.validity() ?: 0)
 
         class Entry
         private constructor(
@@ -687,6 +724,26 @@ private constructor(
                 validated = true
             }
 
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: OnebusawaySdkInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            internal fun validity(): Int =
+                (polylines.asKnown()?.sumOf { it.validity().toInt() } ?: 0) +
+                    (if (routeId.asKnown() == null) 0 else 1) +
+                    (stopGroupings.asKnown()?.sumOf { it.validity().toInt() } ?: 0) +
+                    (stopIds.asKnown()?.size ?: 0)
+
             class Polyline
             private constructor(
                 private val length: JsonField<Long>,
@@ -859,6 +916,25 @@ private constructor(
                     points()
                     validated = true
                 }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: OnebusawaySdkInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                internal fun validity(): Int =
+                    (if (length.asKnown() == null) 0 else 1) +
+                        (if (levels.asKnown() == null) 0 else 1) +
+                        (if (points.asKnown() == null) 0 else 1)
 
                 override fun equals(other: Any?): Boolean {
                     if (this === other) {
@@ -1116,6 +1192,26 @@ private constructor(
                     validated = true
                 }
 
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: OnebusawaySdkInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                internal fun validity(): Int =
+                    (if (id.asKnown() == null) 0 else 1) +
+                        (name.asKnown()?.validity() ?: 0) +
+                        (polylines.asKnown()?.sumOf { it.validity().toInt() } ?: 0) +
+                        (stopIds.asKnown()?.size ?: 0)
+
                 class Name
                 private constructor(
                     private val name: JsonField<String>,
@@ -1312,6 +1408,25 @@ private constructor(
                         validated = true
                     }
 
+                    fun isValid(): Boolean =
+                        try {
+                            validate()
+                            true
+                        } catch (e: OnebusawaySdkInvalidDataException) {
+                            false
+                        }
+
+                    /**
+                     * Returns a score indicating how many valid values are contained in this object
+                     * recursively.
+                     *
+                     * Used for best match union deserialization.
+                     */
+                    internal fun validity(): Int =
+                        (if (name.asKnown() == null) 0 else 1) +
+                            (names.asKnown()?.size ?: 0) +
+                            (if (type.asKnown() == null) 0 else 1)
+
                     override fun equals(other: Any?): Boolean {
                         if (this === other) {
                             return true
@@ -1507,6 +1622,25 @@ private constructor(
                         points()
                         validated = true
                     }
+
+                    fun isValid(): Boolean =
+                        try {
+                            validate()
+                            true
+                        } catch (e: OnebusawaySdkInvalidDataException) {
+                            false
+                        }
+
+                    /**
+                     * Returns a score indicating how many valid values are contained in this object
+                     * recursively.
+                     *
+                     * Used for best match union deserialization.
+                     */
+                    internal fun validity(): Int =
+                        (if (length.asKnown() == null) 0 else 1) +
+                            (if (levels.asKnown() == null) 0 else 1) +
+                            (if (points.asKnown() == null) 0 else 1)
 
                     override fun equals(other: Any?): Boolean {
                         if (this === other) {

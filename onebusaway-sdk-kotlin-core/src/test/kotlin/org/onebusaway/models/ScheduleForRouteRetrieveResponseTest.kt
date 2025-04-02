@@ -2,8 +2,10 @@
 
 package org.onebusaway.models
 
+import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.onebusaway.core.jsonMapper
 
 internal class ScheduleForRouteRetrieveResponseTest {
 
@@ -169,5 +171,100 @@ internal class ScheduleForRouteRetrieveResponseTest {
                     )
                     .build()
             )
+    }
+
+    @Test
+    fun roundtrip() {
+        val jsonMapper = jsonMapper()
+        val scheduleForRouteRetrieveResponse =
+            ScheduleForRouteRetrieveResponse.builder()
+                .code(0L)
+                .currentTime(0L)
+                .text("text")
+                .version(0L)
+                .data(
+                    ScheduleForRouteRetrieveResponse.Data.builder()
+                        .entry(
+                            ScheduleForRouteRetrieveResponse.Data.Entry.builder()
+                                .routeId("routeId")
+                                .scheduleDate(0L)
+                                .addServiceId("string")
+                                .addStop(
+                                    ScheduleForRouteRetrieveResponse.Data.Entry.Stop.builder()
+                                        .id("id")
+                                        .lat(0.0)
+                                        .lon(0.0)
+                                        .name("name")
+                                        .parent("parent")
+                                        .addRouteId("string")
+                                        .addStaticRouteId("string")
+                                        .code("code")
+                                        .direction("direction")
+                                        .locationType(0L)
+                                        .wheelchairBoarding("wheelchairBoarding")
+                                        .build()
+                                )
+                                .addStopTripGrouping(
+                                    ScheduleForRouteRetrieveResponse.Data.Entry.StopTripGrouping
+                                        .builder()
+                                        .directionId("directionId")
+                                        .addStopId("string")
+                                        .addTripHeadsign("string")
+                                        .addTripId("string")
+                                        .addTripsWithStopTime(
+                                            ScheduleForRouteRetrieveResponse.Data.Entry
+                                                .StopTripGrouping
+                                                .TripsWithStopTime
+                                                .builder()
+                                                .addStopTime(
+                                                    ScheduleForRouteRetrieveResponse.Data.Entry
+                                                        .StopTripGrouping
+                                                        .TripsWithStopTime
+                                                        .StopTime
+                                                        .builder()
+                                                        .arrivalEnabled(true)
+                                                        .arrivalTime(0L)
+                                                        .departureEnabled(true)
+                                                        .departureTime(0L)
+                                                        .stopId("stopId")
+                                                        .tripId("tripId")
+                                                        .serviceId("serviceId")
+                                                        .stopHeadsign("stopHeadsign")
+                                                        .build()
+                                                )
+                                                .tripId("tripId")
+                                                .build()
+                                        )
+                                        .build()
+                                )
+                                .addTrip(
+                                    ScheduleForRouteRetrieveResponse.Data.Entry.Trip.builder()
+                                        .id("id")
+                                        .routeId("routeId")
+                                        .serviceId("serviceId")
+                                        .blockId("blockId")
+                                        .directionId("directionId")
+                                        .peakOffpeak(0L)
+                                        .routeShortName("routeShortName")
+                                        .shapeId("shapeId")
+                                        .timeZone("timeZone")
+                                        .tripHeadsign("tripHeadsign")
+                                        .tripShortName("tripShortName")
+                                        .build()
+                                )
+                                .build()
+                        )
+                        .build()
+                )
+                .build()
+
+        val roundtrippedScheduleForRouteRetrieveResponse =
+            jsonMapper.readValue(
+                jsonMapper.writeValueAsString(scheduleForRouteRetrieveResponse),
+                jacksonTypeRef<ScheduleForRouteRetrieveResponse>(),
+            )
+
+        assertThat(roundtrippedScheduleForRouteRetrieveResponse)
+            .isEqualTo(scheduleForRouteRetrieveResponse)
     }
 }

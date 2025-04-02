@@ -273,6 +273,26 @@ private constructor(
         validated = true
     }
 
+    fun isValid(): Boolean =
+        try {
+            validate()
+            true
+        } catch (e: OnebusawaySdkInvalidDataException) {
+            false
+        }
+
+    /**
+     * Returns a score indicating how many valid values are contained in this object recursively.
+     *
+     * Used for best match union deserialization.
+     */
+    internal fun validity(): Int =
+        (if (code.asKnown() == null) 0 else 1) +
+            (if (currentTime.asKnown() == null) 0 else 1) +
+            (if (text.asKnown() == null) 0 else 1) +
+            (if (version.asKnown() == null) 0 else 1) +
+            (data.asKnown()?.validity() ?: 0)
+
     class Data
     private constructor(
         private val entry: JsonField<Entry>,
@@ -430,6 +450,23 @@ private constructor(
             references().validate()
             validated = true
         }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: OnebusawaySdkInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        internal fun validity(): Int =
+            (entry.asKnown()?.validity() ?: 0) + (references.asKnown()?.validity() ?: 0)
 
         class Entry
         private constructor(
@@ -744,6 +781,28 @@ private constructor(
                 validated = true
             }
 
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: OnebusawaySdkInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            internal fun validity(): Int =
+                (if (tripId.asKnown() == null) 0 else 1) +
+                    (if (frequency.asKnown() == null) 0 else 1) +
+                    (schedule.asKnown()?.validity() ?: 0) +
+                    (if (serviceDate.asKnown() == null) 0 else 1) +
+                    (situationIds.asKnown()?.size ?: 0) +
+                    (status.asKnown()?.validity() ?: 0)
+
             class Schedule
             private constructor(
                 private val nextTripId: JsonField<String>,
@@ -1042,6 +1101,27 @@ private constructor(
                     frequency()
                     validated = true
                 }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: OnebusawaySdkInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                internal fun validity(): Int =
+                    (if (nextTripId.asKnown() == null) 0 else 1) +
+                        (if (previousTripId.asKnown() == null) 0 else 1) +
+                        (stopTimes.asKnown()?.sumOf { it.validity().toInt() } ?: 0) +
+                        (if (timeZone.asKnown() == null) 0 else 1) +
+                        (if (frequency.asKnown() == null) 0 else 1)
 
                 class StopTime
                 private constructor(
@@ -1356,6 +1436,28 @@ private constructor(
                         stopId()
                         validated = true
                     }
+
+                    fun isValid(): Boolean =
+                        try {
+                            validate()
+                            true
+                        } catch (e: OnebusawaySdkInvalidDataException) {
+                            false
+                        }
+
+                    /**
+                     * Returns a score indicating how many valid values are contained in this object
+                     * recursively.
+                     *
+                     * Used for best match union deserialization.
+                     */
+                    internal fun validity(): Int =
+                        (if (arrivalTime.asKnown() == null) 0 else 1) +
+                            (if (departureTime.asKnown() == null) 0 else 1) +
+                            (if (distanceAlongTrip.asKnown() == null) 0 else 1) +
+                            (if (historicalOccupancy.asKnown() == null) 0 else 1) +
+                            (if (stopHeadsign.asKnown() == null) 0 else 1) +
+                            (if (stopId.asKnown() == null) 0 else 1)
 
                     override fun equals(other: Any?): Boolean {
                         if (this === other) {
@@ -2699,6 +2801,49 @@ private constructor(
                     validated = true
                 }
 
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: OnebusawaySdkInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                internal fun validity(): Int =
+                    (if (activeTripId.asKnown() == null) 0 else 1) +
+                        (if (blockTripSequence.asKnown() == null) 0 else 1) +
+                        (if (closestStop.asKnown() == null) 0 else 1) +
+                        (if (distanceAlongTrip.asKnown() == null) 0 else 1) +
+                        (if (lastKnownDistanceAlongTrip.asKnown() == null) 0 else 1) +
+                        (if (lastLocationUpdateTime.asKnown() == null) 0 else 1) +
+                        (if (lastUpdateTime.asKnown() == null) 0 else 1) +
+                        (if (occupancyCapacity.asKnown() == null) 0 else 1) +
+                        (if (occupancyCount.asKnown() == null) 0 else 1) +
+                        (if (occupancyStatus.asKnown() == null) 0 else 1) +
+                        (if (phase.asKnown() == null) 0 else 1) +
+                        (if (predicted.asKnown() == null) 0 else 1) +
+                        (if (scheduleDeviation.asKnown() == null) 0 else 1) +
+                        (if (serviceDate.asKnown() == null) 0 else 1) +
+                        (if (status.asKnown() == null) 0 else 1) +
+                        (if (totalDistanceAlongTrip.asKnown() == null) 0 else 1) +
+                        (if (closestStopTimeOffset.asKnown() == null) 0 else 1) +
+                        (if (frequency.asKnown() == null) 0 else 1) +
+                        (lastKnownLocation.asKnown()?.validity() ?: 0) +
+                        (if (lastKnownOrientation.asKnown() == null) 0 else 1) +
+                        (if (nextStop.asKnown() == null) 0 else 1) +
+                        (if (nextStopTimeOffset.asKnown() == null) 0 else 1) +
+                        (if (orientation.asKnown() == null) 0 else 1) +
+                        (position.asKnown()?.validity() ?: 0) +
+                        (if (scheduledDistanceAlongTrip.asKnown() == null) 0 else 1) +
+                        (situationIds.asKnown()?.size ?: 0) +
+                        (if (vehicleId.asKnown() == null) 0 else 1)
+
                 /** Last known location of the transit vehicle. */
                 class LastKnownLocation
                 private constructor(
@@ -2851,6 +2996,24 @@ private constructor(
                         lon()
                         validated = true
                     }
+
+                    fun isValid(): Boolean =
+                        try {
+                            validate()
+                            true
+                        } catch (e: OnebusawaySdkInvalidDataException) {
+                            false
+                        }
+
+                    /**
+                     * Returns a score indicating how many valid values are contained in this object
+                     * recursively.
+                     *
+                     * Used for best match union deserialization.
+                     */
+                    internal fun validity(): Int =
+                        (if (lat.asKnown() == null) 0 else 1) +
+                            (if (lon.asKnown() == null) 0 else 1)
 
                     override fun equals(other: Any?): Boolean {
                         if (this === other) {
@@ -3018,6 +3181,24 @@ private constructor(
                         lon()
                         validated = true
                     }
+
+                    fun isValid(): Boolean =
+                        try {
+                            validate()
+                            true
+                        } catch (e: OnebusawaySdkInvalidDataException) {
+                            false
+                        }
+
+                    /**
+                     * Returns a score indicating how many valid values are contained in this object
+                     * recursively.
+                     *
+                     * Used for best match union deserialization.
+                     */
+                    internal fun validity(): Int =
+                        (if (lat.asKnown() == null) 0 else 1) +
+                            (if (lon.asKnown() == null) 0 else 1)
 
                     override fun equals(other: Any?): Boolean {
                         if (this === other) {
