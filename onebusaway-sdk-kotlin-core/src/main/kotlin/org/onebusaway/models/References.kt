@@ -388,6 +388,27 @@ private constructor(
         validated = true
     }
 
+    fun isValid(): Boolean =
+        try {
+            validate()
+            true
+        } catch (e: OnebusawaySdkInvalidDataException) {
+            false
+        }
+
+    /**
+     * Returns a score indicating how many valid values are contained in this object recursively.
+     *
+     * Used for best match union deserialization.
+     */
+    internal fun validity(): Int =
+        (agencies.asKnown()?.sumOf { it.validity().toInt() } ?: 0) +
+            (routes.asKnown()?.sumOf { it.validity().toInt() } ?: 0) +
+            (situations.asKnown()?.sumOf { it.validity().toInt() } ?: 0) +
+            (stops.asKnown()?.sumOf { it.validity().toInt() } ?: 0) +
+            (stopTimes.asKnown()?.sumOf { it.validity().toInt() } ?: 0) +
+            (trips.asKnown()?.sumOf { it.validity().toInt() } ?: 0)
+
     class Agency
     private constructor(
         private val id: JsonField<String>,
@@ -809,6 +830,32 @@ private constructor(
             privateService()
             validated = true
         }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: OnebusawaySdkInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        internal fun validity(): Int =
+            (if (id.asKnown() == null) 0 else 1) +
+                (if (name.asKnown() == null) 0 else 1) +
+                (if (timezone.asKnown() == null) 0 else 1) +
+                (if (url.asKnown() == null) 0 else 1) +
+                (if (disclaimer.asKnown() == null) 0 else 1) +
+                (if (email.asKnown() == null) 0 else 1) +
+                (if (fareUrl.asKnown() == null) 0 else 1) +
+                (if (lang.asKnown() == null) 0 else 1) +
+                (if (phone.asKnown() == null) 0 else 1) +
+                (if (privateService.asKnown() == null) 0 else 1)
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {
@@ -1255,6 +1302,32 @@ private constructor(
             url()
             validated = true
         }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: OnebusawaySdkInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        internal fun validity(): Int =
+            (if (id.asKnown() == null) 0 else 1) +
+                (if (agencyId.asKnown() == null) 0 else 1) +
+                (if (type.asKnown() == null) 0 else 1) +
+                (if (color.asKnown() == null) 0 else 1) +
+                (if (description.asKnown() == null) 0 else 1) +
+                (if (longName.asKnown() == null) 0 else 1) +
+                (if (nullSafeShortName.asKnown() == null) 0 else 1) +
+                (if (shortName.asKnown() == null) 0 else 1) +
+                (if (textColor.asKnown() == null) 0 else 1) +
+                (if (url.asKnown() == null) 0 else 1)
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {
@@ -1850,12 +1923,40 @@ private constructor(
             consequences()?.forEach { it.validate() }
             description()?.validate()
             publicationWindows()?.forEach { it.validate() }
-            reason()
+            reason()?.validate()
             severity()
             summary()?.validate()
             url()?.validate()
             validated = true
         }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: OnebusawaySdkInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        internal fun validity(): Int =
+            (if (id.asKnown() == null) 0 else 1) +
+                (if (creationTime.asKnown() == null) 0 else 1) +
+                (activeWindows.asKnown()?.sumOf { it.validity().toInt() } ?: 0) +
+                (allAffects.asKnown()?.sumOf { it.validity().toInt() } ?: 0) +
+                (if (consequenceMessage.asKnown() == null) 0 else 1) +
+                (consequences.asKnown()?.sumOf { it.validity().toInt() } ?: 0) +
+                (description.asKnown()?.validity() ?: 0) +
+                (publicationWindows.asKnown()?.sumOf { it.validity().toInt() } ?: 0) +
+                (reason.asKnown()?.validity() ?: 0) +
+                (if (severity.asKnown() == null) 0 else 1) +
+                (summary.asKnown()?.validity() ?: 0) +
+                (url.asKnown()?.validity() ?: 0)
 
         class ActiveWindow
         private constructor(
@@ -1997,6 +2098,23 @@ private constructor(
                 to()
                 validated = true
             }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: OnebusawaySdkInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            internal fun validity(): Int =
+                (if (from.asKnown() == null) 0 else 1) + (if (to.asKnown() == null) 0 else 1)
 
             override fun equals(other: Any?): Boolean {
                 if (this === other) {
@@ -2315,6 +2433,28 @@ private constructor(
                 validated = true
             }
 
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: OnebusawaySdkInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            internal fun validity(): Int =
+                (if (agencyId.asKnown() == null) 0 else 1) +
+                    (if (applicationId.asKnown() == null) 0 else 1) +
+                    (if (directionId.asKnown() == null) 0 else 1) +
+                    (if (routeId.asKnown() == null) 0 else 1) +
+                    (if (stopId.asKnown() == null) 0 else 1) +
+                    (if (tripId.asKnown() == null) 0 else 1)
+
             override fun equals(other: Any?): Boolean {
                 if (this === other) {
                     return true
@@ -2484,6 +2624,24 @@ private constructor(
                 conditionDetails()?.validate()
                 validated = true
             }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: OnebusawaySdkInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            internal fun validity(): Int =
+                (if (condition.asKnown() == null) 0 else 1) +
+                    (conditionDetails.asKnown()?.validity() ?: 0)
 
             class ConditionDetails
             private constructor(
@@ -2655,6 +2813,24 @@ private constructor(
                     diversionStopIds()
                     validated = true
                 }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: OnebusawaySdkInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                internal fun validity(): Int =
+                    (diversionPath.asKnown()?.validity() ?: 0) +
+                        (diversionStopIds.asKnown()?.size ?: 0)
 
                 class DiversionPath
                 private constructor(
@@ -2851,6 +3027,25 @@ private constructor(
                         validated = true
                     }
 
+                    fun isValid(): Boolean =
+                        try {
+                            validate()
+                            true
+                        } catch (e: OnebusawaySdkInvalidDataException) {
+                            false
+                        }
+
+                    /**
+                     * Returns a score indicating how many valid values are contained in this object
+                     * recursively.
+                     *
+                     * Used for best match union deserialization.
+                     */
+                    internal fun validity(): Int =
+                        (if (length.asKnown() == null) 0 else 1) +
+                            (if (levels.asKnown() == null) 0 else 1) +
+                            (if (points.asKnown() == null) 0 else 1)
+
                     override fun equals(other: Any?): Boolean {
                         if (this === other) {
                             return true
@@ -3046,6 +3241,23 @@ private constructor(
                 validated = true
             }
 
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: OnebusawaySdkInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            internal fun validity(): Int =
+                (if (lang.asKnown() == null) 0 else 1) + (if (value.asKnown() == null) 0 else 1)
+
             override fun equals(other: Any?): Boolean {
                 if (this === other) {
                     return true
@@ -3227,6 +3439,23 @@ private constructor(
                 validated = true
             }
 
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: OnebusawaySdkInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            internal fun validity(): Int =
+                (if (from.asKnown() == null) 0 else 1) + (if (to.asKnown() == null) 0 else 1)
+
             override fun equals(other: Any?): Boolean {
                 if (this === other) {
                     return true
@@ -3351,6 +3580,33 @@ private constructor(
             fun asString(): String =
                 _value().asString()
                     ?: throw OnebusawaySdkInvalidDataException("Value is not a String")
+
+            private var validated: Boolean = false
+
+            fun validate(): Reason = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                known()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: OnebusawaySdkInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
 
             override fun equals(other: Any?): Boolean {
                 if (this === other) {
@@ -3504,6 +3760,23 @@ private constructor(
                 value()
                 validated = true
             }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: OnebusawaySdkInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            internal fun validity(): Int =
+                (if (lang.asKnown() == null) 0 else 1) + (if (value.asKnown() == null) 0 else 1)
 
             override fun equals(other: Any?): Boolean {
                 if (this === other) {
@@ -3662,6 +3935,23 @@ private constructor(
                 value()
                 validated = true
             }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: OnebusawaySdkInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            internal fun validity(): Int =
+                (if (lang.asKnown() == null) 0 else 1) + (if (value.asKnown() == null) 0 else 1)
 
             override fun equals(other: Any?): Boolean {
                 if (this === other) {
@@ -4199,6 +4489,33 @@ private constructor(
             validated = true
         }
 
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: OnebusawaySdkInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        internal fun validity(): Int =
+            (if (id.asKnown() == null) 0 else 1) +
+                (if (lat.asKnown() == null) 0 else 1) +
+                (if (lon.asKnown() == null) 0 else 1) +
+                (if (name.asKnown() == null) 0 else 1) +
+                (if (parent.asKnown() == null) 0 else 1) +
+                (routeIds.asKnown()?.size ?: 0) +
+                (staticRouteIds.asKnown()?.size ?: 0) +
+                (if (code.asKnown() == null) 0 else 1) +
+                (if (direction.asKnown() == null) 0 else 1) +
+                (if (locationType.asKnown() == null) 0 else 1) +
+                (if (wheelchairBoarding.asKnown() == null) 0 else 1)
+
         override fun equals(other: Any?): Boolean {
             if (this === other) {
                 return true
@@ -4514,6 +4831,28 @@ private constructor(
             stopId()
             validated = true
         }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: OnebusawaySdkInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        internal fun validity(): Int =
+            (if (arrivalTime.asKnown() == null) 0 else 1) +
+                (if (departureTime.asKnown() == null) 0 else 1) +
+                (if (distanceAlongTrip.asKnown() == null) 0 else 1) +
+                (if (historicalOccupancy.asKnown() == null) 0 else 1) +
+                (if (stopHeadsign.asKnown() == null) 0 else 1) +
+                (if (stopId.asKnown() == null) 0 else 1)
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {
@@ -5005,6 +5344,33 @@ private constructor(
             tripShortName()
             validated = true
         }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: OnebusawaySdkInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        internal fun validity(): Int =
+            (if (id.asKnown() == null) 0 else 1) +
+                (if (routeId.asKnown() == null) 0 else 1) +
+                (if (serviceId.asKnown() == null) 0 else 1) +
+                (if (blockId.asKnown() == null) 0 else 1) +
+                (if (directionId.asKnown() == null) 0 else 1) +
+                (if (peakOffpeak.asKnown() == null) 0 else 1) +
+                (if (routeShortName.asKnown() == null) 0 else 1) +
+                (if (shapeId.asKnown() == null) 0 else 1) +
+                (if (timeZone.asKnown() == null) 0 else 1) +
+                (if (tripHeadsign.asKnown() == null) 0 else 1) +
+                (if (tripShortName.asKnown() == null) 0 else 1)
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {

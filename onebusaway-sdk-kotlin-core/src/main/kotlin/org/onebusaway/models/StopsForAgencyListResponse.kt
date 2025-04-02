@@ -401,6 +401,29 @@ private constructor(
         validated = true
     }
 
+    fun isValid(): Boolean =
+        try {
+            validate()
+            true
+        } catch (e: OnebusawaySdkInvalidDataException) {
+            false
+        }
+
+    /**
+     * Returns a score indicating how many valid values are contained in this object recursively.
+     *
+     * Used for best match union deserialization.
+     */
+    internal fun validity(): Int =
+        (if (code.asKnown() == null) 0 else 1) +
+            (if (currentTime.asKnown() == null) 0 else 1) +
+            (if (text.asKnown() == null) 0 else 1) +
+            (if (version.asKnown() == null) 0 else 1) +
+            (if (limitExceeded.asKnown() == null) 0 else 1) +
+            (list.asKnown()?.sumOf { it.validity().toInt() } ?: 0) +
+            (references.asKnown()?.validity() ?: 0) +
+            (if (outOfRange.asKnown() == null) 0 else 1)
+
     class List
     private constructor(
         private val id: JsonField<String>,
@@ -900,6 +923,33 @@ private constructor(
             wheelchairBoarding()
             validated = true
         }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: OnebusawaySdkInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        internal fun validity(): Int =
+            (if (id.asKnown() == null) 0 else 1) +
+                (if (lat.asKnown() == null) 0 else 1) +
+                (if (lon.asKnown() == null) 0 else 1) +
+                (if (name.asKnown() == null) 0 else 1) +
+                (if (parent.asKnown() == null) 0 else 1) +
+                (routeIds.asKnown()?.size ?: 0) +
+                (staticRouteIds.asKnown()?.size ?: 0) +
+                (if (code.asKnown() == null) 0 else 1) +
+                (if (direction.asKnown() == null) 0 else 1) +
+                (if (locationType.asKnown() == null) 0 else 1) +
+                (if (wheelchairBoarding.asKnown() == null) 0 else 1)
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {
