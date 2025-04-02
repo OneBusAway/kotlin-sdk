@@ -20,11 +20,11 @@ internal class SearchForStopServiceTest {
                 .build()
         val searchForStopService = client.searchForStop()
 
-        val searchForStop =
+        val searchForStops =
             searchForStopService.list(
                 SearchForStopListParams.builder().input("input").maxCount(0L).build()
             )
 
-        searchForStop.validate()
+        searchForStops.validate()
     }
 }

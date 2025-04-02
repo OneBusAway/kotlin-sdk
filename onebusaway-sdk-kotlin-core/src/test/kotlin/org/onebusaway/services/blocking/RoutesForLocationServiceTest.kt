@@ -20,7 +20,7 @@ internal class RoutesForLocationServiceTest {
                 .build()
         val routesForLocationService = client.routesForLocation()
 
-        val routesForLocation =
+        val routesForLocations =
             routesForLocationService.list(
                 RoutesForLocationListParams.builder()
                     .lat(0.0)
@@ -32,6 +32,6 @@ internal class RoutesForLocationServiceTest {
                     .build()
             )
 
-        routesForLocation.validate()
+        routesForLocations.validate()
     }
 }

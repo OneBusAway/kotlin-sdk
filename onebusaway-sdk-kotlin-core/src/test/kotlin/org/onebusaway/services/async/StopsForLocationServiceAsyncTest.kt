@@ -20,7 +20,7 @@ internal class StopsForLocationServiceAsyncTest {
                 .build()
         val stopsForLocationServiceAsync = client.stopsForLocation()
 
-        val stopsForLocation =
+        val stopsForLocations =
             stopsForLocationServiceAsync.list(
                 StopsForLocationListParams.builder()
                     .lat(0.0)
@@ -32,6 +32,6 @@ internal class StopsForLocationServiceAsyncTest {
                     .build()
             )
 
-        stopsForLocation.validate()
+        stopsForLocations.validate()
     }
 }

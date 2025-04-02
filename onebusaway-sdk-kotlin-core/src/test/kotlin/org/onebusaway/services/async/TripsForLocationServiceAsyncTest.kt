@@ -20,7 +20,7 @@ internal class TripsForLocationServiceAsyncTest {
                 .build()
         val tripsForLocationServiceAsync = client.tripsForLocation()
 
-        val tripsForLocation =
+        val tripsForLocations =
             tripsForLocationServiceAsync.list(
                 TripsForLocationListParams.builder()
                     .lat(0.0)
@@ -33,6 +33,6 @@ internal class TripsForLocationServiceAsyncTest {
                     .build()
             )
 
-        tripsForLocation.validate()
+        tripsForLocations.validate()
     }
 }

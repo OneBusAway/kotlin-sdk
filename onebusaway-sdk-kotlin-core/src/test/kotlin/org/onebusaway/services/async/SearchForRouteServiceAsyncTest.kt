@@ -20,11 +20,11 @@ internal class SearchForRouteServiceAsyncTest {
                 .build()
         val searchForRouteServiceAsync = client.searchForRoute()
 
-        val searchForRoute =
+        val searchForRoutes =
             searchForRouteServiceAsync.list(
                 SearchForRouteListParams.builder().input("input").maxCount(0L).build()
             )
 
-        searchForRoute.validate()
+        searchForRoutes.validate()
     }
 }

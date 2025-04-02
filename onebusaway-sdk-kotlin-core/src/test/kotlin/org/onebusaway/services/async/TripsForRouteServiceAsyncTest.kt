@@ -20,7 +20,7 @@ internal class TripsForRouteServiceAsyncTest {
                 .build()
         val tripsForRouteServiceAsync = client.tripsForRoute()
 
-        val tripsForRoute =
+        val tripsForRoutes =
             tripsForRouteServiceAsync.list(
                 TripsForRouteListParams.builder()
                     .routeId("routeID")
@@ -30,6 +30,6 @@ internal class TripsForRouteServiceAsyncTest {
                     .build()
             )
 
-        tripsForRoute.validate()
+        tripsForRoutes.validate()
     }
 }

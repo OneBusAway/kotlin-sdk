@@ -20,7 +20,7 @@ internal class RoutesForLocationServiceAsyncTest {
                 .build()
         val routesForLocationServiceAsync = client.routesForLocation()
 
-        val routesForLocation =
+        val routesForLocations =
             routesForLocationServiceAsync.list(
                 RoutesForLocationListParams.builder()
                     .lat(0.0)
@@ -32,6 +32,6 @@ internal class RoutesForLocationServiceAsyncTest {
                     .build()
             )
 
-        routesForLocation.validate()
+        routesForLocations.validate()
     }
 }

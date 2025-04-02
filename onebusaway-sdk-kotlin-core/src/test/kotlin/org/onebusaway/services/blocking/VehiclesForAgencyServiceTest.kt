@@ -20,11 +20,11 @@ internal class VehiclesForAgencyServiceTest {
                 .build()
         val vehiclesForAgencyService = client.vehiclesForAgency()
 
-        val vehiclesForAgency =
+        val vehiclesForAgencies =
             vehiclesForAgencyService.list(
                 VehiclesForAgencyListParams.builder().agencyId("agencyID").time("time").build()
             )
 
-        vehiclesForAgency.validate()
+        vehiclesForAgencies.validate()
     }
 }

@@ -20,11 +20,11 @@ internal class SearchForRouteServiceTest {
                 .build()
         val searchForRouteService = client.searchForRoute()
 
-        val searchForRoute =
+        val searchForRoutes =
             searchForRouteService.list(
                 SearchForRouteListParams.builder().input("input").maxCount(0L).build()
             )
 
-        searchForRoute.validate()
+        searchForRoutes.validate()
     }
 }
