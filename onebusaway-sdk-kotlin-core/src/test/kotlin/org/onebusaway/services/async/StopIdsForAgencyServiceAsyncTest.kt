@@ -20,11 +20,11 @@ internal class StopIdsForAgencyServiceAsyncTest {
                 .build()
         val stopIdsForAgencyServiceAsync = client.stopIdsForAgency()
 
-        val stopIdsForAgency =
+        val stopIdsForAgencies =
             stopIdsForAgencyServiceAsync.list(
                 StopIdsForAgencyListParams.builder().agencyId("agencyID").build()
             )
 
-        stopIdsForAgency.validate()
+        stopIdsForAgencies.validate()
     }
 }

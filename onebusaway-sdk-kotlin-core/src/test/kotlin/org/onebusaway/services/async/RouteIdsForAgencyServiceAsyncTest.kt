@@ -20,11 +20,11 @@ internal class RouteIdsForAgencyServiceAsyncTest {
                 .build()
         val routeIdsForAgencyServiceAsync = client.routeIdsForAgency()
 
-        val routeIdsForAgency =
+        val routeIdsForAgencies =
             routeIdsForAgencyServiceAsync.list(
                 RouteIdsForAgencyListParams.builder().agencyId("agencyID").build()
             )
 
-        routeIdsForAgency.validate()
+        routeIdsForAgencies.validate()
     }
 }

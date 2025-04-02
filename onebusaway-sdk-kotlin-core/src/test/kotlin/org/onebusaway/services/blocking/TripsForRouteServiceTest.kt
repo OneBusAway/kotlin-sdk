@@ -20,7 +20,7 @@ internal class TripsForRouteServiceTest {
                 .build()
         val tripsForRouteService = client.tripsForRoute()
 
-        val tripsForRoute =
+        val tripsForRoutes =
             tripsForRouteService.list(
                 TripsForRouteListParams.builder()
                     .routeId("routeID")
@@ -30,6 +30,6 @@ internal class TripsForRouteServiceTest {
                     .build()
             )
 
-        tripsForRoute.validate()
+        tripsForRoutes.validate()
     }
 }

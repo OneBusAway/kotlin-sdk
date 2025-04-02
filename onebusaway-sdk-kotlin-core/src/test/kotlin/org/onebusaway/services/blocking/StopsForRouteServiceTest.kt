@@ -20,7 +20,7 @@ internal class StopsForRouteServiceTest {
                 .build()
         val stopsForRouteService = client.stopsForRoute()
 
-        val stopsForRoute =
+        val stopsForRoutes =
             stopsForRouteService.list(
                 StopsForRouteListParams.builder()
                     .routeId("routeID")
@@ -29,6 +29,6 @@ internal class StopsForRouteServiceTest {
                     .build()
             )
 
-        stopsForRoute.validate()
+        stopsForRoutes.validate()
     }
 }

@@ -20,7 +20,7 @@ internal class StopsForLocationServiceTest {
                 .build()
         val stopsForLocationService = client.stopsForLocation()
 
-        val stopsForLocation =
+        val stopsForLocations =
             stopsForLocationService.list(
                 StopsForLocationListParams.builder()
                     .lat(0.0)
@@ -32,6 +32,6 @@ internal class StopsForLocationServiceTest {
                     .build()
             )
 
-        stopsForLocation.validate()
+        stopsForLocations.validate()
     }
 }

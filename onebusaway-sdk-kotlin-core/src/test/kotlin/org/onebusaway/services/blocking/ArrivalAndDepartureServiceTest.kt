@@ -46,7 +46,7 @@ internal class ArrivalAndDepartureServiceTest {
                 .build()
         val arrivalAndDepartureService = client.arrivalAndDeparture()
 
-        val arrivalAndDeparture =
+        val arrivalAndDepartures =
             arrivalAndDepartureService.list(
                 ArrivalAndDepartureListParams.builder()
                     .stopId("1_75403")
@@ -56,6 +56,6 @@ internal class ArrivalAndDepartureServiceTest {
                     .build()
             )
 
-        arrivalAndDeparture.validate()
+        arrivalAndDepartures.validate()
     }
 }

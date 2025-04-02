@@ -20,11 +20,11 @@ internal class SearchForStopServiceAsyncTest {
                 .build()
         val searchForStopServiceAsync = client.searchForStop()
 
-        val searchForStop =
+        val searchForStops =
             searchForStopServiceAsync.list(
                 SearchForStopListParams.builder().input("input").maxCount(0L).build()
             )
 
-        searchForStop.validate()
+        searchForStops.validate()
     }
 }

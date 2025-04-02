@@ -20,7 +20,7 @@ internal class TripsForLocationServiceTest {
                 .build()
         val tripsForLocationService = client.tripsForLocation()
 
-        val tripsForLocation =
+        val tripsForLocations =
             tripsForLocationService.list(
                 TripsForLocationListParams.builder()
                     .lat(0.0)
@@ -33,6 +33,6 @@ internal class TripsForLocationServiceTest {
                     .build()
             )
 
-        tripsForLocation.validate()
+        tripsForLocations.validate()
     }
 }

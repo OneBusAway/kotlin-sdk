@@ -19,8 +19,8 @@ internal class AgenciesWithCoverageServiceAsyncTest {
                 .build()
         val agenciesWithCoverageServiceAsync = client.agenciesWithCoverage()
 
-        val agenciesWithCoverage = agenciesWithCoverageServiceAsync.list()
+        val agenciesWithCoverages = agenciesWithCoverageServiceAsync.list()
 
-        agenciesWithCoverage.validate()
+        agenciesWithCoverages.validate()
     }
 }
