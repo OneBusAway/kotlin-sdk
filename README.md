@@ -354,6 +354,20 @@ val complexValue: JsonValue = JsonValue.from(mapOf(
 ))
 ```
 
+Normally a `Builder` class's `build` method will throw [`IllegalStateException`](https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html) if any required parameter or property is unset.
+
+To forcibly omit a required parameter or property, pass [`JsonMissing`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/core/Values.kt):
+
+```kotlin
+import org.onebusaway.core.JsonMissing
+import org.onebusaway.models.AgencyRetrieveParams
+import org.onebusaway.models.CurrentTimeRetrieveParams
+
+val params: CurrentTimeRetrieveParams = AgencyRetrieveParams.builder()
+    .agencyId(JsonMissing.of())
+    .build()
+```
+
 ### Response properties
 
 To access undocumented response properties, call the `_additionalProperties()` method:
