@@ -53,7 +53,7 @@ import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
 import org.onebusaway.models.CurrentTimeRetrieveParams
 import org.onebusaway.models.CurrentTimeRetrieveResponse
 
-// Configures using the `ONEBUSAWAY_API_KEY` environment variable
+// Configures using the `ONEBUSAWAY_API_KEY` and `ONEBUSAWAY_SDK_BASE_URL` environment variables
 val client: OnebusawaySdkClient = OnebusawaySdkOkHttpClient.fromEnv()
 
 val currentTime: CurrentTimeRetrieveResponse = client.currentTime().retrieve()
@@ -67,7 +67,7 @@ Configure the client using environment variables:
 import org.onebusaway.client.OnebusawaySdkClient
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
 
-// Configures using the `ONEBUSAWAY_API_KEY` environment variable
+// Configures using the `ONEBUSAWAY_API_KEY` and `ONEBUSAWAY_SDK_BASE_URL` environment variables
 val client: OnebusawaySdkClient = OnebusawaySdkOkHttpClient.fromEnv()
 ```
 
@@ -89,7 +89,7 @@ import org.onebusaway.client.OnebusawaySdkClient
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
 
 val client: OnebusawaySdkClient = OnebusawaySdkOkHttpClient.builder()
-    // Configures using the `ONEBUSAWAY_API_KEY` environment variable
+    // Configures using the `ONEBUSAWAY_API_KEY` and `ONEBUSAWAY_SDK_BASE_URL` environment variables
     .fromEnv()
     .apiKey("My API Key")
     .build()
@@ -97,9 +97,10 @@ val client: OnebusawaySdkClient = OnebusawaySdkOkHttpClient.builder()
 
 See this table for the available options:
 
-| Setter   | Environment variable | Required | Default value |
-| -------- | -------------------- | -------- | ------------- |
-| `apiKey` | `ONEBUSAWAY_API_KEY` | true     | -             |
+| Setter    | Environment variable      | Required | Default value                             |
+| --------- | ------------------------- | -------- | ----------------------------------------- |
+| `apiKey`  | `ONEBUSAWAY_API_KEY`      | true     | -                                         |
+| `baseUrl` | `ONEBUSAWAY_SDK_BASE_URL` | true     | `"https://api.pugetsound.onebusaway.org"` |
 
 > [!TIP]
 > Don't create more than one client in the same application. Each client has a connection pool and
@@ -129,7 +130,7 @@ import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
 import org.onebusaway.models.CurrentTimeRetrieveParams
 import org.onebusaway.models.CurrentTimeRetrieveResponse
 
-// Configures using the `ONEBUSAWAY_API_KEY` environment variable
+// Configures using the `ONEBUSAWAY_API_KEY` and `ONEBUSAWAY_SDK_BASE_URL` environment variables
 val client: OnebusawaySdkClient = OnebusawaySdkOkHttpClient.fromEnv()
 
 val currentTime: CurrentTimeRetrieveResponse = client.async().currentTime().retrieve()
@@ -143,7 +144,7 @@ import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClientAsync
 import org.onebusaway.models.CurrentTimeRetrieveParams
 import org.onebusaway.models.CurrentTimeRetrieveResponse
 
-// Configures using the `ONEBUSAWAY_API_KEY` environment variable
+// Configures using the `ONEBUSAWAY_API_KEY` and `ONEBUSAWAY_SDK_BASE_URL` environment variables
 val client: OnebusawaySdkClientAsync = OnebusawaySdkOkHttpClientAsync.fromEnv()
 
 val currentTime: CurrentTimeRetrieveResponse = client.currentTime().retrieve()
