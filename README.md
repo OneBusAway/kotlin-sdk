@@ -15,7 +15,7 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 <!-- x-release-please-start-version -->
 
-The REST API documentation can be found on [developer.onebusaway.org](https://developer.onebusaway.org). KDocs are also available on [javadoc.io](https://javadoc.io/doc/org.onebusaway/onebusaway-sdk-kotlin/0.1.0-alpha.66).
+The REST API documentation can be found on [developer.onebusaway.org](https://developer.onebusaway.org). KDocs are available on [javadoc.io](https://javadoc.io/doc/org.onebusaway/onebusaway-sdk-kotlin/0.1.0-alpha.66).
 
 <!-- x-release-please-end -->
 
