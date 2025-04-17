@@ -13,6 +13,7 @@ import org.assertj.core.api.Assertions.entry
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import org.junit.jupiter.api.parallel.ResourceLock
 import org.onebusaway.client.OnebusawaySdkClient
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
 import org.onebusaway.core.JsonValue
@@ -29,6 +30,7 @@ import org.onebusaway.errors.UnexpectedStatusCodeException
 import org.onebusaway.errors.UnprocessableEntityException
 
 @WireMockTest
+@ResourceLock("https://github.com/wiremock/wiremock/issues/169")
 internal class ErrorHandlingTest {
 
     companion object {
