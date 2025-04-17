@@ -302,6 +302,42 @@ val client: OnebusawaySdkClient = OnebusawaySdkOkHttpClient.builder()
     .build()
 ```
 
+### Custom HTTP client
+
+The SDK consists of three artifacts:
+
+- `onebusaway-sdk-kotlin-core`
+  - Contains core SDK logic
+  - Does not depend on [OkHttp](https://square.github.io/okhttp)
+  - Exposes [`OnebusawaySdkClient`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/client/OnebusawaySdkClient.kt), [`OnebusawaySdkClientAsync`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/client/OnebusawaySdkClientAsync.kt), [`OnebusawaySdkClientImpl`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/client/OnebusawaySdkClientImpl.kt), and [`OnebusawaySdkClientAsyncImpl`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/client/OnebusawaySdkClientAsyncImpl.kt), all of which can work with any HTTP client
+- `onebusaway-sdk-kotlin-client-okhttp`
+  - Depends on [OkHttp](https://square.github.io/okhttp)
+  - Exposes [`OnebusawaySdkOkHttpClient`](onebusaway-sdk-kotlin-client-okhttp/src/main/kotlin/org/onebusaway/client/okhttp/OnebusawaySdkOkHttpClient.kt) and [`OnebusawaySdkOkHttpClientAsync`](onebusaway-sdk-kotlin-client-okhttp/src/main/kotlin/org/onebusaway/client/okhttp/OnebusawaySdkOkHttpClientAsync.kt), which provide a way to construct [`OnebusawaySdkClientImpl`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/client/OnebusawaySdkClientImpl.kt) and [`OnebusawaySdkClientAsyncImpl`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/client/OnebusawaySdkClientAsyncImpl.kt), respectively, using OkHttp
+- `onebusaway-sdk-kotlin`
+  - Depends on and exposes the APIs of both `onebusaway-sdk-kotlin-core` and `onebusaway-sdk-kotlin-client-okhttp`
+  - Does not have its own logic
+
+This structure allows replacing the SDK's default HTTP client without pulling in unnecessary dependencies.
+
+#### Customized [`OkHttpClient`](https://square.github.io/okhttp/3.x/okhttp/okhttp3/OkHttpClient.html)
+
+> [!TIP]
+> Try the available [network options](#network-options) before replacing the default client.
+
+To use a customized `OkHttpClient`:
+
+1. Replace your [`onebusaway-sdk-kotlin` dependency](#installation) with `onebusaway-sdk-kotlin-core`
+2. Copy `onebusaway-sdk-kotlin-client-okhttp`'s [`OkHttpClient`](onebusaway-sdk-kotlin-client-okhttp/src/main/kotlin/org/onebusaway/client/okhttp/OkHttpClient.kt) class into your code and customize it
+3. Construct [`OnebusawaySdkClientImpl`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/client/OnebusawaySdkClientImpl.kt) or [`OnebusawaySdkClientAsyncImpl`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/client/OnebusawaySdkClientAsyncImpl.kt), similarly to [`OnebusawaySdkOkHttpClient`](onebusaway-sdk-kotlin-client-okhttp/src/main/kotlin/org/onebusaway/client/okhttp/OnebusawaySdkOkHttpClient.kt) or [`OnebusawaySdkOkHttpClientAsync`](onebusaway-sdk-kotlin-client-okhttp/src/main/kotlin/org/onebusaway/client/okhttp/OnebusawaySdkOkHttpClientAsync.kt), using your customized client
+
+### Completely custom HTTP client
+
+To use a completely custom HTTP client:
+
+1. Replace your [`onebusaway-sdk-kotlin` dependency](#installation) with `onebusaway-sdk-kotlin-core`
+2. Write a class that implements the [`HttpClient`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/core/http/HttpClient.kt) interface
+3. Construct [`OnebusawaySdkClientImpl`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/client/OnebusawaySdkClientImpl.kt) or [`OnebusawaySdkClientAsyncImpl`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/client/OnebusawaySdkClientAsyncImpl.kt), similarly to [`OnebusawaySdkOkHttpClient`](onebusaway-sdk-kotlin-client-okhttp/src/main/kotlin/org/onebusaway/client/okhttp/OnebusawaySdkOkHttpClient.kt) or [`OnebusawaySdkOkHttpClientAsync`](onebusaway-sdk-kotlin-client-okhttp/src/main/kotlin/org/onebusaway/client/okhttp/OnebusawaySdkOkHttpClientAsync.kt), using your new client class
+
 ## Undocumented API functionality
 
 The SDK is typed for convenient usage of the documented API. However, it also supports working with undocumented or not yet supported parts of the API.
