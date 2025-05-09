@@ -11,10 +11,10 @@ internal class TripsForLocationListParamsTest {
     @Test
     fun create() {
         TripsForLocationListParams.builder()
-            .lat(0.0)
-            .latSpan(0.0)
-            .lon(0.0)
-            .lonSpan(0.0)
+            .lat(0.0f)
+            .latSpan(0.0f)
+            .lon(0.0f)
+            .lonSpan(0.0f)
             .includeSchedule(true)
             .includeTrip(true)
             .time(0L)
@@ -25,10 +25,10 @@ internal class TripsForLocationListParamsTest {
     fun queryParams() {
         val params =
             TripsForLocationListParams.builder()
-                .lat(0.0)
-                .latSpan(0.0)
-                .lon(0.0)
-                .lonSpan(0.0)
+                .lat(0.0f)
+                .latSpan(0.0f)
+                .lon(0.0f)
+                .lonSpan(0.0f)
                 .includeSchedule(true)
                 .includeTrip(true)
                 .time(0L)
@@ -53,7 +53,12 @@ internal class TripsForLocationListParamsTest {
     @Test
     fun queryParamsWithoutOptionalFields() {
         val params =
-            TripsForLocationListParams.builder().lat(0.0).latSpan(0.0).lon(0.0).lonSpan(0.0).build()
+            TripsForLocationListParams.builder()
+                .lat(0.0f)
+                .latSpan(0.0f)
+                .lon(0.0f)
+                .lonSpan(0.0f)
+                .build()
 
         val queryParams = params._queryParams()
 

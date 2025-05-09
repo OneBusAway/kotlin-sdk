@@ -26,9 +26,9 @@ internal class ReportProblemWithStopServiceAsyncTest {
                     .stopId("stopID")
                     .code(ReportProblemWithStopRetrieveParams.Code.STOP_NAME_WRONG)
                     .userComment("userComment")
-                    .userLat(0.0)
-                    .userLocationAccuracy(0.0)
-                    .userLon(0.0)
+                    .userLat(0.0f)
+                    .userLocationAccuracy(0.0f)
+                    .userLon(0.0f)
                     .build()
             )
 

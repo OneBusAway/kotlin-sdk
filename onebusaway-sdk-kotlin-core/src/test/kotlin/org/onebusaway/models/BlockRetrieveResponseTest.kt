@@ -28,15 +28,15 @@ internal class BlockRetrieveResponseTest {
                                         .addTrip(
                                             BlockRetrieveResponse.Data.Entry.Configuration.Trip
                                                 .builder()
-                                                .accumulatedSlackTime(0.0)
+                                                .accumulatedSlackTime(0.0f)
                                                 .addBlockStopTime(
                                                     BlockRetrieveResponse.Data.Entry.Configuration
                                                         .Trip
                                                         .BlockStopTime
                                                         .builder()
-                                                        .accumulatedSlackTime(0.0)
+                                                        .accumulatedSlackTime(0.0f)
                                                         .blockSequence(0L)
-                                                        .distanceAlongBlock(0.0)
+                                                        .distanceAlongBlock(0.0f)
                                                         .stopTime(
                                                             BlockRetrieveResponse.Data.Entry
                                                                 .Configuration
@@ -53,7 +53,7 @@ internal class BlockRetrieveResponseTest {
                                                         )
                                                         .build()
                                                 )
-                                                .distanceAlongBlock(0.0)
+                                                .distanceAlongBlock(0.0f)
                                                 .tripId("tripId")
                                                 .build()
                                         )
@@ -225,14 +225,14 @@ internal class BlockRetrieveResponseTest {
                                     .addTrip(
                                         BlockRetrieveResponse.Data.Entry.Configuration.Trip
                                             .builder()
-                                            .accumulatedSlackTime(0.0)
+                                            .accumulatedSlackTime(0.0f)
                                             .addBlockStopTime(
                                                 BlockRetrieveResponse.Data.Entry.Configuration.Trip
                                                     .BlockStopTime
                                                     .builder()
-                                                    .accumulatedSlackTime(0.0)
+                                                    .accumulatedSlackTime(0.0f)
                                                     .blockSequence(0L)
-                                                    .distanceAlongBlock(0.0)
+                                                    .distanceAlongBlock(0.0f)
                                                     .stopTime(
                                                         BlockRetrieveResponse.Data.Entry
                                                             .Configuration
@@ -249,7 +249,7 @@ internal class BlockRetrieveResponseTest {
                                                     )
                                                     .build()
                                             )
-                                            .distanceAlongBlock(0.0)
+                                            .distanceAlongBlock(0.0f)
                                             .tripId("tripId")
                                             .build()
                                     )
@@ -424,15 +424,15 @@ internal class BlockRetrieveResponseTest {
                                         .addTrip(
                                             BlockRetrieveResponse.Data.Entry.Configuration.Trip
                                                 .builder()
-                                                .accumulatedSlackTime(0.0)
+                                                .accumulatedSlackTime(0.0f)
                                                 .addBlockStopTime(
                                                     BlockRetrieveResponse.Data.Entry.Configuration
                                                         .Trip
                                                         .BlockStopTime
                                                         .builder()
-                                                        .accumulatedSlackTime(0.0)
+                                                        .accumulatedSlackTime(0.0f)
                                                         .blockSequence(0L)
-                                                        .distanceAlongBlock(0.0)
+                                                        .distanceAlongBlock(0.0f)
                                                         .stopTime(
                                                             BlockRetrieveResponse.Data.Entry
                                                                 .Configuration
@@ -449,7 +449,7 @@ internal class BlockRetrieveResponseTest {
                                                         )
                                                         .build()
                                                 )
-                                                .distanceAlongBlock(0.0)
+                                                .distanceAlongBlock(0.0f)
                                                 .tripId("tripId")
                                                 .build()
                                         )

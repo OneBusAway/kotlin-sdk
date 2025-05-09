@@ -1632,7 +1632,7 @@ private constructor(
                     class ScheduleFrequency
                     private constructor(
                         private val endTime: JsonField<Long>,
-                        private val headway: JsonField<Long>,
+                        private val headway: JsonField<Int>,
                         private val serviceDate: JsonField<Long>,
                         private val serviceId: JsonField<String>,
                         private val startTime: JsonField<Long>,
@@ -1647,7 +1647,7 @@ private constructor(
                             endTime: JsonField<Long> = JsonMissing.of(),
                             @JsonProperty("headway")
                             @ExcludeMissing
-                            headway: JsonField<Long> = JsonMissing.of(),
+                            headway: JsonField<Int> = JsonMissing.of(),
                             @JsonProperty("serviceDate")
                             @ExcludeMissing
                             serviceDate: JsonField<Long> = JsonMissing.of(),
@@ -1682,7 +1682,7 @@ private constructor(
                          *   unexpected type or is unexpectedly missing or null (e.g. if the server
                          *   responded with an unexpected value).
                          */
-                        fun headway(): Long = headway.getRequired("headway")
+                        fun headway(): Int = headway.getRequired("headway")
 
                         /**
                          * @throws OnebusawaySdkInvalidDataException if the JSON field has an
@@ -1730,7 +1730,7 @@ private constructor(
                          */
                         @JsonProperty("headway")
                         @ExcludeMissing
-                        fun _headway(): JsonField<Long> = headway
+                        fun _headway(): JsonField<Int> = headway
 
                         /**
                          * Returns the raw JSON value of [serviceDate].
@@ -1807,7 +1807,7 @@ private constructor(
                         class Builder internal constructor() {
 
                             private var endTime: JsonField<Long>? = null
-                            private var headway: JsonField<Long>? = null
+                            private var headway: JsonField<Int>? = null
                             private var serviceDate: JsonField<Long>? = null
                             private var serviceId: JsonField<String>? = null
                             private var startTime: JsonField<Long>? = null
@@ -1837,16 +1837,16 @@ private constructor(
                              */
                             fun endTime(endTime: JsonField<Long>) = apply { this.endTime = endTime }
 
-                            fun headway(headway: Long) = headway(JsonField.of(headway))
+                            fun headway(headway: Int) = headway(JsonField.of(headway))
 
                             /**
                              * Sets [Builder.headway] to an arbitrary JSON value.
                              *
-                             * You should usually call [Builder.headway] with a well-typed [Long]
+                             * You should usually call [Builder.headway] with a well-typed [Int]
                              * value instead. This method is primarily for setting the field to an
                              * undocumented or not yet supported value.
                              */
-                            fun headway(headway: JsonField<Long>) = apply { this.headway = headway }
+                            fun headway(headway: JsonField<Int>) = apply { this.headway = headway }
 
                             fun serviceDate(serviceDate: Long) =
                                 serviceDate(JsonField.of(serviceDate))

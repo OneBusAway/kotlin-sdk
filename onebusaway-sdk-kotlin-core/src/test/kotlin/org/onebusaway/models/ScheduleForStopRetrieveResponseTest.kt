@@ -55,7 +55,7 @@ internal class ScheduleForStopRetrieveResponseTest {
                                                         .ScheduleFrequency
                                                         .builder()
                                                         .endTime(0L)
-                                                        .headway(0L)
+                                                        .headway(0)
                                                         .serviceDate(0L)
                                                         .serviceId("serviceId")
                                                         .startTime(0L)
@@ -257,7 +257,7 @@ internal class ScheduleForStopRetrieveResponseTest {
                                                     .ScheduleFrequency
                                                     .builder()
                                                     .endTime(0L)
-                                                    .headway(0L)
+                                                    .headway(0)
                                                     .serviceDate(0L)
                                                     .serviceId("serviceId")
                                                     .startTime(0L)
@@ -463,7 +463,7 @@ internal class ScheduleForStopRetrieveResponseTest {
                                                         .ScheduleFrequency
                                                         .builder()
                                                         .endTime(0L)
-                                                        .headway(0L)
+                                                        .headway(0)
                                                         .serviceDate(0L)
                                                         .serviceId("serviceId")
                                                         .startTime(0L)

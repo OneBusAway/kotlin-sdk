@@ -19,9 +19,9 @@ private constructor(
     private val serviceDate: Long?,
     private val stopId: String?,
     private val userComment: String?,
-    private val userLat: Double?,
-    private val userLocationAccuracy: Double?,
-    private val userLon: Double?,
+    private val userLat: Float?,
+    private val userLocationAccuracy: Float?,
+    private val userLon: Float?,
     private val userOnVehicle: Boolean?,
     private val userVehicleNumber: String?,
     private val vehicleId: String?,
@@ -44,13 +44,13 @@ private constructor(
     fun userComment(): String? = userComment
 
     /** The reporting user’s current latitude */
-    fun userLat(): Double? = userLat
+    fun userLat(): Float? = userLat
 
     /** The reporting user’s location accuracy, in meters */
-    fun userLocationAccuracy(): Double? = userLocationAccuracy
+    fun userLocationAccuracy(): Float? = userLocationAccuracy
 
     /** The reporting user’s current longitude */
-    fun userLon(): Double? = userLon
+    fun userLon(): Float? = userLon
 
     /** Indicator if the user is on the transit vehicle experiencing the problem */
     fun userOnVehicle(): Boolean? = userOnVehicle
@@ -86,9 +86,9 @@ private constructor(
         private var serviceDate: Long? = null
         private var stopId: String? = null
         private var userComment: String? = null
-        private var userLat: Double? = null
-        private var userLocationAccuracy: Double? = null
-        private var userLon: Double? = null
+        private var userLat: Float? = null
+        private var userLocationAccuracy: Float? = null
+        private var userLon: Float? = null
         private var userOnVehicle: Boolean? = null
         private var userVehicleNumber: String? = null
         private var vehicleId: String? = null
@@ -136,17 +136,17 @@ private constructor(
         fun userComment(userComment: String?) = apply { this.userComment = userComment }
 
         /** The reporting user’s current latitude */
-        fun userLat(userLat: Double?) = apply { this.userLat = userLat }
+        fun userLat(userLat: Float?) = apply { this.userLat = userLat }
 
         /**
          * Alias for [Builder.userLat].
          *
          * This unboxed primitive overload exists for backwards compatibility.
          */
-        fun userLat(userLat: Double) = userLat(userLat as Double?)
+        fun userLat(userLat: Float) = userLat(userLat as Float?)
 
         /** The reporting user’s location accuracy, in meters */
-        fun userLocationAccuracy(userLocationAccuracy: Double?) = apply {
+        fun userLocationAccuracy(userLocationAccuracy: Float?) = apply {
             this.userLocationAccuracy = userLocationAccuracy
         }
 
@@ -155,18 +155,18 @@ private constructor(
          *
          * This unboxed primitive overload exists for backwards compatibility.
          */
-        fun userLocationAccuracy(userLocationAccuracy: Double) =
-            userLocationAccuracy(userLocationAccuracy as Double?)
+        fun userLocationAccuracy(userLocationAccuracy: Float) =
+            userLocationAccuracy(userLocationAccuracy as Float?)
 
         /** The reporting user’s current longitude */
-        fun userLon(userLon: Double?) = apply { this.userLon = userLon }
+        fun userLon(userLon: Float?) = apply { this.userLon = userLon }
 
         /**
          * Alias for [Builder.userLon].
          *
          * This unboxed primitive overload exists for backwards compatibility.
          */
-        fun userLon(userLon: Double) = userLon(userLon as Double?)
+        fun userLon(userLon: Float) = userLon(userLon as Float?)
 
         /** Indicator if the user is on the transit vehicle experiencing the problem */
         fun userOnVehicle(userOnVehicle: Boolean?) = apply { this.userOnVehicle = userOnVehicle }

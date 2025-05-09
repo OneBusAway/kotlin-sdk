@@ -11,10 +11,10 @@ import org.onebusaway.core.http.QueryParams
 /** Retrieve trips for a given location */
 class TripsForLocationListParams
 private constructor(
-    private val lat: Double,
-    private val latSpan: Double,
-    private val lon: Double,
-    private val lonSpan: Double,
+    private val lat: Float,
+    private val latSpan: Float,
+    private val lon: Float,
+    private val lonSpan: Float,
     private val includeSchedule: Boolean?,
     private val includeTrip: Boolean?,
     private val time: Long?,
@@ -23,16 +23,16 @@ private constructor(
 ) : Params {
 
     /** The latitude coordinate of the search center */
-    fun lat(): Double = lat
+    fun lat(): Float = lat
 
     /** Latitude span of the search bounding box */
-    fun latSpan(): Double = latSpan
+    fun latSpan(): Float = latSpan
 
     /** The longitude coordinate of the search center */
-    fun lon(): Double = lon
+    fun lon(): Float = lon
 
     /** Longitude span of the search bounding box */
-    fun lonSpan(): Double = lonSpan
+    fun lonSpan(): Float = lonSpan
 
     /** Whether to include full schedule elements in the tripDetails section. Defaults to false. */
     fun includeSchedule(): Boolean? = includeSchedule
@@ -68,10 +68,10 @@ private constructor(
     /** A builder for [TripsForLocationListParams]. */
     class Builder internal constructor() {
 
-        private var lat: Double? = null
-        private var latSpan: Double? = null
-        private var lon: Double? = null
-        private var lonSpan: Double? = null
+        private var lat: Float? = null
+        private var latSpan: Float? = null
+        private var lon: Float? = null
+        private var lonSpan: Float? = null
         private var includeSchedule: Boolean? = null
         private var includeTrip: Boolean? = null
         private var time: Long? = null
@@ -91,16 +91,16 @@ private constructor(
         }
 
         /** The latitude coordinate of the search center */
-        fun lat(lat: Double) = apply { this.lat = lat }
+        fun lat(lat: Float) = apply { this.lat = lat }
 
         /** Latitude span of the search bounding box */
-        fun latSpan(latSpan: Double) = apply { this.latSpan = latSpan }
+        fun latSpan(latSpan: Float) = apply { this.latSpan = latSpan }
 
         /** The longitude coordinate of the search center */
-        fun lon(lon: Double) = apply { this.lon = lon }
+        fun lon(lon: Float) = apply { this.lon = lon }
 
         /** Longitude span of the search bounding box */
-        fun lonSpan(lonSpan: Double) = apply { this.lonSpan = lonSpan }
+        fun lonSpan(lonSpan: Float) = apply { this.lonSpan = lonSpan }
 
         /**
          * Whether to include full schedule elements in the tripDetails section. Defaults to false.

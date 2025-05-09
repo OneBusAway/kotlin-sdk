@@ -23,10 +23,10 @@ internal class TripsForLocationServiceAsyncTest {
         val tripsForLocations =
             tripsForLocationServiceAsync.list(
                 TripsForLocationListParams.builder()
-                    .lat(0.0)
-                    .latSpan(0.0)
-                    .lon(0.0)
-                    .lonSpan(0.0)
+                    .lat(0.0f)
+                    .latSpan(0.0f)
+                    .lon(0.0f)
+                    .lonSpan(0.0f)
                     .includeSchedule(true)
                     .includeTrip(true)
                     .time(0L)

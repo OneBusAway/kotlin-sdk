@@ -931,9 +931,9 @@ private constructor(
 
                 class Trip
                 private constructor(
-                    private val accumulatedSlackTime: JsonField<Double>,
+                    private val accumulatedSlackTime: JsonField<Float>,
                     private val blockStopTimes: JsonField<List<BlockStopTime>>,
-                    private val distanceAlongBlock: JsonField<Double>,
+                    private val distanceAlongBlock: JsonField<Float>,
                     private val tripId: JsonField<String>,
                     private val additionalProperties: MutableMap<String, JsonValue>,
                 ) {
@@ -942,13 +942,13 @@ private constructor(
                     private constructor(
                         @JsonProperty("accumulatedSlackTime")
                         @ExcludeMissing
-                        accumulatedSlackTime: JsonField<Double> = JsonMissing.of(),
+                        accumulatedSlackTime: JsonField<Float> = JsonMissing.of(),
                         @JsonProperty("blockStopTimes")
                         @ExcludeMissing
                         blockStopTimes: JsonField<List<BlockStopTime>> = JsonMissing.of(),
                         @JsonProperty("distanceAlongBlock")
                         @ExcludeMissing
-                        distanceAlongBlock: JsonField<Double> = JsonMissing.of(),
+                        distanceAlongBlock: JsonField<Float> = JsonMissing.of(),
                         @JsonProperty("tripId")
                         @ExcludeMissing
                         tripId: JsonField<String> = JsonMissing.of(),
@@ -965,7 +965,7 @@ private constructor(
                      *   type or is unexpectedly missing or null (e.g. if the server responded with
                      *   an unexpected value).
                      */
-                    fun accumulatedSlackTime(): Double =
+                    fun accumulatedSlackTime(): Float =
                         accumulatedSlackTime.getRequired("accumulatedSlackTime")
 
                     /**
@@ -981,7 +981,7 @@ private constructor(
                      *   type or is unexpectedly missing or null (e.g. if the server responded with
                      *   an unexpected value).
                      */
-                    fun distanceAlongBlock(): Double =
+                    fun distanceAlongBlock(): Float =
                         distanceAlongBlock.getRequired("distanceAlongBlock")
 
                     /**
@@ -999,7 +999,7 @@ private constructor(
                      */
                     @JsonProperty("accumulatedSlackTime")
                     @ExcludeMissing
-                    fun _accumulatedSlackTime(): JsonField<Double> = accumulatedSlackTime
+                    fun _accumulatedSlackTime(): JsonField<Float> = accumulatedSlackTime
 
                     /**
                      * Returns the raw JSON value of [blockStopTimes].
@@ -1019,7 +1019,7 @@ private constructor(
                      */
                     @JsonProperty("distanceAlongBlock")
                     @ExcludeMissing
-                    fun _distanceAlongBlock(): JsonField<Double> = distanceAlongBlock
+                    fun _distanceAlongBlock(): JsonField<Float> = distanceAlongBlock
 
                     /**
                      * Returns the raw JSON value of [tripId].
@@ -1062,9 +1062,9 @@ private constructor(
                     /** A builder for [Trip]. */
                     class Builder internal constructor() {
 
-                        private var accumulatedSlackTime: JsonField<Double>? = null
+                        private var accumulatedSlackTime: JsonField<Float>? = null
                         private var blockStopTimes: JsonField<MutableList<BlockStopTime>>? = null
-                        private var distanceAlongBlock: JsonField<Double>? = null
+                        private var distanceAlongBlock: JsonField<Float>? = null
                         private var tripId: JsonField<String>? = null
                         private var additionalProperties: MutableMap<String, JsonValue> =
                             mutableMapOf()
@@ -1077,17 +1077,17 @@ private constructor(
                             additionalProperties = trip.additionalProperties.toMutableMap()
                         }
 
-                        fun accumulatedSlackTime(accumulatedSlackTime: Double) =
+                        fun accumulatedSlackTime(accumulatedSlackTime: Float) =
                             accumulatedSlackTime(JsonField.of(accumulatedSlackTime))
 
                         /**
                          * Sets [Builder.accumulatedSlackTime] to an arbitrary JSON value.
                          *
                          * You should usually call [Builder.accumulatedSlackTime] with a well-typed
-                         * [Double] value instead. This method is primarily for setting the field to
+                         * [Float] value instead. This method is primarily for setting the field to
                          * an undocumented or not yet supported value.
                          */
-                        fun accumulatedSlackTime(accumulatedSlackTime: JsonField<Double>) = apply {
+                        fun accumulatedSlackTime(accumulatedSlackTime: JsonField<Float>) = apply {
                             this.accumulatedSlackTime = accumulatedSlackTime
                         }
 
@@ -1118,17 +1118,17 @@ private constructor(
                                 }
                         }
 
-                        fun distanceAlongBlock(distanceAlongBlock: Double) =
+                        fun distanceAlongBlock(distanceAlongBlock: Float) =
                             distanceAlongBlock(JsonField.of(distanceAlongBlock))
 
                         /**
                          * Sets [Builder.distanceAlongBlock] to an arbitrary JSON value.
                          *
                          * You should usually call [Builder.distanceAlongBlock] with a well-typed
-                         * [Double] value instead. This method is primarily for setting the field to
+                         * [Float] value instead. This method is primarily for setting the field to
                          * an undocumented or not yet supported value.
                          */
-                        fun distanceAlongBlock(distanceAlongBlock: JsonField<Double>) = apply {
+                        fun distanceAlongBlock(distanceAlongBlock: JsonField<Float>) = apply {
                             this.distanceAlongBlock = distanceAlongBlock
                         }
 
@@ -1228,9 +1228,9 @@ private constructor(
 
                     class BlockStopTime
                     private constructor(
-                        private val accumulatedSlackTime: JsonField<Double>,
+                        private val accumulatedSlackTime: JsonField<Float>,
                         private val blockSequence: JsonField<Long>,
-                        private val distanceAlongBlock: JsonField<Double>,
+                        private val distanceAlongBlock: JsonField<Float>,
                         private val stopTime: JsonField<StopTime>,
                         private val additionalProperties: MutableMap<String, JsonValue>,
                     ) {
@@ -1239,13 +1239,13 @@ private constructor(
                         private constructor(
                             @JsonProperty("accumulatedSlackTime")
                             @ExcludeMissing
-                            accumulatedSlackTime: JsonField<Double> = JsonMissing.of(),
+                            accumulatedSlackTime: JsonField<Float> = JsonMissing.of(),
                             @JsonProperty("blockSequence")
                             @ExcludeMissing
                             blockSequence: JsonField<Long> = JsonMissing.of(),
                             @JsonProperty("distanceAlongBlock")
                             @ExcludeMissing
-                            distanceAlongBlock: JsonField<Double> = JsonMissing.of(),
+                            distanceAlongBlock: JsonField<Float> = JsonMissing.of(),
                             @JsonProperty("stopTime")
                             @ExcludeMissing
                             stopTime: JsonField<StopTime> = JsonMissing.of(),
@@ -1262,7 +1262,7 @@ private constructor(
                          *   unexpected type or is unexpectedly missing or null (e.g. if the server
                          *   responded with an unexpected value).
                          */
-                        fun accumulatedSlackTime(): Double =
+                        fun accumulatedSlackTime(): Float =
                             accumulatedSlackTime.getRequired("accumulatedSlackTime")
 
                         /**
@@ -1277,7 +1277,7 @@ private constructor(
                          *   unexpected type or is unexpectedly missing or null (e.g. if the server
                          *   responded with an unexpected value).
                          */
-                        fun distanceAlongBlock(): Double =
+                        fun distanceAlongBlock(): Float =
                             distanceAlongBlock.getRequired("distanceAlongBlock")
 
                         /**
@@ -1295,7 +1295,7 @@ private constructor(
                          */
                         @JsonProperty("accumulatedSlackTime")
                         @ExcludeMissing
-                        fun _accumulatedSlackTime(): JsonField<Double> = accumulatedSlackTime
+                        fun _accumulatedSlackTime(): JsonField<Float> = accumulatedSlackTime
 
                         /**
                          * Returns the raw JSON value of [blockSequence].
@@ -1315,7 +1315,7 @@ private constructor(
                          */
                         @JsonProperty("distanceAlongBlock")
                         @ExcludeMissing
-                        fun _distanceAlongBlock(): JsonField<Double> = distanceAlongBlock
+                        fun _distanceAlongBlock(): JsonField<Float> = distanceAlongBlock
 
                         /**
                          * Returns the raw JSON value of [stopTime].
@@ -1359,9 +1359,9 @@ private constructor(
                         /** A builder for [BlockStopTime]. */
                         class Builder internal constructor() {
 
-                            private var accumulatedSlackTime: JsonField<Double>? = null
+                            private var accumulatedSlackTime: JsonField<Float>? = null
                             private var blockSequence: JsonField<Long>? = null
-                            private var distanceAlongBlock: JsonField<Double>? = null
+                            private var distanceAlongBlock: JsonField<Float>? = null
                             private var stopTime: JsonField<StopTime>? = null
                             private var additionalProperties: MutableMap<String, JsonValue> =
                                 mutableMapOf()
@@ -1375,17 +1375,17 @@ private constructor(
                                     blockStopTime.additionalProperties.toMutableMap()
                             }
 
-                            fun accumulatedSlackTime(accumulatedSlackTime: Double) =
+                            fun accumulatedSlackTime(accumulatedSlackTime: Float) =
                                 accumulatedSlackTime(JsonField.of(accumulatedSlackTime))
 
                             /**
                              * Sets [Builder.accumulatedSlackTime] to an arbitrary JSON value.
                              *
                              * You should usually call [Builder.accumulatedSlackTime] with a
-                             * well-typed [Double] value instead. This method is primarily for
+                             * well-typed [Float] value instead. This method is primarily for
                              * setting the field to an undocumented or not yet supported value.
                              */
-                            fun accumulatedSlackTime(accumulatedSlackTime: JsonField<Double>) =
+                            fun accumulatedSlackTime(accumulatedSlackTime: JsonField<Float>) =
                                 apply {
                                     this.accumulatedSlackTime = accumulatedSlackTime
                                 }
@@ -1404,17 +1404,17 @@ private constructor(
                                 this.blockSequence = blockSequence
                             }
 
-                            fun distanceAlongBlock(distanceAlongBlock: Double) =
+                            fun distanceAlongBlock(distanceAlongBlock: Float) =
                                 distanceAlongBlock(JsonField.of(distanceAlongBlock))
 
                             /**
                              * Sets [Builder.distanceAlongBlock] to an arbitrary JSON value.
                              *
                              * You should usually call [Builder.distanceAlongBlock] with a
-                             * well-typed [Double] value instead. This method is primarily for
+                             * well-typed [Float] value instead. This method is primarily for
                              * setting the field to an undocumented or not yet supported value.
                              */
-                            fun distanceAlongBlock(distanceAlongBlock: JsonField<Double>) = apply {
+                            fun distanceAlongBlock(distanceAlongBlock: JsonField<Float>) = apply {
                                 this.distanceAlongBlock = distanceAlongBlock
                             }
 
