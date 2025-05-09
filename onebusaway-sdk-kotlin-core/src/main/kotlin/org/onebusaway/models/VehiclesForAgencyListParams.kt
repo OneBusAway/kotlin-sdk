@@ -4,20 +4,19 @@ package org.onebusaway.models
 
 import java.util.Objects
 import org.onebusaway.core.Params
-import org.onebusaway.core.checkRequired
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.QueryParams
 
 /** Get vehicles for a specific agency */
 class VehiclesForAgencyListParams
 private constructor(
-    private val agencyId: String,
+    private val agencyId: String?,
     private val time: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun agencyId(): String = agencyId
+    fun agencyId(): String? = agencyId
 
     /** Specific time for querying the status (timestamp format) */
     fun time(): String? = time
@@ -30,13 +29,10 @@ private constructor(
 
     companion object {
 
+        fun none(): VehiclesForAgencyListParams = builder().build()
+
         /**
          * Returns a mutable builder for constructing an instance of [VehiclesForAgencyListParams].
-         *
-         * The following fields are required:
-         * ```kotlin
-         * .agencyId()
-         * ```
          */
         fun builder() = Builder()
     }
@@ -56,7 +52,7 @@ private constructor(
             additionalQueryParams = vehiclesForAgencyListParams.additionalQueryParams.toBuilder()
         }
 
-        fun agencyId(agencyId: String) = apply { this.agencyId = agencyId }
+        fun agencyId(agencyId: String?) = apply { this.agencyId = agencyId }
 
         /** Specific time for querying the status (timestamp format) */
         fun time(time: String?) = apply { this.time = time }
@@ -163,17 +159,10 @@ private constructor(
          * Returns an immutable instance of [VehiclesForAgencyListParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```kotlin
-         * .agencyId()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): VehiclesForAgencyListParams =
             VehiclesForAgencyListParams(
-                checkRequired("agencyId", agencyId),
+                agencyId,
                 time,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -182,7 +171,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> agencyId
+            0 -> agencyId ?: ""
             else -> ""
         }
 

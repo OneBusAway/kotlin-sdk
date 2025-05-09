@@ -17,9 +17,21 @@ interface StopsForAgencyService {
 
     /** Get stops for a specific agency */
     fun list(
+        agencyId: String,
+        params: StopsForAgencyListParams = StopsForAgencyListParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): StopsForAgencyListResponse =
+        list(params.toBuilder().agencyId(agencyId).build(), requestOptions)
+
+    /** @see [list] */
+    fun list(
         params: StopsForAgencyListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): StopsForAgencyListResponse
+
+    /** @see [list] */
+    fun list(agencyId: String, requestOptions: RequestOptions): StopsForAgencyListResponse =
+        list(agencyId, StopsForAgencyListParams.none(), requestOptions)
 
     /**
      * A view of [StopsForAgencyService] that provides access to raw HTTP responses for each method.
@@ -32,8 +44,25 @@ interface StopsForAgencyService {
          */
         @MustBeClosed
         fun list(
+            agencyId: String,
+            params: StopsForAgencyListParams = StopsForAgencyListParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<StopsForAgencyListResponse> =
+            list(params.toBuilder().agencyId(agencyId).build(), requestOptions)
+
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
             params: StopsForAgencyListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<StopsForAgencyListResponse>
+
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            agencyId: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<StopsForAgencyListResponse> =
+            list(agencyId, StopsForAgencyListParams.none(), requestOptions)
     }
 }

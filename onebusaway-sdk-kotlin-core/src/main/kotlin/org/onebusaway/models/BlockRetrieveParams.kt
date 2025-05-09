@@ -4,19 +4,18 @@ package org.onebusaway.models
 
 import java.util.Objects
 import org.onebusaway.core.Params
-import org.onebusaway.core.checkRequired
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.QueryParams
 
 /** Get details of a specific block by ID */
 class BlockRetrieveParams
 private constructor(
-    private val blockId: String,
+    private val blockId: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun blockId(): String = blockId
+    fun blockId(): String? = blockId
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
@@ -26,14 +25,9 @@ private constructor(
 
     companion object {
 
-        /**
-         * Returns a mutable builder for constructing an instance of [BlockRetrieveParams].
-         *
-         * The following fields are required:
-         * ```kotlin
-         * .blockId()
-         * ```
-         */
+        fun none(): BlockRetrieveParams = builder().build()
+
+        /** Returns a mutable builder for constructing an instance of [BlockRetrieveParams]. */
         fun builder() = Builder()
     }
 
@@ -50,7 +44,7 @@ private constructor(
             additionalQueryParams = blockRetrieveParams.additionalQueryParams.toBuilder()
         }
 
-        fun blockId(blockId: String) = apply { this.blockId = blockId }
+        fun blockId(blockId: String?) = apply { this.blockId = blockId }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -154,25 +148,14 @@ private constructor(
          * Returns an immutable instance of [BlockRetrieveParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```kotlin
-         * .blockId()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): BlockRetrieveParams =
-            BlockRetrieveParams(
-                checkRequired("blockId", blockId),
-                additionalHeaders.build(),
-                additionalQueryParams.build(),
-            )
+            BlockRetrieveParams(blockId, additionalHeaders.build(), additionalQueryParams.build())
     }
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> blockId
+            0 -> blockId ?: ""
             else -> ""
         }
 

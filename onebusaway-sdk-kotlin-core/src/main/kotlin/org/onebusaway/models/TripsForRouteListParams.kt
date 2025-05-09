@@ -4,14 +4,13 @@ package org.onebusaway.models
 
 import java.util.Objects
 import org.onebusaway.core.Params
-import org.onebusaway.core.checkRequired
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.QueryParams
 
 /** Search for active trips for a specific route. */
 class TripsForRouteListParams
 private constructor(
-    private val routeId: String,
+    private val routeId: String?,
     private val includeSchedule: Boolean?,
     private val includeStatus: Boolean?,
     private val time: Long?,
@@ -19,7 +18,7 @@ private constructor(
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun routeId(): String = routeId
+    fun routeId(): String? = routeId
 
     /** Determine whether full schedule elements are included. Defaults to false. */
     fun includeSchedule(): Boolean? = includeSchedule
@@ -41,14 +40,9 @@ private constructor(
 
     companion object {
 
-        /**
-         * Returns a mutable builder for constructing an instance of [TripsForRouteListParams].
-         *
-         * The following fields are required:
-         * ```kotlin
-         * .routeId()
-         * ```
-         */
+        fun none(): TripsForRouteListParams = builder().build()
+
+        /** Returns a mutable builder for constructing an instance of [TripsForRouteListParams]. */
         fun builder() = Builder()
     }
 
@@ -71,7 +65,7 @@ private constructor(
             additionalQueryParams = tripsForRouteListParams.additionalQueryParams.toBuilder()
         }
 
-        fun routeId(routeId: String) = apply { this.routeId = routeId }
+        fun routeId(routeId: String?) = apply { this.routeId = routeId }
 
         /** Determine whether full schedule elements are included. Defaults to false. */
         fun includeSchedule(includeSchedule: Boolean?) = apply {
@@ -210,17 +204,10 @@ private constructor(
          * Returns an immutable instance of [TripsForRouteListParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```kotlin
-         * .routeId()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): TripsForRouteListParams =
             TripsForRouteListParams(
-                checkRequired("routeId", routeId),
+                routeId,
                 includeSchedule,
                 includeStatus,
                 time,
@@ -231,7 +218,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> routeId
+            0 -> routeId ?: ""
             else -> ""
         }
 

@@ -7,7 +7,6 @@ import java.util.Objects
 import org.onebusaway.core.Enum
 import org.onebusaway.core.JsonField
 import org.onebusaway.core.Params
-import org.onebusaway.core.checkRequired
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.QueryParams
 import org.onebusaway.errors.OnebusawaySdkInvalidDataException
@@ -15,7 +14,7 @@ import org.onebusaway.errors.OnebusawaySdkInvalidDataException
 /** Submit a user-generated problem report for a stop */
 class ReportProblemWithStopRetrieveParams
 private constructor(
-    private val stopId: String,
+    private val stopId: String?,
     private val code: Code?,
     private val userComment: String?,
     private val userLat: Double?,
@@ -25,7 +24,7 @@ private constructor(
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun stopId(): String = stopId
+    fun stopId(): String? = stopId
 
     /** A string code identifying the nature of the problem */
     fun code(): Code? = code
@@ -50,14 +49,11 @@ private constructor(
 
     companion object {
 
+        fun none(): ReportProblemWithStopRetrieveParams = builder().build()
+
         /**
          * Returns a mutable builder for constructing an instance of
          * [ReportProblemWithStopRetrieveParams].
-         *
-         * The following fields are required:
-         * ```kotlin
-         * .stopId()
-         * ```
          */
         fun builder() = Builder()
     }
@@ -88,7 +84,7 @@ private constructor(
                 reportProblemWithStopRetrieveParams.additionalQueryParams.toBuilder()
         }
 
-        fun stopId(stopId: String) = apply { this.stopId = stopId }
+        fun stopId(stopId: String?) = apply { this.stopId = stopId }
 
         /** A string code identifying the nature of the problem */
         fun code(code: Code?) = apply { this.code = code }
@@ -231,17 +227,10 @@ private constructor(
          * Returns an immutable instance of [ReportProblemWithStopRetrieveParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```kotlin
-         * .stopId()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): ReportProblemWithStopRetrieveParams =
             ReportProblemWithStopRetrieveParams(
-                checkRequired("stopId", stopId),
+                stopId,
                 code,
                 userComment,
                 userLat,
@@ -254,7 +243,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> stopId
+            0 -> stopId ?: ""
             else -> ""
         }
 

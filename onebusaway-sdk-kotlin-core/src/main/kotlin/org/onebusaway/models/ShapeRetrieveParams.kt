@@ -4,19 +4,18 @@ package org.onebusaway.models
 
 import java.util.Objects
 import org.onebusaway.core.Params
-import org.onebusaway.core.checkRequired
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.QueryParams
 
 /** Retrieve a shape (the path traveled by a transit vehicle) by ID. */
 class ShapeRetrieveParams
 private constructor(
-    private val shapeId: String,
+    private val shapeId: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun shapeId(): String = shapeId
+    fun shapeId(): String? = shapeId
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
@@ -26,14 +25,9 @@ private constructor(
 
     companion object {
 
-        /**
-         * Returns a mutable builder for constructing an instance of [ShapeRetrieveParams].
-         *
-         * The following fields are required:
-         * ```kotlin
-         * .shapeId()
-         * ```
-         */
+        fun none(): ShapeRetrieveParams = builder().build()
+
+        /** Returns a mutable builder for constructing an instance of [ShapeRetrieveParams]. */
         fun builder() = Builder()
     }
 
@@ -50,7 +44,7 @@ private constructor(
             additionalQueryParams = shapeRetrieveParams.additionalQueryParams.toBuilder()
         }
 
-        fun shapeId(shapeId: String) = apply { this.shapeId = shapeId }
+        fun shapeId(shapeId: String?) = apply { this.shapeId = shapeId }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -154,25 +148,14 @@ private constructor(
          * Returns an immutable instance of [ShapeRetrieveParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```kotlin
-         * .shapeId()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): ShapeRetrieveParams =
-            ShapeRetrieveParams(
-                checkRequired("shapeId", shapeId),
-                additionalHeaders.build(),
-                additionalQueryParams.build(),
-            )
+            ShapeRetrieveParams(shapeId, additionalHeaders.build(), additionalQueryParams.build())
     }
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> shapeId
+            0 -> shapeId ?: ""
             else -> ""
         }
 

@@ -17,9 +17,20 @@ interface TripsForRouteServiceAsync {
 
     /** Search for active trips for a specific route. */
     suspend fun list(
+        routeId: String,
+        params: TripsForRouteListParams = TripsForRouteListParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): TripsForRouteListResponse = list(params.toBuilder().routeId(routeId).build(), requestOptions)
+
+    /** @see [list] */
+    suspend fun list(
         params: TripsForRouteListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): TripsForRouteListResponse
+
+    /** @see [list] */
+    suspend fun list(routeId: String, requestOptions: RequestOptions): TripsForRouteListResponse =
+        list(routeId, TripsForRouteListParams.none(), requestOptions)
 
     /**
      * A view of [TripsForRouteServiceAsync] that provides access to raw HTTP responses for each
@@ -33,8 +44,25 @@ interface TripsForRouteServiceAsync {
          */
         @MustBeClosed
         suspend fun list(
+            routeId: String,
+            params: TripsForRouteListParams = TripsForRouteListParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<TripsForRouteListResponse> =
+            list(params.toBuilder().routeId(routeId).build(), requestOptions)
+
+        /** @see [list] */
+        @MustBeClosed
+        suspend fun list(
             params: TripsForRouteListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<TripsForRouteListResponse>
+
+        /** @see [list] */
+        @MustBeClosed
+        suspend fun list(
+            routeId: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<TripsForRouteListResponse> =
+            list(routeId, TripsForRouteListParams.none(), requestOptions)
     }
 }

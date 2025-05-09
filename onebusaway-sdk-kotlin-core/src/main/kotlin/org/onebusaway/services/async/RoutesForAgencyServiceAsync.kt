@@ -17,9 +17,24 @@ interface RoutesForAgencyServiceAsync {
 
     /** Retrieve the list of all routes for a particular agency by id */
     suspend fun list(
+        agencyId: String,
+        params: RoutesForAgencyListParams = RoutesForAgencyListParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): RoutesForAgencyListResponse =
+        list(params.toBuilder().agencyId(agencyId).build(), requestOptions)
+
+    /** @see [list] */
+    suspend fun list(
         params: RoutesForAgencyListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): RoutesForAgencyListResponse
+
+    /** @see [list] */
+    suspend fun list(
+        agencyId: String,
+        requestOptions: RequestOptions,
+    ): RoutesForAgencyListResponse =
+        list(agencyId, RoutesForAgencyListParams.none(), requestOptions)
 
     /**
      * A view of [RoutesForAgencyServiceAsync] that provides access to raw HTTP responses for each
@@ -33,8 +48,25 @@ interface RoutesForAgencyServiceAsync {
          */
         @MustBeClosed
         suspend fun list(
+            agencyId: String,
+            params: RoutesForAgencyListParams = RoutesForAgencyListParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<RoutesForAgencyListResponse> =
+            list(params.toBuilder().agencyId(agencyId).build(), requestOptions)
+
+        /** @see [list] */
+        @MustBeClosed
+        suspend fun list(
             params: RoutesForAgencyListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<RoutesForAgencyListResponse>
+
+        /** @see [list] */
+        @MustBeClosed
+        suspend fun list(
+            agencyId: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<RoutesForAgencyListResponse> =
+            list(agencyId, RoutesForAgencyListParams.none(), requestOptions)
     }
 }

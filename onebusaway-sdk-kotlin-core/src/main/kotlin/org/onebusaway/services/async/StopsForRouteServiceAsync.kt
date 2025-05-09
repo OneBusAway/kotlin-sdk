@@ -17,9 +17,20 @@ interface StopsForRouteServiceAsync {
 
     /** Get stops for a specific route */
     suspend fun list(
+        routeId: String,
+        params: StopsForRouteListParams = StopsForRouteListParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): StopsForRouteListResponse = list(params.toBuilder().routeId(routeId).build(), requestOptions)
+
+    /** @see [list] */
+    suspend fun list(
         params: StopsForRouteListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): StopsForRouteListResponse
+
+    /** @see [list] */
+    suspend fun list(routeId: String, requestOptions: RequestOptions): StopsForRouteListResponse =
+        list(routeId, StopsForRouteListParams.none(), requestOptions)
 
     /**
      * A view of [StopsForRouteServiceAsync] that provides access to raw HTTP responses for each
@@ -33,8 +44,25 @@ interface StopsForRouteServiceAsync {
          */
         @MustBeClosed
         suspend fun list(
+            routeId: String,
+            params: StopsForRouteListParams = StopsForRouteListParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<StopsForRouteListResponse> =
+            list(params.toBuilder().routeId(routeId).build(), requestOptions)
+
+        /** @see [list] */
+        @MustBeClosed
+        suspend fun list(
             params: StopsForRouteListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<StopsForRouteListResponse>
+
+        /** @see [list] */
+        @MustBeClosed
+        suspend fun list(
+            routeId: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<StopsForRouteListResponse> =
+            list(routeId, StopsForRouteListParams.none(), requestOptions)
     }
 }

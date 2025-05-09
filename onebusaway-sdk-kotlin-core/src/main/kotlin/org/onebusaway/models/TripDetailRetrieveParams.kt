@@ -4,14 +4,13 @@ package org.onebusaway.models
 
 import java.util.Objects
 import org.onebusaway.core.Params
-import org.onebusaway.core.checkRequired
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.QueryParams
 
 /** Retrieve Trip Details */
 class TripDetailRetrieveParams
 private constructor(
-    private val tripId: String,
+    private val tripId: String?,
     private val includeSchedule: Boolean?,
     private val includeStatus: Boolean?,
     private val includeTrip: Boolean?,
@@ -21,7 +20,7 @@ private constructor(
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun tripId(): String = tripId
+    fun tripId(): String? = tripId
 
     /**
      * Whether to include the full schedule element in the tripDetails section (defaults to true).
@@ -48,14 +47,9 @@ private constructor(
 
     companion object {
 
-        /**
-         * Returns a mutable builder for constructing an instance of [TripDetailRetrieveParams].
-         *
-         * The following fields are required:
-         * ```kotlin
-         * .tripId()
-         * ```
-         */
+        fun none(): TripDetailRetrieveParams = builder().build()
+
+        /** Returns a mutable builder for constructing an instance of [TripDetailRetrieveParams]. */
         fun builder() = Builder()
     }
 
@@ -82,7 +76,7 @@ private constructor(
             additionalQueryParams = tripDetailRetrieveParams.additionalQueryParams.toBuilder()
         }
 
-        fun tripId(tripId: String) = apply { this.tripId = tripId }
+        fun tripId(tripId: String?) = apply { this.tripId = tripId }
 
         /**
          * Whether to include the full schedule element in the tripDetails section (defaults to
@@ -245,17 +239,10 @@ private constructor(
          * Returns an immutable instance of [TripDetailRetrieveParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```kotlin
-         * .tripId()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): TripDetailRetrieveParams =
             TripDetailRetrieveParams(
-                checkRequired("tripId", tripId),
+                tripId,
                 includeSchedule,
                 includeStatus,
                 includeTrip,
@@ -268,7 +255,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> tripId
+            0 -> tripId ?: ""
             else -> ""
         }
 

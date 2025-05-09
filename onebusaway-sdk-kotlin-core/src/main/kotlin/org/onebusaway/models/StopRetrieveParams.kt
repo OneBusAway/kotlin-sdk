@@ -4,19 +4,18 @@ package org.onebusaway.models
 
 import java.util.Objects
 import org.onebusaway.core.Params
-import org.onebusaway.core.checkRequired
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.QueryParams
 
 /** Get details of a specific stop */
 class StopRetrieveParams
 private constructor(
-    private val stopId: String,
+    private val stopId: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun stopId(): String = stopId
+    fun stopId(): String? = stopId
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
@@ -26,14 +25,9 @@ private constructor(
 
     companion object {
 
-        /**
-         * Returns a mutable builder for constructing an instance of [StopRetrieveParams].
-         *
-         * The following fields are required:
-         * ```kotlin
-         * .stopId()
-         * ```
-         */
+        fun none(): StopRetrieveParams = builder().build()
+
+        /** Returns a mutable builder for constructing an instance of [StopRetrieveParams]. */
         fun builder() = Builder()
     }
 
@@ -50,7 +44,7 @@ private constructor(
             additionalQueryParams = stopRetrieveParams.additionalQueryParams.toBuilder()
         }
 
-        fun stopId(stopId: String) = apply { this.stopId = stopId }
+        fun stopId(stopId: String?) = apply { this.stopId = stopId }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -154,25 +148,14 @@ private constructor(
          * Returns an immutable instance of [StopRetrieveParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```kotlin
-         * .stopId()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): StopRetrieveParams =
-            StopRetrieveParams(
-                checkRequired("stopId", stopId),
-                additionalHeaders.build(),
-                additionalQueryParams.build(),
-            )
+            StopRetrieveParams(stopId, additionalHeaders.build(), additionalQueryParams.build())
     }
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> stopId
+            0 -> stopId ?: ""
             else -> ""
         }
 

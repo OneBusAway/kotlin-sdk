@@ -6,14 +6,13 @@ import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Objects
 import org.onebusaway.core.Params
-import org.onebusaway.core.checkRequired
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.QueryParams
 
 /** arrivals-and-departures-for-stop */
 class ArrivalAndDepartureListParams
 private constructor(
-    private val stopId: String,
+    private val stopId: String?,
     private val minutesAfter: Long?,
     private val minutesBefore: Long?,
     private val time: OffsetDateTime?,
@@ -21,7 +20,7 @@ private constructor(
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun stopId(): String = stopId
+    fun stopId(): String? = stopId
 
     /** Include vehicles arriving or departing in the next n minutes. */
     fun minutesAfter(): Long? = minutesAfter
@@ -40,14 +39,11 @@ private constructor(
 
     companion object {
 
+        fun none(): ArrivalAndDepartureListParams = builder().build()
+
         /**
          * Returns a mutable builder for constructing an instance of
          * [ArrivalAndDepartureListParams].
-         *
-         * The following fields are required:
-         * ```kotlin
-         * .stopId()
-         * ```
          */
         fun builder() = Builder()
     }
@@ -71,7 +67,7 @@ private constructor(
             additionalQueryParams = arrivalAndDepartureListParams.additionalQueryParams.toBuilder()
         }
 
-        fun stopId(stopId: String) = apply { this.stopId = stopId }
+        fun stopId(stopId: String?) = apply { this.stopId = stopId }
 
         /** Include vehicles arriving or departing in the next n minutes. */
         fun minutesAfter(minutesAfter: Long?) = apply { this.minutesAfter = minutesAfter }
@@ -198,17 +194,10 @@ private constructor(
          * Returns an immutable instance of [ArrivalAndDepartureListParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```kotlin
-         * .stopId()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): ArrivalAndDepartureListParams =
             ArrivalAndDepartureListParams(
-                checkRequired("stopId", stopId),
+                stopId,
                 minutesAfter,
                 minutesBefore,
                 time,
@@ -219,7 +208,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> stopId
+            0 -> stopId ?: ""
             else -> ""
         }
 

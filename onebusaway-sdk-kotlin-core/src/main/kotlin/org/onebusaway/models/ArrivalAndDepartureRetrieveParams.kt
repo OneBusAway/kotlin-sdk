@@ -11,7 +11,7 @@ import org.onebusaway.core.http.QueryParams
 /** arrival-and-departure-for-stop */
 class ArrivalAndDepartureRetrieveParams
 private constructor(
-    private val stopId: String,
+    private val stopId: String?,
     private val serviceDate: Long,
     private val tripId: String,
     private val stopSequence: Long?,
@@ -21,7 +21,7 @@ private constructor(
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun stopId(): String = stopId
+    fun stopId(): String? = stopId
 
     fun serviceDate(): Long = serviceDate
 
@@ -47,7 +47,6 @@ private constructor(
          *
          * The following fields are required:
          * ```kotlin
-         * .stopId()
          * .serviceDate()
          * .tripId()
          * ```
@@ -80,7 +79,7 @@ private constructor(
                     arrivalAndDepartureRetrieveParams.additionalQueryParams.toBuilder()
             }
 
-        fun stopId(stopId: String) = apply { this.stopId = stopId }
+        fun stopId(stopId: String?) = apply { this.stopId = stopId }
 
         fun serviceDate(serviceDate: Long) = apply { this.serviceDate = serviceDate }
 
@@ -211,7 +210,6 @@ private constructor(
          *
          * The following fields are required:
          * ```kotlin
-         * .stopId()
          * .serviceDate()
          * .tripId()
          * ```
@@ -220,7 +218,7 @@ private constructor(
          */
         fun build(): ArrivalAndDepartureRetrieveParams =
             ArrivalAndDepartureRetrieveParams(
-                checkRequired("stopId", stopId),
+                stopId,
                 checkRequired("serviceDate", serviceDate),
                 checkRequired("tripId", tripId),
                 stopSequence,
@@ -233,7 +231,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> stopId
+            0 -> stopId ?: ""
             else -> ""
         }
 

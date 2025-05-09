@@ -5,20 +5,19 @@ package org.onebusaway.models
 import java.time.LocalDate
 import java.util.Objects
 import org.onebusaway.core.Params
-import org.onebusaway.core.checkRequired
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.QueryParams
 
 /** Retrieve the full schedule for a route on a particular day */
 class ScheduleForRouteRetrieveParams
 private constructor(
-    private val routeId: String,
+    private val routeId: String?,
     private val date: LocalDate?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun routeId(): String = routeId
+    fun routeId(): String? = routeId
 
     /**
      * The date for which you want to request a schedule in the format YYYY-MM-DD (optional,
@@ -34,14 +33,11 @@ private constructor(
 
     companion object {
 
+        fun none(): ScheduleForRouteRetrieveParams = builder().build()
+
         /**
          * Returns a mutable builder for constructing an instance of
          * [ScheduleForRouteRetrieveParams].
-         *
-         * The following fields are required:
-         * ```kotlin
-         * .routeId()
-         * ```
          */
         fun builder() = Builder()
     }
@@ -61,7 +57,7 @@ private constructor(
             additionalQueryParams = scheduleForRouteRetrieveParams.additionalQueryParams.toBuilder()
         }
 
-        fun routeId(routeId: String) = apply { this.routeId = routeId }
+        fun routeId(routeId: String?) = apply { this.routeId = routeId }
 
         /**
          * The date for which you want to request a schedule in the format YYYY-MM-DD (optional,
@@ -171,17 +167,10 @@ private constructor(
          * Returns an immutable instance of [ScheduleForRouteRetrieveParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```kotlin
-         * .routeId()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): ScheduleForRouteRetrieveParams =
             ScheduleForRouteRetrieveParams(
-                checkRequired("routeId", routeId),
+                routeId,
                 date,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -190,7 +179,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> routeId
+            0 -> routeId ?: ""
             else -> ""
         }
 

@@ -5,6 +5,7 @@ package org.onebusaway.services.blocking
 import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.RequestOptions
+import org.onebusaway.core.checkRequired
 import org.onebusaway.core.handlers.errorHandler
 import org.onebusaway.core.handlers.jsonHandler
 import org.onebusaway.core.handlers.withErrorHandler
@@ -45,6 +46,9 @@ class StopServiceImpl internal constructor(private val clientOptions: ClientOpti
             params: StopRetrieveParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<StopRetrieveResponse> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("stopId", params.stopId())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)

@@ -7,7 +7,6 @@ import java.util.Objects
 import org.onebusaway.core.Enum
 import org.onebusaway.core.JsonField
 import org.onebusaway.core.Params
-import org.onebusaway.core.checkRequired
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.QueryParams
 import org.onebusaway.errors.OnebusawaySdkInvalidDataException
@@ -15,7 +14,7 @@ import org.onebusaway.errors.OnebusawaySdkInvalidDataException
 /** Submit a user-generated problem report for a particular trip. */
 class ReportProblemWithTripRetrieveParams
 private constructor(
-    private val tripId: String,
+    private val tripId: String?,
     private val code: Code?,
     private val serviceDate: Long?,
     private val stopId: String?,
@@ -30,7 +29,7 @@ private constructor(
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun tripId(): String = tripId
+    fun tripId(): String? = tripId
 
     /** A string code identifying the nature of the problem */
     fun code(): Code? = code
@@ -70,14 +69,11 @@ private constructor(
 
     companion object {
 
+        fun none(): ReportProblemWithTripRetrieveParams = builder().build()
+
         /**
          * Returns a mutable builder for constructing an instance of
          * [ReportProblemWithTripRetrieveParams].
-         *
-         * The following fields are required:
-         * ```kotlin
-         * .tripId()
-         * ```
          */
         fun builder() = Builder()
     }
@@ -118,7 +114,7 @@ private constructor(
                 reportProblemWithTripRetrieveParams.additionalQueryParams.toBuilder()
         }
 
-        fun tripId(tripId: String) = apply { this.tripId = tripId }
+        fun tripId(tripId: String?) = apply { this.tripId = tripId }
 
         /** A string code identifying the nature of the problem */
         fun code(code: Code?) = apply { this.code = code }
@@ -292,17 +288,10 @@ private constructor(
          * Returns an immutable instance of [ReportProblemWithTripRetrieveParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```kotlin
-         * .tripId()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): ReportProblemWithTripRetrieveParams =
             ReportProblemWithTripRetrieveParams(
-                checkRequired("tripId", tripId),
+                tripId,
                 code,
                 serviceDate,
                 stopId,
@@ -320,7 +309,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> tripId
+            0 -> tripId ?: ""
             else -> ""
         }
 

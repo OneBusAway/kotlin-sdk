@@ -4,19 +4,18 @@ package org.onebusaway.models
 
 import java.util.Objects
 import org.onebusaway.core.Params
-import org.onebusaway.core.checkRequired
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.QueryParams
 
 /** Get details of a specific trip */
 class TripRetrieveParams
 private constructor(
-    private val tripId: String,
+    private val tripId: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun tripId(): String = tripId
+    fun tripId(): String? = tripId
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
@@ -26,14 +25,9 @@ private constructor(
 
     companion object {
 
-        /**
-         * Returns a mutable builder for constructing an instance of [TripRetrieveParams].
-         *
-         * The following fields are required:
-         * ```kotlin
-         * .tripId()
-         * ```
-         */
+        fun none(): TripRetrieveParams = builder().build()
+
+        /** Returns a mutable builder for constructing an instance of [TripRetrieveParams]. */
         fun builder() = Builder()
     }
 
@@ -50,7 +44,7 @@ private constructor(
             additionalQueryParams = tripRetrieveParams.additionalQueryParams.toBuilder()
         }
 
-        fun tripId(tripId: String) = apply { this.tripId = tripId }
+        fun tripId(tripId: String?) = apply { this.tripId = tripId }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -154,25 +148,14 @@ private constructor(
          * Returns an immutable instance of [TripRetrieveParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```kotlin
-         * .tripId()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): TripRetrieveParams =
-            TripRetrieveParams(
-                checkRequired("tripId", tripId),
-                additionalHeaders.build(),
-                additionalQueryParams.build(),
-            )
+            TripRetrieveParams(tripId, additionalHeaders.build(), additionalQueryParams.build())
     }
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> tripId
+            0 -> tripId ?: ""
             else -> ""
         }
 

@@ -17,9 +17,24 @@ interface VehiclesForAgencyServiceAsync {
 
     /** Get vehicles for a specific agency */
     suspend fun list(
+        agencyId: String,
+        params: VehiclesForAgencyListParams = VehiclesForAgencyListParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): VehiclesForAgencyListResponse =
+        list(params.toBuilder().agencyId(agencyId).build(), requestOptions)
+
+    /** @see [list] */
+    suspend fun list(
         params: VehiclesForAgencyListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): VehiclesForAgencyListResponse
+
+    /** @see [list] */
+    suspend fun list(
+        agencyId: String,
+        requestOptions: RequestOptions,
+    ): VehiclesForAgencyListResponse =
+        list(agencyId, VehiclesForAgencyListParams.none(), requestOptions)
 
     /**
      * A view of [VehiclesForAgencyServiceAsync] that provides access to raw HTTP responses for each
@@ -33,8 +48,25 @@ interface VehiclesForAgencyServiceAsync {
          */
         @MustBeClosed
         suspend fun list(
+            agencyId: String,
+            params: VehiclesForAgencyListParams = VehiclesForAgencyListParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<VehiclesForAgencyListResponse> =
+            list(params.toBuilder().agencyId(agencyId).build(), requestOptions)
+
+        /** @see [list] */
+        @MustBeClosed
+        suspend fun list(
             params: VehiclesForAgencyListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<VehiclesForAgencyListResponse>
+
+        /** @see [list] */
+        @MustBeClosed
+        suspend fun list(
+            agencyId: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<VehiclesForAgencyListResponse> =
+            list(agencyId, VehiclesForAgencyListParams.none(), requestOptions)
     }
 }

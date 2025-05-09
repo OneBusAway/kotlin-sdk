@@ -17,9 +17,24 @@ interface StopIdsForAgencyServiceAsync {
 
     /** Get stop IDs for a specific agency */
     suspend fun list(
+        agencyId: String,
+        params: StopIdsForAgencyListParams = StopIdsForAgencyListParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): StopIdsForAgencyListResponse =
+        list(params.toBuilder().agencyId(agencyId).build(), requestOptions)
+
+    /** @see [list] */
+    suspend fun list(
         params: StopIdsForAgencyListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): StopIdsForAgencyListResponse
+
+    /** @see [list] */
+    suspend fun list(
+        agencyId: String,
+        requestOptions: RequestOptions,
+    ): StopIdsForAgencyListResponse =
+        list(agencyId, StopIdsForAgencyListParams.none(), requestOptions)
 
     /**
      * A view of [StopIdsForAgencyServiceAsync] that provides access to raw HTTP responses for each
@@ -33,8 +48,25 @@ interface StopIdsForAgencyServiceAsync {
          */
         @MustBeClosed
         suspend fun list(
+            agencyId: String,
+            params: StopIdsForAgencyListParams = StopIdsForAgencyListParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<StopIdsForAgencyListResponse> =
+            list(params.toBuilder().agencyId(agencyId).build(), requestOptions)
+
+        /** @see [list] */
+        @MustBeClosed
+        suspend fun list(
             params: StopIdsForAgencyListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<StopIdsForAgencyListResponse>
+
+        /** @see [list] */
+        @MustBeClosed
+        suspend fun list(
+            agencyId: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<StopIdsForAgencyListResponse> =
+            list(agencyId, StopIdsForAgencyListParams.none(), requestOptions)
     }
 }

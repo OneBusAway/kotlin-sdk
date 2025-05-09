@@ -5,20 +5,19 @@ package org.onebusaway.models
 import java.time.LocalDate
 import java.util.Objects
 import org.onebusaway.core.Params
-import org.onebusaway.core.checkRequired
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.QueryParams
 
 /** Get schedule for a specific stop */
 class ScheduleForStopRetrieveParams
 private constructor(
-    private val stopId: String,
+    private val stopId: String?,
     private val date: LocalDate?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun stopId(): String = stopId
+    fun stopId(): String? = stopId
 
     /**
      * The date for which you want to request a schedule in the format YYYY-MM-DD (optional,
@@ -34,14 +33,11 @@ private constructor(
 
     companion object {
 
+        fun none(): ScheduleForStopRetrieveParams = builder().build()
+
         /**
          * Returns a mutable builder for constructing an instance of
          * [ScheduleForStopRetrieveParams].
-         *
-         * The following fields are required:
-         * ```kotlin
-         * .stopId()
-         * ```
          */
         fun builder() = Builder()
     }
@@ -61,7 +57,7 @@ private constructor(
             additionalQueryParams = scheduleForStopRetrieveParams.additionalQueryParams.toBuilder()
         }
 
-        fun stopId(stopId: String) = apply { this.stopId = stopId }
+        fun stopId(stopId: String?) = apply { this.stopId = stopId }
 
         /**
          * The date for which you want to request a schedule in the format YYYY-MM-DD (optional,
@@ -171,17 +167,10 @@ private constructor(
          * Returns an immutable instance of [ScheduleForStopRetrieveParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```kotlin
-         * .stopId()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): ScheduleForStopRetrieveParams =
             ScheduleForStopRetrieveParams(
-                checkRequired("stopId", stopId),
+                stopId,
                 date,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -190,7 +179,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> stopId
+            0 -> stopId ?: ""
             else -> ""
         }
 

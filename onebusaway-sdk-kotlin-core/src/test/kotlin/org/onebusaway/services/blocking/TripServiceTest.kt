@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.onebusaway.TestServerExtension
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
-import org.onebusaway.models.TripRetrieveParams
 
 @ExtendWith(TestServerExtension::class)
 internal class TripServiceTest {
@@ -20,7 +19,7 @@ internal class TripServiceTest {
                 .build()
         val tripService = client.trip()
 
-        val trip = tripService.retrieve(TripRetrieveParams.builder().tripId("tripID").build())
+        val trip = tripService.retrieve("tripID")
 
         trip.validate()
     }

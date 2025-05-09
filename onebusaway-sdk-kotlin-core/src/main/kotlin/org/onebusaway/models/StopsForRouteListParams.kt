@@ -4,21 +4,20 @@ package org.onebusaway.models
 
 import java.util.Objects
 import org.onebusaway.core.Params
-import org.onebusaway.core.checkRequired
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.QueryParams
 
 /** Get stops for a specific route */
 class StopsForRouteListParams
 private constructor(
-    private val routeId: String,
+    private val routeId: String?,
     private val includePolylines: Boolean?,
     private val time: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun routeId(): String = routeId
+    fun routeId(): String? = routeId
 
     /** Include polyline elements in the response (default true) */
     fun includePolylines(): Boolean? = includePolylines
@@ -34,14 +33,9 @@ private constructor(
 
     companion object {
 
-        /**
-         * Returns a mutable builder for constructing an instance of [StopsForRouteListParams].
-         *
-         * The following fields are required:
-         * ```kotlin
-         * .routeId()
-         * ```
-         */
+        fun none(): StopsForRouteListParams = builder().build()
+
+        /** Returns a mutable builder for constructing an instance of [StopsForRouteListParams]. */
         fun builder() = Builder()
     }
 
@@ -62,7 +56,7 @@ private constructor(
             additionalQueryParams = stopsForRouteListParams.additionalQueryParams.toBuilder()
         }
 
-        fun routeId(routeId: String) = apply { this.routeId = routeId }
+        fun routeId(routeId: String?) = apply { this.routeId = routeId }
 
         /** Include polyline elements in the response (default true) */
         fun includePolylines(includePolylines: Boolean?) = apply {
@@ -182,17 +176,10 @@ private constructor(
          * Returns an immutable instance of [StopsForRouteListParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```kotlin
-         * .routeId()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): StopsForRouteListParams =
             StopsForRouteListParams(
-                checkRequired("routeId", routeId),
+                routeId,
                 includePolylines,
                 time,
                 additionalHeaders.build(),
@@ -202,7 +189,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> routeId
+            0 -> routeId ?: ""
             else -> ""
         }
 

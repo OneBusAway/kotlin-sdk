@@ -4,19 +4,18 @@ package org.onebusaway.models
 
 import java.util.Objects
 import org.onebusaway.core.Params
-import org.onebusaway.core.checkRequired
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.QueryParams
 
 /** Get stop IDs for a specific agency */
 class StopIdsForAgencyListParams
 private constructor(
-    private val agencyId: String,
+    private val agencyId: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun agencyId(): String = agencyId
+    fun agencyId(): String? = agencyId
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
@@ -26,13 +25,10 @@ private constructor(
 
     companion object {
 
+        fun none(): StopIdsForAgencyListParams = builder().build()
+
         /**
          * Returns a mutable builder for constructing an instance of [StopIdsForAgencyListParams].
-         *
-         * The following fields are required:
-         * ```kotlin
-         * .agencyId()
-         * ```
          */
         fun builder() = Builder()
     }
@@ -50,7 +46,7 @@ private constructor(
             additionalQueryParams = stopIdsForAgencyListParams.additionalQueryParams.toBuilder()
         }
 
-        fun agencyId(agencyId: String) = apply { this.agencyId = agencyId }
+        fun agencyId(agencyId: String?) = apply { this.agencyId = agencyId }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -154,17 +150,10 @@ private constructor(
          * Returns an immutable instance of [StopIdsForAgencyListParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```kotlin
-         * .agencyId()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): StopIdsForAgencyListParams =
             StopIdsForAgencyListParams(
-                checkRequired("agencyId", agencyId),
+                agencyId,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
@@ -172,7 +161,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> agencyId
+            0 -> agencyId ?: ""
             else -> ""
         }
 
