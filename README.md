@@ -263,7 +263,6 @@ Requests time out after 1 minute by default.
 To set a custom timeout, configure the method call using the `timeout` method:
 
 ```kotlin
-import org.onebusaway.models.CurrentTimeRetrieveParams
 import org.onebusaway.models.CurrentTimeRetrieveResponse
 
 val currentTime: CurrentTimeRetrieveResponse = client.currentTime().retrieve(RequestOptions.builder().timeout(Duration.ofSeconds(30)).build())
@@ -476,7 +475,6 @@ val currentTime: CurrentTimeRetrieveResponse = client.currentTime().retrieve(par
 Or configure the method call to validate the response using the `responseValidation` method:
 
 ```kotlin
-import org.onebusaway.models.CurrentTimeRetrieveParams
 import org.onebusaway.models.CurrentTimeRetrieveResponse
 
 val currentTime: CurrentTimeRetrieveResponse = client.currentTime().retrieve(RequestOptions.builder().responseValidation(true).build())
