@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.1.0-alpha.68 (2025-05-15)
+
+Full Changelog: [v0.1.0-alpha.67...v0.1.0-alpha.68](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.67...v0.1.0-alpha.68)
+
+### Chores
+
+* **internal:** add `.kotlin` to `.gitignore` ([#276](https://github.com/OneBusAway/kotlin-sdk/issues/276)) ([1eb24ad](https://github.com/OneBusAway/kotlin-sdk/commit/1eb24ad47b637a551e3bfe075e8146c707c60019))
+* **internal:** codegen related update ([#277](https://github.com/OneBusAway/kotlin-sdk/issues/277)) ([df01249](https://github.com/OneBusAway/kotlin-sdk/commit/df01249a07ee2d58d49e3328dfe024ae5074773a))
+
+
+### Documentation
+
+* document `JsonValue` construction in readme ([#279](https://github.com/OneBusAway/kotlin-sdk/issues/279)) ([d093175](https://github.com/OneBusAway/kotlin-sdk/commit/d093175f95faf5270b78715ecfe863cfbd665ac7))
+* revise readme docs about nested params ([#278](https://github.com/OneBusAway/kotlin-sdk/issues/278)) ([0d9b03e](https://github.com/OneBusAway/kotlin-sdk/commit/0d9b03e374779e83a960842653f4e75734736d23))
+
 ## 0.1.0-alpha.67 (2025-05-15)
 
 Full Changelog: [v0.1.0-alpha.66...v0.1.0-alpha.67](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.66...v0.1.0-alpha.67)
