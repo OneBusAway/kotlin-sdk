@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.1.0-alpha.67 (2025-05-15)
+
+Full Changelog: [v0.1.0-alpha.66...v0.1.0-alpha.67](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.66...v0.1.0-alpha.67)
+
+### Features
+
+* generate and publish docs ([#274](https://github.com/OneBusAway/kotlin-sdk/issues/274)) ([4aecdbd](https://github.com/OneBusAway/kotlin-sdk/commit/4aecdbdb54266d24cae48500180c6e1903712645))
+
+
+### Chores
+
+* **internal:** update java toolchain ([ed72b2f](https://github.com/OneBusAway/kotlin-sdk/commit/ed72b2f4944d7ce9ce611d7e0b1830f8761f55bf))
+
 ## 0.1.0-alpha.66 (2025-03-07)
 
 Full Changelog: [v0.1.0-alpha.65...v0.1.0-alpha.66](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.65...v0.1.0-alpha.66)
