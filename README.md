@@ -2,7 +2,8 @@
 
 <!-- x-release-please-start-version -->
 
-[![Maven Central](https://img.shields.io/maven-central/v/org.onebusaway/onebusaway-sdk-kotlin)](https://central.sonatype.com/artifact/org.onebusaway/onebusaway-sdk-kotlin/0.1.0-alpha.66)
+[![Maven Central](https://img.shields.io/maven-central/v/org.onebusaway/onebusaway-sdk-kotlin)](https://central.sonatype.com/artifact/org.onebusaway/onebusaway-sdk-kotlin/0.1.0-alpha.65)
+[![javadoc](https://javadoc.io/badge2/org.onebusaway/onebusaway-sdk-kotlin/0.1.0-alpha.65/javadoc.svg)](https://javadoc.io/doc/org.onebusaway/onebusaway-sdk-kotlin/0.1.0-alpha.65)
 
 <!-- x-release-please-end -->
 
@@ -12,7 +13,7 @@ The Onebusaway SDK Kotlin SDK is similar to the Onebusaway SDK Java SDK but with
 
 It is generated with [Stainless](https://www.stainless.com/).
 
-The REST API documentation can be found on [developer.onebusaway.org](https://developer.onebusaway.org).
+The REST API documentation can be found on [developer.onebusaway.org](https://developer.onebusaway.org). KDocs are also available on [javadoc.io](https://javadoc.io/doc/org.onebusaway/onebusaway-sdk-kotlin/0.1.0-alpha.65).
 
 ## Installation
 
