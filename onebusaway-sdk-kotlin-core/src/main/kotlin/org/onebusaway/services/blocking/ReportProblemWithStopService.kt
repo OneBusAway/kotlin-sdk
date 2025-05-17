@@ -5,8 +5,8 @@ package org.onebusaway.services.blocking
 import com.google.errorprone.annotations.MustBeClosed
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.http.HttpResponseFor
-import org.onebusaway.models.ReportProblemWithStopRetrieveParams
 import org.onebusaway.models.ResponseWrapper
+import org.onebusaway.models.reportproblemwithstop.ReportProblemWithStopRetrieveParams
 
 interface ReportProblemWithStopService {
 

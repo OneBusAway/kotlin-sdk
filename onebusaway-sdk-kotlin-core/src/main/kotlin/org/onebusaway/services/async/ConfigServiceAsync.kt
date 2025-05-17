@@ -5,8 +5,8 @@ package org.onebusaway.services.async
 import com.google.errorprone.annotations.MustBeClosed
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.http.HttpResponseFor
-import org.onebusaway.models.ConfigRetrieveParams
-import org.onebusaway.models.ConfigRetrieveResponse
+import org.onebusaway.models.config.ConfigRetrieveParams
+import org.onebusaway.models.config.ConfigRetrieveResponse
 
 interface ConfigServiceAsync {
 

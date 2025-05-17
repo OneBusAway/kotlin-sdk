@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.onebusaway.TestServerExtension
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClientAsync
-import org.onebusaway.models.SearchForStopListParams
+import org.onebusaway.models.searchforstop.SearchForStopListParams
 
 @ExtendWith(TestServerExtension::class)
 internal class SearchForStopServiceAsyncTest {

@@ -15,8 +15,8 @@ import org.onebusaway.core.http.HttpResponse.Handler
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.core.http.parseable
 import org.onebusaway.core.prepare
-import org.onebusaway.models.BlockRetrieveParams
-import org.onebusaway.models.BlockRetrieveResponse
+import org.onebusaway.models.block.BlockRetrieveParams
+import org.onebusaway.models.block.BlockRetrieveResponse
 
 class BlockServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     BlockService {

@@ -50,8 +50,8 @@ This library requires Java 8 or later.
 ```kotlin
 import org.onebusaway.client.OnebusawaySdkClient
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
-import org.onebusaway.models.CurrentTimeRetrieveParams
-import org.onebusaway.models.CurrentTimeRetrieveResponse
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveParams
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveResponse
 
 // Configures using the `ONEBUSAWAY_API_KEY` and `ONEBUSAWAY_SDK_BASE_URL` environment variables
 val client: OnebusawaySdkClient = OnebusawaySdkOkHttpClient.fromEnv()
@@ -127,8 +127,8 @@ The default client is synchronous. To switch to asynchronous execution, call the
 ```kotlin
 import org.onebusaway.client.OnebusawaySdkClient
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
-import org.onebusaway.models.CurrentTimeRetrieveParams
-import org.onebusaway.models.CurrentTimeRetrieveResponse
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveParams
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveResponse
 
 // Configures using the `ONEBUSAWAY_API_KEY` and `ONEBUSAWAY_SDK_BASE_URL` environment variables
 val client: OnebusawaySdkClient = OnebusawaySdkOkHttpClient.fromEnv()
@@ -141,8 +141,8 @@ Or create an asynchronous client from the beginning:
 ```kotlin
 import org.onebusaway.client.OnebusawaySdkClientAsync
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClientAsync
-import org.onebusaway.models.CurrentTimeRetrieveParams
-import org.onebusaway.models.CurrentTimeRetrieveResponse
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveParams
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveResponse
 
 // Configures using the `ONEBUSAWAY_API_KEY` and `ONEBUSAWAY_SDK_BASE_URL` environment variables
 val client: OnebusawaySdkClientAsync = OnebusawaySdkOkHttpClientAsync.fromEnv()
@@ -161,8 +161,8 @@ To access this data, prefix any HTTP method call on a client or service with `wi
 ```kotlin
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.HttpResponseFor
-import org.onebusaway.models.CurrentTimeRetrieveParams
-import org.onebusaway.models.CurrentTimeRetrieveResponse
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveParams
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveResponse
 
 val currentTime: HttpResponseFor<CurrentTimeRetrieveResponse> = client.currentTime().withRawResponse().retrieve()
 
@@ -173,7 +173,7 @@ val headers: Headers = currentTime.headers()
 You can still deserialize the response into an instance of a Kotlin class if needed:
 
 ```kotlin
-import org.onebusaway.models.CurrentTimeRetrieveResponse
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveResponse
 
 val parsedCurrentTime: CurrentTimeRetrieveResponse = currentTime.parse()
 ```
@@ -263,7 +263,7 @@ Requests time out after 1 minute by default.
 To set a custom timeout, configure the method call using the `timeout` method:
 
 ```kotlin
-import org.onebusaway.models.CurrentTimeRetrieveResponse
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveResponse
 
 val currentTime: CurrentTimeRetrieveResponse = client.currentTime().retrieve(RequestOptions.builder().timeout(Duration.ofSeconds(30)).build())
 ```
@@ -347,7 +347,7 @@ To set undocumented parameters, call the `putAdditionalHeader`, `putAdditionalQu
 
 ```kotlin
 import org.onebusaway.core.JsonValue
-import org.onebusaway.models.CurrentTimeRetrieveParams
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveParams
 
 val params: CurrentTimeRetrieveParams = CurrentTimeRetrieveParams.builder()
     .putAdditionalHeader("Secret-Header", "42")
@@ -361,7 +361,7 @@ These can be accessed on the built object later using the `_additionalHeaders()`
 To set a documented parameter or property to an undocumented or not yet supported _value_, pass a [`JsonValue`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/core/Values.kt) object to its setter:
 
 ```kotlin
-import org.onebusaway.models.CurrentTimeRetrieveParams
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveParams
 
 val params: CurrentTimeRetrieveParams = CurrentTimeRetrieveParams.builder().build()
 ```
@@ -407,8 +407,8 @@ To forcibly omit a required parameter or property, pass [`JsonMissing`](onebusaw
 
 ```kotlin
 import org.onebusaway.core.JsonMissing
-import org.onebusaway.models.AgencyRetrieveParams
-import org.onebusaway.models.CurrentTimeRetrieveParams
+import org.onebusaway.models.agency.AgencyRetrieveParams
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveParams
 
 val params: CurrentTimeRetrieveParams = AgencyRetrieveParams.builder()
     .agencyId(JsonMissing.of())
@@ -467,7 +467,7 @@ By default, the SDK will not throw an exception in this case. It will throw [`On
 If you would prefer to check that the response is completely well-typed upfront, then either call `validate()`:
 
 ```kotlin
-import org.onebusaway.models.CurrentTimeRetrieveResponse
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveResponse
 
 val currentTime: CurrentTimeRetrieveResponse = client.currentTime().retrieve(params).validate()
 ```
@@ -475,7 +475,7 @@ val currentTime: CurrentTimeRetrieveResponse = client.currentTime().retrieve(par
 Or configure the method call to validate the response using the `responseValidation` method:
 
 ```kotlin
-import org.onebusaway.models.CurrentTimeRetrieveResponse
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveResponse
 
 val currentTime: CurrentTimeRetrieveResponse = client.currentTime().retrieve(RequestOptions.builder().responseValidation(true).build())
 ```

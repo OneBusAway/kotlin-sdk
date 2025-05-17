@@ -15,8 +15,8 @@ import org.onebusaway.core.http.HttpResponse.Handler
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.core.http.parseable
 import org.onebusaway.core.prepareAsync
-import org.onebusaway.models.StopIdsForAgencyListParams
-import org.onebusaway.models.StopIdsForAgencyListResponse
+import org.onebusaway.models.stopidsforagency.StopIdsForAgencyListParams
+import org.onebusaway.models.stopidsforagency.StopIdsForAgencyListResponse
 
 class StopIdsForAgencyServiceAsyncImpl
 internal constructor(private val clientOptions: ClientOptions) : StopIdsForAgencyServiceAsync {

@@ -15,8 +15,8 @@ import org.onebusaway.core.http.HttpResponse.Handler
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.core.http.parseable
 import org.onebusaway.core.prepareAsync
-import org.onebusaway.models.ScheduleForStopRetrieveParams
-import org.onebusaway.models.ScheduleForStopRetrieveResponse
+import org.onebusaway.models.scheduleforstop.ScheduleForStopRetrieveParams
+import org.onebusaway.models.scheduleforstop.ScheduleForStopRetrieveResponse
 
 class ScheduleForStopServiceAsyncImpl
 internal constructor(private val clientOptions: ClientOptions) : ScheduleForStopServiceAsync {

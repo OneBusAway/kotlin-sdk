@@ -15,8 +15,8 @@ import org.onebusaway.core.http.HttpResponse.Handler
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.core.http.parseable
 import org.onebusaway.core.prepareAsync
-import org.onebusaway.models.ShapeRetrieveParams
-import org.onebusaway.models.ShapeRetrieveResponse
+import org.onebusaway.models.shape.ShapeRetrieveParams
+import org.onebusaway.models.shape.ShapeRetrieveResponse
 
 class ShapeServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     ShapeServiceAsync {

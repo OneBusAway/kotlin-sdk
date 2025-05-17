@@ -5,8 +5,8 @@ package org.onebusaway.services.async
 import com.google.errorprone.annotations.MustBeClosed
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.http.HttpResponseFor
-import org.onebusaway.models.ShapeRetrieveParams
-import org.onebusaway.models.ShapeRetrieveResponse
+import org.onebusaway.models.shape.ShapeRetrieveParams
+import org.onebusaway.models.shape.ShapeRetrieveResponse
 
 interface ShapeServiceAsync {
 

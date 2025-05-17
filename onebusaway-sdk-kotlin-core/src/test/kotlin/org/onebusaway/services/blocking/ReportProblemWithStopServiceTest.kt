@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.onebusaway.TestServerExtension
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
-import org.onebusaway.models.ReportProblemWithStopRetrieveParams
+import org.onebusaway.models.reportproblemwithstop.ReportProblemWithStopRetrieveParams
 
 @ExtendWith(TestServerExtension::class)
 internal class ReportProblemWithStopServiceTest {

@@ -3993,6 +3993,7 @@ private constructor(
     private constructor(
         private val id: JsonField<String>,
         private val lat: JsonField<Double>,
+        private val locationType: JsonField<Long>,
         private val lon: JsonField<Double>,
         private val name: JsonField<String>,
         private val parent: JsonField<String>,
@@ -4000,7 +4001,6 @@ private constructor(
         private val staticRouteIds: JsonField<List<String>>,
         private val code: JsonField<String>,
         private val direction: JsonField<String>,
-        private val locationType: JsonField<Long>,
         private val wheelchairBoarding: JsonField<String>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
@@ -4009,6 +4009,9 @@ private constructor(
         private constructor(
             @JsonProperty("id") @ExcludeMissing id: JsonField<String> = JsonMissing.of(),
             @JsonProperty("lat") @ExcludeMissing lat: JsonField<Double> = JsonMissing.of(),
+            @JsonProperty("locationType")
+            @ExcludeMissing
+            locationType: JsonField<Long> = JsonMissing.of(),
             @JsonProperty("lon") @ExcludeMissing lon: JsonField<Double> = JsonMissing.of(),
             @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
             @JsonProperty("parent") @ExcludeMissing parent: JsonField<String> = JsonMissing.of(),
@@ -4022,15 +4025,13 @@ private constructor(
             @JsonProperty("direction")
             @ExcludeMissing
             direction: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("locationType")
-            @ExcludeMissing
-            locationType: JsonField<Long> = JsonMissing.of(),
             @JsonProperty("wheelchairBoarding")
             @ExcludeMissing
             wheelchairBoarding: JsonField<String> = JsonMissing.of(),
         ) : this(
             id,
             lat,
+            locationType,
             lon,
             name,
             parent,
@@ -4038,7 +4039,6 @@ private constructor(
             staticRouteIds,
             code,
             direction,
-            locationType,
             wheelchairBoarding,
             mutableMapOf(),
         )
@@ -4054,6 +4054,12 @@ private constructor(
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun lat(): Double = lat.getRequired("lat")
+
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun locationType(): Long = locationType.getRequired("locationType")
 
         /**
          * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
@@ -4101,12 +4107,6 @@ private constructor(
          * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
          *   if the server responded with an unexpected value).
          */
-        fun locationType(): Long? = locationType.getNullable("locationType")
-
-        /**
-         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
-         *   if the server responded with an unexpected value).
-         */
         fun wheelchairBoarding(): String? = wheelchairBoarding.getNullable("wheelchairBoarding")
 
         /**
@@ -4122,6 +4122,16 @@ private constructor(
          * Unlike [lat], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("lat") @ExcludeMissing fun _lat(): JsonField<Double> = lat
+
+        /**
+         * Returns the raw JSON value of [locationType].
+         *
+         * Unlike [locationType], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("locationType")
+        @ExcludeMissing
+        fun _locationType(): JsonField<Long> = locationType
 
         /**
          * Returns the raw JSON value of [lon].
@@ -4178,16 +4188,6 @@ private constructor(
         @JsonProperty("direction") @ExcludeMissing fun _direction(): JsonField<String> = direction
 
         /**
-         * Returns the raw JSON value of [locationType].
-         *
-         * Unlike [locationType], this method doesn't throw if the JSON field has an unexpected
-         * type.
-         */
-        @JsonProperty("locationType")
-        @ExcludeMissing
-        fun _locationType(): JsonField<Long> = locationType
-
-        /**
          * Returns the raw JSON value of [wheelchairBoarding].
          *
          * Unlike [wheelchairBoarding], this method doesn't throw if the JSON field has an
@@ -4218,6 +4218,7 @@ private constructor(
              * ```kotlin
              * .id()
              * .lat()
+             * .locationType()
              * .lon()
              * .name()
              * .parent()
@@ -4233,6 +4234,7 @@ private constructor(
 
             private var id: JsonField<String>? = null
             private var lat: JsonField<Double>? = null
+            private var locationType: JsonField<Long>? = null
             private var lon: JsonField<Double>? = null
             private var name: JsonField<String>? = null
             private var parent: JsonField<String>? = null
@@ -4240,13 +4242,13 @@ private constructor(
             private var staticRouteIds: JsonField<MutableList<String>>? = null
             private var code: JsonField<String> = JsonMissing.of()
             private var direction: JsonField<String> = JsonMissing.of()
-            private var locationType: JsonField<Long> = JsonMissing.of()
             private var wheelchairBoarding: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             internal fun from(stop: Stop) = apply {
                 id = stop.id
                 lat = stop.lat
+                locationType = stop.locationType
                 lon = stop.lon
                 name = stop.name
                 parent = stop.parent
@@ -4254,7 +4256,6 @@ private constructor(
                 staticRouteIds = stop.staticRouteIds.map { it.toMutableList() }
                 code = stop.code
                 direction = stop.direction
-                locationType = stop.locationType
                 wheelchairBoarding = stop.wheelchairBoarding
                 additionalProperties = stop.additionalProperties.toMutableMap()
             }
@@ -4280,6 +4281,19 @@ private constructor(
              * value.
              */
             fun lat(lat: JsonField<Double>) = apply { this.lat = lat }
+
+            fun locationType(locationType: Long) = locationType(JsonField.of(locationType))
+
+            /**
+             * Sets [Builder.locationType] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.locationType] with a well-typed [Long] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun locationType(locationType: JsonField<Long>) = apply {
+                this.locationType = locationType
+            }
 
             fun lon(lon: Double) = lon(JsonField.of(lon))
 
@@ -4387,19 +4401,6 @@ private constructor(
              */
             fun direction(direction: JsonField<String>) = apply { this.direction = direction }
 
-            fun locationType(locationType: Long) = locationType(JsonField.of(locationType))
-
-            /**
-             * Sets [Builder.locationType] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.locationType] with a well-typed [Long] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun locationType(locationType: JsonField<Long>) = apply {
-                this.locationType = locationType
-            }
-
             fun wheelchairBoarding(wheelchairBoarding: String) =
                 wheelchairBoarding(JsonField.of(wheelchairBoarding))
 
@@ -4442,6 +4443,7 @@ private constructor(
              * ```kotlin
              * .id()
              * .lat()
+             * .locationType()
              * .lon()
              * .name()
              * .parent()
@@ -4455,6 +4457,7 @@ private constructor(
                 Stop(
                     checkRequired("id", id),
                     checkRequired("lat", lat),
+                    checkRequired("locationType", locationType),
                     checkRequired("lon", lon),
                     checkRequired("name", name),
                     checkRequired("parent", parent),
@@ -4462,7 +4465,6 @@ private constructor(
                     checkRequired("staticRouteIds", staticRouteIds).map { it.toImmutable() },
                     code,
                     direction,
-                    locationType,
                     wheelchairBoarding,
                     additionalProperties.toMutableMap(),
                 )
@@ -4477,6 +4479,7 @@ private constructor(
 
             id()
             lat()
+            locationType()
             lon()
             name()
             parent()
@@ -4484,7 +4487,6 @@ private constructor(
             staticRouteIds()
             code()
             direction()
-            locationType()
             wheelchairBoarding()
             validated = true
         }
@@ -4506,6 +4508,7 @@ private constructor(
         internal fun validity(): Int =
             (if (id.asKnown() == null) 0 else 1) +
                 (if (lat.asKnown() == null) 0 else 1) +
+                (if (locationType.asKnown() == null) 0 else 1) +
                 (if (lon.asKnown() == null) 0 else 1) +
                 (if (name.asKnown() == null) 0 else 1) +
                 (if (parent.asKnown() == null) 0 else 1) +
@@ -4513,7 +4516,6 @@ private constructor(
                 (staticRouteIds.asKnown()?.size ?: 0) +
                 (if (code.asKnown() == null) 0 else 1) +
                 (if (direction.asKnown() == null) 0 else 1) +
-                (if (locationType.asKnown() == null) 0 else 1) +
                 (if (wheelchairBoarding.asKnown() == null) 0 else 1)
 
         override fun equals(other: Any?): Boolean {
@@ -4521,17 +4523,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Stop && id == other.id && lat == other.lat && lon == other.lon && name == other.name && parent == other.parent && routeIds == other.routeIds && staticRouteIds == other.staticRouteIds && code == other.code && direction == other.direction && locationType == other.locationType && wheelchairBoarding == other.wheelchairBoarding && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Stop && id == other.id && lat == other.lat && locationType == other.locationType && lon == other.lon && name == other.name && parent == other.parent && routeIds == other.routeIds && staticRouteIds == other.staticRouteIds && code == other.code && direction == other.direction && wheelchairBoarding == other.wheelchairBoarding && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(id, lat, lon, name, parent, routeIds, staticRouteIds, code, direction, locationType, wheelchairBoarding, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(id, lat, locationType, lon, name, parent, routeIds, staticRouteIds, code, direction, wheelchairBoarding, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Stop{id=$id, lat=$lat, lon=$lon, name=$name, parent=$parent, routeIds=$routeIds, staticRouteIds=$staticRouteIds, code=$code, direction=$direction, locationType=$locationType, wheelchairBoarding=$wheelchairBoarding, additionalProperties=$additionalProperties}"
+            "Stop{id=$id, lat=$lat, locationType=$locationType, lon=$lon, name=$name, parent=$parent, routeIds=$routeIds, staticRouteIds=$staticRouteIds, code=$code, direction=$direction, wheelchairBoarding=$wheelchairBoarding, additionalProperties=$additionalProperties}"
     }
 
     class StopTime

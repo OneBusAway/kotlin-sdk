@@ -15,8 +15,8 @@ import org.onebusaway.core.http.HttpResponse.Handler
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.core.http.parseable
 import org.onebusaway.core.prepare
-import org.onebusaway.models.StopsForRouteListParams
-import org.onebusaway.models.StopsForRouteListResponse
+import org.onebusaway.models.stopsforroute.StopsForRouteListParams
+import org.onebusaway.models.stopsforroute.StopsForRouteListResponse
 
 class StopsForRouteServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     StopsForRouteService {

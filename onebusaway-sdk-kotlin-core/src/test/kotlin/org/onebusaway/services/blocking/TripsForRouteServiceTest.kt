@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.onebusaway.TestServerExtension
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
-import org.onebusaway.models.TripsForRouteListParams
+import org.onebusaway.models.tripsforroute.TripsForRouteListParams
 
 @ExtendWith(TestServerExtension::class)
 internal class TripsForRouteServiceTest {

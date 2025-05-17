@@ -14,8 +14,8 @@ import org.onebusaway.core.http.HttpResponse.Handler
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.core.http.parseable
 import org.onebusaway.core.prepare
-import org.onebusaway.models.SearchForRouteListParams
-import org.onebusaway.models.SearchForRouteListResponse
+import org.onebusaway.models.searchforroute.SearchForRouteListParams
+import org.onebusaway.models.searchforroute.SearchForRouteListResponse
 
 class SearchForRouteServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     SearchForRouteService {

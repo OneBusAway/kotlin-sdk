@@ -15,8 +15,8 @@ import org.onebusaway.core.http.HttpResponse.Handler
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.core.http.parseable
 import org.onebusaway.core.prepareAsync
-import org.onebusaway.models.RouteIdsForAgencyListParams
-import org.onebusaway.models.RouteIdsForAgencyListResponse
+import org.onebusaway.models.routeidsforagency.RouteIdsForAgencyListParams
+import org.onebusaway.models.routeidsforagency.RouteIdsForAgencyListResponse
 
 class RouteIdsForAgencyServiceAsyncImpl
 internal constructor(private val clientOptions: ClientOptions) : RouteIdsForAgencyServiceAsync {

@@ -15,8 +15,8 @@ import org.onebusaway.core.http.HttpResponse.Handler
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.core.http.parseable
 import org.onebusaway.core.prepare
-import org.onebusaway.models.ReportProblemWithStopRetrieveParams
 import org.onebusaway.models.ResponseWrapper
+import org.onebusaway.models.reportproblemwithstop.ReportProblemWithStopRetrieveParams
 
 class ReportProblemWithStopServiceImpl
 internal constructor(private val clientOptions: ClientOptions) : ReportProblemWithStopService {

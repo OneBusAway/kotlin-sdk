@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.onebusaway.TestServerExtension
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
-import org.onebusaway.models.StopsForLocationListParams
+import org.onebusaway.models.stopsforlocation.StopsForLocationListParams
 
 @ExtendWith(TestServerExtension::class)
 internal class StopsForLocationServiceTest {

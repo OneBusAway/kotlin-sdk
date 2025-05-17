@@ -5,8 +5,8 @@ package org.onebusaway.services.async
 import com.google.errorprone.annotations.MustBeClosed
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.http.HttpResponseFor
-import org.onebusaway.models.AgenciesWithCoverageListParams
-import org.onebusaway.models.AgenciesWithCoverageListResponse
+import org.onebusaway.models.agencieswithcoverage.AgenciesWithCoverageListParams
+import org.onebusaway.models.agencieswithcoverage.AgenciesWithCoverageListResponse
 
 interface AgenciesWithCoverageServiceAsync {
 

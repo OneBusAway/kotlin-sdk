@@ -15,8 +15,8 @@ import org.onebusaway.core.http.HttpResponse.Handler
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.core.http.parseable
 import org.onebusaway.core.prepare
-import org.onebusaway.models.ScheduleForRouteRetrieveParams
-import org.onebusaway.models.ScheduleForRouteRetrieveResponse
+import org.onebusaway.models.scheduleforroute.ScheduleForRouteRetrieveParams
+import org.onebusaway.models.scheduleforroute.ScheduleForRouteRetrieveResponse
 
 class ScheduleForRouteServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     ScheduleForRouteService {

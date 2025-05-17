@@ -5,8 +5,8 @@ package org.onebusaway.services.async
 import com.google.errorprone.annotations.MustBeClosed
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.http.HttpResponseFor
-import org.onebusaway.models.ScheduleForStopRetrieveParams
-import org.onebusaway.models.ScheduleForStopRetrieveResponse
+import org.onebusaway.models.scheduleforstop.ScheduleForStopRetrieveParams
+import org.onebusaway.models.scheduleforstop.ScheduleForStopRetrieveResponse
 
 interface ScheduleForStopServiceAsync {
 

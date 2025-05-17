@@ -15,8 +15,8 @@ import org.onebusaway.core.http.HttpResponse.Handler
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.core.http.parseable
 import org.onebusaway.core.prepareAsync
-import org.onebusaway.models.TripsForRouteListParams
-import org.onebusaway.models.TripsForRouteListResponse
+import org.onebusaway.models.tripsforroute.TripsForRouteListParams
+import org.onebusaway.models.tripsforroute.TripsForRouteListResponse
 
 class TripsForRouteServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     TripsForRouteServiceAsync {

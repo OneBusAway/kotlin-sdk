@@ -15,8 +15,8 @@ import org.onebusaway.core.http.HttpResponse.Handler
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.core.http.parseable
 import org.onebusaway.core.prepare
-import org.onebusaway.models.AgencyRetrieveParams
-import org.onebusaway.models.AgencyRetrieveResponse
+import org.onebusaway.models.agency.AgencyRetrieveParams
+import org.onebusaway.models.agency.AgencyRetrieveResponse
 
 class AgencyServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     AgencyService {

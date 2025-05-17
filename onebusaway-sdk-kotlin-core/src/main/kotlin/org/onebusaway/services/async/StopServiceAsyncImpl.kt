@@ -15,8 +15,8 @@ import org.onebusaway.core.http.HttpResponse.Handler
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.core.http.parseable
 import org.onebusaway.core.prepareAsync
-import org.onebusaway.models.StopRetrieveParams
-import org.onebusaway.models.StopRetrieveResponse
+import org.onebusaway.models.stop.StopRetrieveParams
+import org.onebusaway.models.stop.StopRetrieveResponse
 
 class StopServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     StopServiceAsync {

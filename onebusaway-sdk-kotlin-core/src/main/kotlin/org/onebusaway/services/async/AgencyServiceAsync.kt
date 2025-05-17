@@ -5,8 +5,8 @@ package org.onebusaway.services.async
 import com.google.errorprone.annotations.MustBeClosed
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.http.HttpResponseFor
-import org.onebusaway.models.AgencyRetrieveParams
-import org.onebusaway.models.AgencyRetrieveResponse
+import org.onebusaway.models.agency.AgencyRetrieveParams
+import org.onebusaway.models.agency.AgencyRetrieveResponse
 
 interface AgencyServiceAsync {
 

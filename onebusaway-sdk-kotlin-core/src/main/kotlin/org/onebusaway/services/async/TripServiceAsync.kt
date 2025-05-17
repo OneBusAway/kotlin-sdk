@@ -5,8 +5,8 @@ package org.onebusaway.services.async
 import com.google.errorprone.annotations.MustBeClosed
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.http.HttpResponseFor
-import org.onebusaway.models.TripRetrieveParams
-import org.onebusaway.models.TripRetrieveResponse
+import org.onebusaway.models.trip.TripRetrieveParams
+import org.onebusaway.models.trip.TripRetrieveResponse
 
 interface TripServiceAsync {
 

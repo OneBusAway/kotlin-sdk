@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.onebusaway.TestServerExtension
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
-import org.onebusaway.models.StopsForRouteListParams
+import org.onebusaway.models.stopsforroute.StopsForRouteListParams
 
 @ExtendWith(TestServerExtension::class)
 internal class StopsForRouteServiceTest {

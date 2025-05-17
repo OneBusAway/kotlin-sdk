@@ -15,8 +15,8 @@ import org.onebusaway.core.http.HttpResponse.Handler
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.core.http.parseable
 import org.onebusaway.core.prepare
-import org.onebusaway.models.TripDetailRetrieveParams
-import org.onebusaway.models.TripDetailRetrieveResponse
+import org.onebusaway.models.tripdetails.TripDetailRetrieveParams
+import org.onebusaway.models.tripdetails.TripDetailRetrieveResponse
 
 class TripDetailServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     TripDetailService {

@@ -14,8 +14,8 @@ import org.onebusaway.core.http.HttpResponse.Handler
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.core.http.parseable
 import org.onebusaway.core.prepare
-import org.onebusaway.models.AgenciesWithCoverageListParams
-import org.onebusaway.models.AgenciesWithCoverageListResponse
+import org.onebusaway.models.agencieswithcoverage.AgenciesWithCoverageListParams
+import org.onebusaway.models.agencieswithcoverage.AgenciesWithCoverageListResponse
 
 class AgenciesWithCoverageServiceImpl
 internal constructor(private val clientOptions: ClientOptions) : AgenciesWithCoverageService {

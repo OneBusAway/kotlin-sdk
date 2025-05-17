@@ -14,8 +14,8 @@ import org.onebusaway.core.http.HttpResponse.Handler
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.core.http.parseable
 import org.onebusaway.core.prepare
-import org.onebusaway.models.SearchForStopListParams
-import org.onebusaway.models.SearchForStopListResponse
+import org.onebusaway.models.searchforstop.SearchForStopListParams
+import org.onebusaway.models.searchforstop.SearchForStopListResponse
 
 class SearchForStopServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     SearchForStopService {

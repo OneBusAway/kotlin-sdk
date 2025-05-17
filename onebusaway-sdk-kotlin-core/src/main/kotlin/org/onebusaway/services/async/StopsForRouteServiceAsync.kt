@@ -5,8 +5,8 @@ package org.onebusaway.services.async
 import com.google.errorprone.annotations.MustBeClosed
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.http.HttpResponseFor
-import org.onebusaway.models.StopsForRouteListParams
-import org.onebusaway.models.StopsForRouteListResponse
+import org.onebusaway.models.stopsforroute.StopsForRouteListParams
+import org.onebusaway.models.stopsforroute.StopsForRouteListResponse
 
 interface StopsForRouteServiceAsync {
 

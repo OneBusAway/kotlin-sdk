@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.parallel.ResourceLock
 import org.onebusaway.client.OnebusawaySdkClient
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
-import org.onebusaway.models.CurrentTimeRetrieveParams
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveParams
 
 @WireMockTest
 @ResourceLock("https://github.com/wiremock/wiremock/issues/169")

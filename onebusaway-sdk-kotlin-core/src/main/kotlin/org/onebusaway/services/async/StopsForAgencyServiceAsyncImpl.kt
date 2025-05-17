@@ -15,8 +15,8 @@ import org.onebusaway.core.http.HttpResponse.Handler
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.core.http.parseable
 import org.onebusaway.core.prepareAsync
-import org.onebusaway.models.StopsForAgencyListParams
-import org.onebusaway.models.StopsForAgencyListResponse
+import org.onebusaway.models.stopsforagency.StopsForAgencyListParams
+import org.onebusaway.models.stopsforagency.StopsForAgencyListResponse
 
 class StopsForAgencyServiceAsyncImpl
 internal constructor(private val clientOptions: ClientOptions) : StopsForAgencyServiceAsync {

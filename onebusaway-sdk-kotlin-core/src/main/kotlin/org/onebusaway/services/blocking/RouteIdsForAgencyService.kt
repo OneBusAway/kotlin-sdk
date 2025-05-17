@@ -5,8 +5,8 @@ package org.onebusaway.services.blocking
 import com.google.errorprone.annotations.MustBeClosed
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.http.HttpResponseFor
-import org.onebusaway.models.RouteIdsForAgencyListParams
-import org.onebusaway.models.RouteIdsForAgencyListResponse
+import org.onebusaway.models.routeidsforagency.RouteIdsForAgencyListParams
+import org.onebusaway.models.routeidsforagency.RouteIdsForAgencyListResponse
 
 interface RouteIdsForAgencyService {
 
