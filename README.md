@@ -7,7 +7,7 @@
 
 <!-- x-release-please-end -->
 
-The Onebusaway SDK Kotlin SDK provides convenient access to the Onebusaway SDK REST API from applications written in Kotlin.
+The Onebusaway SDK Kotlin SDK provides convenient access to the [Onebusaway SDK REST API](https://developer.onebusaway.org) from applications written in Kotlin.
 
 The Onebusaway SDK Kotlin SDK is similar to the Onebusaway SDK Java SDK but with minor differences that make it more ergonomic for use in Kotlin, such as nullable values instead of `Optional`, `Sequence` instead of `Stream`, and suspend functions instead of `CompletableFuture`.
 
