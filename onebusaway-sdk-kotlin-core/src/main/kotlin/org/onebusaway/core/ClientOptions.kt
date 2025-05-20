@@ -187,7 +187,7 @@ private constructor(
             headers.put("X-Stainless-Runtime-Version", getJavaVersion())
             apiKey.let {
                 if (!it.isEmpty()) {
-                    queryParams.put("key", it)
+                    headers.put("key", it)
                 }
             }
             headers.replaceAll(this.headers.build())
