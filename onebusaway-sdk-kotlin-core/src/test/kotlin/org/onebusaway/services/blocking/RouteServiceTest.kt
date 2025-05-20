@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.onebusaway.TestServerExtension
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
-import org.onebusaway.models.RouteRetrieveParams
 
 @ExtendWith(TestServerExtension::class)
 internal class RouteServiceTest {
@@ -20,7 +19,7 @@ internal class RouteServiceTest {
                 .build()
         val routeService = client.route()
 
-        val route = routeService.retrieve(RouteRetrieveParams.builder().routeId("routeID").build())
+        val route = routeService.retrieve("routeID")
 
         route.validate()
     }

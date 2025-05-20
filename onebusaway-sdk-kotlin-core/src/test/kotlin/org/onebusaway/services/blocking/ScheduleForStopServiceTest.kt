@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.onebusaway.TestServerExtension
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
-import org.onebusaway.models.ScheduleForStopRetrieveParams
+import org.onebusaway.models.scheduleforstop.ScheduleForStopRetrieveParams
 
 @ExtendWith(TestServerExtension::class)
 internal class ScheduleForStopServiceTest {

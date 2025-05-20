@@ -9,7 +9,7 @@ plugins {
 
 kotlin {
     jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
+        languageVersion.set(JavaLanguageVersion.of(21))
     }
 
     compilerOptions {
@@ -34,8 +34,7 @@ configure<SpotlessExtension> {
     }
 }
 
-// Run tests in parallel to some degree.
 tasks.withType<Test>().configureEach {
-    maxParallelForks = (Runtime.getRuntime().availableProcessors() / 2).coerceAtLeast(1)
-    forkEvery = 100
+    systemProperty("junit.jupiter.execution.parallel.enabled", true)
+    systemProperty("junit.jupiter.execution.parallel.mode.default", "concurrent")
 }

@@ -5,8 +5,8 @@ package org.onebusaway.services.blocking
 import com.google.errorprone.annotations.MustBeClosed
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.http.HttpResponseFor
-import org.onebusaway.models.StopIdsForAgencyListParams
-import org.onebusaway.models.StopIdsForAgencyListResponse
+import org.onebusaway.models.stopidsforagency.StopIdsForAgencyListParams
+import org.onebusaway.models.stopidsforagency.StopIdsForAgencyListResponse
 
 interface StopIdsForAgencyService {
 
@@ -17,9 +17,21 @@ interface StopIdsForAgencyService {
 
     /** Get stop IDs for a specific agency */
     fun list(
+        agencyId: String,
+        params: StopIdsForAgencyListParams = StopIdsForAgencyListParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): StopIdsForAgencyListResponse =
+        list(params.toBuilder().agencyId(agencyId).build(), requestOptions)
+
+    /** @see [list] */
+    fun list(
         params: StopIdsForAgencyListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): StopIdsForAgencyListResponse
+
+    /** @see [list] */
+    fun list(agencyId: String, requestOptions: RequestOptions): StopIdsForAgencyListResponse =
+        list(agencyId, StopIdsForAgencyListParams.none(), requestOptions)
 
     /**
      * A view of [StopIdsForAgencyService] that provides access to raw HTTP responses for each
@@ -33,8 +45,25 @@ interface StopIdsForAgencyService {
          */
         @MustBeClosed
         fun list(
+            agencyId: String,
+            params: StopIdsForAgencyListParams = StopIdsForAgencyListParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<StopIdsForAgencyListResponse> =
+            list(params.toBuilder().agencyId(agencyId).build(), requestOptions)
+
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
             params: StopIdsForAgencyListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<StopIdsForAgencyListResponse>
+
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            agencyId: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<StopIdsForAgencyListResponse> =
+            list(agencyId, StopIdsForAgencyListParams.none(), requestOptions)
     }
 }

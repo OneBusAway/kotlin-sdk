@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.onebusaway.TestServerExtension
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClientAsync
-import org.onebusaway.models.ShapeRetrieveParams
 
 @ExtendWith(TestServerExtension::class)
 internal class ShapeServiceAsyncTest {
@@ -20,8 +19,7 @@ internal class ShapeServiceAsyncTest {
                 .build()
         val shapeServiceAsync = client.shape()
 
-        val shape =
-            shapeServiceAsync.retrieve(ShapeRetrieveParams.builder().shapeId("shapeID").build())
+        val shape = shapeServiceAsync.retrieve("shapeID")
 
         shape.validate()
     }

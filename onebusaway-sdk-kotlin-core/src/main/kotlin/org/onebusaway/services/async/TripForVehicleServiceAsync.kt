@@ -5,8 +5,8 @@ package org.onebusaway.services.async
 import com.google.errorprone.annotations.MustBeClosed
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.http.HttpResponseFor
-import org.onebusaway.models.TripForVehicleRetrieveParams
-import org.onebusaway.models.TripForVehicleRetrieveResponse
+import org.onebusaway.models.tripforvehicle.TripForVehicleRetrieveParams
+import org.onebusaway.models.tripforvehicle.TripForVehicleRetrieveResponse
 
 interface TripForVehicleServiceAsync {
 
@@ -17,9 +17,24 @@ interface TripForVehicleServiceAsync {
 
     /** Retrieve trip for a specific vehicle */
     suspend fun retrieve(
+        vehicleId: String,
+        params: TripForVehicleRetrieveParams = TripForVehicleRetrieveParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): TripForVehicleRetrieveResponse =
+        retrieve(params.toBuilder().vehicleId(vehicleId).build(), requestOptions)
+
+    /** @see [retrieve] */
+    suspend fun retrieve(
         params: TripForVehicleRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): TripForVehicleRetrieveResponse
+
+    /** @see [retrieve] */
+    suspend fun retrieve(
+        vehicleId: String,
+        requestOptions: RequestOptions,
+    ): TripForVehicleRetrieveResponse =
+        retrieve(vehicleId, TripForVehicleRetrieveParams.none(), requestOptions)
 
     /**
      * A view of [TripForVehicleServiceAsync] that provides access to raw HTTP responses for each
@@ -33,8 +48,25 @@ interface TripForVehicleServiceAsync {
          */
         @MustBeClosed
         suspend fun retrieve(
+            vehicleId: String,
+            params: TripForVehicleRetrieveParams = TripForVehicleRetrieveParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<TripForVehicleRetrieveResponse> =
+            retrieve(params.toBuilder().vehicleId(vehicleId).build(), requestOptions)
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        suspend fun retrieve(
             params: TripForVehicleRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<TripForVehicleRetrieveResponse>
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        suspend fun retrieve(
+            vehicleId: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<TripForVehicleRetrieveResponse> =
+            retrieve(vehicleId, TripForVehicleRetrieveParams.none(), requestOptions)
     }
 }

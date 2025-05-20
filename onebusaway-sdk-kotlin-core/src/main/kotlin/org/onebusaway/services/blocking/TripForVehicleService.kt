@@ -5,8 +5,8 @@ package org.onebusaway.services.blocking
 import com.google.errorprone.annotations.MustBeClosed
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.http.HttpResponseFor
-import org.onebusaway.models.TripForVehicleRetrieveParams
-import org.onebusaway.models.TripForVehicleRetrieveResponse
+import org.onebusaway.models.tripforvehicle.TripForVehicleRetrieveParams
+import org.onebusaway.models.tripforvehicle.TripForVehicleRetrieveResponse
 
 interface TripForVehicleService {
 
@@ -17,9 +17,24 @@ interface TripForVehicleService {
 
     /** Retrieve trip for a specific vehicle */
     fun retrieve(
+        vehicleId: String,
+        params: TripForVehicleRetrieveParams = TripForVehicleRetrieveParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): TripForVehicleRetrieveResponse =
+        retrieve(params.toBuilder().vehicleId(vehicleId).build(), requestOptions)
+
+    /** @see [retrieve] */
+    fun retrieve(
         params: TripForVehicleRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): TripForVehicleRetrieveResponse
+
+    /** @see [retrieve] */
+    fun retrieve(
+        vehicleId: String,
+        requestOptions: RequestOptions,
+    ): TripForVehicleRetrieveResponse =
+        retrieve(vehicleId, TripForVehicleRetrieveParams.none(), requestOptions)
 
     /**
      * A view of [TripForVehicleService] that provides access to raw HTTP responses for each method.
@@ -32,8 +47,25 @@ interface TripForVehicleService {
          */
         @MustBeClosed
         fun retrieve(
+            vehicleId: String,
+            params: TripForVehicleRetrieveParams = TripForVehicleRetrieveParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<TripForVehicleRetrieveResponse> =
+            retrieve(params.toBuilder().vehicleId(vehicleId).build(), requestOptions)
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
             params: TripForVehicleRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<TripForVehicleRetrieveResponse>
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            vehicleId: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<TripForVehicleRetrieveResponse> =
+            retrieve(vehicleId, TripForVehicleRetrieveParams.none(), requestOptions)
     }
 }

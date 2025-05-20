@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.onebusaway.TestServerExtension
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
-import org.onebusaway.models.SearchForStopListParams
+import org.onebusaway.models.searchforstop.SearchForStopListParams
 
 @ExtendWith(TestServerExtension::class)
 internal class SearchForStopServiceTest {
@@ -20,11 +20,11 @@ internal class SearchForStopServiceTest {
                 .build()
         val searchForStopService = client.searchForStop()
 
-        val searchForStop =
+        val searchForStops =
             searchForStopService.list(
                 SearchForStopListParams.builder().input("input").maxCount(0L).build()
             )
 
-        searchForStop.validate()
+        searchForStops.validate()
     }
 }

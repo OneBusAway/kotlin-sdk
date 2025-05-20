@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.onebusaway.TestServerExtension
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
-import org.onebusaway.models.ReportProblemWithStopRetrieveParams
+import org.onebusaway.models.reportproblemwithstop.ReportProblemWithStopRetrieveParams
 
 @ExtendWith(TestServerExtension::class)
 internal class ReportProblemWithStopServiceTest {
@@ -26,9 +26,9 @@ internal class ReportProblemWithStopServiceTest {
                     .stopId("stopID")
                     .code(ReportProblemWithStopRetrieveParams.Code.STOP_NAME_WRONG)
                     .userComment("userComment")
-                    .userLat(0.0)
-                    .userLocationAccuracy(0.0)
-                    .userLon(0.0)
+                    .userLat(0.0f)
+                    .userLocationAccuracy(0.0f)
+                    .userLon(0.0f)
                     .build()
             )
 
