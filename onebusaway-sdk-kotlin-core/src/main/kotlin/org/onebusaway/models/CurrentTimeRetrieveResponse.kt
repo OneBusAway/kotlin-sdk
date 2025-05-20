@@ -15,6 +15,7 @@ import org.onebusaway.core.NoAutoDetect
 import org.onebusaway.core.checkRequired
 import org.onebusaway.core.immutableEmptyMap
 import org.onebusaway.core.toImmutable
+import org.onebusaway.errors.OnebusawaySdkInvalidDataException
 
 @NoAutoDetect
 class CurrentTimeRetrieveResponse
@@ -32,24 +33,69 @@ private constructor(
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
+    /**
+     * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun code(): Long = code.getRequired("code")
 
+    /**
+     * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun currentTime(): Long = currentTime.getRequired("currentTime")
 
+    /**
+     * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun text(): String = text.getRequired("text")
 
+    /**
+     * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun version(): Long = version.getRequired("version")
 
+    /**
+     * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun data(): Data = data.getRequired("data")
 
+    /**
+     * Returns the raw JSON value of [code].
+     *
+     * Unlike [code], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("code") @ExcludeMissing fun _code(): JsonField<Long> = code
 
+    /**
+     * Returns the raw JSON value of [currentTime].
+     *
+     * Unlike [currentTime], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("currentTime") @ExcludeMissing fun _currentTime(): JsonField<Long> = currentTime
 
+    /**
+     * Returns the raw JSON value of [text].
+     *
+     * Unlike [text], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("text") @ExcludeMissing fun _text(): JsonField<String> = text
 
+    /**
+     * Returns the raw JSON value of [version].
+     *
+     * Unlike [version], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("version") @ExcludeMissing fun _version(): JsonField<Long> = version
 
+    /**
+     * Returns the raw JSON value of [data].
+     *
+     * Unlike [data], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("data") @ExcludeMissing fun _data(): JsonField<Data> = data
 
     @JsonAnyGetter
@@ -119,22 +165,53 @@ private constructor(
 
         fun code(code: Long) = code(JsonField.of(code))
 
+        /**
+         * Sets [Builder.code] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.code] with a well-typed [Long] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun code(code: JsonField<Long>) = apply { this.code = code }
 
         fun currentTime(currentTime: Long) = currentTime(JsonField.of(currentTime))
 
+        /**
+         * Sets [Builder.currentTime] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.currentTime] with a well-typed [Long] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun currentTime(currentTime: JsonField<Long>) = apply { this.currentTime = currentTime }
 
         fun text(text: String) = text(JsonField.of(text))
 
+        /**
+         * Sets [Builder.text] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.text] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun text(text: JsonField<String>) = apply { this.text = text }
 
         fun version(version: Long) = version(JsonField.of(version))
 
+        /**
+         * Sets [Builder.version] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.version] with a well-typed [Long] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun version(version: JsonField<Long>) = apply { this.version = version }
 
         fun data(data: Data) = data(JsonField.of(data))
 
+        /**
+         * Sets [Builder.data] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.data] with a well-typed [Data] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
         fun data(data: JsonField<Data>) = apply { this.data = data }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -181,12 +258,30 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun entry(): Entry = entry.getRequired("entry")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun references(): References = references.getRequired("references")
 
+        /**
+         * Returns the raw JSON value of [entry].
+         *
+         * Unlike [entry], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("entry") @ExcludeMissing fun _entry(): JsonField<Entry> = entry
 
+        /**
+         * Returns the raw JSON value of [references].
+         *
+         * Unlike [references], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("references")
         @ExcludeMissing
         fun _references(): JsonField<References> = references
@@ -238,10 +333,24 @@ private constructor(
 
             fun entry(entry: Entry) = entry(JsonField.of(entry))
 
+            /**
+             * Sets [Builder.entry] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.entry] with a well-typed [Entry] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun entry(entry: JsonField<Entry>) = apply { this.entry = entry }
 
             fun references(references: References) = references(JsonField.of(references))
 
+            /**
+             * Sets [Builder.references] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.references] with a well-typed [References] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun references(references: JsonField<References>) = apply {
                 this.references = references
             }
@@ -287,14 +396,33 @@ private constructor(
             private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
         ) {
 
+            /**
+             * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type
+             *   (e.g. if the server responded with an unexpected value).
+             */
             fun readableTime(): String? = readableTime.getNullable("readableTime")
 
+            /**
+             * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type
+             *   (e.g. if the server responded with an unexpected value).
+             */
             fun time(): Long? = time.getNullable("time")
 
+            /**
+             * Returns the raw JSON value of [readableTime].
+             *
+             * Unlike [readableTime], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("readableTime")
             @ExcludeMissing
             fun _readableTime(): JsonField<String> = readableTime
 
+            /**
+             * Returns the raw JSON value of [time].
+             *
+             * Unlike [time], this method doesn't throw if the JSON field has an unexpected type.
+             */
             @JsonProperty("time") @ExcludeMissing fun _time(): JsonField<Long> = time
 
             @JsonAnyGetter
@@ -336,12 +464,26 @@ private constructor(
 
                 fun readableTime(readableTime: String) = readableTime(JsonField.of(readableTime))
 
+                /**
+                 * Sets [Builder.readableTime] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.readableTime] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun readableTime(readableTime: JsonField<String>) = apply {
                     this.readableTime = readableTime
                 }
 
                 fun time(time: Long) = time(JsonField.of(time))
 
+                /**
+                 * Sets [Builder.time] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.time] with a well-typed [Long] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
                 fun time(time: JsonField<Long>) = apply { this.time = time }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {

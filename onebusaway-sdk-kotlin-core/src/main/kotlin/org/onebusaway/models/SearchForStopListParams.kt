@@ -75,7 +75,11 @@ private constructor(
         /** The max number of results to return. Defaults to 20. */
         fun maxCount(maxCount: Long?) = apply { this.maxCount = maxCount }
 
-        /** The max number of results to return. Defaults to 20. */
+        /**
+         * Alias for [Builder.maxCount].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
         fun maxCount(maxCount: Long) = maxCount(maxCount as Long?)
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {

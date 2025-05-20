@@ -115,8 +115,9 @@ private constructor(
         }
 
         /**
-         * Determines whether full <schedule/> element is included in the <tripDetails/> section.
-         * Defaults to false.
+         * Alias for [Builder.includeSchedule].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
          */
         fun includeSchedule(includeSchedule: Boolean) = includeSchedule(includeSchedule as Boolean?)
 
@@ -127,8 +128,9 @@ private constructor(
         fun includeStatus(includeStatus: Boolean?) = apply { this.includeStatus = includeStatus }
 
         /**
-         * Determines whether the full <status/> element is included in the <tripDetails/> section.
-         * Defaults to true.
+         * Alias for [Builder.includeStatus].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
          */
         fun includeStatus(includeStatus: Boolean) = includeStatus(includeStatus as Boolean?)
 
@@ -139,15 +141,20 @@ private constructor(
         fun includeTrip(includeTrip: Boolean?) = apply { this.includeTrip = includeTrip }
 
         /**
-         * Determines whether full <trip/> element is included in the <references/> section.
-         * Defaults to false.
+         * Alias for [Builder.includeTrip].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
          */
         fun includeTrip(includeTrip: Boolean) = includeTrip(includeTrip as Boolean?)
 
         /** Time parameter to query the system at a specific time (optional). */
         fun time(time: Long?) = apply { this.time = time }
 
-        /** Time parameter to query the system at a specific time (optional). */
+        /**
+         * Alias for [Builder.time].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
         fun time(time: Long) = time(time as Long?)
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {

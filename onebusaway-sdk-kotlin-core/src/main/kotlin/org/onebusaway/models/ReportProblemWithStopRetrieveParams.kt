@@ -123,7 +123,11 @@ private constructor(
         /** The reporting user’s current latitude */
         fun userLat(userLat: Double?) = apply { this.userLat = userLat }
 
-        /** The reporting user’s current latitude */
+        /**
+         * Alias for [Builder.userLat].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
         fun userLat(userLat: Double) = userLat(userLat as Double?)
 
         /** The reporting user’s location accuracy, in meters */
@@ -131,14 +135,22 @@ private constructor(
             this.userLocationAccuracy = userLocationAccuracy
         }
 
-        /** The reporting user’s location accuracy, in meters */
+        /**
+         * Alias for [Builder.userLocationAccuracy].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
         fun userLocationAccuracy(userLocationAccuracy: Double) =
             userLocationAccuracy(userLocationAccuracy as Double?)
 
         /** The reporting user’s current longitude */
         fun userLon(userLon: Double?) = apply { this.userLon = userLon }
 
-        /** The reporting user’s current longitude */
+        /**
+         * Alias for [Builder.userLon].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
         fun userLon(userLon: Double) = userLon(userLon as Double?)
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {

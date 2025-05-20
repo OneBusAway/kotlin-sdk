@@ -127,20 +127,30 @@ private constructor(
         }
 
         /**
-         * Whether to include full schedule elements in the tripDetails section. Defaults to false.
+         * Alias for [Builder.includeSchedule].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
          */
         fun includeSchedule(includeSchedule: Boolean) = includeSchedule(includeSchedule as Boolean?)
 
         /** Whether to include full trip elements in the references section. Defaults to false. */
         fun includeTrip(includeTrip: Boolean?) = apply { this.includeTrip = includeTrip }
 
-        /** Whether to include full trip elements in the references section. Defaults to false. */
+        /**
+         * Alias for [Builder.includeTrip].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
         fun includeTrip(includeTrip: Boolean) = includeTrip(includeTrip as Boolean?)
 
         /** Specific time for the query. Defaults to the current time. */
         fun time(time: Long?) = apply { this.time = time }
 
-        /** Specific time for the query. Defaults to the current time. */
+        /**
+         * Alias for [Builder.time].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
         fun time(time: Long) = time(time as Long?)
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
