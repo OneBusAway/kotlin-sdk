@@ -13,7 +13,7 @@ The Onebusaway SDK Kotlin SDK is similar to the Onebusaway SDK Java SDK but with
 
 It is generated with [Stainless](https://www.stainless.com/).
 
-The REST API documentation can be found on [developer.onebusaway.org](https://developer.onebusaway.org). KDocs are also available on [javadoc.io](https://javadoc.io/doc/org.onebusaway/onebusaway-sdk-kotlin/0.1.0-alpha.65).
+The REST API documentation can be found on [developer.onebusaway.org](https://developer.onebusaway.org). KDocs are also available on [javadoc.io](https://javadoc.io/doc/org.onebusaway/onebusaway-sdk-kotlin/0.1.0-alpha.66).
 
 ## Installation
 
