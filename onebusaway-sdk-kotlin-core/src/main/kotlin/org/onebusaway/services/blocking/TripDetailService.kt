@@ -5,8 +5,8 @@ package org.onebusaway.services.blocking
 import com.google.errorprone.annotations.MustBeClosed
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.http.HttpResponseFor
-import org.onebusaway.models.TripDetailRetrieveParams
-import org.onebusaway.models.TripDetailRetrieveResponse
+import org.onebusaway.models.tripdetails.TripDetailRetrieveParams
+import org.onebusaway.models.tripdetails.TripDetailRetrieveResponse
 
 interface TripDetailService {
 
@@ -17,9 +17,21 @@ interface TripDetailService {
 
     /** Retrieve Trip Details */
     fun retrieve(
+        tripId: String,
+        params: TripDetailRetrieveParams = TripDetailRetrieveParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): TripDetailRetrieveResponse =
+        retrieve(params.toBuilder().tripId(tripId).build(), requestOptions)
+
+    /** @see [retrieve] */
+    fun retrieve(
         params: TripDetailRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): TripDetailRetrieveResponse
+
+    /** @see [retrieve] */
+    fun retrieve(tripId: String, requestOptions: RequestOptions): TripDetailRetrieveResponse =
+        retrieve(tripId, TripDetailRetrieveParams.none(), requestOptions)
 
     /** A view of [TripDetailService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
@@ -30,8 +42,25 @@ interface TripDetailService {
          */
         @MustBeClosed
         fun retrieve(
+            tripId: String,
+            params: TripDetailRetrieveParams = TripDetailRetrieveParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<TripDetailRetrieveResponse> =
+            retrieve(params.toBuilder().tripId(tripId).build(), requestOptions)
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
             params: TripDetailRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<TripDetailRetrieveResponse>
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            tripId: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<TripDetailRetrieveResponse> =
+            retrieve(tripId, TripDetailRetrieveParams.none(), requestOptions)
     }
 }

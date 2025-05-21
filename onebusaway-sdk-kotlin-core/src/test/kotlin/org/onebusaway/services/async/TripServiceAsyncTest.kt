@@ -6,10 +6,9 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.onebusaway.TestServerExtension
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClientAsync
-import org.onebusaway.models.TripRetrieveParams
 
 @ExtendWith(TestServerExtension::class)
-class TripServiceAsyncTest {
+internal class TripServiceAsyncTest {
 
     @Test
     suspend fun retrieve() {
@@ -20,7 +19,7 @@ class TripServiceAsyncTest {
                 .build()
         val tripServiceAsync = client.trip()
 
-        val trip = tripServiceAsync.retrieve(TripRetrieveParams.builder().tripId("tripID").build())
+        val trip = tripServiceAsync.retrieve("tripID")
 
         trip.validate()
     }

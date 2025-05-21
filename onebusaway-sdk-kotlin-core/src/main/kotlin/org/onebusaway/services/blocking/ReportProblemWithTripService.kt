@@ -5,8 +5,8 @@ package org.onebusaway.services.blocking
 import com.google.errorprone.annotations.MustBeClosed
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.http.HttpResponseFor
-import org.onebusaway.models.ReportProblemWithTripRetrieveParams
 import org.onebusaway.models.ResponseWrapper
+import org.onebusaway.models.reportproblemwithtrip.ReportProblemWithTripRetrieveParams
 
 interface ReportProblemWithTripService {
 
@@ -17,9 +17,20 @@ interface ReportProblemWithTripService {
 
     /** Submit a user-generated problem report for a particular trip. */
     fun retrieve(
+        tripId: String,
+        params: ReportProblemWithTripRetrieveParams = ReportProblemWithTripRetrieveParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): ResponseWrapper = retrieve(params.toBuilder().tripId(tripId).build(), requestOptions)
+
+    /** @see [retrieve] */
+    fun retrieve(
         params: ReportProblemWithTripRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ResponseWrapper
+
+    /** @see [retrieve] */
+    fun retrieve(tripId: String, requestOptions: RequestOptions): ResponseWrapper =
+        retrieve(tripId, ReportProblemWithTripRetrieveParams.none(), requestOptions)
 
     /**
      * A view of [ReportProblemWithTripService] that provides access to raw HTTP responses for each
@@ -33,8 +44,26 @@ interface ReportProblemWithTripService {
          */
         @MustBeClosed
         fun retrieve(
+            tripId: String,
+            params: ReportProblemWithTripRetrieveParams =
+                ReportProblemWithTripRetrieveParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<ResponseWrapper> =
+            retrieve(params.toBuilder().tripId(tripId).build(), requestOptions)
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
             params: ReportProblemWithTripRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<ResponseWrapper>
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            tripId: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<ResponseWrapper> =
+            retrieve(tripId, ReportProblemWithTripRetrieveParams.none(), requestOptions)
     }
 }

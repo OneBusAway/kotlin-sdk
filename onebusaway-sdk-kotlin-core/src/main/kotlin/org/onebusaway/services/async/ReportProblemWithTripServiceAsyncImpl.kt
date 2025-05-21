@@ -3,7 +3,9 @@
 package org.onebusaway.services.async
 
 import org.onebusaway.core.ClientOptions
+import org.onebusaway.core.JsonValue
 import org.onebusaway.core.RequestOptions
+import org.onebusaway.core.checkRequired
 import org.onebusaway.core.handlers.errorHandler
 import org.onebusaway.core.handlers.jsonHandler
 import org.onebusaway.core.handlers.withErrorHandler
@@ -13,9 +15,8 @@ import org.onebusaway.core.http.HttpResponse.Handler
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.core.http.parseable
 import org.onebusaway.core.prepareAsync
-import org.onebusaway.errors.OnebusawaySdkError
-import org.onebusaway.models.ReportProblemWithTripRetrieveParams
 import org.onebusaway.models.ResponseWrapper
+import org.onebusaway.models.reportproblemwithtrip.ReportProblemWithTripRetrieveParams
 
 class ReportProblemWithTripServiceAsyncImpl
 internal constructor(private val clientOptions: ClientOptions) : ReportProblemWithTripServiceAsync {
@@ -37,8 +38,7 @@ internal constructor(private val clientOptions: ClientOptions) : ReportProblemWi
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         ReportProblemWithTripServiceAsync.WithRawResponse {
 
-        private val errorHandler: Handler<OnebusawaySdkError> =
-            errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
         private val retrieveHandler: Handler<ResponseWrapper> =
             jsonHandler<ResponseWrapper>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
@@ -47,6 +47,9 @@ internal constructor(private val clientOptions: ClientOptions) : ReportProblemWi
             params: ReportProblemWithTripRetrieveParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<ResponseWrapper> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("tripId", params.tripId())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -54,7 +57,7 @@ internal constructor(private val clientOptions: ClientOptions) : ReportProblemWi
                         "api",
                         "where",
                         "report-problem-with-trip",
-                        "${params.getPathParam(0)}.json",
+                        "${params._pathParam(0)}.json",
                     )
                     .build()
                     .prepareAsync(clientOptions, params)

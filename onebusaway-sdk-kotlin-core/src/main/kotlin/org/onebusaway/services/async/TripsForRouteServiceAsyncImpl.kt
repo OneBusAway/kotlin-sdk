@@ -3,7 +3,9 @@
 package org.onebusaway.services.async
 
 import org.onebusaway.core.ClientOptions
+import org.onebusaway.core.JsonValue
 import org.onebusaway.core.RequestOptions
+import org.onebusaway.core.checkRequired
 import org.onebusaway.core.handlers.errorHandler
 import org.onebusaway.core.handlers.jsonHandler
 import org.onebusaway.core.handlers.withErrorHandler
@@ -13,9 +15,8 @@ import org.onebusaway.core.http.HttpResponse.Handler
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.core.http.parseable
 import org.onebusaway.core.prepareAsync
-import org.onebusaway.errors.OnebusawaySdkError
-import org.onebusaway.models.TripsForRouteListParams
-import org.onebusaway.models.TripsForRouteListResponse
+import org.onebusaway.models.tripsforroute.TripsForRouteListParams
+import org.onebusaway.models.tripsforroute.TripsForRouteListResponse
 
 class TripsForRouteServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     TripsForRouteServiceAsync {
@@ -36,8 +37,7 @@ class TripsForRouteServiceAsyncImpl internal constructor(private val clientOptio
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         TripsForRouteServiceAsync.WithRawResponse {
 
-        private val errorHandler: Handler<OnebusawaySdkError> =
-            errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
         private val listHandler: Handler<TripsForRouteListResponse> =
             jsonHandler<TripsForRouteListResponse>(clientOptions.jsonMapper)
@@ -47,6 +47,9 @@ class TripsForRouteServiceAsyncImpl internal constructor(private val clientOptio
             params: TripsForRouteListParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<TripsForRouteListResponse> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("routeId", params.routeId())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -54,7 +57,7 @@ class TripsForRouteServiceAsyncImpl internal constructor(private val clientOptio
                         "api",
                         "where",
                         "trips-for-route",
-                        "${params.getPathParam(0)}.json",
+                        "${params._pathParam(0)}.json",
                     )
                     .build()
                     .prepareAsync(clientOptions, params)

@@ -8,7 +8,7 @@ import org.onebusaway.TestServerExtension
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClientAsync
 
 @ExtendWith(TestServerExtension::class)
-class AgenciesWithCoverageServiceAsyncTest {
+internal class AgenciesWithCoverageServiceAsyncTest {
 
     @Test
     suspend fun list() {
@@ -19,8 +19,8 @@ class AgenciesWithCoverageServiceAsyncTest {
                 .build()
         val agenciesWithCoverageServiceAsync = client.agenciesWithCoverage()
 
-        val agenciesWithCoverage = agenciesWithCoverageServiceAsync.list()
+        val agenciesWithCoverages = agenciesWithCoverageServiceAsync.list()
 
-        agenciesWithCoverage.validate()
+        agenciesWithCoverages.validate()
     }
 }

@@ -5,8 +5,8 @@ package org.onebusaway.services.async
 import com.google.errorprone.annotations.MustBeClosed
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.http.HttpResponseFor
-import org.onebusaway.models.RouteIdsForAgencyListParams
-import org.onebusaway.models.RouteIdsForAgencyListResponse
+import org.onebusaway.models.routeidsforagency.RouteIdsForAgencyListParams
+import org.onebusaway.models.routeidsforagency.RouteIdsForAgencyListResponse
 
 interface RouteIdsForAgencyServiceAsync {
 
@@ -17,9 +17,24 @@ interface RouteIdsForAgencyServiceAsync {
 
     /** Get route IDs for a specific agency */
     suspend fun list(
+        agencyId: String,
+        params: RouteIdsForAgencyListParams = RouteIdsForAgencyListParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): RouteIdsForAgencyListResponse =
+        list(params.toBuilder().agencyId(agencyId).build(), requestOptions)
+
+    /** @see [list] */
+    suspend fun list(
         params: RouteIdsForAgencyListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): RouteIdsForAgencyListResponse
+
+    /** @see [list] */
+    suspend fun list(
+        agencyId: String,
+        requestOptions: RequestOptions,
+    ): RouteIdsForAgencyListResponse =
+        list(agencyId, RouteIdsForAgencyListParams.none(), requestOptions)
 
     /**
      * A view of [RouteIdsForAgencyServiceAsync] that provides access to raw HTTP responses for each
@@ -33,8 +48,25 @@ interface RouteIdsForAgencyServiceAsync {
          */
         @MustBeClosed
         suspend fun list(
+            agencyId: String,
+            params: RouteIdsForAgencyListParams = RouteIdsForAgencyListParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<RouteIdsForAgencyListResponse> =
+            list(params.toBuilder().agencyId(agencyId).build(), requestOptions)
+
+        /** @see [list] */
+        @MustBeClosed
+        suspend fun list(
             params: RouteIdsForAgencyListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<RouteIdsForAgencyListResponse>
+
+        /** @see [list] */
+        @MustBeClosed
+        suspend fun list(
+            agencyId: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<RouteIdsForAgencyListResponse> =
+            list(agencyId, RouteIdsForAgencyListParams.none(), requestOptions)
     }
 }

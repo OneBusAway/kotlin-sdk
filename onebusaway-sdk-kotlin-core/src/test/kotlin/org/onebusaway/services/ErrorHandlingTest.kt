@@ -13,6 +13,7 @@ import org.assertj.core.api.Assertions.entry
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import org.junit.jupiter.api.parallel.ResourceLock
 import org.onebusaway.client.OnebusawaySdkClient
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
 import org.onebusaway.core.JsonValue
@@ -21,7 +22,6 @@ import org.onebusaway.core.jsonMapper
 import org.onebusaway.errors.BadRequestException
 import org.onebusaway.errors.InternalServerException
 import org.onebusaway.errors.NotFoundException
-import org.onebusaway.errors.OnebusawaySdkError
 import org.onebusaway.errors.OnebusawaySdkException
 import org.onebusaway.errors.PermissionDeniedException
 import org.onebusaway.errors.RateLimitException
@@ -30,16 +30,14 @@ import org.onebusaway.errors.UnexpectedStatusCodeException
 import org.onebusaway.errors.UnprocessableEntityException
 
 @WireMockTest
-class ErrorHandlingTest {
+@ResourceLock("https://github.com/wiremock/wiremock/issues/169")
+internal class ErrorHandlingTest {
 
     companion object {
 
-        private val ERROR: OnebusawaySdkError =
-            OnebusawaySdkError.builder()
-                .putAdditionalProperty("errorProperty", JsonValue.from("42"))
-                .build()
+        private val ERROR_JSON: JsonValue = JsonValue.from(mapOf("errorProperty" to "42"))
 
-        private val ERROR_JSON: ByteArray = jsonMapper().writeValueAsBytes(ERROR)
+        private val ERROR_JSON_BYTES: ByteArray = jsonMapper().writeValueAsBytes(ERROR_JSON)
 
         private const val HEADER_NAME: String = "Error-Header"
 
@@ -64,14 +62,16 @@ class ErrorHandlingTest {
         val currentTimeService = client.currentTime()
         stubFor(
             get(anyUrl())
-                .willReturn(status(400).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON))
+                .willReturn(
+                    status(400).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
         )
 
         val e = assertThrows<BadRequestException> { currentTimeService.retrieve() }
 
         assertThat(e.statusCode()).isEqualTo(400)
-        assertThat(e.error()).isEqualTo(ERROR)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
     @Test
@@ -79,14 +79,16 @@ class ErrorHandlingTest {
         val currentTimeService = client.currentTime()
         stubFor(
             get(anyUrl())
-                .willReturn(status(401).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON))
+                .willReturn(
+                    status(401).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
         )
 
         val e = assertThrows<UnauthorizedException> { currentTimeService.retrieve() }
 
         assertThat(e.statusCode()).isEqualTo(401)
-        assertThat(e.error()).isEqualTo(ERROR)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
     @Test
@@ -94,14 +96,16 @@ class ErrorHandlingTest {
         val currentTimeService = client.currentTime()
         stubFor(
             get(anyUrl())
-                .willReturn(status(403).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON))
+                .willReturn(
+                    status(403).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
         )
 
         val e = assertThrows<PermissionDeniedException> { currentTimeService.retrieve() }
 
         assertThat(e.statusCode()).isEqualTo(403)
-        assertThat(e.error()).isEqualTo(ERROR)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
     @Test
@@ -109,14 +113,16 @@ class ErrorHandlingTest {
         val currentTimeService = client.currentTime()
         stubFor(
             get(anyUrl())
-                .willReturn(status(404).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON))
+                .willReturn(
+                    status(404).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
         )
 
         val e = assertThrows<NotFoundException> { currentTimeService.retrieve() }
 
         assertThat(e.statusCode()).isEqualTo(404)
-        assertThat(e.error()).isEqualTo(ERROR)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
     @Test
@@ -124,14 +130,16 @@ class ErrorHandlingTest {
         val currentTimeService = client.currentTime()
         stubFor(
             get(anyUrl())
-                .willReturn(status(422).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON))
+                .willReturn(
+                    status(422).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
         )
 
         val e = assertThrows<UnprocessableEntityException> { currentTimeService.retrieve() }
 
         assertThat(e.statusCode()).isEqualTo(422)
-        assertThat(e.error()).isEqualTo(ERROR)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
     @Test
@@ -139,14 +147,16 @@ class ErrorHandlingTest {
         val currentTimeService = client.currentTime()
         stubFor(
             get(anyUrl())
-                .willReturn(status(429).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON))
+                .willReturn(
+                    status(429).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
         )
 
         val e = assertThrows<RateLimitException> { currentTimeService.retrieve() }
 
         assertThat(e.statusCode()).isEqualTo(429)
-        assertThat(e.error()).isEqualTo(ERROR)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
     @Test
@@ -154,14 +164,16 @@ class ErrorHandlingTest {
         val currentTimeService = client.currentTime()
         stubFor(
             get(anyUrl())
-                .willReturn(status(500).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON))
+                .willReturn(
+                    status(500).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
         )
 
         val e = assertThrows<InternalServerException> { currentTimeService.retrieve() }
 
         assertThat(e.statusCode()).isEqualTo(500)
-        assertThat(e.error()).isEqualTo(ERROR)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
     @Test
@@ -169,14 +181,16 @@ class ErrorHandlingTest {
         val currentTimeService = client.currentTime()
         stubFor(
             get(anyUrl())
-                .willReturn(status(999).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON))
+                .willReturn(
+                    status(999).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
         )
 
         val e = assertThrows<UnexpectedStatusCodeException> { currentTimeService.retrieve() }
 
         assertThat(e.statusCode()).isEqualTo(999)
-        assertThat(e.error()).isEqualTo(ERROR)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
     @Test

@@ -7,10 +7,10 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.onebusaway.TestServerExtension
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
-import org.onebusaway.models.ScheduleForRouteRetrieveParams
+import org.onebusaway.models.scheduleforroute.ScheduleForRouteRetrieveParams
 
 @ExtendWith(TestServerExtension::class)
-class ScheduleForRouteServiceTest {
+internal class ScheduleForRouteServiceTest {
 
     @Test
     fun retrieve() {

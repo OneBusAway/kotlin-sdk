@@ -3,7 +3,9 @@
 package org.onebusaway.services.async
 
 import org.onebusaway.core.ClientOptions
+import org.onebusaway.core.JsonValue
 import org.onebusaway.core.RequestOptions
+import org.onebusaway.core.checkRequired
 import org.onebusaway.core.handlers.errorHandler
 import org.onebusaway.core.handlers.jsonHandler
 import org.onebusaway.core.handlers.withErrorHandler
@@ -13,9 +15,8 @@ import org.onebusaway.core.http.HttpResponse.Handler
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.core.http.parseable
 import org.onebusaway.core.prepareAsync
-import org.onebusaway.errors.OnebusawaySdkError
-import org.onebusaway.models.TripRetrieveParams
-import org.onebusaway.models.TripRetrieveResponse
+import org.onebusaway.models.trip.TripRetrieveParams
+import org.onebusaway.models.trip.TripRetrieveResponse
 
 class TripServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     TripServiceAsync {
@@ -36,8 +37,7 @@ class TripServiceAsyncImpl internal constructor(private val clientOptions: Clien
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         TripServiceAsync.WithRawResponse {
 
-        private val errorHandler: Handler<OnebusawaySdkError> =
-            errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
         private val retrieveHandler: Handler<TripRetrieveResponse> =
             jsonHandler<TripRetrieveResponse>(clientOptions.jsonMapper)
@@ -47,10 +47,13 @@ class TripServiceAsyncImpl internal constructor(private val clientOptions: Clien
             params: TripRetrieveParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<TripRetrieveResponse> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("tripId", params.tripId())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
-                    .addPathSegments("api", "where", "trip", "${params.getPathParam(0)}.json")
+                    .addPathSegments("api", "where", "trip", "${params._pathParam(0)}.json")
                     .build()
                     .prepareAsync(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))

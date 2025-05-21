@@ -2,18 +2,22 @@
 
 <!-- x-release-please-start-version -->
 
-[![Maven Central](https://img.shields.io/maven-central/v/org.onebusaway/onebusaway-sdk-kotlin)](https://central.sonatype.com/artifact/org.onebusaway/onebusaway-sdk-kotlin/0.1.0-alpha.69)
-[![javadoc](https://javadoc.io/badge2/org.onebusaway/onebusaway-sdk-kotlin/0.1.0-alpha.69/javadoc.svg)](https://javadoc.io/doc/org.onebusaway/onebusaway-sdk-kotlin/0.1.0-alpha.69)
+[![Maven Central](https://img.shields.io/maven-central/v/org.onebusaway/onebusaway-sdk-kotlin)](https://central.sonatype.com/artifact/org.onebusaway/onebusaway-sdk-kotlin/0.1.0-alpha.70)
+[![javadoc](https://javadoc.io/badge2/org.onebusaway/onebusaway-sdk-kotlin/0.1.0-alpha.70/javadoc.svg)](https://javadoc.io/doc/org.onebusaway/onebusaway-sdk-kotlin/0.1.0-alpha.70)
 
 <!-- x-release-please-end -->
 
-The Onebusaway SDK Kotlin SDK provides convenient access to the Onebusaway SDK REST API from applications written in Kotlin.
+The Onebusaway SDK Kotlin SDK provides convenient access to the [Onebusaway SDK REST API](https://developer.onebusaway.org) from applications written in Kotlin.
 
 The Onebusaway SDK Kotlin SDK is similar to the Onebusaway SDK Java SDK but with minor differences that make it more ergonomic for use in Kotlin, such as nullable values instead of `Optional`, `Sequence` instead of `Stream`, and suspend functions instead of `CompletableFuture`.
 
 It is generated with [Stainless](https://www.stainless.com/).
 
-The REST API documentation can be found on [developer.onebusaway.org](https://developer.onebusaway.org). KDocs are also available on [javadoc.io](https://javadoc.io/doc/org.onebusaway/onebusaway-sdk-kotlin/0.1.0-alpha.65).
+<!-- x-release-please-start-version -->
+
+The REST API documentation can be found on [developer.onebusaway.org](https://developer.onebusaway.org). KDocs are available on [javadoc.io](https://javadoc.io/doc/org.onebusaway/onebusaway-sdk-kotlin/0.1.0-alpha.70).
+
+<!-- x-release-please-end -->
 
 ## Installation
 
@@ -22,16 +26,16 @@ The REST API documentation can be found on [developer.onebusaway.org](https://de
 ### Gradle
 
 ```kotlin
-implementation("org.onebusaway:onebusaway-sdk-kotlin:0.1.0-alpha.69")
+implementation("org.onebusaway:onebusaway-sdk-kotlin:0.1.0-alpha.70")
 ```
 
 ### Maven
 
 ```xml
 <dependency>
-    <groupId>org.onebusaway</groupId>
-    <artifactId>onebusaway-sdk-kotlin</artifactId>
-    <version>0.1.0-alpha.69</version>
+  <groupId>org.onebusaway</groupId>
+  <artifactId>onebusaway-sdk-kotlin</artifactId>
+  <version>0.1.0-alpha.70</version>
 </dependency>
 ```
 
@@ -46,10 +50,10 @@ This library requires Java 8 or later.
 ```kotlin
 import org.onebusaway.client.OnebusawaySdkClient
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
-import org.onebusaway.models.CurrentTimeRetrieveParams
-import org.onebusaway.models.CurrentTimeRetrieveResponse
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveParams
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveResponse
 
-// Configures using the `ONEBUSAWAY_API_KEY` environment variable
+// Configures using the `ONEBUSAWAY_API_KEY` and `ONEBUSAWAY_SDK_BASE_URL` environment variables
 val client: OnebusawaySdkClient = OnebusawaySdkOkHttpClient.fromEnv()
 
 val currentTime: CurrentTimeRetrieveResponse = client.currentTime().retrieve()
@@ -63,7 +67,7 @@ Configure the client using environment variables:
 import org.onebusaway.client.OnebusawaySdkClient
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
 
-// Configures using the `ONEBUSAWAY_API_KEY` environment variable
+// Configures using the `ONEBUSAWAY_API_KEY` and `ONEBUSAWAY_SDK_BASE_URL` environment variables
 val client: OnebusawaySdkClient = OnebusawaySdkOkHttpClient.fromEnv()
 ```
 
@@ -85,7 +89,7 @@ import org.onebusaway.client.OnebusawaySdkClient
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
 
 val client: OnebusawaySdkClient = OnebusawaySdkOkHttpClient.builder()
-    // Configures using the `ONEBUSAWAY_API_KEY` environment variable
+    // Configures using the `ONEBUSAWAY_API_KEY` and `ONEBUSAWAY_SDK_BASE_URL` environment variables
     .fromEnv()
     .apiKey("My API Key")
     .build()
@@ -93,9 +97,10 @@ val client: OnebusawaySdkClient = OnebusawaySdkOkHttpClient.builder()
 
 See this table for the available options:
 
-| Setter   | Environment variable | Required | Default value |
-| -------- | -------------------- | -------- | ------------- |
-| `apiKey` | `ONEBUSAWAY_API_KEY` | true     | -             |
+| Setter    | Environment variable      | Required | Default value                             |
+| --------- | ------------------------- | -------- | ----------------------------------------- |
+| `apiKey`  | `ONEBUSAWAY_API_KEY`      | true     | -                                         |
+| `baseUrl` | `ONEBUSAWAY_SDK_BASE_URL` | true     | `"https://api.pugetsound.onebusaway.org"` |
 
 > [!TIP]
 > Don't create more than one client in the same application. Each client has a connection pool and
@@ -122,10 +127,10 @@ The default client is synchronous. To switch to asynchronous execution, call the
 ```kotlin
 import org.onebusaway.client.OnebusawaySdkClient
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
-import org.onebusaway.models.CurrentTimeRetrieveParams
-import org.onebusaway.models.CurrentTimeRetrieveResponse
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveParams
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveResponse
 
-// Configures using the `ONEBUSAWAY_API_KEY` environment variable
+// Configures using the `ONEBUSAWAY_API_KEY` and `ONEBUSAWAY_SDK_BASE_URL` environment variables
 val client: OnebusawaySdkClient = OnebusawaySdkOkHttpClient.fromEnv()
 
 val currentTime: CurrentTimeRetrieveResponse = client.async().currentTime().retrieve()
@@ -136,10 +141,10 @@ Or create an asynchronous client from the beginning:
 ```kotlin
 import org.onebusaway.client.OnebusawaySdkClientAsync
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClientAsync
-import org.onebusaway.models.CurrentTimeRetrieveParams
-import org.onebusaway.models.CurrentTimeRetrieveResponse
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveParams
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveResponse
 
-// Configures using the `ONEBUSAWAY_API_KEY` environment variable
+// Configures using the `ONEBUSAWAY_API_KEY` and `ONEBUSAWAY_SDK_BASE_URL` environment variables
 val client: OnebusawaySdkClientAsync = OnebusawaySdkOkHttpClientAsync.fromEnv()
 
 val currentTime: CurrentTimeRetrieveResponse = client.currentTime().retrieve()
@@ -156,8 +161,8 @@ To access this data, prefix any HTTP method call on a client or service with `wi
 ```kotlin
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.HttpResponseFor
-import org.onebusaway.models.CurrentTimeRetrieveParams
-import org.onebusaway.models.CurrentTimeRetrieveResponse
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveParams
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveResponse
 
 val currentTime: HttpResponseFor<CurrentTimeRetrieveResponse> = client.currentTime().withRawResponse().retrieve()
 
@@ -168,7 +173,7 @@ val headers: Headers = currentTime.headers()
 You can still deserialize the response into an instance of a Kotlin class if needed:
 
 ```kotlin
-import org.onebusaway.models.CurrentTimeRetrieveResponse
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveResponse
 
 val parsedCurrentTime: CurrentTimeRetrieveResponse = currentTime.parse()
 ```
@@ -179,16 +184,16 @@ The SDK throws custom unchecked exception types:
 
 - [`OnebusawaySdkServiceException`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/errors/OnebusawaySdkServiceException.kt): Base class for HTTP errors. See this table for which exception subclass is thrown for each HTTP status code:
 
-  | Status | Exception                       |
-  | ------ | ------------------------------- |
-  | 400    | `BadRequestException`           |
-  | 401    | `AuthenticationException`       |
-  | 403    | `PermissionDeniedException`     |
-  | 404    | `NotFoundException`             |
-  | 422    | `UnprocessableEntityException`  |
-  | 429    | `RateLimitException`            |
-  | 5xx    | `InternalServerException`       |
-  | others | `UnexpectedStatusCodeException` |
+  | Status | Exception                                                                                                                            |
+  | ------ | ------------------------------------------------------------------------------------------------------------------------------------ |
+  | 400    | [`BadRequestException`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/errors/BadRequestException.kt)                     |
+  | 401    | [`UnauthorizedException`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/errors/UnauthorizedException.kt)                 |
+  | 403    | [`PermissionDeniedException`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/errors/PermissionDeniedException.kt)         |
+  | 404    | [`NotFoundException`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/errors/NotFoundException.kt)                         |
+  | 422    | [`UnprocessableEntityException`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/errors/UnprocessableEntityException.kt)   |
+  | 429    | [`RateLimitException`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/errors/RateLimitException.kt)                       |
+  | 5xx    | [`InternalServerException`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/errors/InternalServerException.kt)             |
+  | others | [`UnexpectedStatusCodeException`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/errors/UnexpectedStatusCodeException.kt) |
 
 - [`OnebusawaySdkIoException`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/errors/OnebusawaySdkIoException.kt): I/O networking errors.
 
@@ -211,6 +216,17 @@ Or to `debug` for more verbose logging:
 ```sh
 $ export ONEBUSAWAY_SDK_LOG=debug
 ```
+
+## Jackson
+
+The SDK depends on [Jackson](https://github.com/FasterXML/jackson) for JSON serialization/deserialization. It is compatible with version 2.13.4 or higher, but depends on version 2.18.2 by default.
+
+The SDK throws an exception if it detects an incompatible Jackson version at runtime (e.g. if the default version was overridden in your Maven or Gradle config).
+
+If the SDK threw an exception, but you're _certain_ the version is compatible, then disable the version check using the `checkJacksonVersionCompatibility` on [`OnebusawaySdkOkHttpClient`](onebusaway-sdk-kotlin-client-okhttp/src/main/kotlin/org/onebusaway/client/okhttp/OnebusawaySdkOkHttpClient.kt) or [`OnebusawaySdkOkHttpClientAsync`](onebusaway-sdk-kotlin-client-okhttp/src/main/kotlin/org/onebusaway/client/okhttp/OnebusawaySdkOkHttpClientAsync.kt).
+
+> [!CAUTION]
+> We make no guarantee that the SDK works correctly when the Jackson version check is disabled.
 
 ## Network options
 
@@ -247,8 +263,7 @@ Requests time out after 1 minute by default.
 To set a custom timeout, configure the method call using the `timeout` method:
 
 ```kotlin
-import org.onebusaway.models.CurrentTimeRetrieveParams
-import org.onebusaway.models.CurrentTimeRetrieveResponse
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveResponse
 
 val currentTime: CurrentTimeRetrieveResponse = client.currentTime().retrieve(RequestOptions.builder().timeout(Duration.ofSeconds(30)).build())
 ```
@@ -286,6 +301,42 @@ val client: OnebusawaySdkClient = OnebusawaySdkOkHttpClient.builder()
     .build()
 ```
 
+### Custom HTTP client
+
+The SDK consists of three artifacts:
+
+- `onebusaway-sdk-kotlin-core`
+  - Contains core SDK logic
+  - Does not depend on [OkHttp](https://square.github.io/okhttp)
+  - Exposes [`OnebusawaySdkClient`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/client/OnebusawaySdkClient.kt), [`OnebusawaySdkClientAsync`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/client/OnebusawaySdkClientAsync.kt), [`OnebusawaySdkClientImpl`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/client/OnebusawaySdkClientImpl.kt), and [`OnebusawaySdkClientAsyncImpl`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/client/OnebusawaySdkClientAsyncImpl.kt), all of which can work with any HTTP client
+- `onebusaway-sdk-kotlin-client-okhttp`
+  - Depends on [OkHttp](https://square.github.io/okhttp)
+  - Exposes [`OnebusawaySdkOkHttpClient`](onebusaway-sdk-kotlin-client-okhttp/src/main/kotlin/org/onebusaway/client/okhttp/OnebusawaySdkOkHttpClient.kt) and [`OnebusawaySdkOkHttpClientAsync`](onebusaway-sdk-kotlin-client-okhttp/src/main/kotlin/org/onebusaway/client/okhttp/OnebusawaySdkOkHttpClientAsync.kt), which provide a way to construct [`OnebusawaySdkClientImpl`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/client/OnebusawaySdkClientImpl.kt) and [`OnebusawaySdkClientAsyncImpl`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/client/OnebusawaySdkClientAsyncImpl.kt), respectively, using OkHttp
+- `onebusaway-sdk-kotlin`
+  - Depends on and exposes the APIs of both `onebusaway-sdk-kotlin-core` and `onebusaway-sdk-kotlin-client-okhttp`
+  - Does not have its own logic
+
+This structure allows replacing the SDK's default HTTP client without pulling in unnecessary dependencies.
+
+#### Customized [`OkHttpClient`](https://square.github.io/okhttp/3.x/okhttp/okhttp3/OkHttpClient.html)
+
+> [!TIP]
+> Try the available [network options](#network-options) before replacing the default client.
+
+To use a customized `OkHttpClient`:
+
+1. Replace your [`onebusaway-sdk-kotlin` dependency](#installation) with `onebusaway-sdk-kotlin-core`
+2. Copy `onebusaway-sdk-kotlin-client-okhttp`'s [`OkHttpClient`](onebusaway-sdk-kotlin-client-okhttp/src/main/kotlin/org/onebusaway/client/okhttp/OkHttpClient.kt) class into your code and customize it
+3. Construct [`OnebusawaySdkClientImpl`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/client/OnebusawaySdkClientImpl.kt) or [`OnebusawaySdkClientAsyncImpl`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/client/OnebusawaySdkClientAsyncImpl.kt), similarly to [`OnebusawaySdkOkHttpClient`](onebusaway-sdk-kotlin-client-okhttp/src/main/kotlin/org/onebusaway/client/okhttp/OnebusawaySdkOkHttpClient.kt) or [`OnebusawaySdkOkHttpClientAsync`](onebusaway-sdk-kotlin-client-okhttp/src/main/kotlin/org/onebusaway/client/okhttp/OnebusawaySdkOkHttpClientAsync.kt), using your customized client
+
+### Completely custom HTTP client
+
+To use a completely custom HTTP client:
+
+1. Replace your [`onebusaway-sdk-kotlin` dependency](#installation) with `onebusaway-sdk-kotlin-core`
+2. Write a class that implements the [`HttpClient`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/core/http/HttpClient.kt) interface
+3. Construct [`OnebusawaySdkClientImpl`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/client/OnebusawaySdkClientImpl.kt) or [`OnebusawaySdkClientAsyncImpl`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/client/OnebusawaySdkClientAsyncImpl.kt), similarly to [`OnebusawaySdkOkHttpClient`](onebusaway-sdk-kotlin-client-okhttp/src/main/kotlin/org/onebusaway/client/okhttp/OnebusawaySdkOkHttpClient.kt) or [`OnebusawaySdkOkHttpClientAsync`](onebusaway-sdk-kotlin-client-okhttp/src/main/kotlin/org/onebusaway/client/okhttp/OnebusawaySdkOkHttpClientAsync.kt), using your new client class
+
 ## Undocumented API functionality
 
 The SDK is typed for convenient usage of the documented API. However, it also supports working with undocumented or not yet supported parts of the API.
@@ -296,7 +347,7 @@ To set undocumented parameters, call the `putAdditionalHeader`, `putAdditionalQu
 
 ```kotlin
 import org.onebusaway.core.JsonValue
-import org.onebusaway.models.CurrentTimeRetrieveParams
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveParams
 
 val params: CurrentTimeRetrieveParams = CurrentTimeRetrieveParams.builder()
     .putAdditionalHeader("Secret-Header", "42")
@@ -310,7 +361,7 @@ These can be accessed on the built object later using the `_additionalHeaders()`
 To set a documented parameter or property to an undocumented or not yet supported _value_, pass a [`JsonValue`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/core/Values.kt) object to its setter:
 
 ```kotlin
-import org.onebusaway.models.CurrentTimeRetrieveParams
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveParams
 
 val params: CurrentTimeRetrieveParams = CurrentTimeRetrieveParams.builder().build()
 ```
@@ -348,6 +399,20 @@ val complexValue: JsonValue = JsonValue.from(mapOf(
     3, 4
   )
 ))
+```
+
+Normally a `Builder` class's `build` method will throw [`IllegalStateException`](https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html) if any required parameter or property is unset.
+
+To forcibly omit a required parameter or property, pass [`JsonMissing`](onebusaway-sdk-kotlin-core/src/main/kotlin/org/onebusaway/core/Values.kt):
+
+```kotlin
+import org.onebusaway.core.JsonMissing
+import org.onebusaway.models.agency.AgencyRetrieveParams
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveParams
+
+val params: CurrentTimeRetrieveParams = AgencyRetrieveParams.builder()
+    .agencyId(JsonMissing.of())
+    .build()
 ```
 
 ### Response properties
@@ -402,7 +467,7 @@ By default, the SDK will not throw an exception in this case. It will throw [`On
 If you would prefer to check that the response is completely well-typed upfront, then either call `validate()`:
 
 ```kotlin
-import org.onebusaway.models.CurrentTimeRetrieveResponse
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveResponse
 
 val currentTime: CurrentTimeRetrieveResponse = client.currentTime().retrieve(params).validate()
 ```
@@ -410,8 +475,7 @@ val currentTime: CurrentTimeRetrieveResponse = client.currentTime().retrieve(par
 Or configure the method call to validate the response using the `responseValidation` method:
 
 ```kotlin
-import org.onebusaway.models.CurrentTimeRetrieveParams
-import org.onebusaway.models.CurrentTimeRetrieveResponse
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveResponse
 
 val currentTime: CurrentTimeRetrieveResponse = client.currentTime().retrieve(RequestOptions.builder().responseValidation(true).build())
 ```

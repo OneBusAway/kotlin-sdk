@@ -5,8 +5,8 @@ package org.onebusaway.services.async
 import com.google.errorprone.annotations.MustBeClosed
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.http.HttpResponseFor
-import org.onebusaway.models.BlockRetrieveParams
-import org.onebusaway.models.BlockRetrieveResponse
+import org.onebusaway.models.block.BlockRetrieveParams
+import org.onebusaway.models.block.BlockRetrieveResponse
 
 interface BlockServiceAsync {
 
@@ -17,9 +17,20 @@ interface BlockServiceAsync {
 
     /** Get details of a specific block by ID */
     suspend fun retrieve(
+        blockId: String,
+        params: BlockRetrieveParams = BlockRetrieveParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): BlockRetrieveResponse = retrieve(params.toBuilder().blockId(blockId).build(), requestOptions)
+
+    /** @see [retrieve] */
+    suspend fun retrieve(
         params: BlockRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): BlockRetrieveResponse
+
+    /** @see [retrieve] */
+    suspend fun retrieve(blockId: String, requestOptions: RequestOptions): BlockRetrieveResponse =
+        retrieve(blockId, BlockRetrieveParams.none(), requestOptions)
 
     /** A view of [BlockServiceAsync] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
@@ -30,8 +41,25 @@ interface BlockServiceAsync {
          */
         @MustBeClosed
         suspend fun retrieve(
+            blockId: String,
+            params: BlockRetrieveParams = BlockRetrieveParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<BlockRetrieveResponse> =
+            retrieve(params.toBuilder().blockId(blockId).build(), requestOptions)
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        suspend fun retrieve(
             params: BlockRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<BlockRetrieveResponse>
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        suspend fun retrieve(
+            blockId: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<BlockRetrieveResponse> =
+            retrieve(blockId, BlockRetrieveParams.none(), requestOptions)
     }
 }

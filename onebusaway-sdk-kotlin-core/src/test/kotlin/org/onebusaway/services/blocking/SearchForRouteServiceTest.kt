@@ -6,10 +6,10 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.onebusaway.TestServerExtension
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
-import org.onebusaway.models.SearchForRouteListParams
+import org.onebusaway.models.searchforroute.SearchForRouteListParams
 
 @ExtendWith(TestServerExtension::class)
-class SearchForRouteServiceTest {
+internal class SearchForRouteServiceTest {
 
     @Test
     fun list() {
@@ -20,11 +20,11 @@ class SearchForRouteServiceTest {
                 .build()
         val searchForRouteService = client.searchForRoute()
 
-        val searchForRoute =
+        val searchForRoutes =
             searchForRouteService.list(
                 SearchForRouteListParams.builder().input("input").maxCount(0L).build()
             )
 
-        searchForRoute.validate()
+        searchForRoutes.validate()
     }
 }

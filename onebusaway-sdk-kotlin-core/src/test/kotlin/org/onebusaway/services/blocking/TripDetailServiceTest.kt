@@ -6,10 +6,10 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.onebusaway.TestServerExtension
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
-import org.onebusaway.models.TripDetailRetrieveParams
+import org.onebusaway.models.tripdetails.TripDetailRetrieveParams
 
 @ExtendWith(TestServerExtension::class)
-class TripDetailServiceTest {
+internal class TripDetailServiceTest {
 
     @Test
     fun retrieve() {

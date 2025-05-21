@@ -3,7 +3,9 @@
 package org.onebusaway.services.async
 
 import org.onebusaway.core.ClientOptions
+import org.onebusaway.core.JsonValue
 import org.onebusaway.core.RequestOptions
+import org.onebusaway.core.checkRequired
 import org.onebusaway.core.handlers.errorHandler
 import org.onebusaway.core.handlers.jsonHandler
 import org.onebusaway.core.handlers.withErrorHandler
@@ -13,9 +15,8 @@ import org.onebusaway.core.http.HttpResponse.Handler
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.core.http.parseable
 import org.onebusaway.core.prepareAsync
-import org.onebusaway.errors.OnebusawaySdkError
-import org.onebusaway.models.ScheduleForRouteRetrieveParams
-import org.onebusaway.models.ScheduleForRouteRetrieveResponse
+import org.onebusaway.models.scheduleforroute.ScheduleForRouteRetrieveParams
+import org.onebusaway.models.scheduleforroute.ScheduleForRouteRetrieveResponse
 
 class ScheduleForRouteServiceAsyncImpl
 internal constructor(private val clientOptions: ClientOptions) : ScheduleForRouteServiceAsync {
@@ -36,8 +37,7 @@ internal constructor(private val clientOptions: ClientOptions) : ScheduleForRout
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         ScheduleForRouteServiceAsync.WithRawResponse {
 
-        private val errorHandler: Handler<OnebusawaySdkError> =
-            errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
         private val retrieveHandler: Handler<ScheduleForRouteRetrieveResponse> =
             jsonHandler<ScheduleForRouteRetrieveResponse>(clientOptions.jsonMapper)
@@ -47,6 +47,9 @@ internal constructor(private val clientOptions: ClientOptions) : ScheduleForRout
             params: ScheduleForRouteRetrieveParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<ScheduleForRouteRetrieveResponse> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("routeId", params.routeId())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -54,7 +57,7 @@ internal constructor(private val clientOptions: ClientOptions) : ScheduleForRout
                         "api",
                         "where",
                         "schedule-for-route",
-                        "${params.getPathParam(0)}.json",
+                        "${params._pathParam(0)}.json",
                     )
                     .build()
                     .prepareAsync(clientOptions, params)

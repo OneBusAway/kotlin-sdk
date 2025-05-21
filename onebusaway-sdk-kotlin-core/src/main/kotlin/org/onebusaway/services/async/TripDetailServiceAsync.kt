@@ -5,8 +5,8 @@ package org.onebusaway.services.async
 import com.google.errorprone.annotations.MustBeClosed
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.http.HttpResponseFor
-import org.onebusaway.models.TripDetailRetrieveParams
-import org.onebusaway.models.TripDetailRetrieveResponse
+import org.onebusaway.models.tripdetails.TripDetailRetrieveParams
+import org.onebusaway.models.tripdetails.TripDetailRetrieveResponse
 
 interface TripDetailServiceAsync {
 
@@ -17,9 +17,24 @@ interface TripDetailServiceAsync {
 
     /** Retrieve Trip Details */
     suspend fun retrieve(
+        tripId: String,
+        params: TripDetailRetrieveParams = TripDetailRetrieveParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): TripDetailRetrieveResponse =
+        retrieve(params.toBuilder().tripId(tripId).build(), requestOptions)
+
+    /** @see [retrieve] */
+    suspend fun retrieve(
         params: TripDetailRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): TripDetailRetrieveResponse
+
+    /** @see [retrieve] */
+    suspend fun retrieve(
+        tripId: String,
+        requestOptions: RequestOptions,
+    ): TripDetailRetrieveResponse =
+        retrieve(tripId, TripDetailRetrieveParams.none(), requestOptions)
 
     /**
      * A view of [TripDetailServiceAsync] that provides access to raw HTTP responses for each
@@ -33,8 +48,25 @@ interface TripDetailServiceAsync {
          */
         @MustBeClosed
         suspend fun retrieve(
+            tripId: String,
+            params: TripDetailRetrieveParams = TripDetailRetrieveParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<TripDetailRetrieveResponse> =
+            retrieve(params.toBuilder().tripId(tripId).build(), requestOptions)
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        suspend fun retrieve(
             params: TripDetailRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<TripDetailRetrieveResponse>
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        suspend fun retrieve(
+            tripId: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<TripDetailRetrieveResponse> =
+            retrieve(tripId, TripDetailRetrieveParams.none(), requestOptions)
     }
 }

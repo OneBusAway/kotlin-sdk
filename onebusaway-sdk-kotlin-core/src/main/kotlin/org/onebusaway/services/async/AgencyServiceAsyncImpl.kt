@@ -3,7 +3,9 @@
 package org.onebusaway.services.async
 
 import org.onebusaway.core.ClientOptions
+import org.onebusaway.core.JsonValue
 import org.onebusaway.core.RequestOptions
+import org.onebusaway.core.checkRequired
 import org.onebusaway.core.handlers.errorHandler
 import org.onebusaway.core.handlers.jsonHandler
 import org.onebusaway.core.handlers.withErrorHandler
@@ -13,9 +15,8 @@ import org.onebusaway.core.http.HttpResponse.Handler
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.core.http.parseable
 import org.onebusaway.core.prepareAsync
-import org.onebusaway.errors.OnebusawaySdkError
-import org.onebusaway.models.AgencyRetrieveParams
-import org.onebusaway.models.AgencyRetrieveResponse
+import org.onebusaway.models.agency.AgencyRetrieveParams
+import org.onebusaway.models.agency.AgencyRetrieveResponse
 
 class AgencyServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     AgencyServiceAsync {
@@ -36,8 +37,7 @@ class AgencyServiceAsyncImpl internal constructor(private val clientOptions: Cli
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         AgencyServiceAsync.WithRawResponse {
 
-        private val errorHandler: Handler<OnebusawaySdkError> =
-            errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
         private val retrieveHandler: Handler<AgencyRetrieveResponse> =
             jsonHandler<AgencyRetrieveResponse>(clientOptions.jsonMapper)
@@ -47,10 +47,13 @@ class AgencyServiceAsyncImpl internal constructor(private val clientOptions: Cli
             params: AgencyRetrieveParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<AgencyRetrieveResponse> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("agencyId", params.agencyId())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
-                    .addPathSegments("api", "where", "agency", "${params.getPathParam(0)}.json")
+                    .addPathSegments("api", "where", "agency", "${params._pathParam(0)}.json")
                     .build()
                     .prepareAsync(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))

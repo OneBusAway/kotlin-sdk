@@ -6,91 +6,136 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
+import java.util.Collections
 import java.util.Objects
 import org.onebusaway.core.Enum
 import org.onebusaway.core.ExcludeMissing
 import org.onebusaway.core.JsonField
 import org.onebusaway.core.JsonMissing
 import org.onebusaway.core.JsonValue
-import org.onebusaway.core.NoAutoDetect
 import org.onebusaway.core.checkKnown
 import org.onebusaway.core.checkRequired
-import org.onebusaway.core.immutableEmptyMap
 import org.onebusaway.core.toImmutable
 import org.onebusaway.errors.OnebusawaySdkInvalidDataException
 
-@NoAutoDetect
 class References
-@JsonCreator
 private constructor(
-    @JsonProperty("agencies")
-    @ExcludeMissing
-    private val agencies: JsonField<List<Agency>> = JsonMissing.of(),
-    @JsonProperty("routes")
-    @ExcludeMissing
-    private val routes: JsonField<List<Route>> = JsonMissing.of(),
-    @JsonProperty("situations")
-    @ExcludeMissing
-    private val situations: JsonField<List<Situation>> = JsonMissing.of(),
-    @JsonProperty("stops")
-    @ExcludeMissing
-    private val stops: JsonField<List<Stop>> = JsonMissing.of(),
-    @JsonProperty("stopTimes")
-    @ExcludeMissing
-    private val stopTimes: JsonField<List<StopTime>> = JsonMissing.of(),
-    @JsonProperty("trips")
-    @ExcludeMissing
-    private val trips: JsonField<List<Trip>> = JsonMissing.of(),
-    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+    private val agencies: JsonField<List<Agency>>,
+    private val routes: JsonField<List<Route>>,
+    private val situations: JsonField<List<Situation>>,
+    private val stops: JsonField<List<Stop>>,
+    private val stopTimes: JsonField<List<StopTime>>,
+    private val trips: JsonField<List<Trip>>,
+    private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
 
+    @JsonCreator
+    private constructor(
+        @JsonProperty("agencies")
+        @ExcludeMissing
+        agencies: JsonField<List<Agency>> = JsonMissing.of(),
+        @JsonProperty("routes") @ExcludeMissing routes: JsonField<List<Route>> = JsonMissing.of(),
+        @JsonProperty("situations")
+        @ExcludeMissing
+        situations: JsonField<List<Situation>> = JsonMissing.of(),
+        @JsonProperty("stops") @ExcludeMissing stops: JsonField<List<Stop>> = JsonMissing.of(),
+        @JsonProperty("stopTimes")
+        @ExcludeMissing
+        stopTimes: JsonField<List<StopTime>> = JsonMissing.of(),
+        @JsonProperty("trips") @ExcludeMissing trips: JsonField<List<Trip>> = JsonMissing.of(),
+    ) : this(agencies, routes, situations, stops, stopTimes, trips, mutableMapOf())
+
+    /**
+     * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun agencies(): List<Agency> = agencies.getRequired("agencies")
 
+    /**
+     * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun routes(): List<Route> = routes.getRequired("routes")
 
+    /**
+     * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun situations(): List<Situation> = situations.getRequired("situations")
 
+    /**
+     * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun stops(): List<Stop> = stops.getRequired("stops")
 
+    /**
+     * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun stopTimes(): List<StopTime> = stopTimes.getRequired("stopTimes")
 
+    /**
+     * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
     fun trips(): List<Trip> = trips.getRequired("trips")
 
+    /**
+     * Returns the raw JSON value of [agencies].
+     *
+     * Unlike [agencies], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("agencies") @ExcludeMissing fun _agencies(): JsonField<List<Agency>> = agencies
 
+    /**
+     * Returns the raw JSON value of [routes].
+     *
+     * Unlike [routes], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("routes") @ExcludeMissing fun _routes(): JsonField<List<Route>> = routes
 
+    /**
+     * Returns the raw JSON value of [situations].
+     *
+     * Unlike [situations], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("situations")
     @ExcludeMissing
     fun _situations(): JsonField<List<Situation>> = situations
 
+    /**
+     * Returns the raw JSON value of [stops].
+     *
+     * Unlike [stops], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("stops") @ExcludeMissing fun _stops(): JsonField<List<Stop>> = stops
 
+    /**
+     * Returns the raw JSON value of [stopTimes].
+     *
+     * Unlike [stopTimes], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("stopTimes")
     @ExcludeMissing
     fun _stopTimes(): JsonField<List<StopTime>> = stopTimes
 
+    /**
+     * Returns the raw JSON value of [trips].
+     *
+     * Unlike [trips], this method doesn't throw if the JSON field has an unexpected type.
+     */
     @JsonProperty("trips") @ExcludeMissing fun _trips(): JsonField<List<Trip>> = trips
+
+    @JsonAnySetter
+    private fun putAdditionalProperty(key: String, value: JsonValue) {
+        additionalProperties.put(key, value)
+    }
 
     @JsonAnyGetter
     @ExcludeMissing
-    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-    private var validated: Boolean = false
-
-    fun validate(): References = apply {
-        if (validated) {
-            return@apply
-        }
-
-        agencies().forEach { it.validate() }
-        routes().forEach { it.validate() }
-        situations().forEach { it.validate() }
-        stops().forEach { it.validate() }
-        stopTimes().forEach { it.validate() }
-        trips().forEach { it.validate() }
-        validated = true
-    }
+    fun _additionalProperties(): Map<String, JsonValue> =
+        Collections.unmodifiableMap(additionalProperties)
 
     fun toBuilder() = Builder().from(this)
 
@@ -135,10 +180,22 @@ private constructor(
 
         fun agencies(agencies: List<Agency>) = agencies(JsonField.of(agencies))
 
+        /**
+         * Sets [Builder.agencies] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.agencies] with a well-typed `List<Agency>` value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun agencies(agencies: JsonField<List<Agency>>) = apply {
             this.agencies = agencies.map { it.toMutableList() }
         }
 
+        /**
+         * Adds a single [Agency] to [agencies].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
         fun addAgency(agency: Agency) = apply {
             agencies =
                 (agencies ?: JsonField.of(mutableListOf())).also {
@@ -148,10 +205,22 @@ private constructor(
 
         fun routes(routes: List<Route>) = routes(JsonField.of(routes))
 
+        /**
+         * Sets [Builder.routes] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.routes] with a well-typed `List<Route>` value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun routes(routes: JsonField<List<Route>>) = apply {
             this.routes = routes.map { it.toMutableList() }
         }
 
+        /**
+         * Adds a single [Route] to [routes].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
         fun addRoute(route: Route) = apply {
             routes =
                 (routes ?: JsonField.of(mutableListOf())).also {
@@ -161,10 +230,22 @@ private constructor(
 
         fun situations(situations: List<Situation>) = situations(JsonField.of(situations))
 
+        /**
+         * Sets [Builder.situations] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.situations] with a well-typed `List<Situation>` value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun situations(situations: JsonField<List<Situation>>) = apply {
             this.situations = situations.map { it.toMutableList() }
         }
 
+        /**
+         * Adds a single [Situation] to [situations].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
         fun addSituation(situation: Situation) = apply {
             situations =
                 (situations ?: JsonField.of(mutableListOf())).also {
@@ -174,10 +255,22 @@ private constructor(
 
         fun stops(stops: List<Stop>) = stops(JsonField.of(stops))
 
+        /**
+         * Sets [Builder.stops] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.stops] with a well-typed `List<Stop>` value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun stops(stops: JsonField<List<Stop>>) = apply {
             this.stops = stops.map { it.toMutableList() }
         }
 
+        /**
+         * Adds a single [Stop] to [stops].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
         fun addStop(stop: Stop) = apply {
             stops =
                 (stops ?: JsonField.of(mutableListOf())).also { checkKnown("stops", it).add(stop) }
@@ -185,10 +278,22 @@ private constructor(
 
         fun stopTimes(stopTimes: List<StopTime>) = stopTimes(JsonField.of(stopTimes))
 
+        /**
+         * Sets [Builder.stopTimes] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.stopTimes] with a well-typed `List<StopTime>` value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
         fun stopTimes(stopTimes: JsonField<List<StopTime>>) = apply {
             this.stopTimes = stopTimes.map { it.toMutableList() }
         }
 
+        /**
+         * Adds a single [StopTime] to [stopTimes].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
         fun addStopTime(stopTime: StopTime) = apply {
             stopTimes =
                 (stopTimes ?: JsonField.of(mutableListOf())).also {
@@ -198,10 +303,22 @@ private constructor(
 
         fun trips(trips: List<Trip>) = trips(JsonField.of(trips))
 
+        /**
+         * Sets [Builder.trips] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.trips] with a well-typed `List<Trip>` value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
         fun trips(trips: JsonField<List<Trip>>) = apply {
             this.trips = trips.map { it.toMutableList() }
         }
 
+        /**
+         * Adds a single [Trip] to [trips].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
         fun addTrip(trip: Trip) = apply {
             trips =
                 (trips ?: JsonField.of(mutableListOf())).also { checkKnown("trips", it).add(trip) }
@@ -226,6 +343,23 @@ private constructor(
             keys.forEach(::removeAdditionalProperty)
         }
 
+        /**
+         * Returns an immutable instance of [References].
+         *
+         * Further updates to this [Builder] will not mutate the returned instance.
+         *
+         * The following fields are required:
+         * ```kotlin
+         * .agencies()
+         * .routes()
+         * .situations()
+         * .stops()
+         * .stopTimes()
+         * .trips()
+         * ```
+         *
+         * @throws IllegalStateException if any required field is unset.
+         */
         fun build(): References =
             References(
                 checkRequired("agencies", agencies).map { it.toImmutable() },
@@ -234,111 +368,238 @@ private constructor(
                 checkRequired("stops", stops).map { it.toImmutable() },
                 checkRequired("stopTimes", stopTimes).map { it.toImmutable() },
                 checkRequired("trips", trips).map { it.toImmutable() },
-                additionalProperties.toImmutable(),
+                additionalProperties.toMutableMap(),
             )
     }
 
-    @NoAutoDetect
+    private var validated: Boolean = false
+
+    fun validate(): References = apply {
+        if (validated) {
+            return@apply
+        }
+
+        agencies().forEach { it.validate() }
+        routes().forEach { it.validate() }
+        situations().forEach { it.validate() }
+        stops().forEach { it.validate() }
+        stopTimes().forEach { it.validate() }
+        trips().forEach { it.validate() }
+        validated = true
+    }
+
+    fun isValid(): Boolean =
+        try {
+            validate()
+            true
+        } catch (e: OnebusawaySdkInvalidDataException) {
+            false
+        }
+
+    /**
+     * Returns a score indicating how many valid values are contained in this object recursively.
+     *
+     * Used for best match union deserialization.
+     */
+    internal fun validity(): Int =
+        (agencies.asKnown()?.sumOf { it.validity().toInt() } ?: 0) +
+            (routes.asKnown()?.sumOf { it.validity().toInt() } ?: 0) +
+            (situations.asKnown()?.sumOf { it.validity().toInt() } ?: 0) +
+            (stops.asKnown()?.sumOf { it.validity().toInt() } ?: 0) +
+            (stopTimes.asKnown()?.sumOf { it.validity().toInt() } ?: 0) +
+            (trips.asKnown()?.sumOf { it.validity().toInt() } ?: 0)
+
     class Agency
-    @JsonCreator
     private constructor(
-        @JsonProperty("id") @ExcludeMissing private val id: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("name")
-        @ExcludeMissing
-        private val name: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("timezone")
-        @ExcludeMissing
-        private val timezone: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("url") @ExcludeMissing private val url: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("disclaimer")
-        @ExcludeMissing
-        private val disclaimer: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("email")
-        @ExcludeMissing
-        private val email: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("fareUrl")
-        @ExcludeMissing
-        private val fareUrl: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("lang")
-        @ExcludeMissing
-        private val lang: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("phone")
-        @ExcludeMissing
-        private val phone: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("privateService")
-        @ExcludeMissing
-        private val privateService: JsonField<Boolean> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+        private val id: JsonField<String>,
+        private val name: JsonField<String>,
+        private val timezone: JsonField<String>,
+        private val url: JsonField<String>,
+        private val disclaimer: JsonField<String>,
+        private val email: JsonField<String>,
+        private val fareUrl: JsonField<String>,
+        private val lang: JsonField<String>,
+        private val phone: JsonField<String>,
+        private val privateService: JsonField<Boolean>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
+        @JsonCreator
+        private constructor(
+            @JsonProperty("id") @ExcludeMissing id: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("timezone")
+            @ExcludeMissing
+            timezone: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("url") @ExcludeMissing url: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("disclaimer")
+            @ExcludeMissing
+            disclaimer: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("email") @ExcludeMissing email: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("fareUrl") @ExcludeMissing fareUrl: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("lang") @ExcludeMissing lang: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("phone") @ExcludeMissing phone: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("privateService")
+            @ExcludeMissing
+            privateService: JsonField<Boolean> = JsonMissing.of(),
+        ) : this(
+            id,
+            name,
+            timezone,
+            url,
+            disclaimer,
+            email,
+            fareUrl,
+            lang,
+            phone,
+            privateService,
+            mutableMapOf(),
+        )
+
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun id(): String = id.getRequired("id")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun name(): String = name.getRequired("name")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun timezone(): String = timezone.getRequired("timezone")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun url(): String = url.getRequired("url")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
         fun disclaimer(): String? = disclaimer.getNullable("disclaimer")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
         fun email(): String? = email.getNullable("email")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
         fun fareUrl(): String? = fareUrl.getNullable("fareUrl")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
         fun lang(): String? = lang.getNullable("lang")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
         fun phone(): String? = phone.getNullable("phone")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
         fun privateService(): Boolean? = privateService.getNullable("privateService")
 
+        /**
+         * Returns the raw JSON value of [id].
+         *
+         * Unlike [id], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("id") @ExcludeMissing fun _id(): JsonField<String> = id
 
+        /**
+         * Returns the raw JSON value of [name].
+         *
+         * Unlike [name], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
 
+        /**
+         * Returns the raw JSON value of [timezone].
+         *
+         * Unlike [timezone], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("timezone") @ExcludeMissing fun _timezone(): JsonField<String> = timezone
 
+        /**
+         * Returns the raw JSON value of [url].
+         *
+         * Unlike [url], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("url") @ExcludeMissing fun _url(): JsonField<String> = url
 
+        /**
+         * Returns the raw JSON value of [disclaimer].
+         *
+         * Unlike [disclaimer], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("disclaimer")
         @ExcludeMissing
         fun _disclaimer(): JsonField<String> = disclaimer
 
+        /**
+         * Returns the raw JSON value of [email].
+         *
+         * Unlike [email], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("email") @ExcludeMissing fun _email(): JsonField<String> = email
 
+        /**
+         * Returns the raw JSON value of [fareUrl].
+         *
+         * Unlike [fareUrl], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("fareUrl") @ExcludeMissing fun _fareUrl(): JsonField<String> = fareUrl
 
+        /**
+         * Returns the raw JSON value of [lang].
+         *
+         * Unlike [lang], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("lang") @ExcludeMissing fun _lang(): JsonField<String> = lang
 
+        /**
+         * Returns the raw JSON value of [phone].
+         *
+         * Unlike [phone], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("phone") @ExcludeMissing fun _phone(): JsonField<String> = phone
 
+        /**
+         * Returns the raw JSON value of [privateService].
+         *
+         * Unlike [privateService], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("privateService")
         @ExcludeMissing
         fun _privateService(): JsonField<Boolean> = privateService
 
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
         @JsonAnyGetter
         @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): Agency = apply {
-            if (validated) {
-                return@apply
-            }
-
-            id()
-            name()
-            timezone()
-            url()
-            disclaimer()
-            email()
-            fareUrl()
-            lang()
-            phone()
-            privateService()
-            validated = true
-        }
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
 
         fun toBuilder() = Builder().from(this)
 
@@ -389,43 +650,113 @@ private constructor(
 
             fun id(id: String) = id(JsonField.of(id))
 
+            /**
+             * Sets [Builder.id] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.id] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun id(id: JsonField<String>) = apply { this.id = id }
 
             fun name(name: String) = name(JsonField.of(name))
 
+            /**
+             * Sets [Builder.name] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.name] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun name(name: JsonField<String>) = apply { this.name = name }
 
             fun timezone(timezone: String) = timezone(JsonField.of(timezone))
 
+            /**
+             * Sets [Builder.timezone] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.timezone] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun timezone(timezone: JsonField<String>) = apply { this.timezone = timezone }
 
             fun url(url: String) = url(JsonField.of(url))
 
+            /**
+             * Sets [Builder.url] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.url] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun url(url: JsonField<String>) = apply { this.url = url }
 
             fun disclaimer(disclaimer: String) = disclaimer(JsonField.of(disclaimer))
 
+            /**
+             * Sets [Builder.disclaimer] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.disclaimer] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun disclaimer(disclaimer: JsonField<String>) = apply { this.disclaimer = disclaimer }
 
             fun email(email: String) = email(JsonField.of(email))
 
+            /**
+             * Sets [Builder.email] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.email] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun email(email: JsonField<String>) = apply { this.email = email }
 
             fun fareUrl(fareUrl: String) = fareUrl(JsonField.of(fareUrl))
 
+            /**
+             * Sets [Builder.fareUrl] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.fareUrl] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun fareUrl(fareUrl: JsonField<String>) = apply { this.fareUrl = fareUrl }
 
             fun lang(lang: String) = lang(JsonField.of(lang))
 
+            /**
+             * Sets [Builder.lang] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.lang] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun lang(lang: JsonField<String>) = apply { this.lang = lang }
 
             fun phone(phone: String) = phone(JsonField.of(phone))
 
+            /**
+             * Sets [Builder.phone] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.phone] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun phone(phone: JsonField<String>) = apply { this.phone = phone }
 
             fun privateService(privateService: Boolean) =
                 privateService(JsonField.of(privateService))
 
+            /**
+             * Sets [Builder.privateService] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.privateService] with a well-typed [Boolean] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun privateService(privateService: JsonField<Boolean>) = apply {
                 this.privateService = privateService
             }
@@ -449,6 +780,21 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
+            /**
+             * Returns an immutable instance of [Agency].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```kotlin
+             * .id()
+             * .name()
+             * .timezone()
+             * .url()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
             fun build(): Agency =
                 Agency(
                     checkRequired("id", id),
@@ -461,9 +807,55 @@ private constructor(
                     lang,
                     phone,
                     privateService,
-                    additionalProperties.toImmutable(),
+                    additionalProperties.toMutableMap(),
                 )
         }
+
+        private var validated: Boolean = false
+
+        fun validate(): Agency = apply {
+            if (validated) {
+                return@apply
+            }
+
+            id()
+            name()
+            timezone()
+            url()
+            disclaimer()
+            email()
+            fareUrl()
+            lang()
+            phone()
+            privateService()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: OnebusawaySdkInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        internal fun validity(): Int =
+            (if (id.asKnown() == null) 0 else 1) +
+                (if (name.asKnown() == null) 0 else 1) +
+                (if (timezone.asKnown() == null) 0 else 1) +
+                (if (url.asKnown() == null) 0 else 1) +
+                (if (disclaimer.asKnown() == null) 0 else 1) +
+                (if (email.asKnown() == null) 0 else 1) +
+                (if (fareUrl.asKnown() == null) 0 else 1) +
+                (if (lang.asKnown() == null) 0 else 1) +
+                (if (phone.asKnown() == null) 0 else 1) +
+                (if (privateService.asKnown() == null) 0 else 1)
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {
@@ -483,105 +875,203 @@ private constructor(
             "Agency{id=$id, name=$name, timezone=$timezone, url=$url, disclaimer=$disclaimer, email=$email, fareUrl=$fareUrl, lang=$lang, phone=$phone, privateService=$privateService, additionalProperties=$additionalProperties}"
     }
 
-    @NoAutoDetect
     class Route
-    @JsonCreator
     private constructor(
-        @JsonProperty("id") @ExcludeMissing private val id: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("agencyId")
-        @ExcludeMissing
-        private val agencyId: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("type") @ExcludeMissing private val type: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("color")
-        @ExcludeMissing
-        private val color: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("description")
-        @ExcludeMissing
-        private val description: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("longName")
-        @ExcludeMissing
-        private val longName: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("nullSafeShortName")
-        @ExcludeMissing
-        private val nullSafeShortName: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("shortName")
-        @ExcludeMissing
-        private val shortName: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("textColor")
-        @ExcludeMissing
-        private val textColor: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("url") @ExcludeMissing private val url: JsonField<String> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+        private val id: JsonField<String>,
+        private val agencyId: JsonField<String>,
+        private val type: JsonField<Long>,
+        private val color: JsonField<String>,
+        private val description: JsonField<String>,
+        private val longName: JsonField<String>,
+        private val nullSafeShortName: JsonField<String>,
+        private val shortName: JsonField<String>,
+        private val textColor: JsonField<String>,
+        private val url: JsonField<String>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
+        @JsonCreator
+        private constructor(
+            @JsonProperty("id") @ExcludeMissing id: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("agencyId")
+            @ExcludeMissing
+            agencyId: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("type") @ExcludeMissing type: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("color") @ExcludeMissing color: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("description")
+            @ExcludeMissing
+            description: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("longName")
+            @ExcludeMissing
+            longName: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("nullSafeShortName")
+            @ExcludeMissing
+            nullSafeShortName: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("shortName")
+            @ExcludeMissing
+            shortName: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("textColor")
+            @ExcludeMissing
+            textColor: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("url") @ExcludeMissing url: JsonField<String> = JsonMissing.of(),
+        ) : this(
+            id,
+            agencyId,
+            type,
+            color,
+            description,
+            longName,
+            nullSafeShortName,
+            shortName,
+            textColor,
+            url,
+            mutableMapOf(),
+        )
+
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun id(): String = id.getRequired("id")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun agencyId(): String = agencyId.getRequired("agencyId")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun type(): Long = type.getRequired("type")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
         fun color(): String? = color.getNullable("color")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
         fun description(): String? = description.getNullable("description")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
         fun longName(): String? = longName.getNullable("longName")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
         fun nullSafeShortName(): String? = nullSafeShortName.getNullable("nullSafeShortName")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
         fun shortName(): String? = shortName.getNullable("shortName")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
         fun textColor(): String? = textColor.getNullable("textColor")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
         fun url(): String? = url.getNullable("url")
 
+        /**
+         * Returns the raw JSON value of [id].
+         *
+         * Unlike [id], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("id") @ExcludeMissing fun _id(): JsonField<String> = id
 
+        /**
+         * Returns the raw JSON value of [agencyId].
+         *
+         * Unlike [agencyId], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("agencyId") @ExcludeMissing fun _agencyId(): JsonField<String> = agencyId
 
+        /**
+         * Returns the raw JSON value of [type].
+         *
+         * Unlike [type], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Long> = type
 
+        /**
+         * Returns the raw JSON value of [color].
+         *
+         * Unlike [color], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("color") @ExcludeMissing fun _color(): JsonField<String> = color
 
+        /**
+         * Returns the raw JSON value of [description].
+         *
+         * Unlike [description], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("description")
         @ExcludeMissing
         fun _description(): JsonField<String> = description
 
+        /**
+         * Returns the raw JSON value of [longName].
+         *
+         * Unlike [longName], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("longName") @ExcludeMissing fun _longName(): JsonField<String> = longName
 
+        /**
+         * Returns the raw JSON value of [nullSafeShortName].
+         *
+         * Unlike [nullSafeShortName], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("nullSafeShortName")
         @ExcludeMissing
         fun _nullSafeShortName(): JsonField<String> = nullSafeShortName
 
+        /**
+         * Returns the raw JSON value of [shortName].
+         *
+         * Unlike [shortName], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("shortName") @ExcludeMissing fun _shortName(): JsonField<String> = shortName
 
+        /**
+         * Returns the raw JSON value of [textColor].
+         *
+         * Unlike [textColor], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("textColor") @ExcludeMissing fun _textColor(): JsonField<String> = textColor
 
+        /**
+         * Returns the raw JSON value of [url].
+         *
+         * Unlike [url], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("url") @ExcludeMissing fun _url(): JsonField<String> = url
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
 
         @JsonAnyGetter
         @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): Route = apply {
-            if (validated) {
-                return@apply
-            }
-
-            id()
-            agencyId()
-            type()
-            color()
-            description()
-            longName()
-            nullSafeShortName()
-            shortName()
-            textColor()
-            url()
-            validated = true
-        }
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
 
         fun toBuilder() = Builder().from(this)
 
@@ -631,47 +1121,117 @@ private constructor(
 
             fun id(id: String) = id(JsonField.of(id))
 
+            /**
+             * Sets [Builder.id] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.id] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun id(id: JsonField<String>) = apply { this.id = id }
 
             fun agencyId(agencyId: String) = agencyId(JsonField.of(agencyId))
 
+            /**
+             * Sets [Builder.agencyId] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.agencyId] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun agencyId(agencyId: JsonField<String>) = apply { this.agencyId = agencyId }
 
             fun type(type: Long) = type(JsonField.of(type))
 
+            /**
+             * Sets [Builder.type] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.type] with a well-typed [Long] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun type(type: JsonField<Long>) = apply { this.type = type }
 
             fun color(color: String) = color(JsonField.of(color))
 
+            /**
+             * Sets [Builder.color] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.color] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun color(color: JsonField<String>) = apply { this.color = color }
 
             fun description(description: String) = description(JsonField.of(description))
 
+            /**
+             * Sets [Builder.description] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.description] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun description(description: JsonField<String>) = apply {
                 this.description = description
             }
 
             fun longName(longName: String) = longName(JsonField.of(longName))
 
+            /**
+             * Sets [Builder.longName] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.longName] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun longName(longName: JsonField<String>) = apply { this.longName = longName }
 
             fun nullSafeShortName(nullSafeShortName: String) =
                 nullSafeShortName(JsonField.of(nullSafeShortName))
 
+            /**
+             * Sets [Builder.nullSafeShortName] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.nullSafeShortName] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun nullSafeShortName(nullSafeShortName: JsonField<String>) = apply {
                 this.nullSafeShortName = nullSafeShortName
             }
 
             fun shortName(shortName: String) = shortName(JsonField.of(shortName))
 
+            /**
+             * Sets [Builder.shortName] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.shortName] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun shortName(shortName: JsonField<String>) = apply { this.shortName = shortName }
 
             fun textColor(textColor: String) = textColor(JsonField.of(textColor))
 
+            /**
+             * Sets [Builder.textColor] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.textColor] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun textColor(textColor: JsonField<String>) = apply { this.textColor = textColor }
 
             fun url(url: String) = url(JsonField.of(url))
 
+            /**
+             * Sets [Builder.url] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.url] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun url(url: JsonField<String>) = apply { this.url = url }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -693,6 +1253,20 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
+            /**
+             * Returns an immutable instance of [Route].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```kotlin
+             * .id()
+             * .agencyId()
+             * .type()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
             fun build(): Route =
                 Route(
                     checkRequired("id", id),
@@ -705,9 +1279,55 @@ private constructor(
                     shortName,
                     textColor,
                     url,
-                    additionalProperties.toImmutable(),
+                    additionalProperties.toMutableMap(),
                 )
         }
+
+        private var validated: Boolean = false
+
+        fun validate(): Route = apply {
+            if (validated) {
+                return@apply
+            }
+
+            id()
+            agencyId()
+            type()
+            color()
+            description()
+            longName()
+            nullSafeShortName()
+            shortName()
+            textColor()
+            url()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: OnebusawaySdkInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        internal fun validity(): Int =
+            (if (id.asKnown() == null) 0 else 1) +
+                (if (agencyId.asKnown() == null) 0 else 1) +
+                (if (type.asKnown() == null) 0 else 1) +
+                (if (color.asKnown() == null) 0 else 1) +
+                (if (description.asKnown() == null) 0 else 1) +
+                (if (longName.asKnown() == null) 0 else 1) +
+                (if (nullSafeShortName.asKnown() == null) 0 else 1) +
+                (if (shortName.asKnown() == null) 0 else 1) +
+                (if (textColor.asKnown() == null) 0 else 1) +
+                (if (url.asKnown() == null) 0 else 1)
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {
@@ -727,144 +1347,264 @@ private constructor(
             "Route{id=$id, agencyId=$agencyId, type=$type, color=$color, description=$description, longName=$longName, nullSafeShortName=$nullSafeShortName, shortName=$shortName, textColor=$textColor, url=$url, additionalProperties=$additionalProperties}"
     }
 
-    @NoAutoDetect
     class Situation
-    @JsonCreator
     private constructor(
-        @JsonProperty("id") @ExcludeMissing private val id: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("creationTime")
-        @ExcludeMissing
-        private val creationTime: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("activeWindows")
-        @ExcludeMissing
-        private val activeWindows: JsonField<List<ActiveWindow>> = JsonMissing.of(),
-        @JsonProperty("allAffects")
-        @ExcludeMissing
-        private val allAffects: JsonField<List<AllAffect>> = JsonMissing.of(),
-        @JsonProperty("consequenceMessage")
-        @ExcludeMissing
-        private val consequenceMessage: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("consequences")
-        @ExcludeMissing
-        private val consequences: JsonField<List<Consequence>> = JsonMissing.of(),
-        @JsonProperty("description")
-        @ExcludeMissing
-        private val description: JsonField<Description> = JsonMissing.of(),
-        @JsonProperty("publicationWindows")
-        @ExcludeMissing
-        private val publicationWindows: JsonField<List<PublicationWindow>> = JsonMissing.of(),
-        @JsonProperty("reason")
-        @ExcludeMissing
-        private val reason: JsonField<Reason> = JsonMissing.of(),
-        @JsonProperty("severity")
-        @ExcludeMissing
-        private val severity: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("summary")
-        @ExcludeMissing
-        private val summary: JsonField<Summary> = JsonMissing.of(),
-        @JsonProperty("url") @ExcludeMissing private val url: JsonField<Url> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+        private val id: JsonField<String>,
+        private val creationTime: JsonField<Long>,
+        private val activeWindows: JsonField<List<ActiveWindow>>,
+        private val allAffects: JsonField<List<AllAffect>>,
+        private val consequenceMessage: JsonField<String>,
+        private val consequences: JsonField<List<Consequence>>,
+        private val description: JsonField<Description>,
+        private val publicationWindows: JsonField<List<PublicationWindow>>,
+        private val reason: JsonField<Reason>,
+        private val severity: JsonField<String>,
+        private val summary: JsonField<Summary>,
+        private val url: JsonField<Url>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
-        /** Unique identifier for the situation. */
+        @JsonCreator
+        private constructor(
+            @JsonProperty("id") @ExcludeMissing id: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("creationTime")
+            @ExcludeMissing
+            creationTime: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("activeWindows")
+            @ExcludeMissing
+            activeWindows: JsonField<List<ActiveWindow>> = JsonMissing.of(),
+            @JsonProperty("allAffects")
+            @ExcludeMissing
+            allAffects: JsonField<List<AllAffect>> = JsonMissing.of(),
+            @JsonProperty("consequenceMessage")
+            @ExcludeMissing
+            consequenceMessage: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("consequences")
+            @ExcludeMissing
+            consequences: JsonField<List<Consequence>> = JsonMissing.of(),
+            @JsonProperty("description")
+            @ExcludeMissing
+            description: JsonField<Description> = JsonMissing.of(),
+            @JsonProperty("publicationWindows")
+            @ExcludeMissing
+            publicationWindows: JsonField<List<PublicationWindow>> = JsonMissing.of(),
+            @JsonProperty("reason") @ExcludeMissing reason: JsonField<Reason> = JsonMissing.of(),
+            @JsonProperty("severity")
+            @ExcludeMissing
+            severity: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("summary") @ExcludeMissing summary: JsonField<Summary> = JsonMissing.of(),
+            @JsonProperty("url") @ExcludeMissing url: JsonField<Url> = JsonMissing.of(),
+        ) : this(
+            id,
+            creationTime,
+            activeWindows,
+            allAffects,
+            consequenceMessage,
+            consequences,
+            description,
+            publicationWindows,
+            reason,
+            severity,
+            summary,
+            url,
+            mutableMapOf(),
+        )
+
+        /**
+         * Unique identifier for the situation.
+         *
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun id(): String = id.getRequired("id")
 
-        /** Unix timestamp of when this situation was created. */
+        /**
+         * Unix timestamp of when this situation was created.
+         *
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun creationTime(): Long = creationTime.getRequired("creationTime")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
         fun activeWindows(): List<ActiveWindow>? = activeWindows.getNullable("activeWindows")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
         fun allAffects(): List<AllAffect>? = allAffects.getNullable("allAffects")
 
-        /** Message regarding the consequence of the situation. */
+        /**
+         * Message regarding the consequence of the situation.
+         *
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
         fun consequenceMessage(): String? = consequenceMessage.getNullable("consequenceMessage")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
         fun consequences(): List<Consequence>? = consequences.getNullable("consequences")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
         fun description(): Description? = description.getNullable("description")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
         fun publicationWindows(): List<PublicationWindow>? =
             publicationWindows.getNullable("publicationWindows")
 
-        /** Reason for the service alert, taken from TPEG codes. */
+        /**
+         * Reason for the service alert, taken from TPEG codes.
+         *
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
         fun reason(): Reason? = reason.getNullable("reason")
 
-        /** Severity of the situation. */
+        /**
+         * Severity of the situation.
+         *
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
         fun severity(): String? = severity.getNullable("severity")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
         fun summary(): Summary? = summary.getNullable("summary")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
         fun url(): Url? = url.getNullable("url")
 
-        /** Unique identifier for the situation. */
+        /**
+         * Returns the raw JSON value of [id].
+         *
+         * Unlike [id], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("id") @ExcludeMissing fun _id(): JsonField<String> = id
 
-        /** Unix timestamp of when this situation was created. */
+        /**
+         * Returns the raw JSON value of [creationTime].
+         *
+         * Unlike [creationTime], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("creationTime")
         @ExcludeMissing
         fun _creationTime(): JsonField<Long> = creationTime
 
+        /**
+         * Returns the raw JSON value of [activeWindows].
+         *
+         * Unlike [activeWindows], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("activeWindows")
         @ExcludeMissing
         fun _activeWindows(): JsonField<List<ActiveWindow>> = activeWindows
 
+        /**
+         * Returns the raw JSON value of [allAffects].
+         *
+         * Unlike [allAffects], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("allAffects")
         @ExcludeMissing
         fun _allAffects(): JsonField<List<AllAffect>> = allAffects
 
-        /** Message regarding the consequence of the situation. */
+        /**
+         * Returns the raw JSON value of [consequenceMessage].
+         *
+         * Unlike [consequenceMessage], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
         @JsonProperty("consequenceMessage")
         @ExcludeMissing
         fun _consequenceMessage(): JsonField<String> = consequenceMessage
 
+        /**
+         * Returns the raw JSON value of [consequences].
+         *
+         * Unlike [consequences], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("consequences")
         @ExcludeMissing
         fun _consequences(): JsonField<List<Consequence>> = consequences
 
+        /**
+         * Returns the raw JSON value of [description].
+         *
+         * Unlike [description], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("description")
         @ExcludeMissing
         fun _description(): JsonField<Description> = description
 
+        /**
+         * Returns the raw JSON value of [publicationWindows].
+         *
+         * Unlike [publicationWindows], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
         @JsonProperty("publicationWindows")
         @ExcludeMissing
         fun _publicationWindows(): JsonField<List<PublicationWindow>> = publicationWindows
 
-        /** Reason for the service alert, taken from TPEG codes. */
+        /**
+         * Returns the raw JSON value of [reason].
+         *
+         * Unlike [reason], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("reason") @ExcludeMissing fun _reason(): JsonField<Reason> = reason
 
-        /** Severity of the situation. */
+        /**
+         * Returns the raw JSON value of [severity].
+         *
+         * Unlike [severity], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("severity") @ExcludeMissing fun _severity(): JsonField<String> = severity
 
+        /**
+         * Returns the raw JSON value of [summary].
+         *
+         * Unlike [summary], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("summary") @ExcludeMissing fun _summary(): JsonField<Summary> = summary
 
+        /**
+         * Returns the raw JSON value of [url].
+         *
+         * Unlike [url], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("url") @ExcludeMissing fun _url(): JsonField<Url> = url
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
 
         @JsonAnyGetter
         @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): Situation = apply {
-            if (validated) {
-                return@apply
-            }
-
-            id()
-            creationTime()
-            activeWindows()?.forEach { it.validate() }
-            allAffects()?.forEach { it.validate() }
-            consequenceMessage()
-            consequences()?.forEach { it.validate() }
-            description()?.validate()
-            publicationWindows()?.forEach { it.validate() }
-            reason()
-            severity()
-            summary()?.validate()
-            url()?.validate()
-            validated = true
-        }
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
 
         fun toBuilder() = Builder().from(this)
 
@@ -918,13 +1658,25 @@ private constructor(
             /** Unique identifier for the situation. */
             fun id(id: String) = id(JsonField.of(id))
 
-            /** Unique identifier for the situation. */
+            /**
+             * Sets [Builder.id] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.id] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun id(id: JsonField<String>) = apply { this.id = id }
 
             /** Unix timestamp of when this situation was created. */
             fun creationTime(creationTime: Long) = creationTime(JsonField.of(creationTime))
 
-            /** Unix timestamp of when this situation was created. */
+            /**
+             * Sets [Builder.creationTime] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.creationTime] with a well-typed [Long] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun creationTime(creationTime: JsonField<Long>) = apply {
                 this.creationTime = creationTime
             }
@@ -932,10 +1684,22 @@ private constructor(
             fun activeWindows(activeWindows: List<ActiveWindow>) =
                 activeWindows(JsonField.of(activeWindows))
 
+            /**
+             * Sets [Builder.activeWindows] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.activeWindows] with a well-typed
+             * `List<ActiveWindow>` value instead. This method is primarily for setting the field to
+             * an undocumented or not yet supported value.
+             */
             fun activeWindows(activeWindows: JsonField<List<ActiveWindow>>) = apply {
                 this.activeWindows = activeWindows.map { it.toMutableList() }
             }
 
+            /**
+             * Adds a single [ActiveWindow] to [activeWindows].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
+             */
             fun addActiveWindow(activeWindow: ActiveWindow) = apply {
                 activeWindows =
                     (activeWindows ?: JsonField.of(mutableListOf())).also {
@@ -945,10 +1709,22 @@ private constructor(
 
             fun allAffects(allAffects: List<AllAffect>) = allAffects(JsonField.of(allAffects))
 
+            /**
+             * Sets [Builder.allAffects] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.allAffects] with a well-typed `List<AllAffect>`
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
             fun allAffects(allAffects: JsonField<List<AllAffect>>) = apply {
                 this.allAffects = allAffects.map { it.toMutableList() }
             }
 
+            /**
+             * Adds a single [AllAffect] to [allAffects].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
+             */
             fun addAllAffect(allAffect: AllAffect) = apply {
                 allAffects =
                     (allAffects ?: JsonField.of(mutableListOf())).also {
@@ -960,7 +1736,13 @@ private constructor(
             fun consequenceMessage(consequenceMessage: String) =
                 consequenceMessage(JsonField.of(consequenceMessage))
 
-            /** Message regarding the consequence of the situation. */
+            /**
+             * Sets [Builder.consequenceMessage] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.consequenceMessage] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun consequenceMessage(consequenceMessage: JsonField<String>) = apply {
                 this.consequenceMessage = consequenceMessage
             }
@@ -968,10 +1750,22 @@ private constructor(
             fun consequences(consequences: List<Consequence>) =
                 consequences(JsonField.of(consequences))
 
+            /**
+             * Sets [Builder.consequences] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.consequences] with a well-typed `List<Consequence>`
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
             fun consequences(consequences: JsonField<List<Consequence>>) = apply {
                 this.consequences = consequences.map { it.toMutableList() }
             }
 
+            /**
+             * Adds a single [Consequence] to [consequences].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
+             */
             fun addConsequence(consequence: Consequence) = apply {
                 consequences =
                     (consequences ?: JsonField.of(mutableListOf())).also {
@@ -981,6 +1775,13 @@ private constructor(
 
             fun description(description: Description) = description(JsonField.of(description))
 
+            /**
+             * Sets [Builder.description] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.description] with a well-typed [Description] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun description(description: JsonField<Description>) = apply {
                 this.description = description
             }
@@ -988,10 +1789,22 @@ private constructor(
             fun publicationWindows(publicationWindows: List<PublicationWindow>) =
                 publicationWindows(JsonField.of(publicationWindows))
 
+            /**
+             * Sets [Builder.publicationWindows] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.publicationWindows] with a well-typed
+             * `List<PublicationWindow>` value instead. This method is primarily for setting the
+             * field to an undocumented or not yet supported value.
+             */
             fun publicationWindows(publicationWindows: JsonField<List<PublicationWindow>>) = apply {
                 this.publicationWindows = publicationWindows.map { it.toMutableList() }
             }
 
+            /**
+             * Adds a single [PublicationWindow] to [publicationWindows].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
+             */
             fun addPublicationWindow(publicationWindow: PublicationWindow) = apply {
                 publicationWindows =
                     (publicationWindows ?: JsonField.of(mutableListOf())).also {
@@ -1002,21 +1815,47 @@ private constructor(
             /** Reason for the service alert, taken from TPEG codes. */
             fun reason(reason: Reason) = reason(JsonField.of(reason))
 
-            /** Reason for the service alert, taken from TPEG codes. */
+            /**
+             * Sets [Builder.reason] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.reason] with a well-typed [Reason] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun reason(reason: JsonField<Reason>) = apply { this.reason = reason }
 
             /** Severity of the situation. */
             fun severity(severity: String) = severity(JsonField.of(severity))
 
-            /** Severity of the situation. */
+            /**
+             * Sets [Builder.severity] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.severity] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun severity(severity: JsonField<String>) = apply { this.severity = severity }
 
             fun summary(summary: Summary) = summary(JsonField.of(summary))
 
+            /**
+             * Sets [Builder.summary] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.summary] with a well-typed [Summary] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun summary(summary: JsonField<Summary>) = apply { this.summary = summary }
 
             fun url(url: Url) = url(JsonField.of(url))
 
+            /**
+             * Sets [Builder.url] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.url] with a well-typed [Url] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun url(url: JsonField<Url>) = apply { this.url = url }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -1038,6 +1877,19 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
+            /**
+             * Returns an immutable instance of [Situation].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```kotlin
+             * .id()
+             * .creationTime()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
             fun build(): Situation =
                 Situation(
                     checkRequired("id", id),
@@ -1052,49 +1904,112 @@ private constructor(
                     severity,
                     summary,
                     url,
-                    additionalProperties.toImmutable(),
+                    additionalProperties.toMutableMap(),
                 )
         }
 
-        @NoAutoDetect
+        private var validated: Boolean = false
+
+        fun validate(): Situation = apply {
+            if (validated) {
+                return@apply
+            }
+
+            id()
+            creationTime()
+            activeWindows()?.forEach { it.validate() }
+            allAffects()?.forEach { it.validate() }
+            consequenceMessage()
+            consequences()?.forEach { it.validate() }
+            description()?.validate()
+            publicationWindows()?.forEach { it.validate() }
+            reason()?.validate()
+            severity()
+            summary()?.validate()
+            url()?.validate()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: OnebusawaySdkInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        internal fun validity(): Int =
+            (if (id.asKnown() == null) 0 else 1) +
+                (if (creationTime.asKnown() == null) 0 else 1) +
+                (activeWindows.asKnown()?.sumOf { it.validity().toInt() } ?: 0) +
+                (allAffects.asKnown()?.sumOf { it.validity().toInt() } ?: 0) +
+                (if (consequenceMessage.asKnown() == null) 0 else 1) +
+                (consequences.asKnown()?.sumOf { it.validity().toInt() } ?: 0) +
+                (description.asKnown()?.validity() ?: 0) +
+                (publicationWindows.asKnown()?.sumOf { it.validity().toInt() } ?: 0) +
+                (reason.asKnown()?.validity() ?: 0) +
+                (if (severity.asKnown() == null) 0 else 1) +
+                (summary.asKnown()?.validity() ?: 0) +
+                (url.asKnown()?.validity() ?: 0)
+
         class ActiveWindow
-        @JsonCreator
         private constructor(
-            @JsonProperty("from")
-            @ExcludeMissing
-            private val from: JsonField<Long> = JsonMissing.of(),
-            @JsonProperty("to") @ExcludeMissing private val to: JsonField<Long> = JsonMissing.of(),
-            @JsonAnySetter
-            private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+            private val from: JsonField<Long>,
+            private val to: JsonField<Long>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
 
-            /** Start time of the active window as a Unix timestamp. */
+            @JsonCreator
+            private constructor(
+                @JsonProperty("from") @ExcludeMissing from: JsonField<Long> = JsonMissing.of(),
+                @JsonProperty("to") @ExcludeMissing to: JsonField<Long> = JsonMissing.of(),
+            ) : this(from, to, mutableMapOf())
+
+            /**
+             * Start time of the active window as a Unix timestamp.
+             *
+             * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type
+             *   (e.g. if the server responded with an unexpected value).
+             */
             fun from(): Long? = from.getNullable("from")
 
-            /** End time of the active window as a Unix timestamp. */
+            /**
+             * End time of the active window as a Unix timestamp.
+             *
+             * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type
+             *   (e.g. if the server responded with an unexpected value).
+             */
             fun to(): Long? = to.getNullable("to")
 
-            /** Start time of the active window as a Unix timestamp. */
+            /**
+             * Returns the raw JSON value of [from].
+             *
+             * Unlike [from], this method doesn't throw if the JSON field has an unexpected type.
+             */
             @JsonProperty("from") @ExcludeMissing fun _from(): JsonField<Long> = from
 
-            /** End time of the active window as a Unix timestamp. */
+            /**
+             * Returns the raw JSON value of [to].
+             *
+             * Unlike [to], this method doesn't throw if the JSON field has an unexpected type.
+             */
             @JsonProperty("to") @ExcludeMissing fun _to(): JsonField<Long> = to
+
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
 
             @JsonAnyGetter
             @ExcludeMissing
-            fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-            private var validated: Boolean = false
-
-            fun validate(): ActiveWindow = apply {
-                if (validated) {
-                    return@apply
-                }
-
-                from()
-                to()
-                validated = true
-            }
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
 
             fun toBuilder() = Builder().from(this)
 
@@ -1120,13 +2035,25 @@ private constructor(
                 /** Start time of the active window as a Unix timestamp. */
                 fun from(from: Long) = from(JsonField.of(from))
 
-                /** Start time of the active window as a Unix timestamp. */
+                /**
+                 * Sets [Builder.from] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.from] with a well-typed [Long] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
                 fun from(from: JsonField<Long>) = apply { this.from = from }
 
                 /** End time of the active window as a Unix timestamp. */
                 fun to(to: Long) = to(JsonField.of(to))
 
-                /** End time of the active window as a Unix timestamp. */
+                /**
+                 * Sets [Builder.to] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.to] with a well-typed [Long] value instead. This
+                 * method is primarily for setting the field to an undocumented or not yet supported
+                 * value.
+                 */
                 fun to(to: JsonField<Long>) = apply { this.to = to }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -1151,9 +2078,43 @@ private constructor(
                     keys.forEach(::removeAdditionalProperty)
                 }
 
+                /**
+                 * Returns an immutable instance of [ActiveWindow].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 */
                 fun build(): ActiveWindow =
-                    ActiveWindow(from, to, additionalProperties.toImmutable())
+                    ActiveWindow(from, to, additionalProperties.toMutableMap())
             }
+
+            private var validated: Boolean = false
+
+            fun validate(): ActiveWindow = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                from()
+                to()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: OnebusawaySdkInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            internal fun validity(): Int =
+                (if (from.asKnown() == null) 0 else 1) + (if (to.asKnown() == null) 0 else 1)
 
             override fun equals(other: Any?): Boolean {
                 if (this === other) {
@@ -1173,91 +2134,143 @@ private constructor(
                 "ActiveWindow{from=$from, to=$to, additionalProperties=$additionalProperties}"
         }
 
-        @NoAutoDetect
         class AllAffect
-        @JsonCreator
         private constructor(
-            @JsonProperty("agencyId")
-            @ExcludeMissing
-            private val agencyId: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("applicationId")
-            @ExcludeMissing
-            private val applicationId: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("directionId")
-            @ExcludeMissing
-            private val directionId: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("routeId")
-            @ExcludeMissing
-            private val routeId: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("stopId")
-            @ExcludeMissing
-            private val stopId: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("tripId")
-            @ExcludeMissing
-            private val tripId: JsonField<String> = JsonMissing.of(),
-            @JsonAnySetter
-            private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+            private val agencyId: JsonField<String>,
+            private val applicationId: JsonField<String>,
+            private val directionId: JsonField<String>,
+            private val routeId: JsonField<String>,
+            private val stopId: JsonField<String>,
+            private val tripId: JsonField<String>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
 
-            /** Identifier for the agency. */
+            @JsonCreator
+            private constructor(
+                @JsonProperty("agencyId")
+                @ExcludeMissing
+                agencyId: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("applicationId")
+                @ExcludeMissing
+                applicationId: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("directionId")
+                @ExcludeMissing
+                directionId: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("routeId")
+                @ExcludeMissing
+                routeId: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("stopId")
+                @ExcludeMissing
+                stopId: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("tripId") @ExcludeMissing tripId: JsonField<String> = JsonMissing.of(),
+            ) : this(agencyId, applicationId, directionId, routeId, stopId, tripId, mutableMapOf())
+
+            /**
+             * Identifier for the agency.
+             *
+             * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type
+             *   (e.g. if the server responded with an unexpected value).
+             */
             fun agencyId(): String? = agencyId.getNullable("agencyId")
 
-            /** Identifier for the application. */
+            /**
+             * Identifier for the application.
+             *
+             * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type
+             *   (e.g. if the server responded with an unexpected value).
+             */
             fun applicationId(): String? = applicationId.getNullable("applicationId")
 
-            /** Identifier for the direction. */
+            /**
+             * Identifier for the direction.
+             *
+             * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type
+             *   (e.g. if the server responded with an unexpected value).
+             */
             fun directionId(): String? = directionId.getNullable("directionId")
 
-            /** Identifier for the route. */
+            /**
+             * Identifier for the route.
+             *
+             * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type
+             *   (e.g. if the server responded with an unexpected value).
+             */
             fun routeId(): String? = routeId.getNullable("routeId")
 
-            /** Identifier for the stop. */
+            /**
+             * Identifier for the stop.
+             *
+             * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type
+             *   (e.g. if the server responded with an unexpected value).
+             */
             fun stopId(): String? = stopId.getNullable("stopId")
 
-            /** Identifier for the trip. */
+            /**
+             * Identifier for the trip.
+             *
+             * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type
+             *   (e.g. if the server responded with an unexpected value).
+             */
             fun tripId(): String? = tripId.getNullable("tripId")
 
-            /** Identifier for the agency. */
+            /**
+             * Returns the raw JSON value of [agencyId].
+             *
+             * Unlike [agencyId], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("agencyId") @ExcludeMissing fun _agencyId(): JsonField<String> = agencyId
 
-            /** Identifier for the application. */
+            /**
+             * Returns the raw JSON value of [applicationId].
+             *
+             * Unlike [applicationId], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("applicationId")
             @ExcludeMissing
             fun _applicationId(): JsonField<String> = applicationId
 
-            /** Identifier for the direction. */
+            /**
+             * Returns the raw JSON value of [directionId].
+             *
+             * Unlike [directionId], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("directionId")
             @ExcludeMissing
             fun _directionId(): JsonField<String> = directionId
 
-            /** Identifier for the route. */
+            /**
+             * Returns the raw JSON value of [routeId].
+             *
+             * Unlike [routeId], this method doesn't throw if the JSON field has an unexpected type.
+             */
             @JsonProperty("routeId") @ExcludeMissing fun _routeId(): JsonField<String> = routeId
 
-            /** Identifier for the stop. */
+            /**
+             * Returns the raw JSON value of [stopId].
+             *
+             * Unlike [stopId], this method doesn't throw if the JSON field has an unexpected type.
+             */
             @JsonProperty("stopId") @ExcludeMissing fun _stopId(): JsonField<String> = stopId
 
-            /** Identifier for the trip. */
+            /**
+             * Returns the raw JSON value of [tripId].
+             *
+             * Unlike [tripId], this method doesn't throw if the JSON field has an unexpected type.
+             */
             @JsonProperty("tripId") @ExcludeMissing fun _tripId(): JsonField<String> = tripId
+
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
 
             @JsonAnyGetter
             @ExcludeMissing
-            fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-            private var validated: Boolean = false
-
-            fun validate(): AllAffect = apply {
-                if (validated) {
-                    return@apply
-                }
-
-                agencyId()
-                applicationId()
-                directionId()
-                routeId()
-                stopId()
-                tripId()
-                validated = true
-            }
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
 
             fun toBuilder() = Builder().from(this)
 
@@ -1291,14 +2304,26 @@ private constructor(
                 /** Identifier for the agency. */
                 fun agencyId(agencyId: String) = agencyId(JsonField.of(agencyId))
 
-                /** Identifier for the agency. */
+                /**
+                 * Sets [Builder.agencyId] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.agencyId] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun agencyId(agencyId: JsonField<String>) = apply { this.agencyId = agencyId }
 
                 /** Identifier for the application. */
                 fun applicationId(applicationId: String) =
                     applicationId(JsonField.of(applicationId))
 
-                /** Identifier for the application. */
+                /**
+                 * Sets [Builder.applicationId] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.applicationId] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun applicationId(applicationId: JsonField<String>) = apply {
                     this.applicationId = applicationId
                 }
@@ -1306,7 +2331,13 @@ private constructor(
                 /** Identifier for the direction. */
                 fun directionId(directionId: String) = directionId(JsonField.of(directionId))
 
-                /** Identifier for the direction. */
+                /**
+                 * Sets [Builder.directionId] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.directionId] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun directionId(directionId: JsonField<String>) = apply {
                     this.directionId = directionId
                 }
@@ -1314,19 +2345,37 @@ private constructor(
                 /** Identifier for the route. */
                 fun routeId(routeId: String) = routeId(JsonField.of(routeId))
 
-                /** Identifier for the route. */
+                /**
+                 * Sets [Builder.routeId] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.routeId] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun routeId(routeId: JsonField<String>) = apply { this.routeId = routeId }
 
                 /** Identifier for the stop. */
                 fun stopId(stopId: String) = stopId(JsonField.of(stopId))
 
-                /** Identifier for the stop. */
+                /**
+                 * Sets [Builder.stopId] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.stopId] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun stopId(stopId: JsonField<String>) = apply { this.stopId = stopId }
 
                 /** Identifier for the trip. */
                 fun tripId(tripId: String) = tripId(JsonField.of(tripId))
 
-                /** Identifier for the trip. */
+                /**
+                 * Sets [Builder.tripId] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.tripId] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun tripId(tripId: JsonField<String>) = apply { this.tripId = tripId }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -1351,6 +2400,11 @@ private constructor(
                     keys.forEach(::removeAdditionalProperty)
                 }
 
+                /**
+                 * Returns an immutable instance of [AllAffect].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 */
                 fun build(): AllAffect =
                     AllAffect(
                         agencyId,
@@ -1359,9 +2413,47 @@ private constructor(
                         routeId,
                         stopId,
                         tripId,
-                        additionalProperties.toImmutable(),
+                        additionalProperties.toMutableMap(),
                     )
             }
+
+            private var validated: Boolean = false
+
+            fun validate(): AllAffect = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                agencyId()
+                applicationId()
+                directionId()
+                routeId()
+                stopId()
+                tripId()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: OnebusawaySdkInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            internal fun validity(): Int =
+                (if (agencyId.asKnown() == null) 0 else 1) +
+                    (if (applicationId.asKnown() == null) 0 else 1) +
+                    (if (directionId.asKnown() == null) 0 else 1) +
+                    (if (routeId.asKnown() == null) 0 else 1) +
+                    (if (stopId.asKnown() == null) 0 else 1) +
+                    (if (tripId.asKnown() == null) 0 else 1)
 
             override fun equals(other: Any?): Boolean {
                 if (this === other) {
@@ -1381,50 +2473,67 @@ private constructor(
                 "AllAffect{agencyId=$agencyId, applicationId=$applicationId, directionId=$directionId, routeId=$routeId, stopId=$stopId, tripId=$tripId, additionalProperties=$additionalProperties}"
         }
 
-        @NoAutoDetect
         class Consequence
-        @JsonCreator
         private constructor(
-            @JsonProperty("condition")
-            @ExcludeMissing
-            private val condition: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("conditionDetails")
-            @ExcludeMissing
-            private val conditionDetails: JsonField<ConditionDetails> = JsonMissing.of(),
-            @JsonAnySetter
-            private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+            private val condition: JsonField<String>,
+            private val conditionDetails: JsonField<ConditionDetails>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
 
-            /** Condition of the consequence. */
+            @JsonCreator
+            private constructor(
+                @JsonProperty("condition")
+                @ExcludeMissing
+                condition: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("conditionDetails")
+                @ExcludeMissing
+                conditionDetails: JsonField<ConditionDetails> = JsonMissing.of(),
+            ) : this(condition, conditionDetails, mutableMapOf())
+
+            /**
+             * Condition of the consequence.
+             *
+             * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type
+             *   (e.g. if the server responded with an unexpected value).
+             */
             fun condition(): String? = condition.getNullable("condition")
 
+            /**
+             * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type
+             *   (e.g. if the server responded with an unexpected value).
+             */
             fun conditionDetails(): ConditionDetails? =
                 conditionDetails.getNullable("conditionDetails")
 
-            /** Condition of the consequence. */
+            /**
+             * Returns the raw JSON value of [condition].
+             *
+             * Unlike [condition], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
             @JsonProperty("condition")
             @ExcludeMissing
             fun _condition(): JsonField<String> = condition
 
+            /**
+             * Returns the raw JSON value of [conditionDetails].
+             *
+             * Unlike [conditionDetails], this method doesn't throw if the JSON field has an
+             * unexpected type.
+             */
             @JsonProperty("conditionDetails")
             @ExcludeMissing
             fun _conditionDetails(): JsonField<ConditionDetails> = conditionDetails
 
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
             @JsonAnyGetter
             @ExcludeMissing
-            fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-            private var validated: Boolean = false
-
-            fun validate(): Consequence = apply {
-                if (validated) {
-                    return@apply
-                }
-
-                condition()
-                conditionDetails()?.validate()
-                validated = true
-            }
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
 
             fun toBuilder() = Builder().from(this)
 
@@ -1450,12 +2559,25 @@ private constructor(
                 /** Condition of the consequence. */
                 fun condition(condition: String) = condition(JsonField.of(condition))
 
-                /** Condition of the consequence. */
+                /**
+                 * Sets [Builder.condition] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.condition] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
                 fun condition(condition: JsonField<String>) = apply { this.condition = condition }
 
                 fun conditionDetails(conditionDetails: ConditionDetails) =
                     conditionDetails(JsonField.of(conditionDetails))
 
+                /**
+                 * Sets [Builder.conditionDetails] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.conditionDetails] with a well-typed
+                 * [ConditionDetails] value instead. This method is primarily for setting the field
+                 * to an undocumented or not yet supported value.
+                 */
                 fun conditionDetails(conditionDetails: JsonField<ConditionDetails>) = apply {
                     this.conditionDetails = conditionDetails
                 }
@@ -1482,52 +2604,104 @@ private constructor(
                     keys.forEach(::removeAdditionalProperty)
                 }
 
+                /**
+                 * Returns an immutable instance of [Consequence].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 */
                 fun build(): Consequence =
-                    Consequence(condition, conditionDetails, additionalProperties.toImmutable())
+                    Consequence(condition, conditionDetails, additionalProperties.toMutableMap())
             }
 
-            @NoAutoDetect
+            private var validated: Boolean = false
+
+            fun validate(): Consequence = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                condition()
+                conditionDetails()?.validate()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: OnebusawaySdkInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            internal fun validity(): Int =
+                (if (condition.asKnown() == null) 0 else 1) +
+                    (conditionDetails.asKnown()?.validity() ?: 0)
+
             class ConditionDetails
-            @JsonCreator
             private constructor(
-                @JsonProperty("diversionPath")
-                @ExcludeMissing
-                private val diversionPath: JsonField<DiversionPath> = JsonMissing.of(),
-                @JsonProperty("diversionStopIds")
-                @ExcludeMissing
-                private val diversionStopIds: JsonField<List<String>> = JsonMissing.of(),
-                @JsonAnySetter
-                private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+                private val diversionPath: JsonField<DiversionPath>,
+                private val diversionStopIds: JsonField<List<String>>,
+                private val additionalProperties: MutableMap<String, JsonValue>,
             ) {
 
+                @JsonCreator
+                private constructor(
+                    @JsonProperty("diversionPath")
+                    @ExcludeMissing
+                    diversionPath: JsonField<DiversionPath> = JsonMissing.of(),
+                    @JsonProperty("diversionStopIds")
+                    @ExcludeMissing
+                    diversionStopIds: JsonField<List<String>> = JsonMissing.of(),
+                ) : this(diversionPath, diversionStopIds, mutableMapOf())
+
+                /**
+                 * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected
+                 *   type (e.g. if the server responded with an unexpected value).
+                 */
                 fun diversionPath(): DiversionPath? = diversionPath.getNullable("diversionPath")
 
+                /**
+                 * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected
+                 *   type (e.g. if the server responded with an unexpected value).
+                 */
                 fun diversionStopIds(): List<String>? =
                     diversionStopIds.getNullable("diversionStopIds")
 
+                /**
+                 * Returns the raw JSON value of [diversionPath].
+                 *
+                 * Unlike [diversionPath], this method doesn't throw if the JSON field has an
+                 * unexpected type.
+                 */
                 @JsonProperty("diversionPath")
                 @ExcludeMissing
                 fun _diversionPath(): JsonField<DiversionPath> = diversionPath
 
+                /**
+                 * Returns the raw JSON value of [diversionStopIds].
+                 *
+                 * Unlike [diversionStopIds], this method doesn't throw if the JSON field has an
+                 * unexpected type.
+                 */
                 @JsonProperty("diversionStopIds")
                 @ExcludeMissing
                 fun _diversionStopIds(): JsonField<List<String>> = diversionStopIds
 
+                @JsonAnySetter
+                private fun putAdditionalProperty(key: String, value: JsonValue) {
+                    additionalProperties.put(key, value)
+                }
+
                 @JsonAnyGetter
                 @ExcludeMissing
-                fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-                private var validated: Boolean = false
-
-                fun validate(): ConditionDetails = apply {
-                    if (validated) {
-                        return@apply
-                    }
-
-                    diversionPath()?.validate()
-                    diversionStopIds()
-                    validated = true
-                }
+                fun _additionalProperties(): Map<String, JsonValue> =
+                    Collections.unmodifiableMap(additionalProperties)
 
                 fun toBuilder() = Builder().from(this)
 
@@ -1556,6 +2730,13 @@ private constructor(
                     fun diversionPath(diversionPath: DiversionPath) =
                         diversionPath(JsonField.of(diversionPath))
 
+                    /**
+                     * Sets [Builder.diversionPath] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.diversionPath] with a well-typed
+                     * [DiversionPath] value instead. This method is primarily for setting the field
+                     * to an undocumented or not yet supported value.
+                     */
                     fun diversionPath(diversionPath: JsonField<DiversionPath>) = apply {
                         this.diversionPath = diversionPath
                     }
@@ -1563,10 +2744,22 @@ private constructor(
                     fun diversionStopIds(diversionStopIds: List<String>) =
                         diversionStopIds(JsonField.of(diversionStopIds))
 
+                    /**
+                     * Sets [Builder.diversionStopIds] to an arbitrary JSON value.
+                     *
+                     * You should usually call [Builder.diversionStopIds] with a well-typed
+                     * `List<String>` value instead. This method is primarily for setting the field
+                     * to an undocumented or not yet supported value.
+                     */
                     fun diversionStopIds(diversionStopIds: JsonField<List<String>>) = apply {
                         this.diversionStopIds = diversionStopIds.map { it.toMutableList() }
                     }
 
+                    /**
+                     * Adds a single [String] to [diversionStopIds].
+                     *
+                     * @throws IllegalStateException if the field was previously set to a non-list.
+                     */
                     fun addDiversionStopId(diversionStopId: String) = apply {
                         diversionStopIds =
                             (diversionStopIds ?: JsonField.of(mutableListOf())).also {
@@ -1596,69 +2789,131 @@ private constructor(
                         keys.forEach(::removeAdditionalProperty)
                     }
 
+                    /**
+                     * Returns an immutable instance of [ConditionDetails].
+                     *
+                     * Further updates to this [Builder] will not mutate the returned instance.
+                     */
                     fun build(): ConditionDetails =
                         ConditionDetails(
                             diversionPath,
                             (diversionStopIds ?: JsonMissing.of()).map { it.toImmutable() },
-                            additionalProperties.toImmutable(),
+                            additionalProperties.toMutableMap(),
                         )
                 }
 
-                @NoAutoDetect
+                private var validated: Boolean = false
+
+                fun validate(): ConditionDetails = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    diversionPath()?.validate()
+                    diversionStopIds()
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: OnebusawaySdkInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                internal fun validity(): Int =
+                    (diversionPath.asKnown()?.validity() ?: 0) +
+                        (diversionStopIds.asKnown()?.size ?: 0)
+
                 class DiversionPath
-                @JsonCreator
                 private constructor(
-                    @JsonProperty("length")
-                    @ExcludeMissing
-                    private val length: JsonField<Long> = JsonMissing.of(),
-                    @JsonProperty("levels")
-                    @ExcludeMissing
-                    private val levels: JsonField<String> = JsonMissing.of(),
-                    @JsonProperty("points")
-                    @ExcludeMissing
-                    private val points: JsonField<String> = JsonMissing.of(),
-                    @JsonAnySetter
-                    private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+                    private val length: JsonField<Long>,
+                    private val levels: JsonField<String>,
+                    private val points: JsonField<String>,
+                    private val additionalProperties: MutableMap<String, JsonValue>,
                 ) {
 
-                    /** Length of the diversion path. */
+                    @JsonCreator
+                    private constructor(
+                        @JsonProperty("length")
+                        @ExcludeMissing
+                        length: JsonField<Long> = JsonMissing.of(),
+                        @JsonProperty("levels")
+                        @ExcludeMissing
+                        levels: JsonField<String> = JsonMissing.of(),
+                        @JsonProperty("points")
+                        @ExcludeMissing
+                        points: JsonField<String> = JsonMissing.of(),
+                    ) : this(length, levels, points, mutableMapOf())
+
+                    /**
+                     * Length of the diversion path.
+                     *
+                     * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected
+                     *   type (e.g. if the server responded with an unexpected value).
+                     */
                     fun length(): Long? = length.getNullable("length")
 
-                    /** Levels of the diversion path. */
+                    /**
+                     * Levels of the diversion path.
+                     *
+                     * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected
+                     *   type (e.g. if the server responded with an unexpected value).
+                     */
                     fun levels(): String? = levels.getNullable("levels")
 
-                    /** Points of the diversion path. */
+                    /**
+                     * Points of the diversion path.
+                     *
+                     * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected
+                     *   type (e.g. if the server responded with an unexpected value).
+                     */
                     fun points(): String? = points.getNullable("points")
 
-                    /** Length of the diversion path. */
+                    /**
+                     * Returns the raw JSON value of [length].
+                     *
+                     * Unlike [length], this method doesn't throw if the JSON field has an
+                     * unexpected type.
+                     */
                     @JsonProperty("length") @ExcludeMissing fun _length(): JsonField<Long> = length
 
-                    /** Levels of the diversion path. */
+                    /**
+                     * Returns the raw JSON value of [levels].
+                     *
+                     * Unlike [levels], this method doesn't throw if the JSON field has an
+                     * unexpected type.
+                     */
                     @JsonProperty("levels")
                     @ExcludeMissing
                     fun _levels(): JsonField<String> = levels
 
-                    /** Points of the diversion path. */
+                    /**
+                     * Returns the raw JSON value of [points].
+                     *
+                     * Unlike [points], this method doesn't throw if the JSON field has an
+                     * unexpected type.
+                     */
                     @JsonProperty("points")
                     @ExcludeMissing
                     fun _points(): JsonField<String> = points
 
+                    @JsonAnySetter
+                    private fun putAdditionalProperty(key: String, value: JsonValue) {
+                        additionalProperties.put(key, value)
+                    }
+
                     @JsonAnyGetter
                     @ExcludeMissing
-                    fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-                    private var validated: Boolean = false
-
-                    fun validate(): DiversionPath = apply {
-                        if (validated) {
-                            return@apply
-                        }
-
-                        length()
-                        levels()
-                        points()
-                        validated = true
-                    }
+                    fun _additionalProperties(): Map<String, JsonValue> =
+                        Collections.unmodifiableMap(additionalProperties)
 
                     fun toBuilder() = Builder().from(this)
 
@@ -1690,19 +2945,37 @@ private constructor(
                         /** Length of the diversion path. */
                         fun length(length: Long) = length(JsonField.of(length))
 
-                        /** Length of the diversion path. */
+                        /**
+                         * Sets [Builder.length] to an arbitrary JSON value.
+                         *
+                         * You should usually call [Builder.length] with a well-typed [Long] value
+                         * instead. This method is primarily for setting the field to an
+                         * undocumented or not yet supported value.
+                         */
                         fun length(length: JsonField<Long>) = apply { this.length = length }
 
                         /** Levels of the diversion path. */
                         fun levels(levels: String) = levels(JsonField.of(levels))
 
-                        /** Levels of the diversion path. */
+                        /**
+                         * Sets [Builder.levels] to an arbitrary JSON value.
+                         *
+                         * You should usually call [Builder.levels] with a well-typed [String] value
+                         * instead. This method is primarily for setting the field to an
+                         * undocumented or not yet supported value.
+                         */
                         fun levels(levels: JsonField<String>) = apply { this.levels = levels }
 
                         /** Points of the diversion path. */
                         fun points(points: String) = points(JsonField.of(points))
 
-                        /** Points of the diversion path. */
+                        /**
+                         * Sets [Builder.points] to an arbitrary JSON value.
+                         *
+                         * You should usually call [Builder.points] with a well-typed [String] value
+                         * instead. This method is primarily for setting the field to an
+                         * undocumented or not yet supported value.
+                         */
                         fun points(points: JsonField<String>) = apply { this.points = points }
 
                         fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
@@ -1727,14 +3000,51 @@ private constructor(
                             keys.forEach(::removeAdditionalProperty)
                         }
 
+                        /**
+                         * Returns an immutable instance of [DiversionPath].
+                         *
+                         * Further updates to this [Builder] will not mutate the returned instance.
+                         */
                         fun build(): DiversionPath =
                             DiversionPath(
                                 length,
                                 levels,
                                 points,
-                                additionalProperties.toImmutable(),
+                                additionalProperties.toMutableMap(),
                             )
                     }
+
+                    private var validated: Boolean = false
+
+                    fun validate(): DiversionPath = apply {
+                        if (validated) {
+                            return@apply
+                        }
+
+                        length()
+                        levels()
+                        points()
+                        validated = true
+                    }
+
+                    fun isValid(): Boolean =
+                        try {
+                            validate()
+                            true
+                        } catch (e: OnebusawaySdkInvalidDataException) {
+                            false
+                        }
+
+                    /**
+                     * Returns a score indicating how many valid values are contained in this object
+                     * recursively.
+                     *
+                     * Used for best match union deserialization.
+                     */
+                    internal fun validity(): Int =
+                        (if (length.asKnown() == null) 0 else 1) +
+                            (if (levels.asKnown() == null) 0 else 1) +
+                            (if (points.asKnown() == null) 0 else 1)
 
                     override fun equals(other: Any?): Boolean {
                         if (this === other) {
@@ -1790,47 +3100,58 @@ private constructor(
                 "Consequence{condition=$condition, conditionDetails=$conditionDetails, additionalProperties=$additionalProperties}"
         }
 
-        @NoAutoDetect
         class Description
-        @JsonCreator
         private constructor(
-            @JsonProperty("lang")
-            @ExcludeMissing
-            private val lang: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("value")
-            @ExcludeMissing
-            private val value: JsonField<String> = JsonMissing.of(),
-            @JsonAnySetter
-            private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+            private val lang: JsonField<String>,
+            private val value: JsonField<String>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
 
-            /** Language of the description. */
+            @JsonCreator
+            private constructor(
+                @JsonProperty("lang") @ExcludeMissing lang: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("value") @ExcludeMissing value: JsonField<String> = JsonMissing.of(),
+            ) : this(lang, value, mutableMapOf())
+
+            /**
+             * Language of the description.
+             *
+             * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type
+             *   (e.g. if the server responded with an unexpected value).
+             */
             fun lang(): String? = lang.getNullable("lang")
 
-            /** Longer description of the situation. */
+            /**
+             * Longer description of the situation.
+             *
+             * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type
+             *   (e.g. if the server responded with an unexpected value).
+             */
             fun value(): String? = value.getNullable("value")
 
-            /** Language of the description. */
+            /**
+             * Returns the raw JSON value of [lang].
+             *
+             * Unlike [lang], this method doesn't throw if the JSON field has an unexpected type.
+             */
             @JsonProperty("lang") @ExcludeMissing fun _lang(): JsonField<String> = lang
 
-            /** Longer description of the situation. */
+            /**
+             * Returns the raw JSON value of [value].
+             *
+             * Unlike [value], this method doesn't throw if the JSON field has an unexpected type.
+             */
             @JsonProperty("value") @ExcludeMissing fun _value(): JsonField<String> = value
+
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
 
             @JsonAnyGetter
             @ExcludeMissing
-            fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-            private var validated: Boolean = false
-
-            fun validate(): Description = apply {
-                if (validated) {
-                    return@apply
-                }
-
-                lang()
-                value()
-                validated = true
-            }
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
 
             fun toBuilder() = Builder().from(this)
 
@@ -1856,13 +3177,25 @@ private constructor(
                 /** Language of the description. */
                 fun lang(lang: String) = lang(JsonField.of(lang))
 
-                /** Language of the description. */
+                /**
+                 * Sets [Builder.lang] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.lang] with a well-typed [String] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
                 fun lang(lang: JsonField<String>) = apply { this.lang = lang }
 
                 /** Longer description of the situation. */
                 fun value(value: String) = value(JsonField.of(value))
 
-                /** Longer description of the situation. */
+                /**
+                 * Sets [Builder.value] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.value] with a well-typed [String] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
                 fun value(value: JsonField<String>) = apply { this.value = value }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -1887,9 +3220,43 @@ private constructor(
                     keys.forEach(::removeAdditionalProperty)
                 }
 
+                /**
+                 * Returns an immutable instance of [Description].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 */
                 fun build(): Description =
-                    Description(lang, value, additionalProperties.toImmutable())
+                    Description(lang, value, additionalProperties.toMutableMap())
             }
+
+            private var validated: Boolean = false
+
+            fun validate(): Description = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                lang()
+                value()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: OnebusawaySdkInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            internal fun validity(): Int =
+                (if (lang.asKnown() == null) 0 else 1) + (if (value.asKnown() == null) 0 else 1)
 
             override fun equals(other: Any?): Boolean {
                 if (this === other) {
@@ -1909,45 +3276,60 @@ private constructor(
                 "Description{lang=$lang, value=$value, additionalProperties=$additionalProperties}"
         }
 
-        @NoAutoDetect
         class PublicationWindow
-        @JsonCreator
         private constructor(
-            @JsonProperty("from")
-            @ExcludeMissing
-            private val from: JsonField<Long> = JsonMissing.of(),
-            @JsonProperty("to") @ExcludeMissing private val to: JsonField<Long> = JsonMissing.of(),
-            @JsonAnySetter
-            private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+            private val from: JsonField<Long>,
+            private val to: JsonField<Long>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
 
-            /** Start time of the time window as a Unix timestamp. */
+            @JsonCreator
+            private constructor(
+                @JsonProperty("from") @ExcludeMissing from: JsonField<Long> = JsonMissing.of(),
+                @JsonProperty("to") @ExcludeMissing to: JsonField<Long> = JsonMissing.of(),
+            ) : this(from, to, mutableMapOf())
+
+            /**
+             * Start time of the time window as a Unix timestamp.
+             *
+             * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or
+             *   is unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
             fun from(): Long = from.getRequired("from")
 
-            /** End time of the time window as a Unix timestamp. */
+            /**
+             * End time of the time window as a Unix timestamp.
+             *
+             * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or
+             *   is unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
             fun to(): Long = to.getRequired("to")
 
-            /** Start time of the time window as a Unix timestamp. */
+            /**
+             * Returns the raw JSON value of [from].
+             *
+             * Unlike [from], this method doesn't throw if the JSON field has an unexpected type.
+             */
             @JsonProperty("from") @ExcludeMissing fun _from(): JsonField<Long> = from
 
-            /** End time of the time window as a Unix timestamp. */
+            /**
+             * Returns the raw JSON value of [to].
+             *
+             * Unlike [to], this method doesn't throw if the JSON field has an unexpected type.
+             */
             @JsonProperty("to") @ExcludeMissing fun _to(): JsonField<Long> = to
+
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
 
             @JsonAnyGetter
             @ExcludeMissing
-            fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-            private var validated: Boolean = false
-
-            fun validate(): PublicationWindow = apply {
-                if (validated) {
-                    return@apply
-                }
-
-                from()
-                to()
-                validated = true
-            }
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
 
             fun toBuilder() = Builder().from(this)
 
@@ -1981,13 +3363,25 @@ private constructor(
                 /** Start time of the time window as a Unix timestamp. */
                 fun from(from: Long) = from(JsonField.of(from))
 
-                /** Start time of the time window as a Unix timestamp. */
+                /**
+                 * Sets [Builder.from] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.from] with a well-typed [Long] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
                 fun from(from: JsonField<Long>) = apply { this.from = from }
 
                 /** End time of the time window as a Unix timestamp. */
                 fun to(to: Long) = to(JsonField.of(to))
 
-                /** End time of the time window as a Unix timestamp. */
+                /**
+                 * Sets [Builder.to] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.to] with a well-typed [Long] value instead. This
+                 * method is primarily for setting the field to an undocumented or not yet supported
+                 * value.
+                 */
                 fun to(to: JsonField<Long>) = apply { this.to = to }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -2012,13 +3406,55 @@ private constructor(
                     keys.forEach(::removeAdditionalProperty)
                 }
 
+                /**
+                 * Returns an immutable instance of [PublicationWindow].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 *
+                 * The following fields are required:
+                 * ```kotlin
+                 * .from()
+                 * .to()
+                 * ```
+                 *
+                 * @throws IllegalStateException if any required field is unset.
+                 */
                 fun build(): PublicationWindow =
                     PublicationWindow(
                         checkRequired("from", from),
                         checkRequired("to", to),
-                        additionalProperties.toImmutable(),
+                        additionalProperties.toMutableMap(),
                     )
             }
+
+            private var validated: Boolean = false
+
+            fun validate(): PublicationWindow = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                from()
+                to()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: OnebusawaySdkInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            internal fun validity(): Int =
+                (if (from.asKnown() == null) 0 else 1) + (if (to.asKnown() == null) 0 else 1)
 
             override fun equals(other: Any?): Boolean {
                 if (this === other) {
@@ -2145,6 +3581,33 @@ private constructor(
                 _value().asString()
                     ?: throw OnebusawaySdkInvalidDataException("Value is not a String")
 
+            private var validated: Boolean = false
+
+            fun validate(): Reason = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                known()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: OnebusawaySdkInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
             override fun equals(other: Any?): Boolean {
                 if (this === other) {
                     return true
@@ -2158,47 +3621,58 @@ private constructor(
             override fun toString() = value.toString()
         }
 
-        @NoAutoDetect
         class Summary
-        @JsonCreator
         private constructor(
-            @JsonProperty("lang")
-            @ExcludeMissing
-            private val lang: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("value")
-            @ExcludeMissing
-            private val value: JsonField<String> = JsonMissing.of(),
-            @JsonAnySetter
-            private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+            private val lang: JsonField<String>,
+            private val value: JsonField<String>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
 
-            /** Language of the summary. */
+            @JsonCreator
+            private constructor(
+                @JsonProperty("lang") @ExcludeMissing lang: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("value") @ExcludeMissing value: JsonField<String> = JsonMissing.of(),
+            ) : this(lang, value, mutableMapOf())
+
+            /**
+             * Language of the summary.
+             *
+             * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type
+             *   (e.g. if the server responded with an unexpected value).
+             */
             fun lang(): String? = lang.getNullable("lang")
 
-            /** Short summary of the situation. */
+            /**
+             * Short summary of the situation.
+             *
+             * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type
+             *   (e.g. if the server responded with an unexpected value).
+             */
             fun value(): String? = value.getNullable("value")
 
-            /** Language of the summary. */
+            /**
+             * Returns the raw JSON value of [lang].
+             *
+             * Unlike [lang], this method doesn't throw if the JSON field has an unexpected type.
+             */
             @JsonProperty("lang") @ExcludeMissing fun _lang(): JsonField<String> = lang
 
-            /** Short summary of the situation. */
+            /**
+             * Returns the raw JSON value of [value].
+             *
+             * Unlike [value], this method doesn't throw if the JSON field has an unexpected type.
+             */
             @JsonProperty("value") @ExcludeMissing fun _value(): JsonField<String> = value
+
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
 
             @JsonAnyGetter
             @ExcludeMissing
-            fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-            private var validated: Boolean = false
-
-            fun validate(): Summary = apply {
-                if (validated) {
-                    return@apply
-                }
-
-                lang()
-                value()
-                validated = true
-            }
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
 
             fun toBuilder() = Builder().from(this)
 
@@ -2224,13 +3698,25 @@ private constructor(
                 /** Language of the summary. */
                 fun lang(lang: String) = lang(JsonField.of(lang))
 
-                /** Language of the summary. */
+                /**
+                 * Sets [Builder.lang] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.lang] with a well-typed [String] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
                 fun lang(lang: JsonField<String>) = apply { this.lang = lang }
 
                 /** Short summary of the situation. */
                 fun value(value: String) = value(JsonField.of(value))
 
-                /** Short summary of the situation. */
+                /**
+                 * Sets [Builder.value] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.value] with a well-typed [String] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
                 fun value(value: JsonField<String>) = apply { this.value = value }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -2255,8 +3741,42 @@ private constructor(
                     keys.forEach(::removeAdditionalProperty)
                 }
 
-                fun build(): Summary = Summary(lang, value, additionalProperties.toImmutable())
+                /**
+                 * Returns an immutable instance of [Summary].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 */
+                fun build(): Summary = Summary(lang, value, additionalProperties.toMutableMap())
             }
+
+            private var validated: Boolean = false
+
+            fun validate(): Summary = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                lang()
+                value()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: OnebusawaySdkInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            internal fun validity(): Int =
+                (if (lang.asKnown() == null) 0 else 1) + (if (value.asKnown() == null) 0 else 1)
 
             override fun equals(other: Any?): Boolean {
                 if (this === other) {
@@ -2276,47 +3796,58 @@ private constructor(
                 "Summary{lang=$lang, value=$value, additionalProperties=$additionalProperties}"
         }
 
-        @NoAutoDetect
         class Url
-        @JsonCreator
         private constructor(
-            @JsonProperty("lang")
-            @ExcludeMissing
-            private val lang: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("value")
-            @ExcludeMissing
-            private val value: JsonField<String> = JsonMissing.of(),
-            @JsonAnySetter
-            private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+            private val lang: JsonField<String>,
+            private val value: JsonField<String>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
         ) {
 
-            /** Language of the URL. */
+            @JsonCreator
+            private constructor(
+                @JsonProperty("lang") @ExcludeMissing lang: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("value") @ExcludeMissing value: JsonField<String> = JsonMissing.of(),
+            ) : this(lang, value, mutableMapOf())
+
+            /**
+             * Language of the URL.
+             *
+             * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type
+             *   (e.g. if the server responded with an unexpected value).
+             */
             fun lang(): String? = lang.getNullable("lang")
 
-            /** URL for more information about the situation. */
+            /**
+             * URL for more information about the situation.
+             *
+             * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type
+             *   (e.g. if the server responded with an unexpected value).
+             */
             fun value(): String? = value.getNullable("value")
 
-            /** Language of the URL. */
+            /**
+             * Returns the raw JSON value of [lang].
+             *
+             * Unlike [lang], this method doesn't throw if the JSON field has an unexpected type.
+             */
             @JsonProperty("lang") @ExcludeMissing fun _lang(): JsonField<String> = lang
 
-            /** URL for more information about the situation. */
+            /**
+             * Returns the raw JSON value of [value].
+             *
+             * Unlike [value], this method doesn't throw if the JSON field has an unexpected type.
+             */
             @JsonProperty("value") @ExcludeMissing fun _value(): JsonField<String> = value
+
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
 
             @JsonAnyGetter
             @ExcludeMissing
-            fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-            private var validated: Boolean = false
-
-            fun validate(): Url = apply {
-                if (validated) {
-                    return@apply
-                }
-
-                lang()
-                value()
-                validated = true
-            }
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
 
             fun toBuilder() = Builder().from(this)
 
@@ -2342,13 +3873,25 @@ private constructor(
                 /** Language of the URL. */
                 fun lang(lang: String) = lang(JsonField.of(lang))
 
-                /** Language of the URL. */
+                /**
+                 * Sets [Builder.lang] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.lang] with a well-typed [String] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
                 fun lang(lang: JsonField<String>) = apply { this.lang = lang }
 
                 /** URL for more information about the situation. */
                 fun value(value: String) = value(JsonField.of(value))
 
-                /** URL for more information about the situation. */
+                /**
+                 * Sets [Builder.value] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.value] with a well-typed [String] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
                 fun value(value: JsonField<String>) = apply { this.value = value }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -2373,8 +3916,42 @@ private constructor(
                     keys.forEach(::removeAdditionalProperty)
                 }
 
-                fun build(): Url = Url(lang, value, additionalProperties.toImmutable())
+                /**
+                 * Returns an immutable instance of [Url].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 */
+                fun build(): Url = Url(lang, value, additionalProperties.toMutableMap())
             }
+
+            private var validated: Boolean = false
+
+            fun validate(): Url = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                lang()
+                value()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: OnebusawaySdkInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            internal fun validity(): Int =
+                (if (lang.asKnown() == null) 0 else 1) + (if (value.asKnown() == null) 0 else 1)
 
             override fun equals(other: Any?): Boolean {
                 if (this === other) {
@@ -2412,117 +3989,223 @@ private constructor(
             "Situation{id=$id, creationTime=$creationTime, activeWindows=$activeWindows, allAffects=$allAffects, consequenceMessage=$consequenceMessage, consequences=$consequences, description=$description, publicationWindows=$publicationWindows, reason=$reason, severity=$severity, summary=$summary, url=$url, additionalProperties=$additionalProperties}"
     }
 
-    @NoAutoDetect
     class Stop
-    @JsonCreator
     private constructor(
-        @JsonProperty("id") @ExcludeMissing private val id: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("lat") @ExcludeMissing private val lat: JsonField<Double> = JsonMissing.of(),
-        @JsonProperty("lon") @ExcludeMissing private val lon: JsonField<Double> = JsonMissing.of(),
-        @JsonProperty("name")
-        @ExcludeMissing
-        private val name: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("parent")
-        @ExcludeMissing
-        private val parent: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("routeIds")
-        @ExcludeMissing
-        private val routeIds: JsonField<List<String>> = JsonMissing.of(),
-        @JsonProperty("staticRouteIds")
-        @ExcludeMissing
-        private val staticRouteIds: JsonField<List<String>> = JsonMissing.of(),
-        @JsonProperty("code")
-        @ExcludeMissing
-        private val code: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("direction")
-        @ExcludeMissing
-        private val direction: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("locationType")
-        @ExcludeMissing
-        private val locationType: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("wheelchairBoarding")
-        @ExcludeMissing
-        private val wheelchairBoarding: JsonField<String> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+        private val id: JsonField<String>,
+        private val lat: JsonField<Double>,
+        private val locationType: JsonField<Long>,
+        private val lon: JsonField<Double>,
+        private val name: JsonField<String>,
+        private val parent: JsonField<String>,
+        private val routeIds: JsonField<List<String>>,
+        private val staticRouteIds: JsonField<List<String>>,
+        private val code: JsonField<String>,
+        private val direction: JsonField<String>,
+        private val wheelchairBoarding: JsonField<String>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
+        @JsonCreator
+        private constructor(
+            @JsonProperty("id") @ExcludeMissing id: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("lat") @ExcludeMissing lat: JsonField<Double> = JsonMissing.of(),
+            @JsonProperty("locationType")
+            @ExcludeMissing
+            locationType: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("lon") @ExcludeMissing lon: JsonField<Double> = JsonMissing.of(),
+            @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("parent") @ExcludeMissing parent: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("routeIds")
+            @ExcludeMissing
+            routeIds: JsonField<List<String>> = JsonMissing.of(),
+            @JsonProperty("staticRouteIds")
+            @ExcludeMissing
+            staticRouteIds: JsonField<List<String>> = JsonMissing.of(),
+            @JsonProperty("code") @ExcludeMissing code: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("direction")
+            @ExcludeMissing
+            direction: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("wheelchairBoarding")
+            @ExcludeMissing
+            wheelchairBoarding: JsonField<String> = JsonMissing.of(),
+        ) : this(
+            id,
+            lat,
+            locationType,
+            lon,
+            name,
+            parent,
+            routeIds,
+            staticRouteIds,
+            code,
+            direction,
+            wheelchairBoarding,
+            mutableMapOf(),
+        )
+
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun id(): String = id.getRequired("id")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun lat(): Double = lat.getRequired("lat")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun locationType(): Long = locationType.getRequired("locationType")
+
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun lon(): Double = lon.getRequired("lon")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun name(): String = name.getRequired("name")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun parent(): String = parent.getRequired("parent")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun routeIds(): List<String> = routeIds.getRequired("routeIds")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun staticRouteIds(): List<String> = staticRouteIds.getRequired("staticRouteIds")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
         fun code(): String? = code.getNullable("code")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
         fun direction(): String? = direction.getNullable("direction")
 
-        fun locationType(): Long? = locationType.getNullable("locationType")
-
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
         fun wheelchairBoarding(): String? = wheelchairBoarding.getNullable("wheelchairBoarding")
 
+        /**
+         * Returns the raw JSON value of [id].
+         *
+         * Unlike [id], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("id") @ExcludeMissing fun _id(): JsonField<String> = id
 
+        /**
+         * Returns the raw JSON value of [lat].
+         *
+         * Unlike [lat], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("lat") @ExcludeMissing fun _lat(): JsonField<Double> = lat
 
-        @JsonProperty("lon") @ExcludeMissing fun _lon(): JsonField<Double> = lon
-
-        @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
-
-        @JsonProperty("parent") @ExcludeMissing fun _parent(): JsonField<String> = parent
-
-        @JsonProperty("routeIds")
-        @ExcludeMissing
-        fun _routeIds(): JsonField<List<String>> = routeIds
-
-        @JsonProperty("staticRouteIds")
-        @ExcludeMissing
-        fun _staticRouteIds(): JsonField<List<String>> = staticRouteIds
-
-        @JsonProperty("code") @ExcludeMissing fun _code(): JsonField<String> = code
-
-        @JsonProperty("direction") @ExcludeMissing fun _direction(): JsonField<String> = direction
-
+        /**
+         * Returns the raw JSON value of [locationType].
+         *
+         * Unlike [locationType], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("locationType")
         @ExcludeMissing
         fun _locationType(): JsonField<Long> = locationType
 
+        /**
+         * Returns the raw JSON value of [lon].
+         *
+         * Unlike [lon], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("lon") @ExcludeMissing fun _lon(): JsonField<Double> = lon
+
+        /**
+         * Returns the raw JSON value of [name].
+         *
+         * Unlike [name], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
+
+        /**
+         * Returns the raw JSON value of [parent].
+         *
+         * Unlike [parent], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("parent") @ExcludeMissing fun _parent(): JsonField<String> = parent
+
+        /**
+         * Returns the raw JSON value of [routeIds].
+         *
+         * Unlike [routeIds], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("routeIds")
+        @ExcludeMissing
+        fun _routeIds(): JsonField<List<String>> = routeIds
+
+        /**
+         * Returns the raw JSON value of [staticRouteIds].
+         *
+         * Unlike [staticRouteIds], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("staticRouteIds")
+        @ExcludeMissing
+        fun _staticRouteIds(): JsonField<List<String>> = staticRouteIds
+
+        /**
+         * Returns the raw JSON value of [code].
+         *
+         * Unlike [code], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("code") @ExcludeMissing fun _code(): JsonField<String> = code
+
+        /**
+         * Returns the raw JSON value of [direction].
+         *
+         * Unlike [direction], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("direction") @ExcludeMissing fun _direction(): JsonField<String> = direction
+
+        /**
+         * Returns the raw JSON value of [wheelchairBoarding].
+         *
+         * Unlike [wheelchairBoarding], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
         @JsonProperty("wheelchairBoarding")
         @ExcludeMissing
         fun _wheelchairBoarding(): JsonField<String> = wheelchairBoarding
 
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
         @JsonAnyGetter
         @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): Stop = apply {
-            if (validated) {
-                return@apply
-            }
-
-            id()
-            lat()
-            lon()
-            name()
-            parent()
-            routeIds()
-            staticRouteIds()
-            code()
-            direction()
-            locationType()
-            wheelchairBoarding()
-            validated = true
-        }
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
 
         fun toBuilder() = Builder().from(this)
 
@@ -2535,6 +4218,7 @@ private constructor(
              * ```kotlin
              * .id()
              * .lat()
+             * .locationType()
              * .lon()
              * .name()
              * .parent()
@@ -2550,6 +4234,7 @@ private constructor(
 
             private var id: JsonField<String>? = null
             private var lat: JsonField<Double>? = null
+            private var locationType: JsonField<Long>? = null
             private var lon: JsonField<Double>? = null
             private var name: JsonField<String>? = null
             private var parent: JsonField<String>? = null
@@ -2557,13 +4242,13 @@ private constructor(
             private var staticRouteIds: JsonField<MutableList<String>>? = null
             private var code: JsonField<String> = JsonMissing.of()
             private var direction: JsonField<String> = JsonMissing.of()
-            private var locationType: JsonField<Long> = JsonMissing.of()
             private var wheelchairBoarding: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             internal fun from(stop: Stop) = apply {
                 id = stop.id
                 lat = stop.lat
+                locationType = stop.locationType
                 lon = stop.lon
                 name = stop.name
                 parent = stop.parent
@@ -2571,37 +4256,96 @@ private constructor(
                 staticRouteIds = stop.staticRouteIds.map { it.toMutableList() }
                 code = stop.code
                 direction = stop.direction
-                locationType = stop.locationType
                 wheelchairBoarding = stop.wheelchairBoarding
                 additionalProperties = stop.additionalProperties.toMutableMap()
             }
 
             fun id(id: String) = id(JsonField.of(id))
 
+            /**
+             * Sets [Builder.id] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.id] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun id(id: JsonField<String>) = apply { this.id = id }
 
             fun lat(lat: Double) = lat(JsonField.of(lat))
 
+            /**
+             * Sets [Builder.lat] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.lat] with a well-typed [Double] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun lat(lat: JsonField<Double>) = apply { this.lat = lat }
+
+            fun locationType(locationType: Long) = locationType(JsonField.of(locationType))
+
+            /**
+             * Sets [Builder.locationType] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.locationType] with a well-typed [Long] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun locationType(locationType: JsonField<Long>) = apply {
+                this.locationType = locationType
+            }
 
             fun lon(lon: Double) = lon(JsonField.of(lon))
 
+            /**
+             * Sets [Builder.lon] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.lon] with a well-typed [Double] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun lon(lon: JsonField<Double>) = apply { this.lon = lon }
 
             fun name(name: String) = name(JsonField.of(name))
 
+            /**
+             * Sets [Builder.name] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.name] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun name(name: JsonField<String>) = apply { this.name = name }
 
             fun parent(parent: String) = parent(JsonField.of(parent))
 
+            /**
+             * Sets [Builder.parent] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.parent] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun parent(parent: JsonField<String>) = apply { this.parent = parent }
 
             fun routeIds(routeIds: List<String>) = routeIds(JsonField.of(routeIds))
 
+            /**
+             * Sets [Builder.routeIds] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.routeIds] with a well-typed `List<String>` value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun routeIds(routeIds: JsonField<List<String>>) = apply {
                 this.routeIds = routeIds.map { it.toMutableList() }
             }
 
+            /**
+             * Adds a single [String] to [routeIds].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
+             */
             fun addRouteId(routeId: String) = apply {
                 routeIds =
                     (routeIds ?: JsonField.of(mutableListOf())).also {
@@ -2612,10 +4356,22 @@ private constructor(
             fun staticRouteIds(staticRouteIds: List<String>) =
                 staticRouteIds(JsonField.of(staticRouteIds))
 
+            /**
+             * Sets [Builder.staticRouteIds] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.staticRouteIds] with a well-typed `List<String>`
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
             fun staticRouteIds(staticRouteIds: JsonField<List<String>>) = apply {
                 this.staticRouteIds = staticRouteIds.map { it.toMutableList() }
             }
 
+            /**
+             * Adds a single [String] to [staticRouteIds].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
+             */
             fun addStaticRouteId(staticRouteId: String) = apply {
                 staticRouteIds =
                     (staticRouteIds ?: JsonField.of(mutableListOf())).also {
@@ -2625,21 +4381,36 @@ private constructor(
 
             fun code(code: String) = code(JsonField.of(code))
 
+            /**
+             * Sets [Builder.code] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.code] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun code(code: JsonField<String>) = apply { this.code = code }
 
             fun direction(direction: String) = direction(JsonField.of(direction))
 
+            /**
+             * Sets [Builder.direction] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.direction] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun direction(direction: JsonField<String>) = apply { this.direction = direction }
-
-            fun locationType(locationType: Long) = locationType(JsonField.of(locationType))
-
-            fun locationType(locationType: JsonField<Long>) = apply {
-                this.locationType = locationType
-            }
 
             fun wheelchairBoarding(wheelchairBoarding: String) =
                 wheelchairBoarding(JsonField.of(wheelchairBoarding))
 
+            /**
+             * Sets [Builder.wheelchairBoarding] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.wheelchairBoarding] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun wheelchairBoarding(wheelchairBoarding: JsonField<String>) = apply {
                 this.wheelchairBoarding = wheelchairBoarding
             }
@@ -2663,10 +4434,30 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
+            /**
+             * Returns an immutable instance of [Stop].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```kotlin
+             * .id()
+             * .lat()
+             * .locationType()
+             * .lon()
+             * .name()
+             * .parent()
+             * .routeIds()
+             * .staticRouteIds()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
             fun build(): Stop =
                 Stop(
                     checkRequired("id", id),
                     checkRequired("lat", lat),
+                    checkRequired("locationType", locationType),
                     checkRequired("lon", lon),
                     checkRequired("name", name),
                     checkRequired("parent", parent),
@@ -2674,109 +4465,217 @@ private constructor(
                     checkRequired("staticRouteIds", staticRouteIds).map { it.toImmutable() },
                     code,
                     direction,
-                    locationType,
                     wheelchairBoarding,
-                    additionalProperties.toImmutable(),
+                    additionalProperties.toMutableMap(),
                 )
         }
+
+        private var validated: Boolean = false
+
+        fun validate(): Stop = apply {
+            if (validated) {
+                return@apply
+            }
+
+            id()
+            lat()
+            locationType()
+            lon()
+            name()
+            parent()
+            routeIds()
+            staticRouteIds()
+            code()
+            direction()
+            wheelchairBoarding()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: OnebusawaySdkInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        internal fun validity(): Int =
+            (if (id.asKnown() == null) 0 else 1) +
+                (if (lat.asKnown() == null) 0 else 1) +
+                (if (locationType.asKnown() == null) 0 else 1) +
+                (if (lon.asKnown() == null) 0 else 1) +
+                (if (name.asKnown() == null) 0 else 1) +
+                (if (parent.asKnown() == null) 0 else 1) +
+                (routeIds.asKnown()?.size ?: 0) +
+                (staticRouteIds.asKnown()?.size ?: 0) +
+                (if (code.asKnown() == null) 0 else 1) +
+                (if (direction.asKnown() == null) 0 else 1) +
+                (if (wheelchairBoarding.asKnown() == null) 0 else 1)
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {
                 return true
             }
 
-            return /* spotless:off */ other is Stop && id == other.id && lat == other.lat && lon == other.lon && name == other.name && parent == other.parent && routeIds == other.routeIds && staticRouteIds == other.staticRouteIds && code == other.code && direction == other.direction && locationType == other.locationType && wheelchairBoarding == other.wheelchairBoarding && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Stop && id == other.id && lat == other.lat && locationType == other.locationType && lon == other.lon && name == other.name && parent == other.parent && routeIds == other.routeIds && staticRouteIds == other.staticRouteIds && code == other.code && direction == other.direction && wheelchairBoarding == other.wheelchairBoarding && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(id, lat, lon, name, parent, routeIds, staticRouteIds, code, direction, locationType, wheelchairBoarding, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(id, lat, locationType, lon, name, parent, routeIds, staticRouteIds, code, direction, wheelchairBoarding, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Stop{id=$id, lat=$lat, lon=$lon, name=$name, parent=$parent, routeIds=$routeIds, staticRouteIds=$staticRouteIds, code=$code, direction=$direction, locationType=$locationType, wheelchairBoarding=$wheelchairBoarding, additionalProperties=$additionalProperties}"
+            "Stop{id=$id, lat=$lat, locationType=$locationType, lon=$lon, name=$name, parent=$parent, routeIds=$routeIds, staticRouteIds=$staticRouteIds, code=$code, direction=$direction, wheelchairBoarding=$wheelchairBoarding, additionalProperties=$additionalProperties}"
     }
 
-    @NoAutoDetect
     class StopTime
-    @JsonCreator
     private constructor(
-        @JsonProperty("arrivalTime")
-        @ExcludeMissing
-        private val arrivalTime: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("departureTime")
-        @ExcludeMissing
-        private val departureTime: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("distanceAlongTrip")
-        @ExcludeMissing
-        private val distanceAlongTrip: JsonField<Double> = JsonMissing.of(),
-        @JsonProperty("historicalOccupancy")
-        @ExcludeMissing
-        private val historicalOccupancy: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("stopHeadsign")
-        @ExcludeMissing
-        private val stopHeadsign: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("stopId")
-        @ExcludeMissing
-        private val stopId: JsonField<String> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+        private val arrivalTime: JsonField<Long>,
+        private val departureTime: JsonField<Long>,
+        private val distanceAlongTrip: JsonField<Double>,
+        private val historicalOccupancy: JsonField<String>,
+        private val stopHeadsign: JsonField<String>,
+        private val stopId: JsonField<String>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
+        @JsonCreator
+        private constructor(
+            @JsonProperty("arrivalTime")
+            @ExcludeMissing
+            arrivalTime: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("departureTime")
+            @ExcludeMissing
+            departureTime: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("distanceAlongTrip")
+            @ExcludeMissing
+            distanceAlongTrip: JsonField<Double> = JsonMissing.of(),
+            @JsonProperty("historicalOccupancy")
+            @ExcludeMissing
+            historicalOccupancy: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("stopHeadsign")
+            @ExcludeMissing
+            stopHeadsign: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("stopId") @ExcludeMissing stopId: JsonField<String> = JsonMissing.of(),
+        ) : this(
+            arrivalTime,
+            departureTime,
+            distanceAlongTrip,
+            historicalOccupancy,
+            stopHeadsign,
+            stopId,
+            mutableMapOf(),
+        )
+
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
         fun arrivalTime(): Long? = arrivalTime.getNullable("arrivalTime")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
         fun departureTime(): Long? = departureTime.getNullable("departureTime")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
         fun distanceAlongTrip(): Double? = distanceAlongTrip.getNullable("distanceAlongTrip")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
         fun historicalOccupancy(): String? = historicalOccupancy.getNullable("historicalOccupancy")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
         fun stopHeadsign(): String? = stopHeadsign.getNullable("stopHeadsign")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
         fun stopId(): String? = stopId.getNullable("stopId")
 
+        /**
+         * Returns the raw JSON value of [arrivalTime].
+         *
+         * Unlike [arrivalTime], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("arrivalTime")
         @ExcludeMissing
         fun _arrivalTime(): JsonField<Long> = arrivalTime
 
+        /**
+         * Returns the raw JSON value of [departureTime].
+         *
+         * Unlike [departureTime], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("departureTime")
         @ExcludeMissing
         fun _departureTime(): JsonField<Long> = departureTime
 
+        /**
+         * Returns the raw JSON value of [distanceAlongTrip].
+         *
+         * Unlike [distanceAlongTrip], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("distanceAlongTrip")
         @ExcludeMissing
         fun _distanceAlongTrip(): JsonField<Double> = distanceAlongTrip
 
+        /**
+         * Returns the raw JSON value of [historicalOccupancy].
+         *
+         * Unlike [historicalOccupancy], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
         @JsonProperty("historicalOccupancy")
         @ExcludeMissing
         fun _historicalOccupancy(): JsonField<String> = historicalOccupancy
 
+        /**
+         * Returns the raw JSON value of [stopHeadsign].
+         *
+         * Unlike [stopHeadsign], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("stopHeadsign")
         @ExcludeMissing
         fun _stopHeadsign(): JsonField<String> = stopHeadsign
 
+        /**
+         * Returns the raw JSON value of [stopId].
+         *
+         * Unlike [stopId], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("stopId") @ExcludeMissing fun _stopId(): JsonField<String> = stopId
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
 
         @JsonAnyGetter
         @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): StopTime = apply {
-            if (validated) {
-                return@apply
-            }
-
-            arrivalTime()
-            departureTime()
-            distanceAlongTrip()
-            historicalOccupancy()
-            stopHeadsign()
-            stopId()
-            validated = true
-        }
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
 
         fun toBuilder() = Builder().from(this)
 
@@ -2809,10 +4708,24 @@ private constructor(
 
             fun arrivalTime(arrivalTime: Long) = arrivalTime(JsonField.of(arrivalTime))
 
+            /**
+             * Sets [Builder.arrivalTime] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.arrivalTime] with a well-typed [Long] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun arrivalTime(arrivalTime: JsonField<Long>) = apply { this.arrivalTime = arrivalTime }
 
             fun departureTime(departureTime: Long) = departureTime(JsonField.of(departureTime))
 
+            /**
+             * Sets [Builder.departureTime] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.departureTime] with a well-typed [Long] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun departureTime(departureTime: JsonField<Long>) = apply {
                 this.departureTime = departureTime
             }
@@ -2820,6 +4733,13 @@ private constructor(
             fun distanceAlongTrip(distanceAlongTrip: Double) =
                 distanceAlongTrip(JsonField.of(distanceAlongTrip))
 
+            /**
+             * Sets [Builder.distanceAlongTrip] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.distanceAlongTrip] with a well-typed [Double] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun distanceAlongTrip(distanceAlongTrip: JsonField<Double>) = apply {
                 this.distanceAlongTrip = distanceAlongTrip
             }
@@ -2827,18 +4747,39 @@ private constructor(
             fun historicalOccupancy(historicalOccupancy: String) =
                 historicalOccupancy(JsonField.of(historicalOccupancy))
 
+            /**
+             * Sets [Builder.historicalOccupancy] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.historicalOccupancy] with a well-typed [String]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
             fun historicalOccupancy(historicalOccupancy: JsonField<String>) = apply {
                 this.historicalOccupancy = historicalOccupancy
             }
 
             fun stopHeadsign(stopHeadsign: String) = stopHeadsign(JsonField.of(stopHeadsign))
 
+            /**
+             * Sets [Builder.stopHeadsign] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.stopHeadsign] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun stopHeadsign(stopHeadsign: JsonField<String>) = apply {
                 this.stopHeadsign = stopHeadsign
             }
 
             fun stopId(stopId: String) = stopId(JsonField.of(stopId))
 
+            /**
+             * Sets [Builder.stopId] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.stopId] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun stopId(stopId: JsonField<String>) = apply { this.stopId = stopId }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -2860,6 +4801,11 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
+            /**
+             * Returns an immutable instance of [StopTime].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             */
             fun build(): StopTime =
                 StopTime(
                     arrivalTime,
@@ -2868,9 +4814,47 @@ private constructor(
                     historicalOccupancy,
                     stopHeadsign,
                     stopId,
-                    additionalProperties.toImmutable(),
+                    additionalProperties.toMutableMap(),
                 )
         }
+
+        private var validated: Boolean = false
+
+        fun validate(): StopTime = apply {
+            if (validated) {
+                return@apply
+            }
+
+            arrivalTime()
+            departureTime()
+            distanceAlongTrip()
+            historicalOccupancy()
+            stopHeadsign()
+            stopId()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: OnebusawaySdkInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        internal fun validity(): Int =
+            (if (arrivalTime.asKnown() == null) 0 else 1) +
+                (if (departureTime.asKnown() == null) 0 else 1) +
+                (if (distanceAlongTrip.asKnown() == null) 0 else 1) +
+                (if (historicalOccupancy.asKnown() == null) 0 else 1) +
+                (if (stopHeadsign.asKnown() == null) 0 else 1) +
+                (if (stopId.asKnown() == null) 0 else 1)
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {
@@ -2890,123 +4874,229 @@ private constructor(
             "StopTime{arrivalTime=$arrivalTime, departureTime=$departureTime, distanceAlongTrip=$distanceAlongTrip, historicalOccupancy=$historicalOccupancy, stopHeadsign=$stopHeadsign, stopId=$stopId, additionalProperties=$additionalProperties}"
     }
 
-    @NoAutoDetect
     class Trip
-    @JsonCreator
     private constructor(
-        @JsonProperty("id") @ExcludeMissing private val id: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("routeId")
-        @ExcludeMissing
-        private val routeId: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("serviceId")
-        @ExcludeMissing
-        private val serviceId: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("blockId")
-        @ExcludeMissing
-        private val blockId: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("directionId")
-        @ExcludeMissing
-        private val directionId: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("peakOffpeak")
-        @ExcludeMissing
-        private val peakOffpeak: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("routeShortName")
-        @ExcludeMissing
-        private val routeShortName: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("shapeId")
-        @ExcludeMissing
-        private val shapeId: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("timeZone")
-        @ExcludeMissing
-        private val timeZone: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("tripHeadsign")
-        @ExcludeMissing
-        private val tripHeadsign: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("tripShortName")
-        @ExcludeMissing
-        private val tripShortName: JsonField<String> = JsonMissing.of(),
-        @JsonAnySetter
-        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
+        private val id: JsonField<String>,
+        private val routeId: JsonField<String>,
+        private val serviceId: JsonField<String>,
+        private val blockId: JsonField<String>,
+        private val directionId: JsonField<String>,
+        private val peakOffpeak: JsonField<Long>,
+        private val routeShortName: JsonField<String>,
+        private val shapeId: JsonField<String>,
+        private val timeZone: JsonField<String>,
+        private val tripHeadsign: JsonField<String>,
+        private val tripShortName: JsonField<String>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
+        @JsonCreator
+        private constructor(
+            @JsonProperty("id") @ExcludeMissing id: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("routeId") @ExcludeMissing routeId: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("serviceId")
+            @ExcludeMissing
+            serviceId: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("blockId") @ExcludeMissing blockId: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("directionId")
+            @ExcludeMissing
+            directionId: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("peakOffpeak")
+            @ExcludeMissing
+            peakOffpeak: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("routeShortName")
+            @ExcludeMissing
+            routeShortName: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("shapeId") @ExcludeMissing shapeId: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("timeZone")
+            @ExcludeMissing
+            timeZone: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("tripHeadsign")
+            @ExcludeMissing
+            tripHeadsign: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("tripShortName")
+            @ExcludeMissing
+            tripShortName: JsonField<String> = JsonMissing.of(),
+        ) : this(
+            id,
+            routeId,
+            serviceId,
+            blockId,
+            directionId,
+            peakOffpeak,
+            routeShortName,
+            shapeId,
+            timeZone,
+            tripHeadsign,
+            tripShortName,
+            mutableMapOf(),
+        )
+
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun id(): String = id.getRequired("id")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun routeId(): String = routeId.getRequired("routeId")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
         fun serviceId(): String = serviceId.getRequired("serviceId")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
         fun blockId(): String? = blockId.getNullable("blockId")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
         fun directionId(): String? = directionId.getNullable("directionId")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
         fun peakOffpeak(): Long? = peakOffpeak.getNullable("peakOffpeak")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
         fun routeShortName(): String? = routeShortName.getNullable("routeShortName")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
         fun shapeId(): String? = shapeId.getNullable("shapeId")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
         fun timeZone(): String? = timeZone.getNullable("timeZone")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
         fun tripHeadsign(): String? = tripHeadsign.getNullable("tripHeadsign")
 
+        /**
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
+         */
         fun tripShortName(): String? = tripShortName.getNullable("tripShortName")
 
+        /**
+         * Returns the raw JSON value of [id].
+         *
+         * Unlike [id], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("id") @ExcludeMissing fun _id(): JsonField<String> = id
 
+        /**
+         * Returns the raw JSON value of [routeId].
+         *
+         * Unlike [routeId], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("routeId") @ExcludeMissing fun _routeId(): JsonField<String> = routeId
 
+        /**
+         * Returns the raw JSON value of [serviceId].
+         *
+         * Unlike [serviceId], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("serviceId") @ExcludeMissing fun _serviceId(): JsonField<String> = serviceId
 
+        /**
+         * Returns the raw JSON value of [blockId].
+         *
+         * Unlike [blockId], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("blockId") @ExcludeMissing fun _blockId(): JsonField<String> = blockId
 
+        /**
+         * Returns the raw JSON value of [directionId].
+         *
+         * Unlike [directionId], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("directionId")
         @ExcludeMissing
         fun _directionId(): JsonField<String> = directionId
 
+        /**
+         * Returns the raw JSON value of [peakOffpeak].
+         *
+         * Unlike [peakOffpeak], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("peakOffpeak")
         @ExcludeMissing
         fun _peakOffpeak(): JsonField<Long> = peakOffpeak
 
+        /**
+         * Returns the raw JSON value of [routeShortName].
+         *
+         * Unlike [routeShortName], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("routeShortName")
         @ExcludeMissing
         fun _routeShortName(): JsonField<String> = routeShortName
 
+        /**
+         * Returns the raw JSON value of [shapeId].
+         *
+         * Unlike [shapeId], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("shapeId") @ExcludeMissing fun _shapeId(): JsonField<String> = shapeId
 
+        /**
+         * Returns the raw JSON value of [timeZone].
+         *
+         * Unlike [timeZone], this method doesn't throw if the JSON field has an unexpected type.
+         */
         @JsonProperty("timeZone") @ExcludeMissing fun _timeZone(): JsonField<String> = timeZone
 
+        /**
+         * Returns the raw JSON value of [tripHeadsign].
+         *
+         * Unlike [tripHeadsign], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("tripHeadsign")
         @ExcludeMissing
         fun _tripHeadsign(): JsonField<String> = tripHeadsign
 
+        /**
+         * Returns the raw JSON value of [tripShortName].
+         *
+         * Unlike [tripShortName], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
         @JsonProperty("tripShortName")
         @ExcludeMissing
         fun _tripShortName(): JsonField<String> = tripShortName
 
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
         @JsonAnyGetter
         @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        private var validated: Boolean = false
-
-        fun validate(): Trip = apply {
-            if (validated) {
-                return@apply
-            }
-
-            id()
-            routeId()
-            serviceId()
-            blockId()
-            directionId()
-            peakOffpeak()
-            routeShortName()
-            shapeId()
-            timeZone()
-            tripHeadsign()
-            tripShortName()
-            validated = true
-        }
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
 
         fun toBuilder() = Builder().from(this)
 
@@ -3058,53 +5148,130 @@ private constructor(
 
             fun id(id: String) = id(JsonField.of(id))
 
+            /**
+             * Sets [Builder.id] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.id] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
             fun id(id: JsonField<String>) = apply { this.id = id }
 
             fun routeId(routeId: String) = routeId(JsonField.of(routeId))
 
+            /**
+             * Sets [Builder.routeId] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.routeId] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun routeId(routeId: JsonField<String>) = apply { this.routeId = routeId }
 
             fun serviceId(serviceId: String) = serviceId(JsonField.of(serviceId))
 
+            /**
+             * Sets [Builder.serviceId] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.serviceId] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun serviceId(serviceId: JsonField<String>) = apply { this.serviceId = serviceId }
 
             fun blockId(blockId: String) = blockId(JsonField.of(blockId))
 
+            /**
+             * Sets [Builder.blockId] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.blockId] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun blockId(blockId: JsonField<String>) = apply { this.blockId = blockId }
 
             fun directionId(directionId: String) = directionId(JsonField.of(directionId))
 
+            /**
+             * Sets [Builder.directionId] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.directionId] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun directionId(directionId: JsonField<String>) = apply {
                 this.directionId = directionId
             }
 
             fun peakOffpeak(peakOffpeak: Long) = peakOffpeak(JsonField.of(peakOffpeak))
 
+            /**
+             * Sets [Builder.peakOffpeak] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.peakOffpeak] with a well-typed [Long] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun peakOffpeak(peakOffpeak: JsonField<Long>) = apply { this.peakOffpeak = peakOffpeak }
 
             fun routeShortName(routeShortName: String) =
                 routeShortName(JsonField.of(routeShortName))
 
+            /**
+             * Sets [Builder.routeShortName] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.routeShortName] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun routeShortName(routeShortName: JsonField<String>) = apply {
                 this.routeShortName = routeShortName
             }
 
             fun shapeId(shapeId: String) = shapeId(JsonField.of(shapeId))
 
+            /**
+             * Sets [Builder.shapeId] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.shapeId] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun shapeId(shapeId: JsonField<String>) = apply { this.shapeId = shapeId }
 
             fun timeZone(timeZone: String) = timeZone(JsonField.of(timeZone))
 
+            /**
+             * Sets [Builder.timeZone] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.timeZone] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun timeZone(timeZone: JsonField<String>) = apply { this.timeZone = timeZone }
 
             fun tripHeadsign(tripHeadsign: String) = tripHeadsign(JsonField.of(tripHeadsign))
 
+            /**
+             * Sets [Builder.tripHeadsign] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.tripHeadsign] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun tripHeadsign(tripHeadsign: JsonField<String>) = apply {
                 this.tripHeadsign = tripHeadsign
             }
 
             fun tripShortName(tripShortName: String) = tripShortName(JsonField.of(tripShortName))
 
+            /**
+             * Sets [Builder.tripShortName] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.tripShortName] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
             fun tripShortName(tripShortName: JsonField<String>) = apply {
                 this.tripShortName = tripShortName
             }
@@ -3128,6 +5295,20 @@ private constructor(
                 keys.forEach(::removeAdditionalProperty)
             }
 
+            /**
+             * Returns an immutable instance of [Trip].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```kotlin
+             * .id()
+             * .routeId()
+             * .serviceId()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
             fun build(): Trip =
                 Trip(
                     checkRequired("id", id),
@@ -3141,9 +5322,57 @@ private constructor(
                     timeZone,
                     tripHeadsign,
                     tripShortName,
-                    additionalProperties.toImmutable(),
+                    additionalProperties.toMutableMap(),
                 )
         }
+
+        private var validated: Boolean = false
+
+        fun validate(): Trip = apply {
+            if (validated) {
+                return@apply
+            }
+
+            id()
+            routeId()
+            serviceId()
+            blockId()
+            directionId()
+            peakOffpeak()
+            routeShortName()
+            shapeId()
+            timeZone()
+            tripHeadsign()
+            tripShortName()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: OnebusawaySdkInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        internal fun validity(): Int =
+            (if (id.asKnown() == null) 0 else 1) +
+                (if (routeId.asKnown() == null) 0 else 1) +
+                (if (serviceId.asKnown() == null) 0 else 1) +
+                (if (blockId.asKnown() == null) 0 else 1) +
+                (if (directionId.asKnown() == null) 0 else 1) +
+                (if (peakOffpeak.asKnown() == null) 0 else 1) +
+                (if (routeShortName.asKnown() == null) 0 else 1) +
+                (if (shapeId.asKnown() == null) 0 else 1) +
+                (if (timeZone.asKnown() == null) 0 else 1) +
+                (if (tripHeadsign.asKnown() == null) 0 else 1) +
+                (if (tripShortName.asKnown() == null) 0 else 1)
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {

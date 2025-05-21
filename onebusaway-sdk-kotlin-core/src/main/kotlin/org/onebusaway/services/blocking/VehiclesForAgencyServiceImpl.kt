@@ -3,7 +3,9 @@
 package org.onebusaway.services.blocking
 
 import org.onebusaway.core.ClientOptions
+import org.onebusaway.core.JsonValue
 import org.onebusaway.core.RequestOptions
+import org.onebusaway.core.checkRequired
 import org.onebusaway.core.handlers.errorHandler
 import org.onebusaway.core.handlers.jsonHandler
 import org.onebusaway.core.handlers.withErrorHandler
@@ -13,9 +15,8 @@ import org.onebusaway.core.http.HttpResponse.Handler
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.core.http.parseable
 import org.onebusaway.core.prepare
-import org.onebusaway.errors.OnebusawaySdkError
-import org.onebusaway.models.VehiclesForAgencyListParams
-import org.onebusaway.models.VehiclesForAgencyListResponse
+import org.onebusaway.models.vehiclesforagency.VehiclesForAgencyListParams
+import org.onebusaway.models.vehiclesforagency.VehiclesForAgencyListResponse
 
 class VehiclesForAgencyServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     VehiclesForAgencyService {
@@ -36,8 +37,7 @@ class VehiclesForAgencyServiceImpl internal constructor(private val clientOption
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         VehiclesForAgencyService.WithRawResponse {
 
-        private val errorHandler: Handler<OnebusawaySdkError> =
-            errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
         private val listHandler: Handler<VehiclesForAgencyListResponse> =
             jsonHandler<VehiclesForAgencyListResponse>(clientOptions.jsonMapper)
@@ -47,6 +47,9 @@ class VehiclesForAgencyServiceImpl internal constructor(private val clientOption
             params: VehiclesForAgencyListParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<VehiclesForAgencyListResponse> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("agencyId", params.agencyId())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -54,7 +57,7 @@ class VehiclesForAgencyServiceImpl internal constructor(private val clientOption
                         "api",
                         "where",
                         "vehicles-for-agency",
-                        "${params.getPathParam(0)}.json",
+                        "${params._pathParam(0)}.json",
                     )
                     .build()
                     .prepare(clientOptions, params)

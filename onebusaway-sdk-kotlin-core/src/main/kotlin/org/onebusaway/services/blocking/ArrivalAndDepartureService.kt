@@ -5,10 +5,10 @@ package org.onebusaway.services.blocking
 import com.google.errorprone.annotations.MustBeClosed
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.http.HttpResponseFor
-import org.onebusaway.models.ArrivalAndDepartureListParams
-import org.onebusaway.models.ArrivalAndDepartureListResponse
-import org.onebusaway.models.ArrivalAndDepartureRetrieveParams
-import org.onebusaway.models.ArrivalAndDepartureRetrieveResponse
+import org.onebusaway.models.arrivalanddeparture.ArrivalAndDepartureListParams
+import org.onebusaway.models.arrivalanddeparture.ArrivalAndDepartureListResponse
+import org.onebusaway.models.arrivalanddeparture.ArrivalAndDepartureRetrieveParams
+import org.onebusaway.models.arrivalanddeparture.ArrivalAndDepartureRetrieveResponse
 
 interface ArrivalAndDepartureService {
 
@@ -19,15 +19,35 @@ interface ArrivalAndDepartureService {
 
     /** arrival-and-departure-for-stop */
     fun retrieve(
+        stopId: String,
+        params: ArrivalAndDepartureRetrieveParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): ArrivalAndDepartureRetrieveResponse =
+        retrieve(params.toBuilder().stopId(stopId).build(), requestOptions)
+
+    /** @see [retrieve] */
+    fun retrieve(
         params: ArrivalAndDepartureRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ArrivalAndDepartureRetrieveResponse
 
     /** arrivals-and-departures-for-stop */
     fun list(
+        stopId: String,
+        params: ArrivalAndDepartureListParams = ArrivalAndDepartureListParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): ArrivalAndDepartureListResponse =
+        list(params.toBuilder().stopId(stopId).build(), requestOptions)
+
+    /** @see [list] */
+    fun list(
         params: ArrivalAndDepartureListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ArrivalAndDepartureListResponse
+
+    /** @see [list] */
+    fun list(stopId: String, requestOptions: RequestOptions): ArrivalAndDepartureListResponse =
+        list(stopId, ArrivalAndDepartureListParams.none(), requestOptions)
 
     /**
      * A view of [ArrivalAndDepartureService] that provides access to raw HTTP responses for each
@@ -42,6 +62,15 @@ interface ArrivalAndDepartureService {
          */
         @MustBeClosed
         fun retrieve(
+            stopId: String,
+            params: ArrivalAndDepartureRetrieveParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<ArrivalAndDepartureRetrieveResponse> =
+            retrieve(params.toBuilder().stopId(stopId).build(), requestOptions)
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
             params: ArrivalAndDepartureRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<ArrivalAndDepartureRetrieveResponse>
@@ -53,8 +82,25 @@ interface ArrivalAndDepartureService {
          */
         @MustBeClosed
         fun list(
+            stopId: String,
+            params: ArrivalAndDepartureListParams = ArrivalAndDepartureListParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<ArrivalAndDepartureListResponse> =
+            list(params.toBuilder().stopId(stopId).build(), requestOptions)
+
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
             params: ArrivalAndDepartureListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<ArrivalAndDepartureListResponse>
+
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            stopId: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<ArrivalAndDepartureListResponse> =
+            list(stopId, ArrivalAndDepartureListParams.none(), requestOptions)
     }
 }

@@ -5,8 +5,8 @@ package org.onebusaway.services.blocking
 import com.google.errorprone.annotations.MustBeClosed
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.http.HttpResponseFor
-import org.onebusaway.models.TripRetrieveParams
-import org.onebusaway.models.TripRetrieveResponse
+import org.onebusaway.models.trip.TripRetrieveParams
+import org.onebusaway.models.trip.TripRetrieveResponse
 
 interface TripService {
 
@@ -17,9 +17,20 @@ interface TripService {
 
     /** Get details of a specific trip */
     fun retrieve(
+        tripId: String,
+        params: TripRetrieveParams = TripRetrieveParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): TripRetrieveResponse = retrieve(params.toBuilder().tripId(tripId).build(), requestOptions)
+
+    /** @see [retrieve] */
+    fun retrieve(
         params: TripRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): TripRetrieveResponse
+
+    /** @see [retrieve] */
+    fun retrieve(tripId: String, requestOptions: RequestOptions): TripRetrieveResponse =
+        retrieve(tripId, TripRetrieveParams.none(), requestOptions)
 
     /** A view of [TripService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
@@ -30,8 +41,25 @@ interface TripService {
          */
         @MustBeClosed
         fun retrieve(
+            tripId: String,
+            params: TripRetrieveParams = TripRetrieveParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<TripRetrieveResponse> =
+            retrieve(params.toBuilder().tripId(tripId).build(), requestOptions)
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
             params: TripRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<TripRetrieveResponse>
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            tripId: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<TripRetrieveResponse> =
+            retrieve(tripId, TripRetrieveParams.none(), requestOptions)
     }
 }

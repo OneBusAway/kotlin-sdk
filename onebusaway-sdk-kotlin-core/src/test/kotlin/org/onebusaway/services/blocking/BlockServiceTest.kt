@@ -6,10 +6,9 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.onebusaway.TestServerExtension
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
-import org.onebusaway.models.BlockRetrieveParams
 
 @ExtendWith(TestServerExtension::class)
-class BlockServiceTest {
+internal class BlockServiceTest {
 
     @Test
     fun retrieve() {
@@ -20,7 +19,7 @@ class BlockServiceTest {
                 .build()
         val blockService = client.block()
 
-        val block = blockService.retrieve(BlockRetrieveParams.builder().blockId("blockID").build())
+        val block = blockService.retrieve("blockID")
 
         block.validate()
     }

@@ -6,10 +6,10 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.onebusaway.TestServerExtension
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
-import org.onebusaway.models.StopsForLocationListParams
+import org.onebusaway.models.stopsforlocation.StopsForLocationListParams
 
 @ExtendWith(TestServerExtension::class)
-class StopsForLocationServiceTest {
+internal class StopsForLocationServiceTest {
 
     @Test
     fun list() {
@@ -20,7 +20,7 @@ class StopsForLocationServiceTest {
                 .build()
         val stopsForLocationService = client.stopsForLocation()
 
-        val stopsForLocation =
+        val stopsForLocations =
             stopsForLocationService.list(
                 StopsForLocationListParams.builder()
                     .lat(0.0)
@@ -32,6 +32,6 @@ class StopsForLocationServiceTest {
                     .build()
             )
 
-        stopsForLocation.validate()
+        stopsForLocations.validate()
     }
 }

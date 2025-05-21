@@ -3,7 +3,9 @@
 package org.onebusaway.services.async
 
 import org.onebusaway.core.ClientOptions
+import org.onebusaway.core.JsonValue
 import org.onebusaway.core.RequestOptions
+import org.onebusaway.core.checkRequired
 import org.onebusaway.core.handlers.errorHandler
 import org.onebusaway.core.handlers.jsonHandler
 import org.onebusaway.core.handlers.withErrorHandler
@@ -13,11 +15,10 @@ import org.onebusaway.core.http.HttpResponse.Handler
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.core.http.parseable
 import org.onebusaway.core.prepareAsync
-import org.onebusaway.errors.OnebusawaySdkError
-import org.onebusaway.models.ArrivalAndDepartureListParams
-import org.onebusaway.models.ArrivalAndDepartureListResponse
-import org.onebusaway.models.ArrivalAndDepartureRetrieveParams
-import org.onebusaway.models.ArrivalAndDepartureRetrieveResponse
+import org.onebusaway.models.arrivalanddeparture.ArrivalAndDepartureListParams
+import org.onebusaway.models.arrivalanddeparture.ArrivalAndDepartureListResponse
+import org.onebusaway.models.arrivalanddeparture.ArrivalAndDepartureRetrieveParams
+import org.onebusaway.models.arrivalanddeparture.ArrivalAndDepartureRetrieveResponse
 
 class ArrivalAndDepartureServiceAsyncImpl
 internal constructor(private val clientOptions: ClientOptions) : ArrivalAndDepartureServiceAsync {
@@ -46,8 +47,7 @@ internal constructor(private val clientOptions: ClientOptions) : ArrivalAndDepar
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         ArrivalAndDepartureServiceAsync.WithRawResponse {
 
-        private val errorHandler: Handler<OnebusawaySdkError> =
-            errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
         private val retrieveHandler: Handler<ArrivalAndDepartureRetrieveResponse> =
             jsonHandler<ArrivalAndDepartureRetrieveResponse>(clientOptions.jsonMapper)
@@ -57,6 +57,9 @@ internal constructor(private val clientOptions: ClientOptions) : ArrivalAndDepar
             params: ArrivalAndDepartureRetrieveParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<ArrivalAndDepartureRetrieveResponse> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("stopId", params.stopId())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -64,7 +67,7 @@ internal constructor(private val clientOptions: ClientOptions) : ArrivalAndDepar
                         "api",
                         "where",
                         "arrival-and-departure-for-stop",
-                        "${params.getPathParam(0)}.json",
+                        "${params._pathParam(0)}.json",
                     )
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -89,6 +92,9 @@ internal constructor(private val clientOptions: ClientOptions) : ArrivalAndDepar
             params: ArrivalAndDepartureListParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<ArrivalAndDepartureListResponse> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("stopId", params.stopId())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -96,7 +102,7 @@ internal constructor(private val clientOptions: ClientOptions) : ArrivalAndDepar
                         "api",
                         "where",
                         "arrivals-and-departures-for-stop",
-                        "${params.getPathParam(0)}.json",
+                        "${params._pathParam(0)}.json",
                     )
                     .build()
                     .prepareAsync(clientOptions, params)

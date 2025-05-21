@@ -3,7 +3,9 @@
 package org.onebusaway.services.async
 
 import org.onebusaway.core.ClientOptions
+import org.onebusaway.core.JsonValue
 import org.onebusaway.core.RequestOptions
+import org.onebusaway.core.checkRequired
 import org.onebusaway.core.handlers.errorHandler
 import org.onebusaway.core.handlers.jsonHandler
 import org.onebusaway.core.handlers.withErrorHandler
@@ -13,9 +15,8 @@ import org.onebusaway.core.http.HttpResponse.Handler
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.core.http.parseable
 import org.onebusaway.core.prepareAsync
-import org.onebusaway.errors.OnebusawaySdkError
-import org.onebusaway.models.StopsForAgencyListParams
-import org.onebusaway.models.StopsForAgencyListResponse
+import org.onebusaway.models.stopsforagency.StopsForAgencyListParams
+import org.onebusaway.models.stopsforagency.StopsForAgencyListResponse
 
 class StopsForAgencyServiceAsyncImpl
 internal constructor(private val clientOptions: ClientOptions) : StopsForAgencyServiceAsync {
@@ -36,8 +37,7 @@ internal constructor(private val clientOptions: ClientOptions) : StopsForAgencyS
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         StopsForAgencyServiceAsync.WithRawResponse {
 
-        private val errorHandler: Handler<OnebusawaySdkError> =
-            errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
         private val listHandler: Handler<StopsForAgencyListResponse> =
             jsonHandler<StopsForAgencyListResponse>(clientOptions.jsonMapper)
@@ -47,6 +47,9 @@ internal constructor(private val clientOptions: ClientOptions) : StopsForAgencyS
             params: StopsForAgencyListParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<StopsForAgencyListResponse> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("agencyId", params.agencyId())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -54,7 +57,7 @@ internal constructor(private val clientOptions: ClientOptions) : StopsForAgencyS
                         "api",
                         "where",
                         "stops-for-agency",
-                        "${params.getPathParam(0)}.json",
+                        "${params._pathParam(0)}.json",
                     )
                     .build()
                     .prepareAsync(clientOptions, params)

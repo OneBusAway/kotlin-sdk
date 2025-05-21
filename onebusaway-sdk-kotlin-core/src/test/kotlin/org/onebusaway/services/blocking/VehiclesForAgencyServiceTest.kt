@@ -6,10 +6,10 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.onebusaway.TestServerExtension
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
-import org.onebusaway.models.VehiclesForAgencyListParams
+import org.onebusaway.models.vehiclesforagency.VehiclesForAgencyListParams
 
 @ExtendWith(TestServerExtension::class)
-class VehiclesForAgencyServiceTest {
+internal class VehiclesForAgencyServiceTest {
 
     @Test
     fun list() {
@@ -20,11 +20,11 @@ class VehiclesForAgencyServiceTest {
                 .build()
         val vehiclesForAgencyService = client.vehiclesForAgency()
 
-        val vehiclesForAgency =
+        val vehiclesForAgencies =
             vehiclesForAgencyService.list(
                 VehiclesForAgencyListParams.builder().agencyId("agencyID").time("time").build()
             )
 
-        vehiclesForAgency.validate()
+        vehiclesForAgencies.validate()
     }
 }

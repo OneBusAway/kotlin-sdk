@@ -6,10 +6,9 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.onebusaway.TestServerExtension
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClientAsync
-import org.onebusaway.models.StopRetrieveParams
 
 @ExtendWith(TestServerExtension::class)
-class StopServiceAsyncTest {
+internal class StopServiceAsyncTest {
 
     @Test
     suspend fun retrieve() {
@@ -20,7 +19,7 @@ class StopServiceAsyncTest {
                 .build()
         val stopServiceAsync = client.stop()
 
-        val stop = stopServiceAsync.retrieve(StopRetrieveParams.builder().stopId("stopID").build())
+        val stop = stopServiceAsync.retrieve("stopID")
 
         stop.validate()
     }

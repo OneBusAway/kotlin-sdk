@@ -3,6 +3,7 @@
 package org.onebusaway.services.async
 
 import org.onebusaway.core.ClientOptions
+import org.onebusaway.core.JsonValue
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.handlers.errorHandler
 import org.onebusaway.core.handlers.jsonHandler
@@ -13,9 +14,8 @@ import org.onebusaway.core.http.HttpResponse.Handler
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.core.http.parseable
 import org.onebusaway.core.prepareAsync
-import org.onebusaway.errors.OnebusawaySdkError
-import org.onebusaway.models.TripsForLocationListParams
-import org.onebusaway.models.TripsForLocationListResponse
+import org.onebusaway.models.tripsforlocation.TripsForLocationListParams
+import org.onebusaway.models.tripsforlocation.TripsForLocationListResponse
 
 class TripsForLocationServiceAsyncImpl
 internal constructor(private val clientOptions: ClientOptions) : TripsForLocationServiceAsync {
@@ -36,8 +36,7 @@ internal constructor(private val clientOptions: ClientOptions) : TripsForLocatio
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         TripsForLocationServiceAsync.WithRawResponse {
 
-        private val errorHandler: Handler<OnebusawaySdkError> =
-            errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
         private val listHandler: Handler<TripsForLocationListResponse> =
             jsonHandler<TripsForLocationListResponse>(clientOptions.jsonMapper)
