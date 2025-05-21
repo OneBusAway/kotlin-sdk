@@ -1,5 +1,55 @@
 # Changelog
 
+## 0.1.0-alpha.70 (2025-05-21)
+
+Full Changelog: [v0.1.0-alpha.69...v0.1.0-alpha.70](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.69...v0.1.0-alpha.70)
+
+### ⚠ BREAKING CHANGES
+
+* **client:** refactor exception structure and methods ([#294](https://github.com/OneBusAway/kotlin-sdk/issues/294))
+* **client:** **Migration:** Previously you would access error JSON on an exception via `exception.error()._additionalProperties()`, which would return `Map<String, JsonValue>`. Now you would access this via `exception.body()`, which returns `JsonValue`. You should no longer assume that the returned error JSON is an object. You can check via `exception.body().asObject()`.
+
+### Features
+
+* **api:** updates ([c38b158](https://github.com/OneBusAway/kotlin-sdk/commit/c38b158cfa64ea38643a89adccd4729f4d8e5556))
+
+
+### Bug Fixes
+
+* **client:** support kotlin 1.8 runtime ([#291](https://github.com/OneBusAway/kotlin-sdk/issues/291)) ([d16a260](https://github.com/OneBusAway/kotlin-sdk/commit/d16a2608439f9e8668debdb758bf5840cfbd3cae))
+
+
+### Chores
+
+* better phone number examples ([#281](https://github.com/OneBusAway/kotlin-sdk/issues/281)) ([ab7b270](https://github.com/OneBusAway/kotlin-sdk/commit/ab7b2705e7abf9bcb6e6e69f7ec88b11a00e981c))
+* **client:** refactor exception structure and methods ([#294](https://github.com/OneBusAway/kotlin-sdk/issues/294)) ([b45ee94](https://github.com/OneBusAway/kotlin-sdk/commit/b45ee944f53b62df0566a6e2673d88886a98236e))
+* **internal:** add generated comment ([#285](https://github.com/OneBusAway/kotlin-sdk/issues/285)) ([8947c24](https://github.com/OneBusAway/kotlin-sdk/commit/8947c247fe2d431281e78b407524be3e8ae15c79))
+* **internal:** add missing release please block ([#293](https://github.com/OneBusAway/kotlin-sdk/issues/293)) ([57b1869](https://github.com/OneBusAway/kotlin-sdk/commit/57b1869f7e1a518b29a5e274a13999e178f8f77b))
+* **internal:** codegen related update ([#280](https://github.com/OneBusAway/kotlin-sdk/issues/280)) ([effb81e](https://github.com/OneBusAway/kotlin-sdk/commit/effb81e13d6fdd6c8d771ee137c945db77667a44))
+* **internal:** delete duplicate tests ([023a491](https://github.com/OneBusAway/kotlin-sdk/commit/023a49165c77bd7657e37b1d4b883d71ec86e9d6))
+* **internal:** generate more tests ([1c2f123](https://github.com/OneBusAway/kotlin-sdk/commit/1c2f12328af6e4b0abb309cf3e663260ee0bd4ac))
+* **internal:** make multipart assertions more robust ([dade503](https://github.com/OneBusAway/kotlin-sdk/commit/dade503e7a1f3f36a4ed579753112fc8a1ea0953))
+* **internal:** make test classes internal ([#284](https://github.com/OneBusAway/kotlin-sdk/issues/284)) ([a494918](https://github.com/OneBusAway/kotlin-sdk/commit/a4949186b68a318045384cfec90623a8342c6a56))
+* **internal:** refactor enum query param serialization ([#292](https://github.com/OneBusAway/kotlin-sdk/issues/292)) ([0e54b37](https://github.com/OneBusAway/kotlin-sdk/commit/0e54b37ab7b29e5b82d7b45d9169b8050e7e9241))
+* **internal:** refactor query param serialization impl and tests ([#287](https://github.com/OneBusAway/kotlin-sdk/issues/287)) ([e297af2](https://github.com/OneBusAway/kotlin-sdk/commit/e297af24c8f907038bbb0e9b21ae1278131be64c))
+* **internal:** refactor some test assertions ([023a491](https://github.com/OneBusAway/kotlin-sdk/commit/023a49165c77bd7657e37b1d4b883d71ec86e9d6))
+* **internal:** reformat some tests ([#290](https://github.com/OneBusAway/kotlin-sdk/issues/290)) ([1c2f123](https://github.com/OneBusAway/kotlin-sdk/commit/1c2f12328af6e4b0abb309cf3e663260ee0bd4ac))
+* **internal:** remove extra empty newlines ([#282](https://github.com/OneBusAway/kotlin-sdk/issues/282)) ([41c7cbf](https://github.com/OneBusAway/kotlin-sdk/commit/41c7cbfe0ff8a3612e14bb37da6b02c77b99159c))
+* **internal:** remove unnecessary `assertNotNull` calls ([dade503](https://github.com/OneBusAway/kotlin-sdk/commit/dade503e7a1f3f36a4ed579753112fc8a1ea0953))
+* **internal:** remove unnecessary import ([#296](https://github.com/OneBusAway/kotlin-sdk/issues/296)) ([5c17aa7](https://github.com/OneBusAway/kotlin-sdk/commit/5c17aa7e3dedc4795d9b0532c76a673bee26155e))
+* **internal:** rename `getPathParam` ([#288](https://github.com/OneBusAway/kotlin-sdk/issues/288)) ([023a491](https://github.com/OneBusAway/kotlin-sdk/commit/023a49165c77bd7657e37b1d4b883d71ec86e9d6))
+* **internal:** reorder some params methodsc ([023a491](https://github.com/OneBusAway/kotlin-sdk/commit/023a49165c77bd7657e37b1d4b883d71ec86e9d6))
+* **internal:** version bump ([#289](https://github.com/OneBusAway/kotlin-sdk/issues/289)) ([424e5ab](https://github.com/OneBusAway/kotlin-sdk/commit/424e5ab161df883280bd4e39c4c50e6d58e42bf4))
+
+
+### Documentation
+
+* add `build` method comments ([#286](https://github.com/OneBusAway/kotlin-sdk/issues/286)) ([11ae6b9](https://github.com/OneBusAway/kotlin-sdk/commit/11ae6b900db2157d7aea1d3ab82295ef3b6f84a7))
+* deduplicate and refine comments ([#283](https://github.com/OneBusAway/kotlin-sdk/issues/283)) ([04aa38e](https://github.com/OneBusAway/kotlin-sdk/commit/04aa38e0a3504ea31e01c2124729a43ff97199cd))
+* minor readme tweak ([#298](https://github.com/OneBusAway/kotlin-sdk/issues/298)) ([c1b531b](https://github.com/OneBusAway/kotlin-sdk/commit/c1b531b276ffba786bc74f121ab7e70a6e2295e7))
+* refine comments on multipart params ([#295](https://github.com/OneBusAway/kotlin-sdk/issues/295)) ([dade503](https://github.com/OneBusAway/kotlin-sdk/commit/dade503e7a1f3f36a4ed579753112fc8a1ea0953))
+* update readme exception docs ([#297](https://github.com/OneBusAway/kotlin-sdk/issues/297)) ([e6f1ccf](https://github.com/OneBusAway/kotlin-sdk/commit/e6f1ccf575cde5f48a0adc68e8aab88ff4b8b603))
+
 ## 0.1.0-alpha.69 (2025-05-15)
 
 Full Changelog: [v0.1.0-alpha.68...v0.1.0-alpha.69](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.68...v0.1.0-alpha.69)
