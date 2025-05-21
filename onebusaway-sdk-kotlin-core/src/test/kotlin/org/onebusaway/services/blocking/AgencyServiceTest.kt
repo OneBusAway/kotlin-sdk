@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.onebusaway.TestServerExtension
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
-import org.onebusaway.models.AgencyRetrieveParams
 
 @ExtendWith(TestServerExtension::class)
 internal class AgencyServiceTest {
@@ -20,8 +19,7 @@ internal class AgencyServiceTest {
                 .build()
         val agencyService = client.agency()
 
-        val agency =
-            agencyService.retrieve(AgencyRetrieveParams.builder().agencyId("agencyID").build())
+        val agency = agencyService.retrieve("agencyID")
 
         agency.validate()
     }

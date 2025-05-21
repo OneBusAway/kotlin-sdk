@@ -5,6 +5,7 @@ package org.onebusaway.services.async
 import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.RequestOptions
+import org.onebusaway.core.checkRequired
 import org.onebusaway.core.handlers.errorHandler
 import org.onebusaway.core.handlers.jsonHandler
 import org.onebusaway.core.handlers.withErrorHandler
@@ -14,8 +15,8 @@ import org.onebusaway.core.http.HttpResponse.Handler
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.core.http.parseable
 import org.onebusaway.core.prepareAsync
-import org.onebusaway.models.VehiclesForAgencyListParams
-import org.onebusaway.models.VehiclesForAgencyListResponse
+import org.onebusaway.models.vehiclesforagency.VehiclesForAgencyListParams
+import org.onebusaway.models.vehiclesforagency.VehiclesForAgencyListResponse
 
 class VehiclesForAgencyServiceAsyncImpl
 internal constructor(private val clientOptions: ClientOptions) : VehiclesForAgencyServiceAsync {
@@ -46,6 +47,9 @@ internal constructor(private val clientOptions: ClientOptions) : VehiclesForAgen
             params: VehiclesForAgencyListParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<VehiclesForAgencyListResponse> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("agencyId", params.agencyId())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)

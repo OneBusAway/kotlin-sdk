@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.onebusaway.TestServerExtension
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
-import org.onebusaway.models.StopsForRouteListParams
+import org.onebusaway.models.stopsforroute.StopsForRouteListParams
 
 @ExtendWith(TestServerExtension::class)
 internal class StopsForRouteServiceTest {
@@ -20,7 +20,7 @@ internal class StopsForRouteServiceTest {
                 .build()
         val stopsForRouteService = client.stopsForRoute()
 
-        val stopsForRoute =
+        val stopsForRoutes =
             stopsForRouteService.list(
                 StopsForRouteListParams.builder()
                     .routeId("routeID")
@@ -29,6 +29,6 @@ internal class StopsForRouteServiceTest {
                     .build()
             )
 
-        stopsForRoute.validate()
+        stopsForRoutes.validate()
     }
 }

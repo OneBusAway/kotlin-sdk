@@ -14,8 +14,8 @@ import org.onebusaway.core.http.HttpResponse.Handler
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.core.http.parseable
 import org.onebusaway.core.prepare
-import org.onebusaway.models.StopsForLocationListParams
-import org.onebusaway.models.StopsForLocationListResponse
+import org.onebusaway.models.stopsforlocation.StopsForLocationListParams
+import org.onebusaway.models.stopsforlocation.StopsForLocationListResponse
 
 class StopsForLocationServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     StopsForLocationService {

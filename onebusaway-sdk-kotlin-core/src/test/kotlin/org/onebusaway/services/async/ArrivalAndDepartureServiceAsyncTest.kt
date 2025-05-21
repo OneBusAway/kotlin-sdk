@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.onebusaway.TestServerExtension
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClientAsync
-import org.onebusaway.models.ArrivalAndDepartureListParams
-import org.onebusaway.models.ArrivalAndDepartureRetrieveParams
+import org.onebusaway.models.arrivalanddeparture.ArrivalAndDepartureListParams
+import org.onebusaway.models.arrivalanddeparture.ArrivalAndDepartureRetrieveParams
 
 @ExtendWith(TestServerExtension::class)
 internal class ArrivalAndDepartureServiceAsyncTest {
@@ -46,7 +46,7 @@ internal class ArrivalAndDepartureServiceAsyncTest {
                 .build()
         val arrivalAndDepartureServiceAsync = client.arrivalAndDeparture()
 
-        val arrivalAndDeparture =
+        val arrivalAndDepartures =
             arrivalAndDepartureServiceAsync.list(
                 ArrivalAndDepartureListParams.builder()
                     .stopId("1_75403")
@@ -56,6 +56,6 @@ internal class ArrivalAndDepartureServiceAsyncTest {
                     .build()
             )
 
-        arrivalAndDeparture.validate()
+        arrivalAndDepartures.validate()
     }
 }

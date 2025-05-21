@@ -14,8 +14,8 @@ import org.onebusaway.core.http.HttpResponse.Handler
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.core.http.parseable
 import org.onebusaway.core.prepare
-import org.onebusaway.models.CurrentTimeRetrieveParams
-import org.onebusaway.models.CurrentTimeRetrieveResponse
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveParams
+import org.onebusaway.models.currenttime.CurrentTimeRetrieveResponse
 
 class CurrentTimeServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     CurrentTimeService {

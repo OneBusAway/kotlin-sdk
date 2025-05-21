@@ -5,6 +5,7 @@ package org.onebusaway.services.blocking
 import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.RequestOptions
+import org.onebusaway.core.checkRequired
 import org.onebusaway.core.handlers.errorHandler
 import org.onebusaway.core.handlers.jsonHandler
 import org.onebusaway.core.handlers.withErrorHandler
@@ -14,8 +15,8 @@ import org.onebusaway.core.http.HttpResponse.Handler
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.core.http.parseable
 import org.onebusaway.core.prepare
-import org.onebusaway.models.ReportProblemWithTripRetrieveParams
 import org.onebusaway.models.ResponseWrapper
+import org.onebusaway.models.reportproblemwithtrip.ReportProblemWithTripRetrieveParams
 
 class ReportProblemWithTripServiceImpl
 internal constructor(private val clientOptions: ClientOptions) : ReportProblemWithTripService {
@@ -45,6 +46,9 @@ internal constructor(private val clientOptions: ClientOptions) : ReportProblemWi
             params: ReportProblemWithTripRetrieveParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<ResponseWrapper> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("tripId", params.tripId())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)

@@ -5,6 +5,7 @@ package org.onebusaway.services.blocking
 import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.RequestOptions
+import org.onebusaway.core.checkRequired
 import org.onebusaway.core.handlers.errorHandler
 import org.onebusaway.core.handlers.jsonHandler
 import org.onebusaway.core.handlers.withErrorHandler
@@ -14,8 +15,8 @@ import org.onebusaway.core.http.HttpResponse.Handler
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.core.http.parseable
 import org.onebusaway.core.prepare
-import org.onebusaway.models.StopsForAgencyListParams
-import org.onebusaway.models.StopsForAgencyListResponse
+import org.onebusaway.models.stopsforagency.StopsForAgencyListParams
+import org.onebusaway.models.stopsforagency.StopsForAgencyListResponse
 
 class StopsForAgencyServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     StopsForAgencyService {
@@ -46,6 +47,9 @@ class StopsForAgencyServiceImpl internal constructor(private val clientOptions: 
             params: StopsForAgencyListParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<StopsForAgencyListResponse> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("agencyId", params.agencyId())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)

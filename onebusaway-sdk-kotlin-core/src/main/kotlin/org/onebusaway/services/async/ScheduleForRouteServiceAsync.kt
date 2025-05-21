@@ -5,8 +5,8 @@ package org.onebusaway.services.async
 import com.google.errorprone.annotations.MustBeClosed
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.http.HttpResponseFor
-import org.onebusaway.models.ScheduleForRouteRetrieveParams
-import org.onebusaway.models.ScheduleForRouteRetrieveResponse
+import org.onebusaway.models.scheduleforroute.ScheduleForRouteRetrieveParams
+import org.onebusaway.models.scheduleforroute.ScheduleForRouteRetrieveResponse
 
 interface ScheduleForRouteServiceAsync {
 
@@ -17,9 +17,24 @@ interface ScheduleForRouteServiceAsync {
 
     /** Retrieve the full schedule for a route on a particular day */
     suspend fun retrieve(
+        routeId: String,
+        params: ScheduleForRouteRetrieveParams = ScheduleForRouteRetrieveParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): ScheduleForRouteRetrieveResponse =
+        retrieve(params.toBuilder().routeId(routeId).build(), requestOptions)
+
+    /** @see [retrieve] */
+    suspend fun retrieve(
         params: ScheduleForRouteRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ScheduleForRouteRetrieveResponse
+
+    /** @see [retrieve] */
+    suspend fun retrieve(
+        routeId: String,
+        requestOptions: RequestOptions,
+    ): ScheduleForRouteRetrieveResponse =
+        retrieve(routeId, ScheduleForRouteRetrieveParams.none(), requestOptions)
 
     /**
      * A view of [ScheduleForRouteServiceAsync] that provides access to raw HTTP responses for each
@@ -33,8 +48,25 @@ interface ScheduleForRouteServiceAsync {
          */
         @MustBeClosed
         suspend fun retrieve(
+            routeId: String,
+            params: ScheduleForRouteRetrieveParams = ScheduleForRouteRetrieveParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<ScheduleForRouteRetrieveResponse> =
+            retrieve(params.toBuilder().routeId(routeId).build(), requestOptions)
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        suspend fun retrieve(
             params: ScheduleForRouteRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<ScheduleForRouteRetrieveResponse>
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        suspend fun retrieve(
+            routeId: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<ScheduleForRouteRetrieveResponse> =
+            retrieve(routeId, ScheduleForRouteRetrieveParams.none(), requestOptions)
     }
 }

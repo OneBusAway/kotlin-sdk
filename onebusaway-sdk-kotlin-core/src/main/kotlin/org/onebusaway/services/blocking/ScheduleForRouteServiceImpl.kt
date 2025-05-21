@@ -5,6 +5,7 @@ package org.onebusaway.services.blocking
 import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.RequestOptions
+import org.onebusaway.core.checkRequired
 import org.onebusaway.core.handlers.errorHandler
 import org.onebusaway.core.handlers.jsonHandler
 import org.onebusaway.core.handlers.withErrorHandler
@@ -14,8 +15,8 @@ import org.onebusaway.core.http.HttpResponse.Handler
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.core.http.parseable
 import org.onebusaway.core.prepare
-import org.onebusaway.models.ScheduleForRouteRetrieveParams
-import org.onebusaway.models.ScheduleForRouteRetrieveResponse
+import org.onebusaway.models.scheduleforroute.ScheduleForRouteRetrieveParams
+import org.onebusaway.models.scheduleforroute.ScheduleForRouteRetrieveResponse
 
 class ScheduleForRouteServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     ScheduleForRouteService {
@@ -46,6 +47,9 @@ class ScheduleForRouteServiceImpl internal constructor(private val clientOptions
             params: ScheduleForRouteRetrieveParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<ScheduleForRouteRetrieveResponse> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("routeId", params.routeId())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)

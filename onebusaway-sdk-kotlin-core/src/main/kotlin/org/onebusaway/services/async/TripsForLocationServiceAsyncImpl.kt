@@ -14,8 +14,8 @@ import org.onebusaway.core.http.HttpResponse.Handler
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.core.http.parseable
 import org.onebusaway.core.prepareAsync
-import org.onebusaway.models.TripsForLocationListParams
-import org.onebusaway.models.TripsForLocationListResponse
+import org.onebusaway.models.tripsforlocation.TripsForLocationListParams
+import org.onebusaway.models.tripsforlocation.TripsForLocationListResponse
 
 class TripsForLocationServiceAsyncImpl
 internal constructor(private val clientOptions: ClientOptions) : TripsForLocationServiceAsync {

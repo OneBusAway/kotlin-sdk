@@ -14,8 +14,8 @@ import org.onebusaway.core.http.HttpResponse.Handler
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.core.http.parseable
 import org.onebusaway.core.prepare
-import org.onebusaway.models.ConfigRetrieveParams
-import org.onebusaway.models.ConfigRetrieveResponse
+import org.onebusaway.models.config.ConfigRetrieveParams
+import org.onebusaway.models.config.ConfigRetrieveResponse
 
 class ConfigServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     ConfigService {

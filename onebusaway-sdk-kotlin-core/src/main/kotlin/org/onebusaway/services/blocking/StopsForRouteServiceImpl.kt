@@ -5,6 +5,7 @@ package org.onebusaway.services.blocking
 import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.RequestOptions
+import org.onebusaway.core.checkRequired
 import org.onebusaway.core.handlers.errorHandler
 import org.onebusaway.core.handlers.jsonHandler
 import org.onebusaway.core.handlers.withErrorHandler
@@ -14,8 +15,8 @@ import org.onebusaway.core.http.HttpResponse.Handler
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.core.http.parseable
 import org.onebusaway.core.prepare
-import org.onebusaway.models.StopsForRouteListParams
-import org.onebusaway.models.StopsForRouteListResponse
+import org.onebusaway.models.stopsforroute.StopsForRouteListParams
+import org.onebusaway.models.stopsforroute.StopsForRouteListResponse
 
 class StopsForRouteServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     StopsForRouteService {
@@ -46,6 +47,9 @@ class StopsForRouteServiceImpl internal constructor(private val clientOptions: C
             params: StopsForRouteListParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<StopsForRouteListResponse> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("routeId", params.routeId())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)

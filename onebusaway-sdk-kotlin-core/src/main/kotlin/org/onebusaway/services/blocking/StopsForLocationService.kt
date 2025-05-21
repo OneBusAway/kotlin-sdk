@@ -5,8 +5,8 @@ package org.onebusaway.services.blocking
 import com.google.errorprone.annotations.MustBeClosed
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.http.HttpResponseFor
-import org.onebusaway.models.StopsForLocationListParams
-import org.onebusaway.models.StopsForLocationListResponse
+import org.onebusaway.models.stopsforlocation.StopsForLocationListParams
+import org.onebusaway.models.stopsforlocation.StopsForLocationListResponse
 
 interface StopsForLocationService {
 

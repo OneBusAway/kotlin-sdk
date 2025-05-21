@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.onebusaway.TestServerExtension
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
-import org.onebusaway.models.ReportProblemWithTripRetrieveParams
+import org.onebusaway.models.reportproblemwithtrip.ReportProblemWithTripRetrieveParams
 
 @ExtendWith(TestServerExtension::class)
 internal class ReportProblemWithTripServiceTest {
@@ -28,9 +28,9 @@ internal class ReportProblemWithTripServiceTest {
                     .serviceDate(0L)
                     .stopId("stopID")
                     .userComment("userComment")
-                    .userLat(0.0)
-                    .userLocationAccuracy(0.0)
-                    .userLon(0.0)
+                    .userLat(0.0f)
+                    .userLocationAccuracy(0.0f)
+                    .userLon(0.0f)
                     .userOnVehicle(true)
                     .userVehicleNumber("userVehicleNumber")
                     .vehicleId("vehicleID")

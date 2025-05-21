@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.onebusaway.TestServerExtension
 import org.onebusaway.client.okhttp.OnebusawaySdkOkHttpClient
-import org.onebusaway.models.TripsForLocationListParams
+import org.onebusaway.models.tripsforlocation.TripsForLocationListParams
 
 @ExtendWith(TestServerExtension::class)
 internal class TripsForLocationServiceTest {
@@ -20,19 +20,19 @@ internal class TripsForLocationServiceTest {
                 .build()
         val tripsForLocationService = client.tripsForLocation()
 
-        val tripsForLocation =
+        val tripsForLocations =
             tripsForLocationService.list(
                 TripsForLocationListParams.builder()
-                    .lat(0.0)
-                    .latSpan(0.0)
-                    .lon(0.0)
-                    .lonSpan(0.0)
+                    .lat(0.0f)
+                    .latSpan(0.0f)
+                    .lon(0.0f)
+                    .lonSpan(0.0f)
                     .includeSchedule(true)
                     .includeTrip(true)
                     .time(0L)
                     .build()
             )
 
-        tripsForLocation.validate()
+        tripsForLocations.validate()
     }
 }
