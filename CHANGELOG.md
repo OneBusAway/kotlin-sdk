@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.71 (2025-05-22)
+
+Full Changelog: [v0.1.0-alpha.70...v0.1.0-alpha.71](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.70...v0.1.0-alpha.71)
+
+### Chores
+
+* **docs:** grammar improvements ([2665fd7](https://github.com/OneBusAway/kotlin-sdk/commit/2665fd73294df5eb9f58773aa2c75ccd0d0e8c7b))
+
 ## 0.1.0-alpha.70 (2025-05-21)
 
 Full Changelog: [v0.1.0-alpha.69...v0.1.0-alpha.70](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.69...v0.1.0-alpha.70)
