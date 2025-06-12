@@ -52,6 +52,7 @@ class TripServiceImpl internal constructor(private val clientOptions: ClientOpti
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "where", "trip", "${params._pathParam(0)}.json")
                     .build()
                     .prepare(clientOptions, params)
