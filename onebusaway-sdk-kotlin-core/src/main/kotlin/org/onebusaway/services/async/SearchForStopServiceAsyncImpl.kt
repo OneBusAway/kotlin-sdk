@@ -49,6 +49,7 @@ class SearchForStopServiceAsyncImpl internal constructor(private val clientOptio
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "where", "search", "stop.json")
                     .build()
                     .prepareAsync(clientOptions, params)

@@ -49,6 +49,7 @@ class StopsForLocationServiceImpl internal constructor(private val clientOptions
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "where", "stops-for-location.json")
                     .build()
                     .prepare(clientOptions, params)

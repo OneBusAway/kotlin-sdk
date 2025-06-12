@@ -53,6 +53,7 @@ class StopServiceAsyncImpl internal constructor(private val clientOptions: Clien
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "where", "stop", "${params._pathParam(0)}.json")
                     .build()
                     .prepareAsync(clientOptions, params)

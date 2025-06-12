@@ -53,6 +53,7 @@ class TripDetailServiceImpl internal constructor(private val clientOptions: Clie
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "where", "trip-details", "${params._pathParam(0)}.json")
                     .build()
                     .prepare(clientOptions, params)

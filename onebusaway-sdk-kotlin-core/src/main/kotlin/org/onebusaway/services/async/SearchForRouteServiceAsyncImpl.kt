@@ -49,6 +49,7 @@ internal constructor(private val clientOptions: ClientOptions) : SearchForRouteS
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "where", "search", "route.json")
                     .build()
                     .prepareAsync(clientOptions, params)

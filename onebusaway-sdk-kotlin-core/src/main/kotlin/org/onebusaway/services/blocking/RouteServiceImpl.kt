@@ -53,6 +53,7 @@ class RouteServiceImpl internal constructor(private val clientOptions: ClientOpt
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "where", "route", "${params._pathParam(0)}.json")
                     .build()
                     .prepare(clientOptions, params)

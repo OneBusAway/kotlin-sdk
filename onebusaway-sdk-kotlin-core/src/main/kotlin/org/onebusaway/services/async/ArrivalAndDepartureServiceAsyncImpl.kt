@@ -63,6 +63,7 @@ internal constructor(private val clientOptions: ClientOptions) : ArrivalAndDepar
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "api",
                         "where",
@@ -98,6 +99,7 @@ internal constructor(private val clientOptions: ClientOptions) : ArrivalAndDepar
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "api",
                         "where",

@@ -53,6 +53,7 @@ class RouteServiceAsyncImpl internal constructor(private val clientOptions: Clie
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "where", "route", "${params._pathParam(0)}.json")
                     .build()
                     .prepareAsync(clientOptions, params)

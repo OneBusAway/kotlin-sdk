@@ -49,6 +49,7 @@ class RoutesForLocationServiceImpl internal constructor(private val clientOption
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "where", "routes-for-location.json")
                     .build()
                     .prepare(clientOptions, params)

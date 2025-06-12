@@ -49,6 +49,7 @@ class SearchForStopServiceImpl internal constructor(private val clientOptions: C
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "where", "search", "stop.json")
                     .build()
                     .prepare(clientOptions, params)

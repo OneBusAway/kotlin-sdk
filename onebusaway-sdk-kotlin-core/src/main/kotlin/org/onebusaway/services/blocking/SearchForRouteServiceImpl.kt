@@ -49,6 +49,7 @@ class SearchForRouteServiceImpl internal constructor(private val clientOptions: 
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "where", "search", "route.json")
                     .build()
                     .prepare(clientOptions, params)

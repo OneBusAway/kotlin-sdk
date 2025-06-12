@@ -49,6 +49,7 @@ internal constructor(private val clientOptions: ClientOptions) : AgenciesWithCov
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "where", "agencies-with-coverage.json")
                     .build()
                     .prepare(clientOptions, params)

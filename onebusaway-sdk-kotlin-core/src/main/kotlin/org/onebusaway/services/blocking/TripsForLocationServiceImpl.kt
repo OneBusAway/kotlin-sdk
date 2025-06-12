@@ -49,6 +49,7 @@ class TripsForLocationServiceImpl internal constructor(private val clientOptions
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "where", "trips-for-location.json")
                     .build()
                     .prepare(clientOptions, params)
