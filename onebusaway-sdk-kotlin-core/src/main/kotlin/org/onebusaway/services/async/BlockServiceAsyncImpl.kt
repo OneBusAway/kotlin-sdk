@@ -27,6 +27,9 @@ class BlockServiceAsyncImpl internal constructor(private val clientOptions: Clie
 
     override fun withRawResponse(): BlockServiceAsync.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: (ClientOptions.Builder) -> Unit): BlockServiceAsync =
+        BlockServiceAsyncImpl(clientOptions.toBuilder().apply(modifier).build())
+
     override suspend fun retrieve(
         params: BlockRetrieveParams,
         requestOptions: RequestOptions,
@@ -38,6 +41,13 @@ class BlockServiceAsyncImpl internal constructor(private val clientOptions: Clie
         BlockServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: (ClientOptions.Builder) -> Unit
+        ): BlockServiceAsync.WithRawResponse =
+            BlockServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier).build()
+            )
 
         private val retrieveHandler: Handler<BlockRetrieveResponse> =
             jsonHandler<BlockRetrieveResponse>(clientOptions.jsonMapper)

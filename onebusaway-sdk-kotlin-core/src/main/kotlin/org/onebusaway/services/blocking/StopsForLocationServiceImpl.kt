@@ -26,6 +26,9 @@ class StopsForLocationServiceImpl internal constructor(private val clientOptions
 
     override fun withRawResponse(): StopsForLocationService.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: (ClientOptions.Builder) -> Unit): StopsForLocationService =
+        StopsForLocationServiceImpl(clientOptions.toBuilder().apply(modifier).build())
+
     override fun list(
         params: StopsForLocationListParams,
         requestOptions: RequestOptions,
@@ -37,6 +40,13 @@ class StopsForLocationServiceImpl internal constructor(private val clientOptions
         StopsForLocationService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: (ClientOptions.Builder) -> Unit
+        ): StopsForLocationService.WithRawResponse =
+            StopsForLocationServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier).build()
+            )
 
         private val listHandler: Handler<StopsForLocationListResponse> =
             jsonHandler<StopsForLocationListResponse>(clientOptions.jsonMapper)

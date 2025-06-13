@@ -27,6 +27,11 @@ internal constructor(private val clientOptions: ClientOptions) : TripForVehicleS
 
     override fun withRawResponse(): TripForVehicleServiceAsync.WithRawResponse = withRawResponse
 
+    override fun withOptions(
+        modifier: (ClientOptions.Builder) -> Unit
+    ): TripForVehicleServiceAsync =
+        TripForVehicleServiceAsyncImpl(clientOptions.toBuilder().apply(modifier).build())
+
     override suspend fun retrieve(
         params: TripForVehicleRetrieveParams,
         requestOptions: RequestOptions,
@@ -38,6 +43,13 @@ internal constructor(private val clientOptions: ClientOptions) : TripForVehicleS
         TripForVehicleServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: (ClientOptions.Builder) -> Unit
+        ): TripForVehicleServiceAsync.WithRawResponse =
+            TripForVehicleServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier).build()
+            )
 
         private val retrieveHandler: Handler<TripForVehicleRetrieveResponse> =
             jsonHandler<TripForVehicleRetrieveResponse>(clientOptions.jsonMapper)

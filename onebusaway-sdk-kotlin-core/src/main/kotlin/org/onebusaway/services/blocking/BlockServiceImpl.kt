@@ -27,6 +27,9 @@ class BlockServiceImpl internal constructor(private val clientOptions: ClientOpt
 
     override fun withRawResponse(): BlockService.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: (ClientOptions.Builder) -> Unit): BlockService =
+        BlockServiceImpl(clientOptions.toBuilder().apply(modifier).build())
+
     override fun retrieve(
         params: BlockRetrieveParams,
         requestOptions: RequestOptions,
@@ -38,6 +41,11 @@ class BlockServiceImpl internal constructor(private val clientOptions: ClientOpt
         BlockService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: (ClientOptions.Builder) -> Unit
+        ): BlockService.WithRawResponse =
+            BlockServiceImpl.WithRawResponseImpl(clientOptions.toBuilder().apply(modifier).build())
 
         private val retrieveHandler: Handler<BlockRetrieveResponse> =
             jsonHandler<BlockRetrieveResponse>(clientOptions.jsonMapper)

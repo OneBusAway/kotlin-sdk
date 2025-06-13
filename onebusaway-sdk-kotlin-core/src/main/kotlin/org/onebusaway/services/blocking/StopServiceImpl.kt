@@ -26,6 +26,9 @@ class StopServiceImpl internal constructor(private val clientOptions: ClientOpti
 
     override fun withRawResponse(): StopService.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: (ClientOptions.Builder) -> Unit): StopService =
+        StopServiceImpl(clientOptions.toBuilder().apply(modifier).build())
+
     override fun retrieve(
         params: StopRetrieveParams,
         requestOptions: RequestOptions,
@@ -37,6 +40,11 @@ class StopServiceImpl internal constructor(private val clientOptions: ClientOpti
         StopService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: (ClientOptions.Builder) -> Unit
+        ): StopService.WithRawResponse =
+            StopServiceImpl.WithRawResponseImpl(clientOptions.toBuilder().apply(modifier).build())
 
         private val retrieveHandler: Handler<StopRetrieveResponse> =
             jsonHandler<StopRetrieveResponse>(clientOptions.jsonMapper)

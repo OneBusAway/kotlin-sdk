@@ -27,6 +27,9 @@ class TripDetailServiceAsyncImpl internal constructor(private val clientOptions:
 
     override fun withRawResponse(): TripDetailServiceAsync.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: (ClientOptions.Builder) -> Unit): TripDetailServiceAsync =
+        TripDetailServiceAsyncImpl(clientOptions.toBuilder().apply(modifier).build())
+
     override suspend fun retrieve(
         params: TripDetailRetrieveParams,
         requestOptions: RequestOptions,
@@ -38,6 +41,13 @@ class TripDetailServiceAsyncImpl internal constructor(private val clientOptions:
         TripDetailServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: (ClientOptions.Builder) -> Unit
+        ): TripDetailServiceAsync.WithRawResponse =
+            TripDetailServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier).build()
+            )
 
         private val retrieveHandler: Handler<TripDetailRetrieveResponse> =
             jsonHandler<TripDetailRetrieveResponse>(clientOptions.jsonMapper)

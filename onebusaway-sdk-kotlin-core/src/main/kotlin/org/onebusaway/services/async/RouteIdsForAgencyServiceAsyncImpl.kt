@@ -27,6 +27,11 @@ internal constructor(private val clientOptions: ClientOptions) : RouteIdsForAgen
 
     override fun withRawResponse(): RouteIdsForAgencyServiceAsync.WithRawResponse = withRawResponse
 
+    override fun withOptions(
+        modifier: (ClientOptions.Builder) -> Unit
+    ): RouteIdsForAgencyServiceAsync =
+        RouteIdsForAgencyServiceAsyncImpl(clientOptions.toBuilder().apply(modifier).build())
+
     override suspend fun list(
         params: RouteIdsForAgencyListParams,
         requestOptions: RequestOptions,
@@ -38,6 +43,13 @@ internal constructor(private val clientOptions: ClientOptions) : RouteIdsForAgen
         RouteIdsForAgencyServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: (ClientOptions.Builder) -> Unit
+        ): RouteIdsForAgencyServiceAsync.WithRawResponse =
+            RouteIdsForAgencyServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier).build()
+            )
 
         private val listHandler: Handler<RouteIdsForAgencyListResponse> =
             jsonHandler<RouteIdsForAgencyListResponse>(clientOptions.jsonMapper)

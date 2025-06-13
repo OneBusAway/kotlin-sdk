@@ -26,6 +26,9 @@ class CurrentTimeServiceImpl internal constructor(private val clientOptions: Cli
 
     override fun withRawResponse(): CurrentTimeService.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: (ClientOptions.Builder) -> Unit): CurrentTimeService =
+        CurrentTimeServiceImpl(clientOptions.toBuilder().apply(modifier).build())
+
     override fun retrieve(
         params: CurrentTimeRetrieveParams,
         requestOptions: RequestOptions,
@@ -37,6 +40,13 @@ class CurrentTimeServiceImpl internal constructor(private val clientOptions: Cli
         CurrentTimeService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: (ClientOptions.Builder) -> Unit
+        ): CurrentTimeService.WithRawResponse =
+            CurrentTimeServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier).build()
+            )
 
         private val retrieveHandler: Handler<CurrentTimeRetrieveResponse> =
             jsonHandler<CurrentTimeRetrieveResponse>(clientOptions.jsonMapper)

@@ -27,6 +27,9 @@ class ShapeServiceImpl internal constructor(private val clientOptions: ClientOpt
 
     override fun withRawResponse(): ShapeService.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: (ClientOptions.Builder) -> Unit): ShapeService =
+        ShapeServiceImpl(clientOptions.toBuilder().apply(modifier).build())
+
     override fun retrieve(
         params: ShapeRetrieveParams,
         requestOptions: RequestOptions,
@@ -38,6 +41,11 @@ class ShapeServiceImpl internal constructor(private val clientOptions: ClientOpt
         ShapeService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: (ClientOptions.Builder) -> Unit
+        ): ShapeService.WithRawResponse =
+            ShapeServiceImpl.WithRawResponseImpl(clientOptions.toBuilder().apply(modifier).build())
 
         private val retrieveHandler: Handler<ShapeRetrieveResponse> =
             jsonHandler<ShapeRetrieveResponse>(clientOptions.jsonMapper)

@@ -26,6 +26,9 @@ class SearchForRouteServiceImpl internal constructor(private val clientOptions: 
 
     override fun withRawResponse(): SearchForRouteService.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: (ClientOptions.Builder) -> Unit): SearchForRouteService =
+        SearchForRouteServiceImpl(clientOptions.toBuilder().apply(modifier).build())
+
     override fun list(
         params: SearchForRouteListParams,
         requestOptions: RequestOptions,
@@ -37,6 +40,13 @@ class SearchForRouteServiceImpl internal constructor(private val clientOptions: 
         SearchForRouteService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: (ClientOptions.Builder) -> Unit
+        ): SearchForRouteService.WithRawResponse =
+            SearchForRouteServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier).build()
+            )
 
         private val listHandler: Handler<SearchForRouteListResponse> =
             jsonHandler<SearchForRouteListResponse>(clientOptions.jsonMapper)
