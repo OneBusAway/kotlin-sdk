@@ -28,6 +28,11 @@ internal constructor(private val clientOptions: ClientOptions) : ReportProblemWi
     override fun withRawResponse(): ReportProblemWithStopServiceAsync.WithRawResponse =
         withRawResponse
 
+    override fun withOptions(
+        modifier: (ClientOptions.Builder) -> Unit
+    ): ReportProblemWithStopServiceAsync =
+        ReportProblemWithStopServiceAsyncImpl(clientOptions.toBuilder().apply(modifier).build())
+
     override suspend fun retrieve(
         params: ReportProblemWithStopRetrieveParams,
         requestOptions: RequestOptions,
@@ -39,6 +44,13 @@ internal constructor(private val clientOptions: ClientOptions) : ReportProblemWi
         ReportProblemWithStopServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: (ClientOptions.Builder) -> Unit
+        ): ReportProblemWithStopServiceAsync.WithRawResponse =
+            ReportProblemWithStopServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier).build()
+            )
 
         private val retrieveHandler: Handler<ResponseWrapper> =
             jsonHandler<ResponseWrapper>(clientOptions.jsonMapper).withErrorHandler(errorHandler)

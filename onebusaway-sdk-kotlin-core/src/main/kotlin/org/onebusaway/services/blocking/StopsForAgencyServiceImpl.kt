@@ -27,6 +27,9 @@ class StopsForAgencyServiceImpl internal constructor(private val clientOptions: 
 
     override fun withRawResponse(): StopsForAgencyService.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: (ClientOptions.Builder) -> Unit): StopsForAgencyService =
+        StopsForAgencyServiceImpl(clientOptions.toBuilder().apply(modifier).build())
+
     override fun list(
         params: StopsForAgencyListParams,
         requestOptions: RequestOptions,
@@ -38,6 +41,13 @@ class StopsForAgencyServiceImpl internal constructor(private val clientOptions: 
         StopsForAgencyService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: (ClientOptions.Builder) -> Unit
+        ): StopsForAgencyService.WithRawResponse =
+            StopsForAgencyServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier).build()
+            )
 
         private val listHandler: Handler<StopsForAgencyListResponse> =
             jsonHandler<StopsForAgencyListResponse>(clientOptions.jsonMapper)

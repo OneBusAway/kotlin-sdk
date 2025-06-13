@@ -27,6 +27,9 @@ class RoutesForAgencyServiceImpl internal constructor(private val clientOptions:
 
     override fun withRawResponse(): RoutesForAgencyService.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: (ClientOptions.Builder) -> Unit): RoutesForAgencyService =
+        RoutesForAgencyServiceImpl(clientOptions.toBuilder().apply(modifier).build())
+
     override fun list(
         params: RoutesForAgencyListParams,
         requestOptions: RequestOptions,
@@ -38,6 +41,13 @@ class RoutesForAgencyServiceImpl internal constructor(private val clientOptions:
         RoutesForAgencyService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: (ClientOptions.Builder) -> Unit
+        ): RoutesForAgencyService.WithRawResponse =
+            RoutesForAgencyServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier).build()
+            )
 
         private val listHandler: Handler<RoutesForAgencyListResponse> =
             jsonHandler<RoutesForAgencyListResponse>(clientOptions.jsonMapper)

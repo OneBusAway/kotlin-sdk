@@ -27,6 +27,9 @@ class VehiclesForAgencyServiceImpl internal constructor(private val clientOption
 
     override fun withRawResponse(): VehiclesForAgencyService.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: (ClientOptions.Builder) -> Unit): VehiclesForAgencyService =
+        VehiclesForAgencyServiceImpl(clientOptions.toBuilder().apply(modifier).build())
+
     override fun list(
         params: VehiclesForAgencyListParams,
         requestOptions: RequestOptions,
@@ -38,6 +41,13 @@ class VehiclesForAgencyServiceImpl internal constructor(private val clientOption
         VehiclesForAgencyService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: (ClientOptions.Builder) -> Unit
+        ): VehiclesForAgencyService.WithRawResponse =
+            VehiclesForAgencyServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier).build()
+            )
 
         private val listHandler: Handler<VehiclesForAgencyListResponse> =
             jsonHandler<VehiclesForAgencyListResponse>(clientOptions.jsonMapper)

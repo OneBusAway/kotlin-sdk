@@ -27,6 +27,9 @@ class AgencyServiceAsyncImpl internal constructor(private val clientOptions: Cli
 
     override fun withRawResponse(): AgencyServiceAsync.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: (ClientOptions.Builder) -> Unit): AgencyServiceAsync =
+        AgencyServiceAsyncImpl(clientOptions.toBuilder().apply(modifier).build())
+
     override suspend fun retrieve(
         params: AgencyRetrieveParams,
         requestOptions: RequestOptions,
@@ -38,6 +41,13 @@ class AgencyServiceAsyncImpl internal constructor(private val clientOptions: Cli
         AgencyServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: (ClientOptions.Builder) -> Unit
+        ): AgencyServiceAsync.WithRawResponse =
+            AgencyServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier).build()
+            )
 
         private val retrieveHandler: Handler<AgencyRetrieveResponse> =
             jsonHandler<AgencyRetrieveResponse>(clientOptions.jsonMapper)

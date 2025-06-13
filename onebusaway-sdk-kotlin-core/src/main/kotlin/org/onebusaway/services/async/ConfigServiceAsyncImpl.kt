@@ -26,6 +26,9 @@ class ConfigServiceAsyncImpl internal constructor(private val clientOptions: Cli
 
     override fun withRawResponse(): ConfigServiceAsync.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: (ClientOptions.Builder) -> Unit): ConfigServiceAsync =
+        ConfigServiceAsyncImpl(clientOptions.toBuilder().apply(modifier).build())
+
     override suspend fun retrieve(
         params: ConfigRetrieveParams,
         requestOptions: RequestOptions,
@@ -37,6 +40,13 @@ class ConfigServiceAsyncImpl internal constructor(private val clientOptions: Cli
         ConfigServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: (ClientOptions.Builder) -> Unit
+        ): ConfigServiceAsync.WithRawResponse =
+            ConfigServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier).build()
+            )
 
         private val retrieveHandler: Handler<ConfigRetrieveResponse> =
             jsonHandler<ConfigRetrieveResponse>(clientOptions.jsonMapper)
