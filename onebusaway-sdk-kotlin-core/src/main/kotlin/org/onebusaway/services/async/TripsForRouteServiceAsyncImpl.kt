@@ -27,6 +27,9 @@ class TripsForRouteServiceAsyncImpl internal constructor(private val clientOptio
 
     override fun withRawResponse(): TripsForRouteServiceAsync.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: (ClientOptions.Builder) -> Unit): TripsForRouteServiceAsync =
+        TripsForRouteServiceAsyncImpl(clientOptions.toBuilder().apply(modifier).build())
+
     override suspend fun list(
         params: TripsForRouteListParams,
         requestOptions: RequestOptions,
@@ -38,6 +41,13 @@ class TripsForRouteServiceAsyncImpl internal constructor(private val clientOptio
         TripsForRouteServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: (ClientOptions.Builder) -> Unit
+        ): TripsForRouteServiceAsync.WithRawResponse =
+            TripsForRouteServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier).build()
+            )
 
         private val listHandler: Handler<TripsForRouteListResponse> =
             jsonHandler<TripsForRouteListResponse>(clientOptions.jsonMapper)
@@ -53,6 +63,7 @@ class TripsForRouteServiceAsyncImpl internal constructor(private val clientOptio
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "api",
                         "where",

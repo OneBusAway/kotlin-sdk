@@ -27,6 +27,11 @@ internal constructor(private val clientOptions: ClientOptions) : ScheduleForStop
 
     override fun withRawResponse(): ScheduleForStopServiceAsync.WithRawResponse = withRawResponse
 
+    override fun withOptions(
+        modifier: (ClientOptions.Builder) -> Unit
+    ): ScheduleForStopServiceAsync =
+        ScheduleForStopServiceAsyncImpl(clientOptions.toBuilder().apply(modifier).build())
+
     override suspend fun retrieve(
         params: ScheduleForStopRetrieveParams,
         requestOptions: RequestOptions,
@@ -38,6 +43,13 @@ internal constructor(private val clientOptions: ClientOptions) : ScheduleForStop
         ScheduleForStopServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: (ClientOptions.Builder) -> Unit
+        ): ScheduleForStopServiceAsync.WithRawResponse =
+            ScheduleForStopServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier).build()
+            )
 
         private val retrieveHandler: Handler<ScheduleForStopRetrieveResponse> =
             jsonHandler<ScheduleForStopRetrieveResponse>(clientOptions.jsonMapper)
@@ -53,6 +65,7 @@ internal constructor(private val clientOptions: ClientOptions) : ScheduleForStop
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "api",
                         "where",

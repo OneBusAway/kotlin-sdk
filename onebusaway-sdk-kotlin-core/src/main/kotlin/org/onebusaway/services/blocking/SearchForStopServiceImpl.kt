@@ -26,6 +26,9 @@ class SearchForStopServiceImpl internal constructor(private val clientOptions: C
 
     override fun withRawResponse(): SearchForStopService.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: (ClientOptions.Builder) -> Unit): SearchForStopService =
+        SearchForStopServiceImpl(clientOptions.toBuilder().apply(modifier).build())
+
     override fun list(
         params: SearchForStopListParams,
         requestOptions: RequestOptions,
@@ -38,6 +41,13 @@ class SearchForStopServiceImpl internal constructor(private val clientOptions: C
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: (ClientOptions.Builder) -> Unit
+        ): SearchForStopService.WithRawResponse =
+            SearchForStopServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier).build()
+            )
+
         private val listHandler: Handler<SearchForStopListResponse> =
             jsonHandler<SearchForStopListResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
@@ -49,6 +59,7 @@ class SearchForStopServiceImpl internal constructor(private val clientOptions: C
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "where", "search", "stop.json")
                     .build()
                     .prepare(clientOptions, params)

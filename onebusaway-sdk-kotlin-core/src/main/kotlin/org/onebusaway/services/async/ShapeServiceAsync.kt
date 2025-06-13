@@ -3,6 +3,7 @@
 package org.onebusaway.services.async
 
 import com.google.errorprone.annotations.MustBeClosed
+import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.models.shape.ShapeRetrieveParams
@@ -14,6 +15,13 @@ interface ShapeServiceAsync {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: (ClientOptions.Builder) -> Unit): ShapeServiceAsync
 
     /** Retrieve a shape (the path traveled by a transit vehicle) by ID. */
     suspend fun retrieve(
@@ -34,6 +42,15 @@ interface ShapeServiceAsync {
 
     /** A view of [ShapeServiceAsync] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: (ClientOptions.Builder) -> Unit
+        ): ShapeServiceAsync.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `get /api/where/shape/{shapeID}.json`, but is otherwise

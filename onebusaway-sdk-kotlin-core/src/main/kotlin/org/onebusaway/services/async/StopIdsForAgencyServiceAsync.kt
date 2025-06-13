@@ -3,6 +3,7 @@
 package org.onebusaway.services.async
 
 import com.google.errorprone.annotations.MustBeClosed
+import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.models.stopidsforagency.StopIdsForAgencyListParams
@@ -14,6 +15,13 @@ interface StopIdsForAgencyServiceAsync {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: (ClientOptions.Builder) -> Unit): StopIdsForAgencyServiceAsync
 
     /** Get stop IDs for a specific agency */
     suspend fun list(
@@ -41,6 +49,15 @@ interface StopIdsForAgencyServiceAsync {
      * method.
      */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: (ClientOptions.Builder) -> Unit
+        ): StopIdsForAgencyServiceAsync.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `get /api/where/stop-ids-for-agency/{agencyID}.json`, but

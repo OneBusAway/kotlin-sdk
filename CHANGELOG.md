@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.0-alpha.72 (2025-06-13)
+
+Full Changelog: [v0.1.0-alpha.71...v0.1.0-alpha.72](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.71...v0.1.0-alpha.72)
+
+### Features
+
+* **client:** add a `withOptions` method ([10fb83f](https://github.com/OneBusAway/kotlin-sdk/commit/10fb83fbc9d18ac7965672431fa7ba0d3fc68af5))
+* **client:** implement per-endpoint base URL support ([3c2b9e1](https://github.com/OneBusAway/kotlin-sdk/commit/3c2b9e1a1ce967946ffa26d0378fe718318c410a))
+
 ## 0.1.0-alpha.71 (2025-05-22)
 
 Full Changelog: [v0.1.0-alpha.70...v0.1.0-alpha.71](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.70...v0.1.0-alpha.71)

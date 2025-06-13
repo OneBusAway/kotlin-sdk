@@ -3,6 +3,7 @@
 package org.onebusaway.services.async
 
 import com.google.errorprone.annotations.MustBeClosed
+import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.models.searchforroute.SearchForRouteListParams
@@ -15,6 +16,13 @@ interface SearchForRouteServiceAsync {
      */
     fun withRawResponse(): WithRawResponse
 
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: (ClientOptions.Builder) -> Unit): SearchForRouteServiceAsync
+
     /** Search for a route based on its name. */
     suspend fun list(
         params: SearchForRouteListParams,
@@ -26,6 +34,15 @@ interface SearchForRouteServiceAsync {
      * method.
      */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: (ClientOptions.Builder) -> Unit
+        ): SearchForRouteServiceAsync.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `get /api/where/search/route.json`, but is otherwise the

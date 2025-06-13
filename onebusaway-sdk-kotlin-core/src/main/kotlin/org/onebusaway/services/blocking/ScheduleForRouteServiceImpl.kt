@@ -27,6 +27,9 @@ class ScheduleForRouteServiceImpl internal constructor(private val clientOptions
 
     override fun withRawResponse(): ScheduleForRouteService.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: (ClientOptions.Builder) -> Unit): ScheduleForRouteService =
+        ScheduleForRouteServiceImpl(clientOptions.toBuilder().apply(modifier).build())
+
     override fun retrieve(
         params: ScheduleForRouteRetrieveParams,
         requestOptions: RequestOptions,
@@ -38,6 +41,13 @@ class ScheduleForRouteServiceImpl internal constructor(private val clientOptions
         ScheduleForRouteService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: (ClientOptions.Builder) -> Unit
+        ): ScheduleForRouteService.WithRawResponse =
+            ScheduleForRouteServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier).build()
+            )
 
         private val retrieveHandler: Handler<ScheduleForRouteRetrieveResponse> =
             jsonHandler<ScheduleForRouteRetrieveResponse>(clientOptions.jsonMapper)
@@ -53,6 +63,7 @@ class ScheduleForRouteServiceImpl internal constructor(private val clientOptions
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "api",
                         "where",

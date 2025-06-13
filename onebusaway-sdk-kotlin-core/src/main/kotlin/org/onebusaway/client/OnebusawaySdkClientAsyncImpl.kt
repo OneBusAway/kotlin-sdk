@@ -191,6 +191,9 @@ class OnebusawaySdkClientAsyncImpl(private val clientOptions: ClientOptions) :
 
     override fun withRawResponse(): OnebusawaySdkClientAsync.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: (ClientOptions.Builder) -> Unit): OnebusawaySdkClientAsync =
+        OnebusawaySdkClientAsyncImpl(clientOptions.toBuilder().apply(modifier).build())
+
     override fun agenciesWithCoverage(): AgenciesWithCoverageServiceAsync = agenciesWithCoverage
 
     override fun agency(): AgencyServiceAsync = agency
@@ -365,6 +368,13 @@ class OnebusawaySdkClientAsyncImpl(private val clientOptions: ClientOptions) :
         private val shape: ShapeServiceAsync.WithRawResponse by lazy {
             ShapeServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: (ClientOptions.Builder) -> Unit
+        ): OnebusawaySdkClientAsync.WithRawResponse =
+            OnebusawaySdkClientAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier).build()
+            )
 
         override fun agenciesWithCoverage(): AgenciesWithCoverageServiceAsync.WithRawResponse =
             agenciesWithCoverage

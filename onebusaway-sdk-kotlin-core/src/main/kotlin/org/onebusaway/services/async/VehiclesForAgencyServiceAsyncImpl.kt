@@ -27,6 +27,11 @@ internal constructor(private val clientOptions: ClientOptions) : VehiclesForAgen
 
     override fun withRawResponse(): VehiclesForAgencyServiceAsync.WithRawResponse = withRawResponse
 
+    override fun withOptions(
+        modifier: (ClientOptions.Builder) -> Unit
+    ): VehiclesForAgencyServiceAsync =
+        VehiclesForAgencyServiceAsyncImpl(clientOptions.toBuilder().apply(modifier).build())
+
     override suspend fun list(
         params: VehiclesForAgencyListParams,
         requestOptions: RequestOptions,
@@ -38,6 +43,13 @@ internal constructor(private val clientOptions: ClientOptions) : VehiclesForAgen
         VehiclesForAgencyServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: (ClientOptions.Builder) -> Unit
+        ): VehiclesForAgencyServiceAsync.WithRawResponse =
+            VehiclesForAgencyServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier).build()
+            )
 
         private val listHandler: Handler<VehiclesForAgencyListResponse> =
             jsonHandler<VehiclesForAgencyListResponse>(clientOptions.jsonMapper)
@@ -53,6 +65,7 @@ internal constructor(private val clientOptions: ClientOptions) : VehiclesForAgen
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "api",
                         "where",

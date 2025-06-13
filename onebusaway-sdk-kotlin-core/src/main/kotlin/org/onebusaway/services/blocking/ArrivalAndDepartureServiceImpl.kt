@@ -29,6 +29,11 @@ internal constructor(private val clientOptions: ClientOptions) : ArrivalAndDepar
 
     override fun withRawResponse(): ArrivalAndDepartureService.WithRawResponse = withRawResponse
 
+    override fun withOptions(
+        modifier: (ClientOptions.Builder) -> Unit
+    ): ArrivalAndDepartureService =
+        ArrivalAndDepartureServiceImpl(clientOptions.toBuilder().apply(modifier).build())
+
     override fun retrieve(
         params: ArrivalAndDepartureRetrieveParams,
         requestOptions: RequestOptions,
@@ -48,6 +53,13 @@ internal constructor(private val clientOptions: ClientOptions) : ArrivalAndDepar
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: (ClientOptions.Builder) -> Unit
+        ): ArrivalAndDepartureService.WithRawResponse =
+            ArrivalAndDepartureServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier).build()
+            )
+
         private val retrieveHandler: Handler<ArrivalAndDepartureRetrieveResponse> =
             jsonHandler<ArrivalAndDepartureRetrieveResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
@@ -62,6 +74,7 @@ internal constructor(private val clientOptions: ClientOptions) : ArrivalAndDepar
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "api",
                         "where",
@@ -97,6 +110,7 @@ internal constructor(private val clientOptions: ClientOptions) : ArrivalAndDepar
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "api",
                         "where",

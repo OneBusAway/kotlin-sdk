@@ -26,6 +26,11 @@ internal constructor(private val clientOptions: ClientOptions) : AgenciesWithCov
 
     override fun withRawResponse(): AgenciesWithCoverageService.WithRawResponse = withRawResponse
 
+    override fun withOptions(
+        modifier: (ClientOptions.Builder) -> Unit
+    ): AgenciesWithCoverageService =
+        AgenciesWithCoverageServiceImpl(clientOptions.toBuilder().apply(modifier).build())
+
     override fun list(
         params: AgenciesWithCoverageListParams,
         requestOptions: RequestOptions,
@@ -38,6 +43,13 @@ internal constructor(private val clientOptions: ClientOptions) : AgenciesWithCov
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: (ClientOptions.Builder) -> Unit
+        ): AgenciesWithCoverageService.WithRawResponse =
+            AgenciesWithCoverageServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier).build()
+            )
+
         private val listHandler: Handler<AgenciesWithCoverageListResponse> =
             jsonHandler<AgenciesWithCoverageListResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
@@ -49,6 +61,7 @@ internal constructor(private val clientOptions: ClientOptions) : AgenciesWithCov
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "where", "agencies-with-coverage.json")
                     .build()
                     .prepare(clientOptions, params)

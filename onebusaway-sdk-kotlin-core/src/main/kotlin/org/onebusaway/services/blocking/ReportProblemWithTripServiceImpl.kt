@@ -27,6 +27,11 @@ internal constructor(private val clientOptions: ClientOptions) : ReportProblemWi
 
     override fun withRawResponse(): ReportProblemWithTripService.WithRawResponse = withRawResponse
 
+    override fun withOptions(
+        modifier: (ClientOptions.Builder) -> Unit
+    ): ReportProblemWithTripService =
+        ReportProblemWithTripServiceImpl(clientOptions.toBuilder().apply(modifier).build())
+
     override fun retrieve(
         params: ReportProblemWithTripRetrieveParams,
         requestOptions: RequestOptions,
@@ -38,6 +43,13 @@ internal constructor(private val clientOptions: ClientOptions) : ReportProblemWi
         ReportProblemWithTripService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: (ClientOptions.Builder) -> Unit
+        ): ReportProblemWithTripService.WithRawResponse =
+            ReportProblemWithTripServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier).build()
+            )
 
         private val retrieveHandler: Handler<ResponseWrapper> =
             jsonHandler<ResponseWrapper>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
@@ -52,6 +64,7 @@ internal constructor(private val clientOptions: ClientOptions) : ReportProblemWi
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "api",
                         "where",
