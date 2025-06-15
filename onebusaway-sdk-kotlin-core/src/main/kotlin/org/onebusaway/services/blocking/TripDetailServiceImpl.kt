@@ -27,6 +27,9 @@ class TripDetailServiceImpl internal constructor(private val clientOptions: Clie
 
     override fun withRawResponse(): TripDetailService.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: (ClientOptions.Builder) -> Unit): TripDetailService =
+        TripDetailServiceImpl(clientOptions.toBuilder().apply(modifier).build())
+
     override fun retrieve(
         params: TripDetailRetrieveParams,
         requestOptions: RequestOptions,
@@ -38,6 +41,13 @@ class TripDetailServiceImpl internal constructor(private val clientOptions: Clie
         TripDetailService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: (ClientOptions.Builder) -> Unit
+        ): TripDetailService.WithRawResponse =
+            TripDetailServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier).build()
+            )
 
         private val retrieveHandler: Handler<TripDetailRetrieveResponse> =
             jsonHandler<TripDetailRetrieveResponse>(clientOptions.jsonMapper)
@@ -53,6 +63,7 @@ class TripDetailServiceImpl internal constructor(private val clientOptions: Clie
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "where", "trip-details", "${params._pathParam(0)}.json")
                     .build()
                     .prepare(clientOptions, params)

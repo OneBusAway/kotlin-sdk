@@ -3,6 +3,7 @@
 package org.onebusaway.services.async
 
 import com.google.errorprone.annotations.MustBeClosed
+import org.onebusaway.core.ClientOptions
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.models.routesforlocation.RoutesForLocationListParams
@@ -15,6 +16,13 @@ interface RoutesForLocationServiceAsync {
      */
     fun withRawResponse(): WithRawResponse
 
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: (ClientOptions.Builder) -> Unit): RoutesForLocationServiceAsync
+
     /** routes-for-location */
     suspend fun list(
         params: RoutesForLocationListParams,
@@ -26,6 +34,15 @@ interface RoutesForLocationServiceAsync {
      * method.
      */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: (ClientOptions.Builder) -> Unit
+        ): RoutesForLocationServiceAsync.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `get /api/where/routes-for-location.json`, but is

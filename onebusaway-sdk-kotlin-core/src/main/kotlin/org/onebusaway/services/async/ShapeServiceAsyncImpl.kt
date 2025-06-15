@@ -27,6 +27,9 @@ class ShapeServiceAsyncImpl internal constructor(private val clientOptions: Clie
 
     override fun withRawResponse(): ShapeServiceAsync.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: (ClientOptions.Builder) -> Unit): ShapeServiceAsync =
+        ShapeServiceAsyncImpl(clientOptions.toBuilder().apply(modifier).build())
+
     override suspend fun retrieve(
         params: ShapeRetrieveParams,
         requestOptions: RequestOptions,
@@ -38,6 +41,13 @@ class ShapeServiceAsyncImpl internal constructor(private val clientOptions: Clie
         ShapeServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: (ClientOptions.Builder) -> Unit
+        ): ShapeServiceAsync.WithRawResponse =
+            ShapeServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier).build()
+            )
 
         private val retrieveHandler: Handler<ShapeRetrieveResponse> =
             jsonHandler<ShapeRetrieveResponse>(clientOptions.jsonMapper)
@@ -53,6 +63,7 @@ class ShapeServiceAsyncImpl internal constructor(private val clientOptions: Clie
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "where", "shape", "${params._pathParam(0)}.json")
                     .build()
                     .prepareAsync(clientOptions, params)

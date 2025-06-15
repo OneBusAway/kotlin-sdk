@@ -26,6 +26,9 @@ class RoutesForLocationServiceImpl internal constructor(private val clientOption
 
     override fun withRawResponse(): RoutesForLocationService.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: (ClientOptions.Builder) -> Unit): RoutesForLocationService =
+        RoutesForLocationServiceImpl(clientOptions.toBuilder().apply(modifier).build())
+
     override fun list(
         params: RoutesForLocationListParams,
         requestOptions: RequestOptions,
@@ -38,6 +41,13 @@ class RoutesForLocationServiceImpl internal constructor(private val clientOption
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: (ClientOptions.Builder) -> Unit
+        ): RoutesForLocationService.WithRawResponse =
+            RoutesForLocationServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier).build()
+            )
+
         private val listHandler: Handler<RoutesForLocationListResponse> =
             jsonHandler<RoutesForLocationListResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
@@ -49,6 +59,7 @@ class RoutesForLocationServiceImpl internal constructor(private val clientOption
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "where", "routes-for-location.json")
                     .build()
                     .prepare(clientOptions, params)

@@ -26,6 +26,11 @@ internal constructor(private val clientOptions: ClientOptions) : StopsForLocatio
 
     override fun withRawResponse(): StopsForLocationServiceAsync.WithRawResponse = withRawResponse
 
+    override fun withOptions(
+        modifier: (ClientOptions.Builder) -> Unit
+    ): StopsForLocationServiceAsync =
+        StopsForLocationServiceAsyncImpl(clientOptions.toBuilder().apply(modifier).build())
+
     override suspend fun list(
         params: StopsForLocationListParams,
         requestOptions: RequestOptions,
@@ -38,6 +43,13 @@ internal constructor(private val clientOptions: ClientOptions) : StopsForLocatio
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: (ClientOptions.Builder) -> Unit
+        ): StopsForLocationServiceAsync.WithRawResponse =
+            StopsForLocationServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier).build()
+            )
+
         private val listHandler: Handler<StopsForLocationListResponse> =
             jsonHandler<StopsForLocationListResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
@@ -49,6 +61,7 @@ internal constructor(private val clientOptions: ClientOptions) : StopsForLocatio
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "where", "stops-for-location.json")
                     .build()
                     .prepareAsync(clientOptions, params)

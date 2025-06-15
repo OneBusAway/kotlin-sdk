@@ -26,6 +26,9 @@ class TripServiceImpl internal constructor(private val clientOptions: ClientOpti
 
     override fun withRawResponse(): TripService.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: (ClientOptions.Builder) -> Unit): TripService =
+        TripServiceImpl(clientOptions.toBuilder().apply(modifier).build())
+
     override fun retrieve(
         params: TripRetrieveParams,
         requestOptions: RequestOptions,
@@ -37,6 +40,11 @@ class TripServiceImpl internal constructor(private val clientOptions: ClientOpti
         TripService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: (ClientOptions.Builder) -> Unit
+        ): TripService.WithRawResponse =
+            TripServiceImpl.WithRawResponseImpl(clientOptions.toBuilder().apply(modifier).build())
 
         private val retrieveHandler: Handler<TripRetrieveResponse> =
             jsonHandler<TripRetrieveResponse>(clientOptions.jsonMapper)
@@ -52,6 +60,7 @@ class TripServiceImpl internal constructor(private val clientOptions: ClientOpti
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "where", "trip", "${params._pathParam(0)}.json")
                     .build()
                     .prepare(clientOptions, params)

@@ -27,6 +27,9 @@ class StopsForRouteServiceImpl internal constructor(private val clientOptions: C
 
     override fun withRawResponse(): StopsForRouteService.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: (ClientOptions.Builder) -> Unit): StopsForRouteService =
+        StopsForRouteServiceImpl(clientOptions.toBuilder().apply(modifier).build())
+
     override fun list(
         params: StopsForRouteListParams,
         requestOptions: RequestOptions,
@@ -38,6 +41,13 @@ class StopsForRouteServiceImpl internal constructor(private val clientOptions: C
         StopsForRouteService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: (ClientOptions.Builder) -> Unit
+        ): StopsForRouteService.WithRawResponse =
+            StopsForRouteServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier).build()
+            )
 
         private val listHandler: Handler<StopsForRouteListResponse> =
             jsonHandler<StopsForRouteListResponse>(clientOptions.jsonMapper)
@@ -53,6 +63,7 @@ class StopsForRouteServiceImpl internal constructor(private val clientOptions: C
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "api",
                         "where",

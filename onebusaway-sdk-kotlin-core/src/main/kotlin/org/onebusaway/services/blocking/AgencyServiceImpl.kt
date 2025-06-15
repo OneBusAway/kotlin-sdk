@@ -27,6 +27,9 @@ class AgencyServiceImpl internal constructor(private val clientOptions: ClientOp
 
     override fun withRawResponse(): AgencyService.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: (ClientOptions.Builder) -> Unit): AgencyService =
+        AgencyServiceImpl(clientOptions.toBuilder().apply(modifier).build())
+
     override fun retrieve(
         params: AgencyRetrieveParams,
         requestOptions: RequestOptions,
@@ -38,6 +41,11 @@ class AgencyServiceImpl internal constructor(private val clientOptions: ClientOp
         AgencyService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: (ClientOptions.Builder) -> Unit
+        ): AgencyService.WithRawResponse =
+            AgencyServiceImpl.WithRawResponseImpl(clientOptions.toBuilder().apply(modifier).build())
 
         private val retrieveHandler: Handler<AgencyRetrieveResponse> =
             jsonHandler<AgencyRetrieveResponse>(clientOptions.jsonMapper)
@@ -53,6 +61,7 @@ class AgencyServiceImpl internal constructor(private val clientOptions: ClientOp
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "where", "agency", "${params._pathParam(0)}.json")
                     .build()
                     .prepare(clientOptions, params)

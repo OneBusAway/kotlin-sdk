@@ -26,6 +26,11 @@ internal constructor(private val clientOptions: ClientOptions) : SearchForRouteS
 
     override fun withRawResponse(): SearchForRouteServiceAsync.WithRawResponse = withRawResponse
 
+    override fun withOptions(
+        modifier: (ClientOptions.Builder) -> Unit
+    ): SearchForRouteServiceAsync =
+        SearchForRouteServiceAsyncImpl(clientOptions.toBuilder().apply(modifier).build())
+
     override suspend fun list(
         params: SearchForRouteListParams,
         requestOptions: RequestOptions,
@@ -38,6 +43,13 @@ internal constructor(private val clientOptions: ClientOptions) : SearchForRouteS
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: (ClientOptions.Builder) -> Unit
+        ): SearchForRouteServiceAsync.WithRawResponse =
+            SearchForRouteServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier).build()
+            )
+
         private val listHandler: Handler<SearchForRouteListResponse> =
             jsonHandler<SearchForRouteListResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
@@ -49,6 +61,7 @@ internal constructor(private val clientOptions: ClientOptions) : SearchForRouteS
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "where", "search", "route.json")
                     .build()
                     .prepareAsync(clientOptions, params)

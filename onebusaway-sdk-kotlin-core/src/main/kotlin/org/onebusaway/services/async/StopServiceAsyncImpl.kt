@@ -27,6 +27,9 @@ class StopServiceAsyncImpl internal constructor(private val clientOptions: Clien
 
     override fun withRawResponse(): StopServiceAsync.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: (ClientOptions.Builder) -> Unit): StopServiceAsync =
+        StopServiceAsyncImpl(clientOptions.toBuilder().apply(modifier).build())
+
     override suspend fun retrieve(
         params: StopRetrieveParams,
         requestOptions: RequestOptions,
@@ -38,6 +41,13 @@ class StopServiceAsyncImpl internal constructor(private val clientOptions: Clien
         StopServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: (ClientOptions.Builder) -> Unit
+        ): StopServiceAsync.WithRawResponse =
+            StopServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier).build()
+            )
 
         private val retrieveHandler: Handler<StopRetrieveResponse> =
             jsonHandler<StopRetrieveResponse>(clientOptions.jsonMapper)
@@ -53,6 +63,7 @@ class StopServiceAsyncImpl internal constructor(private val clientOptions: Clien
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "where", "stop", "${params._pathParam(0)}.json")
                     .build()
                     .prepareAsync(clientOptions, params)

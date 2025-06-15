@@ -2,6 +2,7 @@
 
 package org.onebusaway.client
 
+import org.onebusaway.core.ClientOptions
 import org.onebusaway.services.async.AgenciesWithCoverageServiceAsync
 import org.onebusaway.services.async.AgencyServiceAsync
 import org.onebusaway.services.async.ArrivalAndDepartureServiceAsync
@@ -59,6 +60,13 @@ interface OnebusawaySdkClientAsync {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: (ClientOptions.Builder) -> Unit): OnebusawaySdkClientAsync
 
     fun agenciesWithCoverage(): AgenciesWithCoverageServiceAsync
 
@@ -134,6 +142,15 @@ interface OnebusawaySdkClientAsync {
      * method.
      */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: (ClientOptions.Builder) -> Unit
+        ): OnebusawaySdkClientAsync.WithRawResponse
 
         fun agenciesWithCoverage(): AgenciesWithCoverageServiceAsync.WithRawResponse
 
