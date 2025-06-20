@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.73 (2025-06-17)
+
+Full Changelog: [v0.1.0-alpha.72...v0.1.0-alpha.73](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.72...v0.1.0-alpha.73)
+
+### Chores
+
+* **ci:** enable for pull requests ([05e63f0](https://github.com/OneBusAway/kotlin-sdk/commit/05e63f0e7fecd9d01c787dab0bac8fbf54c35da0))
+
 ## 0.1.0-alpha.72 (2025-06-13)
 
 Full Changelog: [v0.1.0-alpha.71...v0.1.0-alpha.72](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.71...v0.1.0-alpha.72)
