@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.0-alpha.74 (2025-06-27)
+
+Full Changelog: [v0.1.0-alpha.73...v0.1.0-alpha.74](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.73...v0.1.0-alpha.74)
+
+### Bug Fixes
+
+* **ci:** release-doctor — report correct token name ([490c529](https://github.com/OneBusAway/kotlin-sdk/commit/490c5296c64401d6c15b42c9937e867af83e22ab))
+* **client:** bump max requests per host to max requests (5 -&gt; 64) ([06f036e](https://github.com/OneBusAway/kotlin-sdk/commit/06f036e59faaff24d99e7464726c505cd4079975))
+
 ## 0.1.0-alpha.73 (2025-06-17)
 
 Full Changelog: [v0.1.0-alpha.72...v0.1.0-alpha.73](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.72...v0.1.0-alpha.73)
