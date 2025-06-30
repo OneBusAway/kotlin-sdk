@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.1.0-alpha.75 (2025-06-30)
+
+Full Changelog: [v0.1.0-alpha.74...v0.1.0-alpha.75](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.74...v0.1.0-alpha.75)
+
+### Bug Fixes
+
+* **client:** don't close client on `withOptions` usage when original is gc'd ([0265af6](https://github.com/OneBusAway/kotlin-sdk/commit/0265af6c25213278c66a6f9efb5fc2b1b5173293))
+
+
+### Chores
+
+* **ci:** only run for pushes and fork pull requests ([24abc88](https://github.com/OneBusAway/kotlin-sdk/commit/24abc88adc64f2601d0da87b4a96efdca6501ac7))
+
 ## 0.1.0-alpha.74 (2025-06-27)
 
 Full Changelog: [v0.1.0-alpha.73...v0.1.0-alpha.74](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.73...v0.1.0-alpha.74)
