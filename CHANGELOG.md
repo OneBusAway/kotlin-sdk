@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.76 (2025-07-09)
+
+Full Changelog: [v0.1.0-alpha.75...v0.1.0-alpha.76](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.75...v0.1.0-alpha.76)
+
+### Chores
+
+* **ci:** ensure docs generation always succeeds ([7be2428](https://github.com/OneBusAway/kotlin-sdk/commit/7be2428c19b83ef19365a479edd7ae0d64577efc))
+
 ## 0.1.0-alpha.75 (2025-07-01)
 
 Full Changelog: [v0.1.0-alpha.74...v0.1.0-alpha.75](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.74...v0.1.0-alpha.75)
