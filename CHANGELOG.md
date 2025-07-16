@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.77 (2025-07-16)
+
+Full Changelog: [v0.1.0-alpha.76...v0.1.0-alpha.77](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.76...v0.1.0-alpha.77)
+
+### Chores
+
+* **ci:** bump `actions/setup-java` to v4 ([dbb3c65](https://github.com/OneBusAway/kotlin-sdk/commit/dbb3c65c3488b3cce7e073299742b2eb4ba60afe))
+
 ## 0.1.0-alpha.76 (2025-07-09)
 
 Full Changelog: [v0.1.0-alpha.75...v0.1.0-alpha.76](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.75...v0.1.0-alpha.76)
