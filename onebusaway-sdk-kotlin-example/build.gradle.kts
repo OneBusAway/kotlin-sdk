@@ -8,5 +8,12 @@ dependencies {
 }
 
 application {
-    mainClass = "org.onebusaway.example.MainKt"
+    // Use `./gradlew :onebusaway-sdk-kotlin-example:run` to run `Main`
+    // Use `./gradlew :onebusaway-sdk-kotlin-example:run -Dexample=Something` to run `SomethingExample`
+    mainClass = "org.onebusaway.example.${
+        if (project.hasProperty("example"))
+            "${project.property("example")}ExampleKt"
+        else
+            "MainKt"
+    }"
 }
