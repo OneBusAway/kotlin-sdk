@@ -3,14 +3,14 @@
 package org.onebusaway.services.async
 
 import org.onebusaway.core.ClientOptions
-import org.onebusaway.core.JsonValue
 import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.checkRequired
+import org.onebusaway.core.handlers.errorBodyHandler
 import org.onebusaway.core.handlers.errorHandler
 import org.onebusaway.core.handlers.jsonHandler
-import org.onebusaway.core.handlers.withErrorHandler
 import org.onebusaway.core.http.HttpMethod
 import org.onebusaway.core.http.HttpRequest
+import org.onebusaway.core.http.HttpResponse
 import org.onebusaway.core.http.HttpResponse.Handler
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.core.http.parseable
@@ -42,7 +42,8 @@ internal constructor(private val clientOptions: ClientOptions) : RouteIdsForAgen
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         RouteIdsForAgencyServiceAsync.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         override fun withOptions(
             modifier: (ClientOptions.Builder) -> Unit
@@ -53,7 +54,6 @@ internal constructor(private val clientOptions: ClientOptions) : RouteIdsForAgen
 
         private val listHandler: Handler<RouteIdsForAgencyListResponse> =
             jsonHandler<RouteIdsForAgencyListResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override suspend fun list(
             params: RouteIdsForAgencyListParams,
@@ -76,7 +76,7 @@ internal constructor(private val clientOptions: ClientOptions) : RouteIdsForAgen
                     .prepareAsync(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.executeAsync(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { listHandler.handle(it) }
                     .also {
