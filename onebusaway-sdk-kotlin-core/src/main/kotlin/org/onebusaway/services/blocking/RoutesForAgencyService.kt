@@ -31,13 +31,13 @@ interface RoutesForAgencyService {
     ): RoutesForAgencyListResponse =
         list(params.toBuilder().agencyId(agencyId).build(), requestOptions)
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: RoutesForAgencyListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): RoutesForAgencyListResponse
 
-    /** @see [list] */
+    /** @see list */
     fun list(agencyId: String, requestOptions: RequestOptions): RoutesForAgencyListResponse =
         list(agencyId, RoutesForAgencyListParams.none(), requestOptions)
 
@@ -68,14 +68,14 @@ interface RoutesForAgencyService {
         ): HttpResponseFor<RoutesForAgencyListResponse> =
             list(params.toBuilder().agencyId(agencyId).build(), requestOptions)
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: RoutesForAgencyListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<RoutesForAgencyListResponse>
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             agencyId: String,

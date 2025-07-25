@@ -30,13 +30,13 @@ interface StopsForRouteServiceAsync {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): StopsForRouteListResponse = list(params.toBuilder().routeId(routeId).build(), requestOptions)
 
-    /** @see [list] */
+    /** @see list */
     suspend fun list(
         params: StopsForRouteListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): StopsForRouteListResponse
 
-    /** @see [list] */
+    /** @see list */
     suspend fun list(routeId: String, requestOptions: RequestOptions): StopsForRouteListResponse =
         list(routeId, StopsForRouteListParams.none(), requestOptions)
 
@@ -67,14 +67,14 @@ interface StopsForRouteServiceAsync {
         ): HttpResponseFor<StopsForRouteListResponse> =
             list(params.toBuilder().routeId(routeId).build(), requestOptions)
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         suspend fun list(
             params: StopsForRouteListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<StopsForRouteListResponse>
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         suspend fun list(
             routeId: String,

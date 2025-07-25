@@ -30,13 +30,13 @@ interface ShapeServiceAsync {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ShapeRetrieveResponse = retrieve(params.toBuilder().shapeId(shapeId).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     suspend fun retrieve(
         params: ShapeRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ShapeRetrieveResponse
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     suspend fun retrieve(shapeId: String, requestOptions: RequestOptions): ShapeRetrieveResponse =
         retrieve(shapeId, ShapeRetrieveParams.none(), requestOptions)
 
@@ -64,14 +64,14 @@ interface ShapeServiceAsync {
         ): HttpResponseFor<ShapeRetrieveResponse> =
             retrieve(params.toBuilder().shapeId(shapeId).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         suspend fun retrieve(
             params: ShapeRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<ShapeRetrieveResponse>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         suspend fun retrieve(
             shapeId: String,

@@ -31,13 +31,13 @@ interface ScheduleForRouteServiceAsync {
     ): ScheduleForRouteRetrieveResponse =
         retrieve(params.toBuilder().routeId(routeId).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     suspend fun retrieve(
         params: ScheduleForRouteRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ScheduleForRouteRetrieveResponse
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     suspend fun retrieve(
         routeId: String,
         requestOptions: RequestOptions,
@@ -71,14 +71,14 @@ interface ScheduleForRouteServiceAsync {
         ): HttpResponseFor<ScheduleForRouteRetrieveResponse> =
             retrieve(params.toBuilder().routeId(routeId).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         suspend fun retrieve(
             params: ScheduleForRouteRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<ScheduleForRouteRetrieveResponse>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         suspend fun retrieve(
             routeId: String,

@@ -30,13 +30,13 @@ interface ShapeService {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ShapeRetrieveResponse = retrieve(params.toBuilder().shapeId(shapeId).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: ShapeRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ShapeRetrieveResponse
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(shapeId: String, requestOptions: RequestOptions): ShapeRetrieveResponse =
         retrieve(shapeId, ShapeRetrieveParams.none(), requestOptions)
 
@@ -62,14 +62,14 @@ interface ShapeService {
         ): HttpResponseFor<ShapeRetrieveResponse> =
             retrieve(params.toBuilder().shapeId(shapeId).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: ShapeRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<ShapeRetrieveResponse>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             shapeId: String,

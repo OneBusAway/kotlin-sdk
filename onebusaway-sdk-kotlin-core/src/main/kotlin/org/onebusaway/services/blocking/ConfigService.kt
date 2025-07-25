@@ -29,7 +29,7 @@ interface ConfigService {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ConfigRetrieveResponse
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(requestOptions: RequestOptions): ConfigRetrieveResponse =
         retrieve(ConfigRetrieveParams.none(), requestOptions)
 
@@ -53,7 +53,7 @@ interface ConfigService {
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<ConfigRetrieveResponse>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(requestOptions: RequestOptions): HttpResponseFor<ConfigRetrieveResponse> =
             retrieve(ConfigRetrieveParams.none(), requestOptions)

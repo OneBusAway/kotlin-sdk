@@ -31,13 +31,13 @@ interface TripForVehicleService {
     ): TripForVehicleRetrieveResponse =
         retrieve(params.toBuilder().vehicleId(vehicleId).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: TripForVehicleRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): TripForVehicleRetrieveResponse
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         vehicleId: String,
         requestOptions: RequestOptions,
@@ -70,14 +70,14 @@ interface TripForVehicleService {
         ): HttpResponseFor<TripForVehicleRetrieveResponse> =
             retrieve(params.toBuilder().vehicleId(vehicleId).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: TripForVehicleRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<TripForVehicleRetrieveResponse>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             vehicleId: String,

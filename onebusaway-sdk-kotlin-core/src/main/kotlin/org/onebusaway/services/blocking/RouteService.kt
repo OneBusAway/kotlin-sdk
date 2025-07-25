@@ -30,13 +30,13 @@ interface RouteService {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): RouteRetrieveResponse = retrieve(params.toBuilder().routeId(routeId).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: RouteRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): RouteRetrieveResponse
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(routeId: String, requestOptions: RequestOptions): RouteRetrieveResponse =
         retrieve(routeId, RouteRetrieveParams.none(), requestOptions)
 
@@ -62,14 +62,14 @@ interface RouteService {
         ): HttpResponseFor<RouteRetrieveResponse> =
             retrieve(params.toBuilder().routeId(routeId).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: RouteRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<RouteRetrieveResponse>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             routeId: String,

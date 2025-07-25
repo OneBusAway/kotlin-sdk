@@ -30,13 +30,13 @@ interface StopService {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): StopRetrieveResponse = retrieve(params.toBuilder().stopId(stopId).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: StopRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): StopRetrieveResponse
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(stopId: String, requestOptions: RequestOptions): StopRetrieveResponse =
         retrieve(stopId, StopRetrieveParams.none(), requestOptions)
 
@@ -62,14 +62,14 @@ interface StopService {
         ): HttpResponseFor<StopRetrieveResponse> =
             retrieve(params.toBuilder().stopId(stopId).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: StopRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<StopRetrieveResponse>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             stopId: String,

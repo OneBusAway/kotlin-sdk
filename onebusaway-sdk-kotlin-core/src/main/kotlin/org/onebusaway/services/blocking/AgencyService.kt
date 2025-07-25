@@ -31,13 +31,13 @@ interface AgencyService {
     ): AgencyRetrieveResponse =
         retrieve(params.toBuilder().agencyId(agencyId).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: AgencyRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): AgencyRetrieveResponse
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(agencyId: String, requestOptions: RequestOptions): AgencyRetrieveResponse =
         retrieve(agencyId, AgencyRetrieveParams.none(), requestOptions)
 
@@ -63,14 +63,14 @@ interface AgencyService {
         ): HttpResponseFor<AgencyRetrieveResponse> =
             retrieve(params.toBuilder().agencyId(agencyId).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: AgencyRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<AgencyRetrieveResponse>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             agencyId: String,

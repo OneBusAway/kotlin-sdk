@@ -32,7 +32,7 @@ interface AgenciesWithCoverageServiceAsync {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): AgenciesWithCoverageListResponse
 
-    /** @see [list] */
+    /** @see list */
     suspend fun list(requestOptions: RequestOptions): AgenciesWithCoverageListResponse =
         list(AgenciesWithCoverageListParams.none(), requestOptions)
 
@@ -61,7 +61,7 @@ interface AgenciesWithCoverageServiceAsync {
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<AgenciesWithCoverageListResponse>
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         suspend fun list(
             requestOptions: RequestOptions

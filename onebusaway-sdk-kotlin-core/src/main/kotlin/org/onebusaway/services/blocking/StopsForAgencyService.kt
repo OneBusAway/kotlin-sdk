@@ -31,13 +31,13 @@ interface StopsForAgencyService {
     ): StopsForAgencyListResponse =
         list(params.toBuilder().agencyId(agencyId).build(), requestOptions)
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: StopsForAgencyListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): StopsForAgencyListResponse
 
-    /** @see [list] */
+    /** @see list */
     fun list(agencyId: String, requestOptions: RequestOptions): StopsForAgencyListResponse =
         list(agencyId, StopsForAgencyListParams.none(), requestOptions)
 
@@ -67,14 +67,14 @@ interface StopsForAgencyService {
         ): HttpResponseFor<StopsForAgencyListResponse> =
             list(params.toBuilder().agencyId(agencyId).build(), requestOptions)
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: StopsForAgencyListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<StopsForAgencyListResponse>
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             agencyId: String,

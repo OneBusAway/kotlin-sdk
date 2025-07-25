@@ -30,13 +30,13 @@ interface ReportProblemWithTripServiceAsync {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ResponseWrapper = retrieve(params.toBuilder().tripId(tripId).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     suspend fun retrieve(
         params: ReportProblemWithTripRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ResponseWrapper
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     suspend fun retrieve(tripId: String, requestOptions: RequestOptions): ResponseWrapper =
         retrieve(tripId, ReportProblemWithTripRetrieveParams.none(), requestOptions)
 
@@ -68,14 +68,14 @@ interface ReportProblemWithTripServiceAsync {
         ): HttpResponseFor<ResponseWrapper> =
             retrieve(params.toBuilder().tripId(tripId).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         suspend fun retrieve(
             params: ReportProblemWithTripRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<ResponseWrapper>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         suspend fun retrieve(
             tripId: String,

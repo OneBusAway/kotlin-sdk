@@ -30,13 +30,13 @@ interface TripsForRouteServiceAsync {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): TripsForRouteListResponse = list(params.toBuilder().routeId(routeId).build(), requestOptions)
 
-    /** @see [list] */
+    /** @see list */
     suspend fun list(
         params: TripsForRouteListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): TripsForRouteListResponse
 
-    /** @see [list] */
+    /** @see list */
     suspend fun list(routeId: String, requestOptions: RequestOptions): TripsForRouteListResponse =
         list(routeId, TripsForRouteListParams.none(), requestOptions)
 
@@ -67,14 +67,14 @@ interface TripsForRouteServiceAsync {
         ): HttpResponseFor<TripsForRouteListResponse> =
             list(params.toBuilder().routeId(routeId).build(), requestOptions)
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         suspend fun list(
             params: TripsForRouteListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<TripsForRouteListResponse>
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         suspend fun list(
             routeId: String,
