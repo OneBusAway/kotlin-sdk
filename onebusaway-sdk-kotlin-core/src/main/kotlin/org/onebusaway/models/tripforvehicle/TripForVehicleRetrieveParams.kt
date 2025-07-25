@@ -42,8 +42,10 @@ private constructor(
     /** Time parameter to query the system at a specific time (optional). */
     fun time(): Long? = time
 
+    /** Additional headers to send with the request. */
     fun _additionalHeaders(): Headers = additionalHeaders
 
+    /** Additional query param to send with the request. */
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
     fun toBuilder() = Builder().from(this)

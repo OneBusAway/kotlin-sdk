@@ -41,8 +41,10 @@ private constructor(
     /** The reporting user’s current longitude */
     fun userLon(): Float? = userLon
 
+    /** Additional headers to send with the request. */
     fun _additionalHeaders(): Headers = additionalHeaders
 
+    /** Additional query param to send with the request. */
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
     fun toBuilder() = Builder().from(this)
