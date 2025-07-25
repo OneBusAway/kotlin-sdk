@@ -30,13 +30,13 @@ interface RouteServiceAsync {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): RouteRetrieveResponse = retrieve(params.toBuilder().routeId(routeId).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     suspend fun retrieve(
         params: RouteRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): RouteRetrieveResponse
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     suspend fun retrieve(routeId: String, requestOptions: RequestOptions): RouteRetrieveResponse =
         retrieve(routeId, RouteRetrieveParams.none(), requestOptions)
 
@@ -64,14 +64,14 @@ interface RouteServiceAsync {
         ): HttpResponseFor<RouteRetrieveResponse> =
             retrieve(params.toBuilder().routeId(routeId).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         suspend fun retrieve(
             params: RouteRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<RouteRetrieveResponse>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         suspend fun retrieve(
             routeId: String,

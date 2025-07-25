@@ -29,7 +29,7 @@ interface CurrentTimeServiceAsync {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CurrentTimeRetrieveResponse
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     suspend fun retrieve(requestOptions: RequestOptions): CurrentTimeRetrieveResponse =
         retrieve(CurrentTimeRetrieveParams.none(), requestOptions)
 
@@ -58,7 +58,7 @@ interface CurrentTimeServiceAsync {
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<CurrentTimeRetrieveResponse>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         suspend fun retrieve(
             requestOptions: RequestOptions

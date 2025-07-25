@@ -31,13 +31,13 @@ interface ScheduleForStopServiceAsync {
     ): ScheduleForStopRetrieveResponse =
         retrieve(params.toBuilder().stopId(stopId).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     suspend fun retrieve(
         params: ScheduleForStopRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ScheduleForStopRetrieveResponse
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     suspend fun retrieve(
         stopId: String,
         requestOptions: RequestOptions,
@@ -71,14 +71,14 @@ interface ScheduleForStopServiceAsync {
         ): HttpResponseFor<ScheduleForStopRetrieveResponse> =
             retrieve(params.toBuilder().stopId(stopId).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         suspend fun retrieve(
             params: ScheduleForStopRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<ScheduleForStopRetrieveResponse>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         suspend fun retrieve(
             stopId: String,

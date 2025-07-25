@@ -29,7 +29,7 @@ interface CurrentTimeService {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CurrentTimeRetrieveResponse
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(requestOptions: RequestOptions): CurrentTimeRetrieveResponse =
         retrieve(CurrentTimeRetrieveParams.none(), requestOptions)
 
@@ -57,7 +57,7 @@ interface CurrentTimeService {
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<CurrentTimeRetrieveResponse>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(requestOptions: RequestOptions): HttpResponseFor<CurrentTimeRetrieveResponse> =
             retrieve(CurrentTimeRetrieveParams.none(), requestOptions)
