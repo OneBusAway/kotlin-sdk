@@ -200,10 +200,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is ScheduleForRouteRetrieveParams && routeId == other.routeId && date == other.date && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is ScheduleForRouteRetrieveParams &&
+            routeId == other.routeId &&
+            date == other.date &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(routeId, date, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(routeId, date, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "ScheduleForRouteRetrieveParams{routeId=$routeId, date=$date, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

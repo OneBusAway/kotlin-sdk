@@ -1844,12 +1844,25 @@ private constructor(
                                     return true
                                 }
 
-                                return /* spotless:off */ other is StopTime && arrivalTime == other.arrivalTime && departureTime == other.departureTime && stopId == other.stopId && dropOffType == other.dropOffType && pickupType == other.pickupType && additionalProperties == other.additionalProperties /* spotless:on */
+                                return other is StopTime &&
+                                    arrivalTime == other.arrivalTime &&
+                                    departureTime == other.departureTime &&
+                                    stopId == other.stopId &&
+                                    dropOffType == other.dropOffType &&
+                                    pickupType == other.pickupType &&
+                                    additionalProperties == other.additionalProperties
                             }
 
-                            /* spotless:off */
-                            private val hashCode: Int by lazy { Objects.hash(arrivalTime, departureTime, stopId, dropOffType, pickupType, additionalProperties) }
-                            /* spotless:on */
+                            private val hashCode: Int by lazy {
+                                Objects.hash(
+                                    arrivalTime,
+                                    departureTime,
+                                    stopId,
+                                    dropOffType,
+                                    pickupType,
+                                    additionalProperties,
+                                )
+                            }
 
                             override fun hashCode(): Int = hashCode
 
@@ -1862,12 +1875,23 @@ private constructor(
                                 return true
                             }
 
-                            return /* spotless:off */ other is BlockStopTime && accumulatedSlackTime == other.accumulatedSlackTime && blockSequence == other.blockSequence && distanceAlongBlock == other.distanceAlongBlock && stopTime == other.stopTime && additionalProperties == other.additionalProperties /* spotless:on */
+                            return other is BlockStopTime &&
+                                accumulatedSlackTime == other.accumulatedSlackTime &&
+                                blockSequence == other.blockSequence &&
+                                distanceAlongBlock == other.distanceAlongBlock &&
+                                stopTime == other.stopTime &&
+                                additionalProperties == other.additionalProperties
                         }
 
-                        /* spotless:off */
-                        private val hashCode: Int by lazy { Objects.hash(accumulatedSlackTime, blockSequence, distanceAlongBlock, stopTime, additionalProperties) }
-                        /* spotless:on */
+                        private val hashCode: Int by lazy {
+                            Objects.hash(
+                                accumulatedSlackTime,
+                                blockSequence,
+                                distanceAlongBlock,
+                                stopTime,
+                                additionalProperties,
+                            )
+                        }
 
                         override fun hashCode(): Int = hashCode
 
@@ -1880,12 +1904,23 @@ private constructor(
                             return true
                         }
 
-                        return /* spotless:off */ other is Trip && accumulatedSlackTime == other.accumulatedSlackTime && blockStopTimes == other.blockStopTimes && distanceAlongBlock == other.distanceAlongBlock && tripId == other.tripId && additionalProperties == other.additionalProperties /* spotless:on */
+                        return other is Trip &&
+                            accumulatedSlackTime == other.accumulatedSlackTime &&
+                            blockStopTimes == other.blockStopTimes &&
+                            distanceAlongBlock == other.distanceAlongBlock &&
+                            tripId == other.tripId &&
+                            additionalProperties == other.additionalProperties
                     }
 
-                    /* spotless:off */
-                    private val hashCode: Int by lazy { Objects.hash(accumulatedSlackTime, blockStopTimes, distanceAlongBlock, tripId, additionalProperties) }
-                    /* spotless:on */
+                    private val hashCode: Int by lazy {
+                        Objects.hash(
+                            accumulatedSlackTime,
+                            blockStopTimes,
+                            distanceAlongBlock,
+                            tripId,
+                            additionalProperties,
+                        )
+                    }
 
                     override fun hashCode(): Int = hashCode
 
@@ -1898,12 +1933,16 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is Configuration && activeServiceIds == other.activeServiceIds && trips == other.trips && inactiveServiceIds == other.inactiveServiceIds && additionalProperties == other.additionalProperties /* spotless:on */
+                    return other is Configuration &&
+                        activeServiceIds == other.activeServiceIds &&
+                        trips == other.trips &&
+                        inactiveServiceIds == other.inactiveServiceIds &&
+                        additionalProperties == other.additionalProperties
                 }
 
-                /* spotless:off */
-                private val hashCode: Int by lazy { Objects.hash(activeServiceIds, trips, inactiveServiceIds, additionalProperties) }
-                /* spotless:on */
+                private val hashCode: Int by lazy {
+                    Objects.hash(activeServiceIds, trips, inactiveServiceIds, additionalProperties)
+                }
 
                 override fun hashCode(): Int = hashCode
 
@@ -1916,12 +1955,15 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is Entry && id == other.id && configurations == other.configurations && additionalProperties == other.additionalProperties /* spotless:on */
+                return other is Entry &&
+                    id == other.id &&
+                    configurations == other.configurations &&
+                    additionalProperties == other.additionalProperties
             }
 
-            /* spotless:off */
-            private val hashCode: Int by lazy { Objects.hash(id, configurations, additionalProperties) }
-            /* spotless:on */
+            private val hashCode: Int by lazy {
+                Objects.hash(id, configurations, additionalProperties)
+            }
 
             override fun hashCode(): Int = hashCode
 
@@ -1934,12 +1976,13 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Data && entry == other.entry && references == other.references && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Data &&
+                entry == other.entry &&
+                references == other.references &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
         private val hashCode: Int by lazy { Objects.hash(entry, references, additionalProperties) }
-        /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
@@ -1952,12 +1995,18 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is BlockRetrieveResponse && code == other.code && currentTime == other.currentTime && text == other.text && version == other.version && data == other.data && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is BlockRetrieveResponse &&
+            code == other.code &&
+            currentTime == other.currentTime &&
+            text == other.text &&
+            version == other.version &&
+            data == other.data &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(code, currentTime, text, version, data, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(code, currentTime, text, version, data, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 
