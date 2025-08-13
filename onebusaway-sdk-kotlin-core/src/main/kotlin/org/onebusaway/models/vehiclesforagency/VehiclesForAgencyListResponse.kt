@@ -1223,12 +1223,13 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is Location && lat == other.lat && lon == other.lon && additionalProperties == other.additionalProperties /* spotless:on */
+                    return other is Location &&
+                        lat == other.lat &&
+                        lon == other.lon &&
+                        additionalProperties == other.additionalProperties
                 }
 
-                /* spotless:off */
                 private val hashCode: Int by lazy { Objects.hash(lat, lon, additionalProperties) }
-                /* spotless:on */
 
                 override fun hashCode(): Int = hashCode
 
@@ -2763,12 +2764,15 @@ private constructor(
                             return true
                         }
 
-                        return /* spotless:off */ other is LastKnownLocation && lat == other.lat && lon == other.lon && additionalProperties == other.additionalProperties /* spotless:on */
+                        return other is LastKnownLocation &&
+                            lat == other.lat &&
+                            lon == other.lon &&
+                            additionalProperties == other.additionalProperties
                     }
 
-                    /* spotless:off */
-                    private val hashCode: Int by lazy { Objects.hash(lat, lon, additionalProperties) }
-                    /* spotless:on */
+                    private val hashCode: Int by lazy {
+                        Objects.hash(lat, lon, additionalProperties)
+                    }
 
                     override fun hashCode(): Int = hashCode
 
@@ -2948,12 +2952,15 @@ private constructor(
                             return true
                         }
 
-                        return /* spotless:off */ other is Position && lat == other.lat && lon == other.lon && additionalProperties == other.additionalProperties /* spotless:on */
+                        return other is Position &&
+                            lat == other.lat &&
+                            lon == other.lon &&
+                            additionalProperties == other.additionalProperties
                     }
 
-                    /* spotless:off */
-                    private val hashCode: Int by lazy { Objects.hash(lat, lon, additionalProperties) }
-                    /* spotless:on */
+                    private val hashCode: Int by lazy {
+                        Objects.hash(lat, lon, additionalProperties)
+                    }
 
                     override fun hashCode(): Int = hashCode
 
@@ -2966,12 +2973,69 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is TripStatus && activeTripId == other.activeTripId && blockTripSequence == other.blockTripSequence && closestStop == other.closestStop && distanceAlongTrip == other.distanceAlongTrip && lastKnownDistanceAlongTrip == other.lastKnownDistanceAlongTrip && lastLocationUpdateTime == other.lastLocationUpdateTime && lastUpdateTime == other.lastUpdateTime && occupancyCapacity == other.occupancyCapacity && occupancyCount == other.occupancyCount && occupancyStatus == other.occupancyStatus && phase == other.phase && predicted == other.predicted && scheduleDeviation == other.scheduleDeviation && serviceDate == other.serviceDate && status == other.status && totalDistanceAlongTrip == other.totalDistanceAlongTrip && closestStopTimeOffset == other.closestStopTimeOffset && frequency == other.frequency && lastKnownLocation == other.lastKnownLocation && lastKnownOrientation == other.lastKnownOrientation && nextStop == other.nextStop && nextStopTimeOffset == other.nextStopTimeOffset && orientation == other.orientation && position == other.position && scheduledDistanceAlongTrip == other.scheduledDistanceAlongTrip && situationIds == other.situationIds && vehicleId == other.vehicleId && additionalProperties == other.additionalProperties /* spotless:on */
+                    return other is TripStatus &&
+                        activeTripId == other.activeTripId &&
+                        blockTripSequence == other.blockTripSequence &&
+                        closestStop == other.closestStop &&
+                        distanceAlongTrip == other.distanceAlongTrip &&
+                        lastKnownDistanceAlongTrip == other.lastKnownDistanceAlongTrip &&
+                        lastLocationUpdateTime == other.lastLocationUpdateTime &&
+                        lastUpdateTime == other.lastUpdateTime &&
+                        occupancyCapacity == other.occupancyCapacity &&
+                        occupancyCount == other.occupancyCount &&
+                        occupancyStatus == other.occupancyStatus &&
+                        phase == other.phase &&
+                        predicted == other.predicted &&
+                        scheduleDeviation == other.scheduleDeviation &&
+                        serviceDate == other.serviceDate &&
+                        status == other.status &&
+                        totalDistanceAlongTrip == other.totalDistanceAlongTrip &&
+                        closestStopTimeOffset == other.closestStopTimeOffset &&
+                        frequency == other.frequency &&
+                        lastKnownLocation == other.lastKnownLocation &&
+                        lastKnownOrientation == other.lastKnownOrientation &&
+                        nextStop == other.nextStop &&
+                        nextStopTimeOffset == other.nextStopTimeOffset &&
+                        orientation == other.orientation &&
+                        position == other.position &&
+                        scheduledDistanceAlongTrip == other.scheduledDistanceAlongTrip &&
+                        situationIds == other.situationIds &&
+                        vehicleId == other.vehicleId &&
+                        additionalProperties == other.additionalProperties
                 }
 
-                /* spotless:off */
-                private val hashCode: Int by lazy { Objects.hash(activeTripId, blockTripSequence, closestStop, distanceAlongTrip, lastKnownDistanceAlongTrip, lastLocationUpdateTime, lastUpdateTime, occupancyCapacity, occupancyCount, occupancyStatus, phase, predicted, scheduleDeviation, serviceDate, status, totalDistanceAlongTrip, closestStopTimeOffset, frequency, lastKnownLocation, lastKnownOrientation, nextStop, nextStopTimeOffset, orientation, position, scheduledDistanceAlongTrip, situationIds, vehicleId, additionalProperties) }
-                /* spotless:on */
+                private val hashCode: Int by lazy {
+                    Objects.hash(
+                        activeTripId,
+                        blockTripSequence,
+                        closestStop,
+                        distanceAlongTrip,
+                        lastKnownDistanceAlongTrip,
+                        lastLocationUpdateTime,
+                        lastUpdateTime,
+                        occupancyCapacity,
+                        occupancyCount,
+                        occupancyStatus,
+                        phase,
+                        predicted,
+                        scheduleDeviation,
+                        serviceDate,
+                        status,
+                        totalDistanceAlongTrip,
+                        closestStopTimeOffset,
+                        frequency,
+                        lastKnownLocation,
+                        lastKnownOrientation,
+                        nextStop,
+                        nextStopTimeOffset,
+                        orientation,
+                        position,
+                        scheduledDistanceAlongTrip,
+                        situationIds,
+                        vehicleId,
+                        additionalProperties,
+                    )
+                }
 
                 override fun hashCode(): Int = hashCode
 
@@ -2984,12 +3048,37 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is List && lastLocationUpdateTime == other.lastLocationUpdateTime && lastUpdateTime == other.lastUpdateTime && location == other.location && tripId == other.tripId && tripStatus == other.tripStatus && vehicleId == other.vehicleId && occupancyCapacity == other.occupancyCapacity && occupancyCount == other.occupancyCount && occupancyStatus == other.occupancyStatus && phase == other.phase && status == other.status && additionalProperties == other.additionalProperties /* spotless:on */
+                return other is List &&
+                    lastLocationUpdateTime == other.lastLocationUpdateTime &&
+                    lastUpdateTime == other.lastUpdateTime &&
+                    location == other.location &&
+                    tripId == other.tripId &&
+                    tripStatus == other.tripStatus &&
+                    vehicleId == other.vehicleId &&
+                    occupancyCapacity == other.occupancyCapacity &&
+                    occupancyCount == other.occupancyCount &&
+                    occupancyStatus == other.occupancyStatus &&
+                    phase == other.phase &&
+                    status == other.status &&
+                    additionalProperties == other.additionalProperties
             }
 
-            /* spotless:off */
-            private val hashCode: Int by lazy { Objects.hash(lastLocationUpdateTime, lastUpdateTime, location, tripId, tripStatus, vehicleId, occupancyCapacity, occupancyCount, occupancyStatus, phase, status, additionalProperties) }
-            /* spotless:on */
+            private val hashCode: Int by lazy {
+                Objects.hash(
+                    lastLocationUpdateTime,
+                    lastUpdateTime,
+                    location,
+                    tripId,
+                    tripStatus,
+                    vehicleId,
+                    occupancyCapacity,
+                    occupancyCount,
+                    occupancyStatus,
+                    phase,
+                    status,
+                    additionalProperties,
+                )
+            }
 
             override fun hashCode(): Int = hashCode
 
@@ -3002,12 +3091,16 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Data && limitExceeded == other.limitExceeded && list == other.list && references == other.references && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Data &&
+                limitExceeded == other.limitExceeded &&
+                list == other.list &&
+                references == other.references &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(limitExceeded, list, references, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(limitExceeded, list, references, additionalProperties)
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -3020,12 +3113,18 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is VehiclesForAgencyListResponse && code == other.code && currentTime == other.currentTime && text == other.text && version == other.version && data == other.data && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is VehiclesForAgencyListResponse &&
+            code == other.code &&
+            currentTime == other.currentTime &&
+            text == other.text &&
+            version == other.version &&
+            data == other.data &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(code, currentTime, text, version, data, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(code, currentTime, text, version, data, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 
