@@ -19,6 +19,7 @@ import org.onebusaway.core.toImmutable
 import org.onebusaway.errors.OnebusawaySdkInvalidDataException
 
 class References
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val agencies: JsonField<List<Agency>>,
     private val routes: JsonField<List<Route>>,
@@ -410,6 +411,7 @@ private constructor(
             (trips.asKnown()?.sumOf { it.validity().toInt() } ?: 0)
 
     class Agency
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val id: JsonField<String>,
         private val name: JsonField<String>,
@@ -899,6 +901,7 @@ private constructor(
     }
 
     class Route
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val id: JsonField<String>,
         private val agencyId: JsonField<String>,
@@ -1394,6 +1397,7 @@ private constructor(
     }
 
     class Situation
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val id: JsonField<String>,
         private val creationTime: JsonField<Long>,
@@ -2005,6 +2009,7 @@ private constructor(
                 (url.asKnown()?.validity() ?: 0)
 
         class ActiveWindow
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val from: JsonField<Long>,
             private val to: JsonField<Long>,
@@ -2182,6 +2187,7 @@ private constructor(
         }
 
         class AllAffect
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val agencyId: JsonField<String>,
             private val applicationId: JsonField<String>,
@@ -2536,6 +2542,7 @@ private constructor(
         }
 
         class Consequence
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val condition: JsonField<String>,
             private val conditionDetails: JsonField<ConditionDetails>,
@@ -2706,6 +2713,7 @@ private constructor(
                     (conditionDetails.asKnown()?.validity() ?: 0)
 
             class ConditionDetails
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val diversionPath: JsonField<DiversionPath>,
                 private val diversionStopIds: JsonField<List<String>>,
@@ -2895,6 +2903,7 @@ private constructor(
                         (diversionStopIds.asKnown()?.size ?: 0)
 
                 class DiversionPath
+                @JsonCreator(mode = JsonCreator.Mode.DISABLED)
                 private constructor(
                     private val length: JsonField<Long>,
                     private val levels: JsonField<String>,
@@ -3173,6 +3182,7 @@ private constructor(
         }
 
         class Description
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val lang: JsonField<String>,
             private val value: JsonField<String>,
@@ -3350,6 +3360,7 @@ private constructor(
         }
 
         class PublicationWindow
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val from: JsonField<Long>,
             private val to: JsonField<Long>,
@@ -3696,6 +3707,7 @@ private constructor(
         }
 
         class Summary
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val lang: JsonField<String>,
             private val value: JsonField<String>,
@@ -3872,6 +3884,7 @@ private constructor(
         }
 
         class Url
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val lang: JsonField<String>,
             private val value: JsonField<String>,
@@ -4093,6 +4106,7 @@ private constructor(
     }
 
     class Stop
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val id: JsonField<String>,
         private val lat: JsonField<Double>,
@@ -4665,6 +4679,7 @@ private constructor(
     }
 
     class StopTime
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val arrivalTime: JsonField<Long>,
         private val departureTime: JsonField<Long>,
@@ -5018,6 +5033,7 @@ private constructor(
     }
 
     class Trip
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val id: JsonField<String>,
         private val routeId: JsonField<String>,

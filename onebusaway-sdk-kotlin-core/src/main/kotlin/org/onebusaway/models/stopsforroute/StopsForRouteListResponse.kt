@@ -20,6 +20,7 @@ import org.onebusaway.models.References
 import org.onebusaway.models.ResponseWrapper
 
 class StopsForRouteListResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val code: JsonField<Long>,
     private val currentTime: JsonField<Long>,
@@ -294,6 +295,7 @@ private constructor(
             (data.asKnown()?.validity() ?: 0)
 
     class Data
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val entry: JsonField<Entry>,
         private val references: JsonField<References>,
@@ -469,6 +471,7 @@ private constructor(
             (entry.asKnown()?.validity() ?: 0) + (references.asKnown()?.validity() ?: 0)
 
         class Entry
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val polylines: JsonField<List<Polyline>>,
             private val routeId: JsonField<String>,
@@ -747,6 +750,7 @@ private constructor(
                     (stopIds.asKnown()?.size ?: 0)
 
             class Polyline
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val length: JsonField<Long>,
                 private val levels: JsonField<String>,
@@ -961,6 +965,7 @@ private constructor(
             }
 
             class StopGrouping
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val id: JsonField<String>,
                 private val name: JsonField<Name>,
@@ -1219,6 +1224,7 @@ private constructor(
                         (stopIds.asKnown()?.size ?: 0)
 
                 class Name
+                @JsonCreator(mode = JsonCreator.Mode.DISABLED)
                 private constructor(
                     private val name: JsonField<String>,
                     private val names: JsonField<List<String>>,
@@ -1456,6 +1462,7 @@ private constructor(
                 }
 
                 class Polyline
+                @JsonCreator(mode = JsonCreator.Mode.DISABLED)
                 private constructor(
                     private val length: JsonField<Long>,
                     private val levels: JsonField<String>,
