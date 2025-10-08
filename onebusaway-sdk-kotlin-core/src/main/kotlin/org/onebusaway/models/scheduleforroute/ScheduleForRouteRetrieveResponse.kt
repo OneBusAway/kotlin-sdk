@@ -19,6 +19,7 @@ import org.onebusaway.errors.OnebusawaySdkInvalidDataException
 import org.onebusaway.models.ResponseWrapper
 
 class ScheduleForRouteRetrieveResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val code: JsonField<Long>,
     private val currentTime: JsonField<Long>,
@@ -296,6 +297,7 @@ private constructor(
             (data.asKnown()?.validity() ?: 0)
 
     class Data
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val entry: JsonField<Entry>,
         private val additionalProperties: MutableMap<String, JsonValue>,
@@ -429,6 +431,7 @@ private constructor(
         internal fun validity(): Int = (entry.asKnown()?.validity() ?: 0)
 
         class Entry
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val routeId: JsonField<String>,
             private val scheduleDate: JsonField<Long>,
@@ -832,6 +835,7 @@ private constructor(
                     (trips.asKnown()?.sumOf { it.validity().toInt() } ?: 0)
 
             class Stop
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val id: JsonField<String>,
                 private val lat: JsonField<Double>,
@@ -1433,6 +1437,7 @@ private constructor(
             }
 
             class StopTripGrouping
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val directionId: JsonField<String>,
                 private val stopIds: JsonField<List<String>>,
@@ -1803,6 +1808,7 @@ private constructor(
                         (tripsWithStopTimes.asKnown()?.sumOf { it.validity().toInt() } ?: 0)
 
                 class TripsWithStopTime
+                @JsonCreator(mode = JsonCreator.Mode.DISABLED)
                 private constructor(
                     private val stopTimes: JsonField<List<StopTime>>,
                     private val tripId: JsonField<String>,
@@ -2007,6 +2013,7 @@ private constructor(
                             (if (tripId.asKnown() == null) 0 else 1)
 
                     class StopTime
+                    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
                     private constructor(
                         private val arrivalEnabled: JsonField<Boolean>,
                         private val arrivalTime: JsonField<Long>,
@@ -2541,6 +2548,7 @@ private constructor(
             }
 
             class Trip
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val id: JsonField<String>,
                 private val routeId: JsonField<String>,
