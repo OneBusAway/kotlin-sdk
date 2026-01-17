@@ -4,7 +4,8 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":onebusaway-sdk-kotlin"))
+    implementation(project(":onebusaway-sdk-kotlin-core"))
+    implementation(project(":onebusaway-sdk-kotlin-client-okhttp"))
 }
 
 application {
