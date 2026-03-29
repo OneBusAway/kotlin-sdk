@@ -6,6 +6,7 @@ import org.onebusaway.core.ClientOptions
 import org.onebusaway.services.blocking.AgenciesWithCoverageService
 import org.onebusaway.services.blocking.AgencyService
 import org.onebusaway.services.blocking.ArrivalAndDepartureService
+import org.onebusaway.services.blocking.ArrivalsAndDeparturesForLocationService
 import org.onebusaway.services.blocking.BlockService
 import org.onebusaway.services.blocking.ConfigService
 import org.onebusaway.services.blocking.CurrentTimeService
@@ -100,6 +101,8 @@ interface OnebusawaySdkClient {
 
     fun scheduleForRoute(): ScheduleForRouteService
 
+    fun arrivalsAndDeparturesForLocation(): ArrivalsAndDeparturesForLocationService
+
     fun arrivalAndDeparture(): ArrivalAndDepartureService
 
     fun trip(): TripService
@@ -182,6 +185,9 @@ interface OnebusawaySdkClient {
         fun routesForAgency(): RoutesForAgencyService.WithRawResponse
 
         fun scheduleForRoute(): ScheduleForRouteService.WithRawResponse
+
+        fun arrivalsAndDeparturesForLocation():
+            ArrivalsAndDeparturesForLocationService.WithRawResponse
 
         fun arrivalAndDeparture(): ArrivalAndDepartureService.WithRawResponse
 
