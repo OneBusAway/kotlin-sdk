@@ -17,6 +17,7 @@ import org.onebusaway.core.Sleeper
 import org.onebusaway.core.Timeout
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.HttpClient
+import org.onebusaway.core.http.ProxyAuthenticator
 import org.onebusaway.core.http.QueryParams
 import org.onebusaway.core.jsonMapper
 
@@ -45,6 +46,7 @@ class OnebusawaySdkOkHttpClient private constructor() {
         private var clientOptions: ClientOptions.Builder = ClientOptions.builder()
         private var dispatcherExecutorService: ExecutorService? = null
         private var proxy: Proxy? = null
+        private var proxyAuthenticator: ProxyAuthenticator? = null
         private var maxIdleConnections: Int? = null
         private var keepAliveDuration: Duration? = null
         private var sslSocketFactory: SSLSocketFactory? = null
@@ -64,6 +66,14 @@ class OnebusawaySdkOkHttpClient private constructor() {
         }
 
         fun proxy(proxy: Proxy?) = apply { this.proxy = proxy }
+
+        /**
+         * Provides credentials when an HTTP proxy responds with `407 Proxy Authentication
+         * Required`.
+         */
+        fun proxyAuthenticator(proxyAuthenticator: ProxyAuthenticator?) = apply {
+            this.proxyAuthenticator = proxyAuthenticator
+        }
 
         /**
          * The maximum number of idle connections kept by the underlying OkHttp connection pool.
@@ -325,6 +335,7 @@ class OnebusawaySdkOkHttpClient private constructor() {
                         OkHttpClient.builder()
                             .timeout(clientOptions.timeout())
                             .proxy(proxy)
+                            .proxyAuthenticator(proxyAuthenticator)
                             .maxIdleConnections(maxIdleConnections)
                             .keepAliveDuration(keepAliveDuration)
                             .dispatcherExecutorService(dispatcherExecutorService)
