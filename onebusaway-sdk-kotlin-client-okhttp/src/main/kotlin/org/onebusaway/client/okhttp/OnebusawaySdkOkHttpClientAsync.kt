@@ -13,6 +13,7 @@ import javax.net.ssl.X509TrustManager
 import org.onebusaway.client.OnebusawaySdkClientAsync
 import org.onebusaway.client.OnebusawaySdkClientAsyncImpl
 import org.onebusaway.core.ClientOptions
+import org.onebusaway.core.LogLevel
 import org.onebusaway.core.Sleeper
 import org.onebusaway.core.Timeout
 import org.onebusaway.core.http.Headers
@@ -233,6 +234,15 @@ class OnebusawaySdkOkHttpClientAsync private constructor() {
          * Defaults to 2.
          */
         fun maxRetries(maxRetries: Int) = apply { clientOptions.maxRetries(maxRetries) }
+
+        /**
+         * The level at which to log request and response information.
+         *
+         * [fromEnv] will set the level from environment variables. See [LogLevel.fromEnv].
+         *
+         * Defaults to [LogLevel.fromEnv].
+         */
+        fun logLevel(logLevel: LogLevel) = apply { clientOptions.logLevel(logLevel) }
 
         fun apiKey(apiKey: String) = apply { clientOptions.apiKey(apiKey) }
 
