@@ -553,6 +553,8 @@ private constructor(
             fun situationIds(): List<String>? = situationIds.getNullable("situationIds")
 
             /**
+             * Trip-specific status for the arriving transit vehicle.
+             *
              * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type
              *   (e.g. if the server responded with an unexpected value).
              */
@@ -730,6 +732,7 @@ private constructor(
                         }
                 }
 
+                /** Trip-specific status for the arriving transit vehicle. */
                 fun status(status: Status) = status(JsonField.of(status))
 
                 /**
@@ -1577,6 +1580,7 @@ private constructor(
                     "Schedule{nextTripId=$nextTripId, previousTripId=$previousTripId, stopTimes=$stopTimes, timeZone=$timeZone, frequency=$frequency, additionalProperties=$additionalProperties}"
             }
 
+            /** Trip-specific status for the arriving transit vehicle. */
             class Status
             @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
