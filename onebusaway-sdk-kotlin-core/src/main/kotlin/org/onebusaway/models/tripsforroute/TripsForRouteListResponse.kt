@@ -575,11 +575,10 @@ private constructor(
             ) : this(schedule, status, tripId, frequency, serviceDate, situationIds, mutableMapOf())
 
             /**
-             * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or
-             *   is unexpectedly missing or null (e.g. if the server responded with an unexpected
-             *   value).
+             * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type
+             *   (e.g. if the server responded with an unexpected value).
              */
-            fun schedule(): Schedule = schedule.getRequired("schedule")
+            fun schedule(): Schedule? = schedule.getNullable("schedule")
 
             /**
              * Trip-specific status for the arriving transit vehicle.
@@ -717,7 +716,7 @@ private constructor(
                     additionalProperties = list.additionalProperties.toMutableMap()
                 }
 
-                fun schedule(schedule: Schedule) = schedule(JsonField.of(schedule))
+                fun schedule(schedule: Schedule?) = schedule(JsonField.ofNullable(schedule))
 
                 /**
                  * Sets [Builder.schedule] to an arbitrary JSON value.
@@ -866,7 +865,7 @@ private constructor(
                     return@apply
                 }
 
-                schedule().validate()
+                schedule()?.validate()
                 status().validate()
                 tripId()
                 frequency()
@@ -2667,7 +2666,7 @@ private constructor(
                     }
 
                     /** Information about frequency-based scheduling, if applicable to the trip. */
-                    fun frequency(frequency: String) = frequency(JsonField.of(frequency))
+                    fun frequency(frequency: String?) = frequency(JsonField.ofNullable(frequency))
 
                     /**
                      * Sets [Builder.frequency] to an arbitrary JSON value.
