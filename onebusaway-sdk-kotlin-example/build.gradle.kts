@@ -10,7 +10,8 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":onebusaway-sdk-kotlin"))
+    implementation(project(":onebusaway-sdk-kotlin-core"))
+    implementation(project(":onebusaway-sdk-kotlin-client-okhttp"))
     testImplementation(platform("org.junit:junit-bom:5.9.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
