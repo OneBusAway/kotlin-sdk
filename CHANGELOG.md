@@ -1,5 +1,98 @@
 # Changelog
 
+## 0.1.0-alpha.78 (2026-06-08)
+
+Full Changelog: [v0.1.0-alpha.77...v0.1.0-alpha.78](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.77...v0.1.0-alpha.78)
+
+### Features
+
+* add retryable exception ([8c82b0a](https://github.com/OneBusAway/kotlin-sdk/commit/8c82b0ad89bd96329f5641f9b1d8f7d5fa6f1a6d))
+* **api:** api update ([6fe28e5](https://github.com/OneBusAway/kotlin-sdk/commit/6fe28e5975241184ecccc9a6be66c791d5c29862))
+* **api:** api update ([06b198e](https://github.com/OneBusAway/kotlin-sdk/commit/06b198e15df37dfbdb02e618ea8ed53359bafb90))
+* **api:** api update ([94b6513](https://github.com/OneBusAway/kotlin-sdk/commit/94b651327a461740f5fe238f936f2587d3efefc0))
+* **api:** api update ([ff95026](https://github.com/OneBusAway/kotlin-sdk/commit/ff95026795fe47b0142ecf0277c2b38be3822c2f))
+* **api:** api update ([695beb1](https://github.com/OneBusAway/kotlin-sdk/commit/695beb11b1f8cf81c4fe1f8979307bbccc638411))
+* **api:** api update ([24b8b9e](https://github.com/OneBusAway/kotlin-sdk/commit/24b8b9e6dfd8ce055c6fa181676dce25ddc9ad63))
+* **api:** api update ([6528bff](https://github.com/OneBusAway/kotlin-sdk/commit/6528bff96d5d4121160a7f8224df9e369877d911))
+* **client:** add `{QueryParams,Headers}#put(String, JsonValue)` methods ([7e7270f](https://github.com/OneBusAway/kotlin-sdk/commit/7e7270fbc7cda37639ea9a6258826b6b1b6b067e))
+* **client:** add https config options ([4c6d219](https://github.com/OneBusAway/kotlin-sdk/commit/4c6d21983babadac0d7d356d2ff48916a9f73fef))
+* **client:** allow configuring env via system properties ([1a20be6](https://github.com/OneBusAway/kotlin-sdk/commit/1a20be66d1db42928ae430d2c540ab54d817a41d))
+* **client:** ensure compat with proguard ([a9b2278](https://github.com/OneBusAway/kotlin-sdk/commit/a9b22785a25f8981ecb72f0663d46592a1c16868))
+
+
+### Bug Fixes
+
+* **ci:** use java-version 21 for publish step ([413b2a8](https://github.com/OneBusAway/kotlin-sdk/commit/413b2a8813948d0feaac326ef368109a49883c39))
+* **client:** ensure error handling always occurs ([a1aa176](https://github.com/OneBusAway/kotlin-sdk/commit/a1aa176858f462a06ba191574a88dff6dd080f65))
+* **client:** r8 support ([5d0b886](https://github.com/OneBusAway/kotlin-sdk/commit/5d0b8868c11ba99e581b674a292aa12db6fa6e80))
+
+
+### Performance Improvements
+
+* **internal:** make formatting faster ([91e2ff5](https://github.com/OneBusAway/kotlin-sdk/commit/91e2ff547b56306968cfc09cc88eda74715973a4))
+
+
+### Chores
+
+* **ci:** add build job ([8f84566](https://github.com/OneBusAway/kotlin-sdk/commit/8f845662869586f446c131b5794a16f3640ef486))
+* **ci:** reduce log noise ([4007a5f](https://github.com/OneBusAway/kotlin-sdk/commit/4007a5f73495fb65b580fcd48e0439e1b8c761b4))
+* **client:** refactor closing / shutdown ([6d947c6](https://github.com/OneBusAway/kotlin-sdk/commit/6d947c698e83d3a12fdf9b7731cccca6c9896baf))
+* **example:** fix run example comment ([0b78411](https://github.com/OneBusAway/kotlin-sdk/commit/0b78411ffaee7f55e911fcb91a79906047eb62bb))
+* increase max gradle JVM heap to 8GB ([31148d9](https://github.com/OneBusAway/kotlin-sdk/commit/31148d993354ce6f08d2e1af17963d6da61e1721))
+* **internal:** add lock helper ([7d06700](https://github.com/OneBusAway/kotlin-sdk/commit/7d0670078b7d3beacbf35412c032adeeb2d17d64))
+* **internal:** allow running specific example from cli ([9e56f5b](https://github.com/OneBusAway/kotlin-sdk/commit/9e56f5b76596163c59ca7d6f1dad85f06ec09826))
+* **internal:** bump ci test timeout ([b247753](https://github.com/OneBusAway/kotlin-sdk/commit/b247753404e0d0554a64476f75e587731b6605f0))
+* **internal:** codegen related update ([ac9001e](https://github.com/OneBusAway/kotlin-sdk/commit/ac9001eec226cc7f7e067f7ed69b4146ddcd3ca9))
+* **internal:** codegen related update ([56bb939](https://github.com/OneBusAway/kotlin-sdk/commit/56bb939601aa4605d531c6b7336076f49b028c39))
+* **internal:** codegen related update ([fdd2fdc](https://github.com/OneBusAway/kotlin-sdk/commit/fdd2fdcedb989e7230f7398154d975d72ed1753d))
+* **internal:** codegen related update ([859abee](https://github.com/OneBusAway/kotlin-sdk/commit/859abee49311af9c8b2b0bebfd1e5ee7e600c049))
+* **internal:** codegen related update ([6ce480a](https://github.com/OneBusAway/kotlin-sdk/commit/6ce480a4ae5fa1861ef5e021cb40a52c3c133ee1))
+* **internal:** codegen related update ([c2f7090](https://github.com/OneBusAway/kotlin-sdk/commit/c2f7090fa0a7538b81a7fbaec036bf62466f6b05))
+* **internal:** codegen related update ([4656e60](https://github.com/OneBusAway/kotlin-sdk/commit/4656e604b0d7fb073c1f1fd99d7f585658ea92a0))
+* **internal:** codegen related update ([6cbdb7c](https://github.com/OneBusAway/kotlin-sdk/commit/6cbdb7c62dd60ccbb00428fde664a83876f2848e))
+* **internal:** codegen related update ([1a57f3d](https://github.com/OneBusAway/kotlin-sdk/commit/1a57f3db704123df8889b3c674982426587e3b05))
+* **internal:** codegen related update ([5fea346](https://github.com/OneBusAway/kotlin-sdk/commit/5fea3460d7cf63a38d940db8df166b682e656b8e))
+* **internal:** codegen related update ([8458927](https://github.com/OneBusAway/kotlin-sdk/commit/8458927624a420a48be1f80924afdd310699412b))
+* **internal:** codegen related update ([d2fda80](https://github.com/OneBusAway/kotlin-sdk/commit/d2fda808859c462576c4ff1f8c8cca2ba3529b25))
+* **internal:** codegen related update ([caeb0cc](https://github.com/OneBusAway/kotlin-sdk/commit/caeb0cc69f8806308c3d67e94be7a1ff255eed22))
+* **internal:** codegen related update ([f8d79da](https://github.com/OneBusAway/kotlin-sdk/commit/f8d79daee8eadd05cc73509059a52ebb36786713))
+* **internal:** codegen related update ([8454d10](https://github.com/OneBusAway/kotlin-sdk/commit/8454d1003c00db76ea4887e5158e9d6f5150f1b6))
+* **internal:** codegen related update ([cde5768](https://github.com/OneBusAway/kotlin-sdk/commit/cde5768aa0f626d38820ba2946bd8ec05da7b422))
+* **internal:** codegen related update ([a8b1da2](https://github.com/OneBusAway/kotlin-sdk/commit/a8b1da2ef41fd4b86fe29d0b75d9f6c6366829a4))
+* **internal:** codegen related update ([7c3baac](https://github.com/OneBusAway/kotlin-sdk/commit/7c3baac784fdbd2ab34d61ad6d4e71f12fc5c2b1))
+* **internal:** codegen related update ([330d9e2](https://github.com/OneBusAway/kotlin-sdk/commit/330d9e232da215629c02770ff96e8bc97d561c3c))
+* **internal:** codegen related update ([68589a0](https://github.com/OneBusAway/kotlin-sdk/commit/68589a09db0a5b19c7ae9069a0b8d5ed38041016))
+* **internal:** codegen related update ([0e4d63c](https://github.com/OneBusAway/kotlin-sdk/commit/0e4d63cd62db0e6eca20c60e4279459856788fe3))
+* **internal:** codegen related update ([1b71ab1](https://github.com/OneBusAway/kotlin-sdk/commit/1b71ab1c824d01f4288397c729afd22977f69237))
+* **internal:** codegen related update ([62796d5](https://github.com/OneBusAway/kotlin-sdk/commit/62796d57a697e9e876847aa1c7c60f0a1ef97f97))
+* **internal:** codegen related update ([edef60a](https://github.com/OneBusAway/kotlin-sdk/commit/edef60a31e972897e97924cb09f62c2c5ceca64f))
+* **internal:** codegen related update ([c587870](https://github.com/OneBusAway/kotlin-sdk/commit/c58787005ee2cdc9b9a6a5830d288a48d33fdf0c))
+* **internal:** codegen related update ([0192549](https://github.com/OneBusAway/kotlin-sdk/commit/01925498f611cf979892bc5b74d75fe99d4ebb30))
+* **internal:** codegen related update ([d6f2dd0](https://github.com/OneBusAway/kotlin-sdk/commit/d6f2dd09e81a7f92b4d23e73cb1198c53eba0092))
+* **internal:** codegen related update ([cad548c](https://github.com/OneBusAway/kotlin-sdk/commit/cad548c4f8267c45953a9b8a1dae1a2c32b6fb36))
+* **internal:** codegen related update ([20f1597](https://github.com/OneBusAway/kotlin-sdk/commit/20f1597d46a082e573a0bb0ab991056be5ee0f38))
+* **internal:** codegen related update ([4e81cd6](https://github.com/OneBusAway/kotlin-sdk/commit/4e81cd6a6327b613bcb5fcda168cae00ef1c0016))
+* **internal:** codegen related update ([62a5124](https://github.com/OneBusAway/kotlin-sdk/commit/62a512490829eb22b9da8866f1b391a248ab1201))
+* **internal:** codegen related update ([17ec4ce](https://github.com/OneBusAway/kotlin-sdk/commit/17ec4ce0f69ffda6a6513ddd501f2f67784cf525))
+* **internal:** codegen related update ([b0d1a68](https://github.com/OneBusAway/kotlin-sdk/commit/b0d1a684ade71d431814d4e0beec52325269ebbf))
+* **internal:** codegen related update ([849e819](https://github.com/OneBusAway/kotlin-sdk/commit/849e819cb79d607fb8742f5061a6a9759c46017b))
+* **internal:** dynamically determine included projects ([45f6af0](https://github.com/OneBusAway/kotlin-sdk/commit/45f6af0122172d13dbdfe290e33be006cd0944f6))
+* **internal:** reduce proguard ci logging ([081f00f](https://github.com/OneBusAway/kotlin-sdk/commit/081f00f9b4e4d1680daed42c84958e22fc429f06))
+* **internal:** refactor delegating from client to options ([542cf75](https://github.com/OneBusAway/kotlin-sdk/commit/542cf75a938edc98135f59bc23bd78ccf7e035a6))
+* **internal:** remove unnecessary `[...]` in `[@see](https://github.com/see)` ([070ac62](https://github.com/OneBusAway/kotlin-sdk/commit/070ac62633e1b9c5ddacf0755bc08d104803f3d0))
+* **internal:** support passing arguments to test script ([da6f1ca](https://github.com/OneBusAway/kotlin-sdk/commit/da6f1cabd31fd96205cd41c14f2fcfac0a6a3e84))
+* **internal:** support running ktfmt directly ([ca7d090](https://github.com/OneBusAway/kotlin-sdk/commit/ca7d0909b95ca150e835bcf2dd732ad2df1f973e))
+* **internal:** update comment in script ([484a502](https://github.com/OneBusAway/kotlin-sdk/commit/484a50242a271f84fc24847f0a88bdc418a90128))
+* **internal:** version bump ([1185d5a](https://github.com/OneBusAway/kotlin-sdk/commit/1185d5aab01b5b33819597449754fd58e0223621))
+* remove memory upper bound from publishing step ([6139413](https://github.com/OneBusAway/kotlin-sdk/commit/61394134e24d7e60c655d71d31c3fa1b1c9015d9))
+* update @stainless-api/prism-cli to v5.15.0 ([21d7207](https://github.com/OneBusAway/kotlin-sdk/commit/21d72075211ab86162d22f707c28d475e7d7351a))
+
+
+### Documentation
+
+* fix missing readme comment ([1481e55](https://github.com/OneBusAway/kotlin-sdk/commit/1481e555050341eb5d7a5ba71f9526917138f793))
+* more code comments ([30f7bb9](https://github.com/OneBusAway/kotlin-sdk/commit/30f7bb9c1e84950dcb3c319f900fe76aa055c47c))
+
 ## 0.1.0-alpha.77 (2025-07-16)
 
 Full Changelog: [v0.1.0-alpha.76...v0.1.0-alpha.77](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.76...v0.1.0-alpha.77)
