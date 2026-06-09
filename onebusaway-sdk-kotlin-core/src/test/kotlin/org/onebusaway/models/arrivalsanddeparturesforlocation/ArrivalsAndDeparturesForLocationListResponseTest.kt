@@ -215,7 +215,7 @@ internal class ArrivalsAndDeparturesForLocationListResponseTest {
                                                 .to(0L)
                                                 .build()
                                         )
-                                        .reason("reason")
+                                        .reason(References.Situation.Reason.EQUIPMENT_REASON)
                                         .severity("severity")
                                         .summary(
                                             References.Situation.Summary.builder()
@@ -475,7 +475,7 @@ internal class ArrivalsAndDeparturesForLocationListResponseTest {
                                             .to(0L)
                                             .build()
                                     )
-                                    .reason("reason")
+                                    .reason(References.Situation.Reason.EQUIPMENT_REASON)
                                     .severity("severity")
                                     .summary(
                                         References.Situation.Summary.builder()
@@ -743,7 +743,7 @@ internal class ArrivalsAndDeparturesForLocationListResponseTest {
                                                 .to(0L)
                                                 .build()
                                         )
-                                        .reason("reason")
+                                        .reason(References.Situation.Reason.EQUIPMENT_REASON)
                                         .severity("severity")
                                         .summary(
                                             References.Situation.Summary.builder()

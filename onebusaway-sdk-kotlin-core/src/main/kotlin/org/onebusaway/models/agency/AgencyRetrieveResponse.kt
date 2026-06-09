@@ -330,7 +330,7 @@ private constructor(
          * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
-        fun limitExceeded(): Boolean = limitExceeded.getRequired("limitExceeded")
+        fun limitExceeded(): Boolean? = limitExceeded.getNullable("limitExceeded")
 
         /**
          * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
@@ -395,7 +395,7 @@ private constructor(
         class Builder internal constructor() {
 
             private var entry: JsonField<Entry>? = null
-            private var limitExceeded: JsonField<Boolean>? = null
+            private var limitExceeded: JsonField<Boolean> = JsonMissing.of()
             private var references: JsonField<References>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -479,7 +479,7 @@ private constructor(
             fun build(): Data =
                 Data(
                     checkRequired("entry", entry),
-                    checkRequired("limitExceeded", limitExceeded),
+                    limitExceeded,
                     checkRequired("references", references),
                     additionalProperties.toMutableMap(),
                 )
