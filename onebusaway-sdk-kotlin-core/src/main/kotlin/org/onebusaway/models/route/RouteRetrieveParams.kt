@@ -17,8 +17,10 @@ private constructor(
 
     fun routeId(): String? = routeId
 
+    /** Additional headers to send with the request. */
     fun _additionalHeaders(): Headers = additionalHeaders
 
+    /** Additional query param to send with the request. */
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
     fun toBuilder() = Builder().from(this)
@@ -168,10 +170,13 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is RouteRetrieveParams && routeId == other.routeId && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is RouteRetrieveParams &&
+            routeId == other.routeId &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(routeId, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int = Objects.hash(routeId, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "RouteRetrieveParams{routeId=$routeId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

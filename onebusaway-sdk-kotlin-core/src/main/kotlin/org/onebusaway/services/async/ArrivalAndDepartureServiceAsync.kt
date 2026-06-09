@@ -33,7 +33,7 @@ interface ArrivalAndDepartureServiceAsync {
     ): ArrivalAndDepartureRetrieveResponse =
         retrieve(params.toBuilder().stopId(stopId).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     suspend fun retrieve(
         params: ArrivalAndDepartureRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -47,13 +47,13 @@ interface ArrivalAndDepartureServiceAsync {
     ): ArrivalAndDepartureListResponse =
         list(params.toBuilder().stopId(stopId).build(), requestOptions)
 
-    /** @see [list] */
+    /** @see list */
     suspend fun list(
         params: ArrivalAndDepartureListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): ArrivalAndDepartureListResponse
 
-    /** @see [list] */
+    /** @see list */
     suspend fun list(
         stopId: String,
         requestOptions: RequestOptions,
@@ -88,7 +88,7 @@ interface ArrivalAndDepartureServiceAsync {
         ): HttpResponseFor<ArrivalAndDepartureRetrieveResponse> =
             retrieve(params.toBuilder().stopId(stopId).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         suspend fun retrieve(
             params: ArrivalAndDepartureRetrieveParams,
@@ -108,14 +108,14 @@ interface ArrivalAndDepartureServiceAsync {
         ): HttpResponseFor<ArrivalAndDepartureListResponse> =
             list(params.toBuilder().stopId(stopId).build(), requestOptions)
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         suspend fun list(
             params: ArrivalAndDepartureListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<ArrivalAndDepartureListResponse>
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         suspend fun list(
             stopId: String,

@@ -31,13 +31,13 @@ interface TripDetailService {
     ): TripDetailRetrieveResponse =
         retrieve(params.toBuilder().tripId(tripId).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: TripDetailRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): TripDetailRetrieveResponse
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(tripId: String, requestOptions: RequestOptions): TripDetailRetrieveResponse =
         retrieve(tripId, TripDetailRetrieveParams.none(), requestOptions)
 
@@ -65,14 +65,14 @@ interface TripDetailService {
         ): HttpResponseFor<TripDetailRetrieveResponse> =
             retrieve(params.toBuilder().tripId(tripId).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: TripDetailRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<TripDetailRetrieveResponse>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             tripId: String,

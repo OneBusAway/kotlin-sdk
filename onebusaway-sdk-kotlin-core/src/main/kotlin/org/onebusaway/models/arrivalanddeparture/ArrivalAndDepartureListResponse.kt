@@ -20,6 +20,7 @@ import org.onebusaway.models.References
 import org.onebusaway.models.ResponseWrapper
 
 class ArrivalAndDepartureListResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val code: JsonField<Long>,
     private val currentTime: JsonField<Long>,
@@ -263,6 +264,14 @@ private constructor(
 
     private var validated: Boolean = false
 
+    /**
+     * Validates that the types of all values in this object match their expected types recursively.
+     *
+     * This method is _not_ forwards compatible with new types from the API for existing fields.
+     *
+     * @throws OnebusawaySdkInvalidDataException if any value type in this object doesn't match its
+     *   expected type.
+     */
     fun validate(): ArrivalAndDepartureListResponse = apply {
         if (validated) {
             return@apply
@@ -297,6 +306,7 @@ private constructor(
             (data.asKnown()?.validity() ?: 0)
 
     class Data
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val entry: JsonField<Entry>,
         private val references: JsonField<References>,
@@ -444,6 +454,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws OnebusawaySdkInvalidDataException if any value type in this object doesn't match
+         *   its expected type.
+         */
         fun validate(): Data = apply {
             if (validated) {
                 return@apply
@@ -472,6 +491,7 @@ private constructor(
             (entry.asKnown()?.validity() ?: 0) + (references.asKnown()?.validity() ?: 0)
 
         class Entry
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val arrivalsAndDepartures: JsonField<List<ArrivalsAndDeparture>>,
             private val additionalProperties: MutableMap<String, JsonValue>,
@@ -613,6 +633,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws OnebusawaySdkInvalidDataException if any value type in this object doesn't
+             *   match its expected type.
+             */
             fun validate(): Entry = apply {
                 if (validated) {
                     return@apply
@@ -640,6 +670,7 @@ private constructor(
                 (arrivalsAndDepartures.asKnown()?.sumOf { it.validity().toInt() } ?: 0)
 
             class ArrivalsAndDeparture
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val arrivalEnabled: JsonField<Boolean>,
                 private val blockTripSequence: JsonField<Long>,
@@ -1855,7 +1886,7 @@ private constructor(
                     }
 
                     /** Information about frequency-based scheduling, if applicable to the trip. */
-                    fun frequency(frequency: String) = frequency(JsonField.of(frequency))
+                    fun frequency(frequency: String?) = frequency(JsonField.ofNullable(frequency))
 
                     /**
                      * Sets [Builder.frequency] to an arbitrary JSON value.
@@ -1928,8 +1959,8 @@ private constructor(
                     }
 
                     /** Interval for predicted arrival time, if available. */
-                    fun predictedArrivalInterval(predictedArrivalInterval: String) =
-                        predictedArrivalInterval(JsonField.of(predictedArrivalInterval))
+                    fun predictedArrivalInterval(predictedArrivalInterval: String?) =
+                        predictedArrivalInterval(JsonField.ofNullable(predictedArrivalInterval))
 
                     /**
                      * Sets [Builder.predictedArrivalInterval] to an arbitrary JSON value.
@@ -1944,8 +1975,8 @@ private constructor(
                         }
 
                     /** Interval for predicted departure time, if available. */
-                    fun predictedDepartureInterval(predictedDepartureInterval: String) =
-                        predictedDepartureInterval(JsonField.of(predictedDepartureInterval))
+                    fun predictedDepartureInterval(predictedDepartureInterval: String?) =
+                        predictedDepartureInterval(JsonField.ofNullable(predictedDepartureInterval))
 
                     /**
                      * Sets [Builder.predictedDepartureInterval] to an arbitrary JSON value.
@@ -2011,8 +2042,8 @@ private constructor(
                     }
 
                     /** Interval for scheduled arrival time. */
-                    fun scheduledArrivalInterval(scheduledArrivalInterval: String) =
-                        scheduledArrivalInterval(JsonField.of(scheduledArrivalInterval))
+                    fun scheduledArrivalInterval(scheduledArrivalInterval: String?) =
+                        scheduledArrivalInterval(JsonField.ofNullable(scheduledArrivalInterval))
 
                     /**
                      * Sets [Builder.scheduledArrivalInterval] to an arbitrary JSON value.
@@ -2027,8 +2058,8 @@ private constructor(
                         }
 
                     /** Interval for scheduled departure time. */
-                    fun scheduledDepartureInterval(scheduledDepartureInterval: String) =
-                        scheduledDepartureInterval(JsonField.of(scheduledDepartureInterval))
+                    fun scheduledDepartureInterval(scheduledDepartureInterval: String?) =
+                        scheduledDepartureInterval(JsonField.ofNullable(scheduledDepartureInterval))
 
                     /**
                      * Sets [Builder.scheduledDepartureInterval] to an arbitrary JSON value.
@@ -2201,6 +2232,16 @@ private constructor(
 
                 private var validated: Boolean = false
 
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws OnebusawaySdkInvalidDataException if any value type in this object
+                 *   doesn't match its expected type.
+                 */
                 fun validate(): ArrivalsAndDeparture = apply {
                     if (validated) {
                         return@apply
@@ -2295,6 +2336,7 @@ private constructor(
 
                 /** Trip-specific status for the arriving transit vehicle. */
                 class TripStatus
+                @JsonCreator(mode = JsonCreator.Mode.DISABLED)
                 private constructor(
                     private val activeTripId: JsonField<String>,
                     private val blockTripSequence: JsonField<Long>,
@@ -2615,7 +2657,7 @@ private constructor(
                     fun frequency(): String? = frequency.getNullable("frequency")
 
                     /**
-                     * Last known location of the transit vehicle.
+                     * Last known location of the transit vehicle (optional).
                      *
                      * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected
                      *   type (e.g. if the server responded with an unexpected value).
@@ -3343,7 +3385,8 @@ private constructor(
                         /**
                          * Information about frequency-based scheduling, if applicable to the trip.
                          */
-                        fun frequency(frequency: String) = frequency(JsonField.of(frequency))
+                        fun frequency(frequency: String?) =
+                            frequency(JsonField.ofNullable(frequency))
 
                         /**
                          * Sets [Builder.frequency] to an arbitrary JSON value.
@@ -3356,9 +3399,9 @@ private constructor(
                             this.frequency = frequency
                         }
 
-                        /** Last known location of the transit vehicle. */
-                        fun lastKnownLocation(lastKnownLocation: LastKnownLocation) =
-                            lastKnownLocation(JsonField.of(lastKnownLocation))
+                        /** Last known location of the transit vehicle (optional). */
+                        fun lastKnownLocation(lastKnownLocation: LastKnownLocation?) =
+                            lastKnownLocation(JsonField.ofNullable(lastKnownLocation))
 
                         /**
                          * Sets [Builder.lastKnownLocation] to an arbitrary JSON value.
@@ -3600,6 +3643,16 @@ private constructor(
 
                     private var validated: Boolean = false
 
+                    /**
+                     * Validates that the types of all values in this object match their expected
+                     * types recursively.
+                     *
+                     * This method is _not_ forwards compatible with new types from the API for
+                     * existing fields.
+                     *
+                     * @throws OnebusawaySdkInvalidDataException if any value type in this object
+                     *   doesn't match its expected type.
+                     */
                     fun validate(): TripStatus = apply {
                         if (validated) {
                             return@apply
@@ -3678,8 +3731,9 @@ private constructor(
                             (situationIds.asKnown()?.size ?: 0) +
                             (if (vehicleId.asKnown() == null) 0 else 1)
 
-                    /** Last known location of the transit vehicle. */
+                    /** Last known location of the transit vehicle (optional). */
                     class LastKnownLocation
+                    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
                     private constructor(
                         private val lat: JsonField<Double>,
                         private val lon: JsonField<Double>,
@@ -3824,6 +3878,16 @@ private constructor(
 
                         private var validated: Boolean = false
 
+                        /**
+                         * Validates that the types of all values in this object match their
+                         * expected types recursively.
+                         *
+                         * This method is _not_ forwards compatible with new types from the API for
+                         * existing fields.
+                         *
+                         * @throws OnebusawaySdkInvalidDataException if any value type in this
+                         *   object doesn't match its expected type.
+                         */
                         fun validate(): LastKnownLocation = apply {
                             if (validated) {
                                 return@apply
@@ -3857,12 +3921,15 @@ private constructor(
                                 return true
                             }
 
-                            return /* spotless:off */ other is LastKnownLocation && lat == other.lat && lon == other.lon && additionalProperties == other.additionalProperties /* spotless:on */
+                            return other is LastKnownLocation &&
+                                lat == other.lat &&
+                                lon == other.lon &&
+                                additionalProperties == other.additionalProperties
                         }
 
-                        /* spotless:off */
-                        private val hashCode: Int by lazy { Objects.hash(lat, lon, additionalProperties) }
-                        /* spotless:on */
+                        private val hashCode: Int by lazy {
+                            Objects.hash(lat, lon, additionalProperties)
+                        }
 
                         override fun hashCode(): Int = hashCode
 
@@ -3872,6 +3939,7 @@ private constructor(
 
                     /** Current position of the transit vehicle. */
                     class Position
+                    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
                     private constructor(
                         private val lat: JsonField<Double>,
                         private val lon: JsonField<Double>,
@@ -4014,6 +4082,16 @@ private constructor(
 
                         private var validated: Boolean = false
 
+                        /**
+                         * Validates that the types of all values in this object match their
+                         * expected types recursively.
+                         *
+                         * This method is _not_ forwards compatible with new types from the API for
+                         * existing fields.
+                         *
+                         * @throws OnebusawaySdkInvalidDataException if any value type in this
+                         *   object doesn't match its expected type.
+                         */
                         fun validate(): Position = apply {
                             if (validated) {
                                 return@apply
@@ -4047,12 +4125,15 @@ private constructor(
                                 return true
                             }
 
-                            return /* spotless:off */ other is Position && lat == other.lat && lon == other.lon && additionalProperties == other.additionalProperties /* spotless:on */
+                            return other is Position &&
+                                lat == other.lat &&
+                                lon == other.lon &&
+                                additionalProperties == other.additionalProperties
                         }
 
-                        /* spotless:off */
-                        private val hashCode: Int by lazy { Objects.hash(lat, lon, additionalProperties) }
-                        /* spotless:on */
+                        private val hashCode: Int by lazy {
+                            Objects.hash(lat, lon, additionalProperties)
+                        }
 
                         override fun hashCode(): Int = hashCode
 
@@ -4065,12 +4146,69 @@ private constructor(
                             return true
                         }
 
-                        return /* spotless:off */ other is TripStatus && activeTripId == other.activeTripId && blockTripSequence == other.blockTripSequence && closestStop == other.closestStop && distanceAlongTrip == other.distanceAlongTrip && lastKnownDistanceAlongTrip == other.lastKnownDistanceAlongTrip && lastLocationUpdateTime == other.lastLocationUpdateTime && lastUpdateTime == other.lastUpdateTime && occupancyCapacity == other.occupancyCapacity && occupancyCount == other.occupancyCount && occupancyStatus == other.occupancyStatus && phase == other.phase && predicted == other.predicted && scheduleDeviation == other.scheduleDeviation && serviceDate == other.serviceDate && status == other.status && totalDistanceAlongTrip == other.totalDistanceAlongTrip && closestStopTimeOffset == other.closestStopTimeOffset && frequency == other.frequency && lastKnownLocation == other.lastKnownLocation && lastKnownOrientation == other.lastKnownOrientation && nextStop == other.nextStop && nextStopTimeOffset == other.nextStopTimeOffset && orientation == other.orientation && position == other.position && scheduledDistanceAlongTrip == other.scheduledDistanceAlongTrip && situationIds == other.situationIds && vehicleId == other.vehicleId && additionalProperties == other.additionalProperties /* spotless:on */
+                        return other is TripStatus &&
+                            activeTripId == other.activeTripId &&
+                            blockTripSequence == other.blockTripSequence &&
+                            closestStop == other.closestStop &&
+                            distanceAlongTrip == other.distanceAlongTrip &&
+                            lastKnownDistanceAlongTrip == other.lastKnownDistanceAlongTrip &&
+                            lastLocationUpdateTime == other.lastLocationUpdateTime &&
+                            lastUpdateTime == other.lastUpdateTime &&
+                            occupancyCapacity == other.occupancyCapacity &&
+                            occupancyCount == other.occupancyCount &&
+                            occupancyStatus == other.occupancyStatus &&
+                            phase == other.phase &&
+                            predicted == other.predicted &&
+                            scheduleDeviation == other.scheduleDeviation &&
+                            serviceDate == other.serviceDate &&
+                            status == other.status &&
+                            totalDistanceAlongTrip == other.totalDistanceAlongTrip &&
+                            closestStopTimeOffset == other.closestStopTimeOffset &&
+                            frequency == other.frequency &&
+                            lastKnownLocation == other.lastKnownLocation &&
+                            lastKnownOrientation == other.lastKnownOrientation &&
+                            nextStop == other.nextStop &&
+                            nextStopTimeOffset == other.nextStopTimeOffset &&
+                            orientation == other.orientation &&
+                            position == other.position &&
+                            scheduledDistanceAlongTrip == other.scheduledDistanceAlongTrip &&
+                            situationIds == other.situationIds &&
+                            vehicleId == other.vehicleId &&
+                            additionalProperties == other.additionalProperties
                     }
 
-                    /* spotless:off */
-                    private val hashCode: Int by lazy { Objects.hash(activeTripId, blockTripSequence, closestStop, distanceAlongTrip, lastKnownDistanceAlongTrip, lastLocationUpdateTime, lastUpdateTime, occupancyCapacity, occupancyCount, occupancyStatus, phase, predicted, scheduleDeviation, serviceDate, status, totalDistanceAlongTrip, closestStopTimeOffset, frequency, lastKnownLocation, lastKnownOrientation, nextStop, nextStopTimeOffset, orientation, position, scheduledDistanceAlongTrip, situationIds, vehicleId, additionalProperties) }
-                    /* spotless:on */
+                    private val hashCode: Int by lazy {
+                        Objects.hash(
+                            activeTripId,
+                            blockTripSequence,
+                            closestStop,
+                            distanceAlongTrip,
+                            lastKnownDistanceAlongTrip,
+                            lastLocationUpdateTime,
+                            lastUpdateTime,
+                            occupancyCapacity,
+                            occupancyCount,
+                            occupancyStatus,
+                            phase,
+                            predicted,
+                            scheduleDeviation,
+                            serviceDate,
+                            status,
+                            totalDistanceAlongTrip,
+                            closestStopTimeOffset,
+                            frequency,
+                            lastKnownLocation,
+                            lastKnownOrientation,
+                            nextStop,
+                            nextStopTimeOffset,
+                            orientation,
+                            position,
+                            scheduledDistanceAlongTrip,
+                            situationIds,
+                            vehicleId,
+                            additionalProperties,
+                        )
+                    }
 
                     override fun hashCode(): Int = hashCode
 
@@ -4083,12 +4221,83 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is ArrivalsAndDeparture && arrivalEnabled == other.arrivalEnabled && blockTripSequence == other.blockTripSequence && departureEnabled == other.departureEnabled && numberOfStopsAway == other.numberOfStopsAway && predictedArrivalTime == other.predictedArrivalTime && predictedDepartureTime == other.predictedDepartureTime && routeId == other.routeId && scheduledArrivalTime == other.scheduledArrivalTime && scheduledDepartureTime == other.scheduledDepartureTime && serviceDate == other.serviceDate && stopId == other.stopId && stopSequence == other.stopSequence && totalStopsInTrip == other.totalStopsInTrip && tripHeadsign == other.tripHeadsign && tripId == other.tripId && vehicleId == other.vehicleId && actualTrack == other.actualTrack && distanceFromStop == other.distanceFromStop && frequency == other.frequency && historicalOccupancy == other.historicalOccupancy && lastUpdateTime == other.lastUpdateTime && occupancyStatus == other.occupancyStatus && predicted == other.predicted && predictedArrivalInterval == other.predictedArrivalInterval && predictedDepartureInterval == other.predictedDepartureInterval && predictedOccupancy == other.predictedOccupancy && routeLongName == other.routeLongName && routeShortName == other.routeShortName && scheduledArrivalInterval == other.scheduledArrivalInterval && scheduledDepartureInterval == other.scheduledDepartureInterval && scheduledTrack == other.scheduledTrack && situationIds == other.situationIds && status == other.status && tripStatus == other.tripStatus && additionalProperties == other.additionalProperties /* spotless:on */
+                    return other is ArrivalsAndDeparture &&
+                        arrivalEnabled == other.arrivalEnabled &&
+                        blockTripSequence == other.blockTripSequence &&
+                        departureEnabled == other.departureEnabled &&
+                        numberOfStopsAway == other.numberOfStopsAway &&
+                        predictedArrivalTime == other.predictedArrivalTime &&
+                        predictedDepartureTime == other.predictedDepartureTime &&
+                        routeId == other.routeId &&
+                        scheduledArrivalTime == other.scheduledArrivalTime &&
+                        scheduledDepartureTime == other.scheduledDepartureTime &&
+                        serviceDate == other.serviceDate &&
+                        stopId == other.stopId &&
+                        stopSequence == other.stopSequence &&
+                        totalStopsInTrip == other.totalStopsInTrip &&
+                        tripHeadsign == other.tripHeadsign &&
+                        tripId == other.tripId &&
+                        vehicleId == other.vehicleId &&
+                        actualTrack == other.actualTrack &&
+                        distanceFromStop == other.distanceFromStop &&
+                        frequency == other.frequency &&
+                        historicalOccupancy == other.historicalOccupancy &&
+                        lastUpdateTime == other.lastUpdateTime &&
+                        occupancyStatus == other.occupancyStatus &&
+                        predicted == other.predicted &&
+                        predictedArrivalInterval == other.predictedArrivalInterval &&
+                        predictedDepartureInterval == other.predictedDepartureInterval &&
+                        predictedOccupancy == other.predictedOccupancy &&
+                        routeLongName == other.routeLongName &&
+                        routeShortName == other.routeShortName &&
+                        scheduledArrivalInterval == other.scheduledArrivalInterval &&
+                        scheduledDepartureInterval == other.scheduledDepartureInterval &&
+                        scheduledTrack == other.scheduledTrack &&
+                        situationIds == other.situationIds &&
+                        status == other.status &&
+                        tripStatus == other.tripStatus &&
+                        additionalProperties == other.additionalProperties
                 }
 
-                /* spotless:off */
-                private val hashCode: Int by lazy { Objects.hash(arrivalEnabled, blockTripSequence, departureEnabled, numberOfStopsAway, predictedArrivalTime, predictedDepartureTime, routeId, scheduledArrivalTime, scheduledDepartureTime, serviceDate, stopId, stopSequence, totalStopsInTrip, tripHeadsign, tripId, vehicleId, actualTrack, distanceFromStop, frequency, historicalOccupancy, lastUpdateTime, occupancyStatus, predicted, predictedArrivalInterval, predictedDepartureInterval, predictedOccupancy, routeLongName, routeShortName, scheduledArrivalInterval, scheduledDepartureInterval, scheduledTrack, situationIds, status, tripStatus, additionalProperties) }
-                /* spotless:on */
+                private val hashCode: Int by lazy {
+                    Objects.hash(
+                        arrivalEnabled,
+                        blockTripSequence,
+                        departureEnabled,
+                        numberOfStopsAway,
+                        predictedArrivalTime,
+                        predictedDepartureTime,
+                        routeId,
+                        scheduledArrivalTime,
+                        scheduledDepartureTime,
+                        serviceDate,
+                        stopId,
+                        stopSequence,
+                        totalStopsInTrip,
+                        tripHeadsign,
+                        tripId,
+                        vehicleId,
+                        actualTrack,
+                        distanceFromStop,
+                        frequency,
+                        historicalOccupancy,
+                        lastUpdateTime,
+                        occupancyStatus,
+                        predicted,
+                        predictedArrivalInterval,
+                        predictedDepartureInterval,
+                        predictedOccupancy,
+                        routeLongName,
+                        routeShortName,
+                        scheduledArrivalInterval,
+                        scheduledDepartureInterval,
+                        scheduledTrack,
+                        situationIds,
+                        status,
+                        tripStatus,
+                        additionalProperties,
+                    )
+                }
 
                 override fun hashCode(): Int = hashCode
 
@@ -4101,12 +4310,14 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is Entry && arrivalsAndDepartures == other.arrivalsAndDepartures && additionalProperties == other.additionalProperties /* spotless:on */
+                return other is Entry &&
+                    arrivalsAndDepartures == other.arrivalsAndDepartures &&
+                    additionalProperties == other.additionalProperties
             }
 
-            /* spotless:off */
-            private val hashCode: Int by lazy { Objects.hash(arrivalsAndDepartures, additionalProperties) }
-            /* spotless:on */
+            private val hashCode: Int by lazy {
+                Objects.hash(arrivalsAndDepartures, additionalProperties)
+            }
 
             override fun hashCode(): Int = hashCode
 
@@ -4119,12 +4330,13 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Data && entry == other.entry && references == other.references && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Data &&
+                entry == other.entry &&
+                references == other.references &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
         private val hashCode: Int by lazy { Objects.hash(entry, references, additionalProperties) }
-        /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
@@ -4137,12 +4349,18 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is ArrivalAndDepartureListResponse && code == other.code && currentTime == other.currentTime && text == other.text && version == other.version && data == other.data && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is ArrivalAndDepartureListResponse &&
+            code == other.code &&
+            currentTime == other.currentTime &&
+            text == other.text &&
+            version == other.version &&
+            data == other.data &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(code, currentTime, text, version, data, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(code, currentTime, text, version, data, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 

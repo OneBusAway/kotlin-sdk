@@ -20,6 +20,7 @@ import org.onebusaway.models.References
 import org.onebusaway.models.ResponseWrapper
 
 class StopsForRouteListResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val code: JsonField<Long>,
     private val currentTime: JsonField<Long>,
@@ -260,6 +261,14 @@ private constructor(
 
     private var validated: Boolean = false
 
+    /**
+     * Validates that the types of all values in this object match their expected types recursively.
+     *
+     * This method is _not_ forwards compatible with new types from the API for existing fields.
+     *
+     * @throws OnebusawaySdkInvalidDataException if any value type in this object doesn't match its
+     *   expected type.
+     */
     fun validate(): StopsForRouteListResponse = apply {
         if (validated) {
             return@apply
@@ -294,6 +303,7 @@ private constructor(
             (data.asKnown()?.validity() ?: 0)
 
     class Data
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val entry: JsonField<Entry>,
         private val references: JsonField<References>,
@@ -441,6 +451,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws OnebusawaySdkInvalidDataException if any value type in this object doesn't match
+         *   its expected type.
+         */
         fun validate(): Data = apply {
             if (validated) {
                 return@apply
@@ -469,6 +488,7 @@ private constructor(
             (entry.asKnown()?.validity() ?: 0) + (references.asKnown()?.validity() ?: 0)
 
         class Entry
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val polylines: JsonField<List<Polyline>>,
             private val routeId: JsonField<String>,
@@ -714,6 +734,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws OnebusawaySdkInvalidDataException if any value type in this object doesn't
+             *   match its expected type.
+             */
             fun validate(): Entry = apply {
                 if (validated) {
                     return@apply
@@ -747,6 +777,7 @@ private constructor(
                     (stopIds.asKnown()?.size ?: 0)
 
             class Polyline
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val length: JsonField<Long>,
                 private val levels: JsonField<String>,
@@ -908,6 +939,16 @@ private constructor(
 
                 private var validated: Boolean = false
 
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws OnebusawaySdkInvalidDataException if any value type in this object
+                 *   doesn't match its expected type.
+                 */
                 fun validate(): Polyline = apply {
                     if (validated) {
                         return@apply
@@ -943,12 +984,16 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is Polyline && length == other.length && levels == other.levels && points == other.points && additionalProperties == other.additionalProperties /* spotless:on */
+                    return other is Polyline &&
+                        length == other.length &&
+                        levels == other.levels &&
+                        points == other.points &&
+                        additionalProperties == other.additionalProperties
                 }
 
-                /* spotless:off */
-                private val hashCode: Int by lazy { Objects.hash(length, levels, points, additionalProperties) }
-                /* spotless:on */
+                private val hashCode: Int by lazy {
+                    Objects.hash(length, levels, points, additionalProperties)
+                }
 
                 override fun hashCode(): Int = hashCode
 
@@ -957,6 +1002,7 @@ private constructor(
             }
 
             class StopGrouping
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val id: JsonField<String>,
                 private val name: JsonField<Name>,
@@ -1182,6 +1228,16 @@ private constructor(
 
                 private var validated: Boolean = false
 
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws OnebusawaySdkInvalidDataException if any value type in this object
+                 *   doesn't match its expected type.
+                 */
                 fun validate(): StopGrouping = apply {
                     if (validated) {
                         return@apply
@@ -1215,6 +1271,7 @@ private constructor(
                         (stopIds.asKnown()?.size ?: 0)
 
                 class Name
+                @JsonCreator(mode = JsonCreator.Mode.DISABLED)
                 private constructor(
                     private val name: JsonField<String>,
                     private val names: JsonField<List<String>>,
@@ -1399,6 +1456,16 @@ private constructor(
 
                     private var validated: Boolean = false
 
+                    /**
+                     * Validates that the types of all values in this object match their expected
+                     * types recursively.
+                     *
+                     * This method is _not_ forwards compatible with new types from the API for
+                     * existing fields.
+                     *
+                     * @throws OnebusawaySdkInvalidDataException if any value type in this object
+                     *   doesn't match its expected type.
+                     */
                     fun validate(): Name = apply {
                         if (validated) {
                             return@apply
@@ -1434,12 +1501,16 @@ private constructor(
                             return true
                         }
 
-                        return /* spotless:off */ other is Name && name == other.name && names == other.names && type == other.type && additionalProperties == other.additionalProperties /* spotless:on */
+                        return other is Name &&
+                            name == other.name &&
+                            names == other.names &&
+                            type == other.type &&
+                            additionalProperties == other.additionalProperties
                     }
 
-                    /* spotless:off */
-                    private val hashCode: Int by lazy { Objects.hash(name, names, type, additionalProperties) }
-                    /* spotless:on */
+                    private val hashCode: Int by lazy {
+                        Objects.hash(name, names, type, additionalProperties)
+                    }
 
                     override fun hashCode(): Int = hashCode
 
@@ -1448,6 +1519,7 @@ private constructor(
                 }
 
                 class Polyline
+                @JsonCreator(mode = JsonCreator.Mode.DISABLED)
                 private constructor(
                     private val length: JsonField<Long>,
                     private val levels: JsonField<String>,
@@ -1614,6 +1686,16 @@ private constructor(
 
                     private var validated: Boolean = false
 
+                    /**
+                     * Validates that the types of all values in this object match their expected
+                     * types recursively.
+                     *
+                     * This method is _not_ forwards compatible with new types from the API for
+                     * existing fields.
+                     *
+                     * @throws OnebusawaySdkInvalidDataException if any value type in this object
+                     *   doesn't match its expected type.
+                     */
                     fun validate(): Polyline = apply {
                         if (validated) {
                             return@apply
@@ -1649,12 +1731,16 @@ private constructor(
                             return true
                         }
 
-                        return /* spotless:off */ other is Polyline && length == other.length && levels == other.levels && points == other.points && additionalProperties == other.additionalProperties /* spotless:on */
+                        return other is Polyline &&
+                            length == other.length &&
+                            levels == other.levels &&
+                            points == other.points &&
+                            additionalProperties == other.additionalProperties
                     }
 
-                    /* spotless:off */
-                    private val hashCode: Int by lazy { Objects.hash(length, levels, points, additionalProperties) }
-                    /* spotless:on */
+                    private val hashCode: Int by lazy {
+                        Objects.hash(length, levels, points, additionalProperties)
+                    }
 
                     override fun hashCode(): Int = hashCode
 
@@ -1667,12 +1753,17 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is StopGrouping && id == other.id && name == other.name && polylines == other.polylines && stopIds == other.stopIds && additionalProperties == other.additionalProperties /* spotless:on */
+                    return other is StopGrouping &&
+                        id == other.id &&
+                        name == other.name &&
+                        polylines == other.polylines &&
+                        stopIds == other.stopIds &&
+                        additionalProperties == other.additionalProperties
                 }
 
-                /* spotless:off */
-                private val hashCode: Int by lazy { Objects.hash(id, name, polylines, stopIds, additionalProperties) }
-                /* spotless:on */
+                private val hashCode: Int by lazy {
+                    Objects.hash(id, name, polylines, stopIds, additionalProperties)
+                }
 
                 override fun hashCode(): Int = hashCode
 
@@ -1685,12 +1776,17 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is Entry && polylines == other.polylines && routeId == other.routeId && stopGroupings == other.stopGroupings && stopIds == other.stopIds && additionalProperties == other.additionalProperties /* spotless:on */
+                return other is Entry &&
+                    polylines == other.polylines &&
+                    routeId == other.routeId &&
+                    stopGroupings == other.stopGroupings &&
+                    stopIds == other.stopIds &&
+                    additionalProperties == other.additionalProperties
             }
 
-            /* spotless:off */
-            private val hashCode: Int by lazy { Objects.hash(polylines, routeId, stopGroupings, stopIds, additionalProperties) }
-            /* spotless:on */
+            private val hashCode: Int by lazy {
+                Objects.hash(polylines, routeId, stopGroupings, stopIds, additionalProperties)
+            }
 
             override fun hashCode(): Int = hashCode
 
@@ -1703,12 +1799,13 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Data && entry == other.entry && references == other.references && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Data &&
+                entry == other.entry &&
+                references == other.references &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
         private val hashCode: Int by lazy { Objects.hash(entry, references, additionalProperties) }
-        /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
@@ -1721,12 +1818,18 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is StopsForRouteListResponse && code == other.code && currentTime == other.currentTime && text == other.text && version == other.version && data == other.data && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is StopsForRouteListResponse &&
+            code == other.code &&
+            currentTime == other.currentTime &&
+            text == other.text &&
+            version == other.version &&
+            data == other.data &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(code, currentTime, text, version, data, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(code, currentTime, text, version, data, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 

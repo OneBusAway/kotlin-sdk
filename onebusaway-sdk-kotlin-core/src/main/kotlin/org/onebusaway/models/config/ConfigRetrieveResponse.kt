@@ -18,6 +18,7 @@ import org.onebusaway.models.References
 import org.onebusaway.models.ResponseWrapper
 
 class ConfigRetrieveResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val code: JsonField<Long>,
     private val currentTime: JsonField<Long>,
@@ -258,6 +259,14 @@ private constructor(
 
     private var validated: Boolean = false
 
+    /**
+     * Validates that the types of all values in this object match their expected types recursively.
+     *
+     * This method is _not_ forwards compatible with new types from the API for existing fields.
+     *
+     * @throws OnebusawaySdkInvalidDataException if any value type in this object doesn't match its
+     *   expected type.
+     */
     fun validate(): ConfigRetrieveResponse = apply {
         if (validated) {
             return@apply
@@ -292,6 +301,7 @@ private constructor(
             (data.asKnown()?.validity() ?: 0)
 
     class Data
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val entry: JsonField<Entry>,
         private val references: JsonField<References>,
@@ -439,6 +449,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws OnebusawaySdkInvalidDataException if any value type in this object doesn't match
+         *   its expected type.
+         */
         fun validate(): Data = apply {
             if (validated) {
                 return@apply
@@ -467,6 +486,7 @@ private constructor(
             (entry.asKnown()?.validity() ?: 0) + (references.asKnown()?.validity() ?: 0)
 
         class Entry
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val id: JsonField<String>,
             private val gitProperties: JsonField<GitProperties>,
@@ -706,6 +726,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws OnebusawaySdkInvalidDataException if any value type in this object doesn't
+             *   match its expected type.
+             */
             fun validate(): Entry = apply {
                 if (validated) {
                     return@apply
@@ -741,6 +771,7 @@ private constructor(
                     (if (serviceDateTo.asKnown() == null) 0 else 1)
 
             class GitProperties
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val gitBranch: JsonField<String>,
                 private val gitBuildHost: JsonField<String>,
@@ -1581,6 +1612,16 @@ private constructor(
 
                 private var validated: Boolean = false
 
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws OnebusawaySdkInvalidDataException if any value type in this object
+                 *   doesn't match its expected type.
+                 */
                 fun validate(): GitProperties = apply {
                     if (validated) {
                         return@apply
@@ -1650,12 +1691,55 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is GitProperties && gitBranch == other.gitBranch && gitBuildHost == other.gitBuildHost && gitBuildTime == other.gitBuildTime && gitBuildUserEmail == other.gitBuildUserEmail && gitBuildUserName == other.gitBuildUserName && gitBuildVersion == other.gitBuildVersion && gitClosestTagCommitCount == other.gitClosestTagCommitCount && gitClosestTagName == other.gitClosestTagName && gitCommitId == other.gitCommitId && gitCommitIdAbbrev == other.gitCommitIdAbbrev && gitCommitIdDescribe == other.gitCommitIdDescribe && gitCommitIdDescribeShort == other.gitCommitIdDescribeShort && gitCommitMessageFull == other.gitCommitMessageFull && gitCommitMessageShort == other.gitCommitMessageShort && gitCommitTime == other.gitCommitTime && gitCommitUserEmail == other.gitCommitUserEmail && gitCommitUserName == other.gitCommitUserName && gitDirty == other.gitDirty && gitRemoteOriginUrl == other.gitRemoteOriginUrl && gitTags == other.gitTags && additionalProperties == other.additionalProperties /* spotless:on */
+                    return other is GitProperties &&
+                        gitBranch == other.gitBranch &&
+                        gitBuildHost == other.gitBuildHost &&
+                        gitBuildTime == other.gitBuildTime &&
+                        gitBuildUserEmail == other.gitBuildUserEmail &&
+                        gitBuildUserName == other.gitBuildUserName &&
+                        gitBuildVersion == other.gitBuildVersion &&
+                        gitClosestTagCommitCount == other.gitClosestTagCommitCount &&
+                        gitClosestTagName == other.gitClosestTagName &&
+                        gitCommitId == other.gitCommitId &&
+                        gitCommitIdAbbrev == other.gitCommitIdAbbrev &&
+                        gitCommitIdDescribe == other.gitCommitIdDescribe &&
+                        gitCommitIdDescribeShort == other.gitCommitIdDescribeShort &&
+                        gitCommitMessageFull == other.gitCommitMessageFull &&
+                        gitCommitMessageShort == other.gitCommitMessageShort &&
+                        gitCommitTime == other.gitCommitTime &&
+                        gitCommitUserEmail == other.gitCommitUserEmail &&
+                        gitCommitUserName == other.gitCommitUserName &&
+                        gitDirty == other.gitDirty &&
+                        gitRemoteOriginUrl == other.gitRemoteOriginUrl &&
+                        gitTags == other.gitTags &&
+                        additionalProperties == other.additionalProperties
                 }
 
-                /* spotless:off */
-                private val hashCode: Int by lazy { Objects.hash(gitBranch, gitBuildHost, gitBuildTime, gitBuildUserEmail, gitBuildUserName, gitBuildVersion, gitClosestTagCommitCount, gitClosestTagName, gitCommitId, gitCommitIdAbbrev, gitCommitIdDescribe, gitCommitIdDescribeShort, gitCommitMessageFull, gitCommitMessageShort, gitCommitTime, gitCommitUserEmail, gitCommitUserName, gitDirty, gitRemoteOriginUrl, gitTags, additionalProperties) }
-                /* spotless:on */
+                private val hashCode: Int by lazy {
+                    Objects.hash(
+                        gitBranch,
+                        gitBuildHost,
+                        gitBuildTime,
+                        gitBuildUserEmail,
+                        gitBuildUserName,
+                        gitBuildVersion,
+                        gitClosestTagCommitCount,
+                        gitClosestTagName,
+                        gitCommitId,
+                        gitCommitIdAbbrev,
+                        gitCommitIdDescribe,
+                        gitCommitIdDescribeShort,
+                        gitCommitMessageFull,
+                        gitCommitMessageShort,
+                        gitCommitTime,
+                        gitCommitUserEmail,
+                        gitCommitUserName,
+                        gitDirty,
+                        gitRemoteOriginUrl,
+                        gitTags,
+                        additionalProperties,
+                    )
+                }
 
                 override fun hashCode(): Int = hashCode
 
@@ -1668,12 +1752,25 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is Entry && id == other.id && gitProperties == other.gitProperties && name == other.name && serviceDateFrom == other.serviceDateFrom && serviceDateTo == other.serviceDateTo && additionalProperties == other.additionalProperties /* spotless:on */
+                return other is Entry &&
+                    id == other.id &&
+                    gitProperties == other.gitProperties &&
+                    name == other.name &&
+                    serviceDateFrom == other.serviceDateFrom &&
+                    serviceDateTo == other.serviceDateTo &&
+                    additionalProperties == other.additionalProperties
             }
 
-            /* spotless:off */
-            private val hashCode: Int by lazy { Objects.hash(id, gitProperties, name, serviceDateFrom, serviceDateTo, additionalProperties) }
-            /* spotless:on */
+            private val hashCode: Int by lazy {
+                Objects.hash(
+                    id,
+                    gitProperties,
+                    name,
+                    serviceDateFrom,
+                    serviceDateTo,
+                    additionalProperties,
+                )
+            }
 
             override fun hashCode(): Int = hashCode
 
@@ -1686,12 +1783,13 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Data && entry == other.entry && references == other.references && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Data &&
+                entry == other.entry &&
+                references == other.references &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
         private val hashCode: Int by lazy { Objects.hash(entry, references, additionalProperties) }
-        /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
@@ -1704,12 +1802,18 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is ConfigRetrieveResponse && code == other.code && currentTime == other.currentTime && text == other.text && version == other.version && data == other.data && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is ConfigRetrieveResponse &&
+            code == other.code &&
+            currentTime == other.currentTime &&
+            text == other.text &&
+            version == other.version &&
+            data == other.data &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(code, currentTime, text, version, data, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(code, currentTime, text, version, data, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 

@@ -41,8 +41,10 @@ private constructor(
     /** The reporting user’s current longitude */
     fun userLon(): Float? = userLon
 
+    /** Additional headers to send with the request. */
     fun _additionalHeaders(): Headers = additionalHeaders
 
+    /** Additional query param to send with the request. */
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
     fun toBuilder() = Builder().from(this)
@@ -367,6 +369,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws OnebusawaySdkInvalidDataException if any value type in this object doesn't match
+         *   its expected type.
+         */
         fun validate(): Code = apply {
             if (validated) {
                 return@apply
@@ -397,7 +408,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Code && value == other.value /* spotless:on */
+            return other is Code && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -410,10 +421,28 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is ReportProblemWithStopRetrieveParams && stopId == other.stopId && code == other.code && userComment == other.userComment && userLat == other.userLat && userLocationAccuracy == other.userLocationAccuracy && userLon == other.userLon && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is ReportProblemWithStopRetrieveParams &&
+            stopId == other.stopId &&
+            code == other.code &&
+            userComment == other.userComment &&
+            userLat == other.userLat &&
+            userLocationAccuracy == other.userLocationAccuracy &&
+            userLon == other.userLon &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(stopId, code, userComment, userLat, userLocationAccuracy, userLon, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(
+            stopId,
+            code,
+            userComment,
+            userLat,
+            userLocationAccuracy,
+            userLon,
+            additionalHeaders,
+            additionalQueryParams,
+        )
 
     override fun toString() =
         "ReportProblemWithStopRetrieveParams{stopId=$stopId, code=$code, userComment=$userComment, userLat=$userLat, userLocationAccuracy=$userLocationAccuracy, userLon=$userLon, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

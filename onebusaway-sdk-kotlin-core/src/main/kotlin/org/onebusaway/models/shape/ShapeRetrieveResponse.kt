@@ -18,6 +18,7 @@ import org.onebusaway.models.References
 import org.onebusaway.models.ResponseWrapper
 
 class ShapeRetrieveResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val code: JsonField<Long>,
     private val currentTime: JsonField<Long>,
@@ -258,6 +259,14 @@ private constructor(
 
     private var validated: Boolean = false
 
+    /**
+     * Validates that the types of all values in this object match their expected types recursively.
+     *
+     * This method is _not_ forwards compatible with new types from the API for existing fields.
+     *
+     * @throws OnebusawaySdkInvalidDataException if any value type in this object doesn't match its
+     *   expected type.
+     */
     fun validate(): ShapeRetrieveResponse = apply {
         if (validated) {
             return@apply
@@ -292,6 +301,7 @@ private constructor(
             (data.asKnown()?.validity() ?: 0)
 
     class Data
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val entry: JsonField<Entry>,
         private val references: JsonField<References>,
@@ -439,6 +449,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws OnebusawaySdkInvalidDataException if any value type in this object doesn't match
+         *   its expected type.
+         */
         fun validate(): Data = apply {
             if (validated) {
                 return@apply
@@ -467,6 +486,7 @@ private constructor(
             (entry.asKnown()?.validity() ?: 0) + (references.asKnown()?.validity() ?: 0)
 
         class Entry
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val length: JsonField<Long>,
             private val points: JsonField<String>,
@@ -647,6 +667,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws OnebusawaySdkInvalidDataException if any value type in this object doesn't
+             *   match its expected type.
+             */
             fun validate(): Entry = apply {
                 if (validated) {
                     return@apply
@@ -682,12 +712,16 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is Entry && length == other.length && points == other.points && levels == other.levels && additionalProperties == other.additionalProperties /* spotless:on */
+                return other is Entry &&
+                    length == other.length &&
+                    points == other.points &&
+                    levels == other.levels &&
+                    additionalProperties == other.additionalProperties
             }
 
-            /* spotless:off */
-            private val hashCode: Int by lazy { Objects.hash(length, points, levels, additionalProperties) }
-            /* spotless:on */
+            private val hashCode: Int by lazy {
+                Objects.hash(length, points, levels, additionalProperties)
+            }
 
             override fun hashCode(): Int = hashCode
 
@@ -700,12 +734,13 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Data && entry == other.entry && references == other.references && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Data &&
+                entry == other.entry &&
+                references == other.references &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
         private val hashCode: Int by lazy { Objects.hash(entry, references, additionalProperties) }
-        /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
@@ -718,12 +753,18 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is ShapeRetrieveResponse && code == other.code && currentTime == other.currentTime && text == other.text && version == other.version && data == other.data && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is ShapeRetrieveResponse &&
+            code == other.code &&
+            currentTime == other.currentTime &&
+            text == other.text &&
+            version == other.version &&
+            data == other.data &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(code, currentTime, text, version, data, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(code, currentTime, text, version, data, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 

@@ -25,8 +25,10 @@ private constructor(
      */
     fun date(): LocalDate? = date
 
+    /** Additional headers to send with the request. */
     fun _additionalHeaders(): Headers = additionalHeaders
 
+    /** Additional query param to send with the request. */
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
     fun toBuilder() = Builder().from(this)
@@ -198,10 +200,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is ScheduleForStopRetrieveParams && stopId == other.stopId && date == other.date && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is ScheduleForStopRetrieveParams &&
+            stopId == other.stopId &&
+            date == other.date &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(stopId, date, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(stopId, date, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "ScheduleForStopRetrieveParams{stopId=$stopId, date=$date, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

@@ -30,13 +30,13 @@ interface BlockService {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): BlockRetrieveResponse = retrieve(params.toBuilder().blockId(blockId).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: BlockRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): BlockRetrieveResponse
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(blockId: String, requestOptions: RequestOptions): BlockRetrieveResponse =
         retrieve(blockId, BlockRetrieveParams.none(), requestOptions)
 
@@ -62,14 +62,14 @@ interface BlockService {
         ): HttpResponseFor<BlockRetrieveResponse> =
             retrieve(params.toBuilder().blockId(blockId).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: BlockRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<BlockRetrieveResponse>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             blockId: String,

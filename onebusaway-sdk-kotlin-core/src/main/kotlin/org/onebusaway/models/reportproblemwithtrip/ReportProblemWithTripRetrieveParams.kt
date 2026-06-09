@@ -61,8 +61,10 @@ private constructor(
     /** The vehicle actively serving the trip */
     fun vehicleId(): String? = vehicleId
 
+    /** Additional headers to send with the request. */
     fun _additionalHeaders(): Headers = additionalHeaders
 
+    /** Additional query param to send with the request. */
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
     fun toBuilder() = Builder().from(this)
@@ -444,6 +446,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws OnebusawaySdkInvalidDataException if any value type in this object doesn't match
+         *   its expected type.
+         */
         fun validate(): Code = apply {
             if (validated) {
                 return@apply
@@ -474,7 +485,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Code && value == other.value /* spotless:on */
+            return other is Code && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -487,10 +498,38 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is ReportProblemWithTripRetrieveParams && tripId == other.tripId && code == other.code && serviceDate == other.serviceDate && stopId == other.stopId && userComment == other.userComment && userLat == other.userLat && userLocationAccuracy == other.userLocationAccuracy && userLon == other.userLon && userOnVehicle == other.userOnVehicle && userVehicleNumber == other.userVehicleNumber && vehicleId == other.vehicleId && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is ReportProblemWithTripRetrieveParams &&
+            tripId == other.tripId &&
+            code == other.code &&
+            serviceDate == other.serviceDate &&
+            stopId == other.stopId &&
+            userComment == other.userComment &&
+            userLat == other.userLat &&
+            userLocationAccuracy == other.userLocationAccuracy &&
+            userLon == other.userLon &&
+            userOnVehicle == other.userOnVehicle &&
+            userVehicleNumber == other.userVehicleNumber &&
+            vehicleId == other.vehicleId &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(tripId, code, serviceDate, stopId, userComment, userLat, userLocationAccuracy, userLon, userOnVehicle, userVehicleNumber, vehicleId, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(
+            tripId,
+            code,
+            serviceDate,
+            stopId,
+            userComment,
+            userLat,
+            userLocationAccuracy,
+            userLon,
+            userOnVehicle,
+            userVehicleNumber,
+            vehicleId,
+            additionalHeaders,
+            additionalQueryParams,
+        )
 
     override fun toString() =
         "ReportProblemWithTripRetrieveParams{tripId=$tripId, code=$code, serviceDate=$serviceDate, stopId=$stopId, userComment=$userComment, userLat=$userLat, userLocationAccuracy=$userLocationAccuracy, userLon=$userLon, userOnVehicle=$userOnVehicle, userVehicleNumber=$userVehicleNumber, vehicleId=$vehicleId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

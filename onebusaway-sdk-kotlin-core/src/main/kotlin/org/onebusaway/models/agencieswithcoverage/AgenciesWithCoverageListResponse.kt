@@ -20,6 +20,7 @@ import org.onebusaway.models.References
 import org.onebusaway.models.ResponseWrapper
 
 class AgenciesWithCoverageListResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val code: JsonField<Long>,
     private val currentTime: JsonField<Long>,
@@ -263,6 +264,14 @@ private constructor(
 
     private var validated: Boolean = false
 
+    /**
+     * Validates that the types of all values in this object match their expected types recursively.
+     *
+     * This method is _not_ forwards compatible with new types from the API for existing fields.
+     *
+     * @throws OnebusawaySdkInvalidDataException if any value type in this object doesn't match its
+     *   expected type.
+     */
     fun validate(): AgenciesWithCoverageListResponse = apply {
         if (validated) {
             return@apply
@@ -297,6 +306,7 @@ private constructor(
             (data.asKnown()?.validity() ?: 0)
 
     class Data
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val limitExceeded: JsonField<Boolean>,
         private val list: JsonField<kotlin.collections.List<List>>,
@@ -321,7 +331,7 @@ private constructor(
          * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
-        fun limitExceeded(): Boolean = limitExceeded.getRequired("limitExceeded")
+        fun limitExceeded(): Boolean? = limitExceeded.getNullable("limitExceeded")
 
         /**
          * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
@@ -393,7 +403,7 @@ private constructor(
         /** A builder for [Data]. */
         class Builder internal constructor() {
 
-            private var limitExceeded: JsonField<Boolean>? = null
+            private var limitExceeded: JsonField<Boolean> = JsonMissing.of()
             private var list: JsonField<MutableList<List>>? = null
             private var references: JsonField<References>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -491,7 +501,7 @@ private constructor(
              */
             fun build(): Data =
                 Data(
-                    checkRequired("limitExceeded", limitExceeded),
+                    limitExceeded,
                     checkRequired("list", list).map { it.toImmutable() },
                     checkRequired("references", references),
                     additionalProperties.toMutableMap(),
@@ -500,6 +510,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws OnebusawaySdkInvalidDataException if any value type in this object doesn't match
+         *   its expected type.
+         */
         fun validate(): Data = apply {
             if (validated) {
                 return@apply
@@ -531,6 +550,7 @@ private constructor(
                 (references.asKnown()?.validity() ?: 0)
 
         class List
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val agencyId: JsonField<String>,
             private val lat: JsonField<Double>,
@@ -780,6 +800,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws OnebusawaySdkInvalidDataException if any value type in this object doesn't
+             *   match its expected type.
+             */
             fun validate(): List = apply {
                 if (validated) {
                     return@apply
@@ -819,12 +849,18 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is List && agencyId == other.agencyId && lat == other.lat && latSpan == other.latSpan && lon == other.lon && lonSpan == other.lonSpan && additionalProperties == other.additionalProperties /* spotless:on */
+                return other is List &&
+                    agencyId == other.agencyId &&
+                    lat == other.lat &&
+                    latSpan == other.latSpan &&
+                    lon == other.lon &&
+                    lonSpan == other.lonSpan &&
+                    additionalProperties == other.additionalProperties
             }
 
-            /* spotless:off */
-            private val hashCode: Int by lazy { Objects.hash(agencyId, lat, latSpan, lon, lonSpan, additionalProperties) }
-            /* spotless:on */
+            private val hashCode: Int by lazy {
+                Objects.hash(agencyId, lat, latSpan, lon, lonSpan, additionalProperties)
+            }
 
             override fun hashCode(): Int = hashCode
 
@@ -837,12 +873,16 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Data && limitExceeded == other.limitExceeded && list == other.list && references == other.references && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Data &&
+                limitExceeded == other.limitExceeded &&
+                list == other.list &&
+                references == other.references &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(limitExceeded, list, references, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(limitExceeded, list, references, additionalProperties)
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -855,12 +895,18 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is AgenciesWithCoverageListResponse && code == other.code && currentTime == other.currentTime && text == other.text && version == other.version && data == other.data && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is AgenciesWithCoverageListResponse &&
+            code == other.code &&
+            currentTime == other.currentTime &&
+            text == other.text &&
+            version == other.version &&
+            data == other.data &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(code, currentTime, text, version, data, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(code, currentTime, text, version, data, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 

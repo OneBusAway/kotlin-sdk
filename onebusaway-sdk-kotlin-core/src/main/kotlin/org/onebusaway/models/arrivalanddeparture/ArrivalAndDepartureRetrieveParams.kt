@@ -33,8 +33,10 @@ private constructor(
 
     fun vehicleId(): String? = vehicleId
 
+    /** Additional headers to send with the request. */
     fun _additionalHeaders(): Headers = additionalHeaders
 
+    /** Additional query param to send with the request. */
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
     fun toBuilder() = Builder().from(this)
@@ -254,10 +256,28 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is ArrivalAndDepartureRetrieveParams && stopId == other.stopId && serviceDate == other.serviceDate && tripId == other.tripId && stopSequence == other.stopSequence && time == other.time && vehicleId == other.vehicleId && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is ArrivalAndDepartureRetrieveParams &&
+            stopId == other.stopId &&
+            serviceDate == other.serviceDate &&
+            tripId == other.tripId &&
+            stopSequence == other.stopSequence &&
+            time == other.time &&
+            vehicleId == other.vehicleId &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(stopId, serviceDate, tripId, stopSequence, time, vehicleId, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(
+            stopId,
+            serviceDate,
+            tripId,
+            stopSequence,
+            time,
+            vehicleId,
+            additionalHeaders,
+            additionalQueryParams,
+        )
 
     override fun toString() =
         "ArrivalAndDepartureRetrieveParams{stopId=$stopId, serviceDate=$serviceDate, tripId=$tripId, stopSequence=$stopSequence, time=$time, vehicleId=$vehicleId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

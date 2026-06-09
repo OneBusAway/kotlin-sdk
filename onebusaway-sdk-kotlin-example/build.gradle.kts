@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm")
+    application
 }
 
 group = "org.onebusaway.example"
@@ -10,9 +11,21 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":onebusaway-sdk-kotlin"))
+    implementation(project(":onebusaway-sdk-kotlin-core"))
+    implementation(project(":onebusaway-sdk-kotlin-client-okhttp"))
     testImplementation(platform("org.junit:junit-bom:5.9.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")
+}
+
+application {
+    // Use `./gradlew :onebusaway-sdk-kotlin-example:run` to run `Main`
+    // Use `./gradlew :onebusaway-sdk-kotlin-example:run -Pexample=Something` to run `SomethingExample`
+    mainClass = "org.onebusaway.example.${
+        if (project.hasProperty("example"))
+            "${project.property("example")}ExampleKt"
+        else
+            "MainKt"
+    }"
 }
 
 tasks.test {

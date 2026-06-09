@@ -31,13 +31,13 @@ interface TripDetailServiceAsync {
     ): TripDetailRetrieveResponse =
         retrieve(params.toBuilder().tripId(tripId).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     suspend fun retrieve(
         params: TripDetailRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): TripDetailRetrieveResponse
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     suspend fun retrieve(
         tripId: String,
         requestOptions: RequestOptions,
@@ -71,14 +71,14 @@ interface TripDetailServiceAsync {
         ): HttpResponseFor<TripDetailRetrieveResponse> =
             retrieve(params.toBuilder().tripId(tripId).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         suspend fun retrieve(
             params: TripDetailRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<TripDetailRetrieveResponse>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         suspend fun retrieve(
             tripId: String,

@@ -6,23 +6,38 @@ import com.fasterxml.jackson.databind.json.JsonMapper
 import java.net.Proxy
 import java.time.Clock
 import java.time.Duration
+import java.util.concurrent.ExecutorService
+import javax.net.ssl.HostnameVerifier
+import javax.net.ssl.SSLSocketFactory
+import javax.net.ssl.X509TrustManager
 import org.onebusaway.client.OnebusawaySdkClientAsync
 import org.onebusaway.client.OnebusawaySdkClientAsyncImpl
 import org.onebusaway.core.ClientOptions
+import org.onebusaway.core.LogLevel
+import org.onebusaway.core.Sleeper
 import org.onebusaway.core.Timeout
 import org.onebusaway.core.http.Headers
+import org.onebusaway.core.http.HttpClient
+import org.onebusaway.core.http.ProxyAuthenticator
 import org.onebusaway.core.http.QueryParams
+import org.onebusaway.core.jsonMapper
 
+/**
+ * A class that allows building an instance of [OnebusawaySdkClientAsync] with [OkHttpClient] as the
+ * underlying [HttpClient].
+ */
 class OnebusawaySdkOkHttpClientAsync private constructor() {
 
     companion object {
 
-        /**
-         * Returns a mutable builder for constructing an instance of
-         * [OnebusawaySdkOkHttpClientAsync].
-         */
+        /** Returns a mutable builder for constructing an instance of [OnebusawaySdkClientAsync]. */
         fun builder() = Builder()
 
+        /**
+         * Returns a client configured using system properties and environment variables.
+         *
+         * @see ClientOptions.Builder.fromEnv
+         */
         fun fromEnv(): OnebusawaySdkClientAsync = builder().fromEnv().build()
     }
 
@@ -30,10 +45,102 @@ class OnebusawaySdkOkHttpClientAsync private constructor() {
     class Builder internal constructor() {
 
         private var clientOptions: ClientOptions.Builder = ClientOptions.builder()
-        private var timeout: Timeout = Timeout.default()
+        private var dispatcherExecutorService: ExecutorService? = null
         private var proxy: Proxy? = null
+        private var proxyAuthenticator: ProxyAuthenticator? = null
+        private var maxIdleConnections: Int? = null
+        private var keepAliveDuration: Duration? = null
+        private var sslSocketFactory: SSLSocketFactory? = null
+        private var trustManager: X509TrustManager? = null
+        private var hostnameVerifier: HostnameVerifier? = null
 
-        fun baseUrl(baseUrl: String) = apply { clientOptions.baseUrl(baseUrl) }
+        /**
+         * The executor service to use for running HTTP requests.
+         *
+         * Defaults to OkHttp's
+         * [default executor service](https://github.com/square/okhttp/blob/ace792f443b2ffb17974f5c0d1cecdf589309f26/okhttp/src/commonJvmAndroid/kotlin/okhttp3/Dispatcher.kt#L98-L104).
+         *
+         * This class takes ownership of the executor service and shuts it down when closed.
+         */
+        fun dispatcherExecutorService(dispatcherExecutorService: ExecutorService?) = apply {
+            this.dispatcherExecutorService = dispatcherExecutorService
+        }
+
+        fun proxy(proxy: Proxy?) = apply { this.proxy = proxy }
+
+        /**
+         * Provides credentials when an HTTP proxy responds with `407 Proxy Authentication
+         * Required`.
+         */
+        fun proxyAuthenticator(proxyAuthenticator: ProxyAuthenticator?) = apply {
+            this.proxyAuthenticator = proxyAuthenticator
+        }
+
+        /**
+         * The maximum number of idle connections kept by the underlying OkHttp connection pool.
+         *
+         * If this is set, then [keepAliveDuration] must also be set.
+         *
+         * If unset, then OkHttp's default is used.
+         */
+        fun maxIdleConnections(maxIdleConnections: Int?) = apply {
+            this.maxIdleConnections = maxIdleConnections
+        }
+
+        /**
+         * Alias for [Builder.maxIdleConnections].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun maxIdleConnections(maxIdleConnections: Int) =
+            maxIdleConnections(maxIdleConnections as Int?)
+
+        /**
+         * The keep-alive duration for idle connections in the underlying OkHttp connection pool.
+         *
+         * If this is set, then [maxIdleConnections] must also be set.
+         *
+         * If unset, then OkHttp's default is used.
+         */
+        fun keepAliveDuration(keepAliveDuration: Duration?) = apply {
+            this.keepAliveDuration = keepAliveDuration
+        }
+
+        /**
+         * The socket factory used to secure HTTPS connections.
+         *
+         * If this is set, then [trustManager] must also be set.
+         *
+         * If unset, then the system default is used. Most applications should not call this method,
+         * and instead use the system default. The default include special optimizations that can be
+         * lost if the implementation is modified.
+         */
+        fun sslSocketFactory(sslSocketFactory: SSLSocketFactory?) = apply {
+            this.sslSocketFactory = sslSocketFactory
+        }
+
+        /**
+         * The trust manager used to secure HTTPS connections.
+         *
+         * If this is set, then [sslSocketFactory] must also be set.
+         *
+         * If unset, then the system default is used. Most applications should not call this method,
+         * and instead use the system default. The default include special optimizations that can be
+         * lost if the implementation is modified.
+         */
+        fun trustManager(trustManager: X509TrustManager?) = apply {
+            this.trustManager = trustManager
+        }
+
+        /**
+         * The verifier used to confirm that response certificates apply to requested hostnames for
+         * HTTPS connections.
+         *
+         * If unset, then a default hostname verifier is used.
+         */
+        fun hostnameVerifier(hostnameVerifier: HostnameVerifier?) = apply {
+            this.hostnameVerifier = hostnameVerifier
+        }
 
         /**
          * Whether to throw an exception if any of the Jackson versions detected at runtime are
@@ -46,9 +153,98 @@ class OnebusawaySdkOkHttpClientAsync private constructor() {
             clientOptions.checkJacksonVersionCompatibility(checkJacksonVersionCompatibility)
         }
 
+        /**
+         * The Jackson JSON mapper to use for serializing and deserializing JSON.
+         *
+         * Defaults to [org.onebusaway.core.jsonMapper]. The default is usually sufficient and
+         * rarely needs to be overridden.
+         */
         fun jsonMapper(jsonMapper: JsonMapper) = apply { clientOptions.jsonMapper(jsonMapper) }
 
+        /**
+         * The interface to use for delaying execution, like during retries.
+         *
+         * This is primarily useful for using fake delays in tests.
+         *
+         * Defaults to real execution delays.
+         *
+         * This class takes ownership of the sleeper and closes it when closed.
+         */
+        fun sleeper(sleeper: Sleeper) = apply { clientOptions.sleeper(sleeper) }
+
+        /**
+         * The clock to use for operations that require timing, like retries.
+         *
+         * This is primarily useful for using a fake clock in tests.
+         *
+         * Defaults to [Clock.systemUTC].
+         */
         fun clock(clock: Clock) = apply { clientOptions.clock(clock) }
+
+        /**
+         * The base URL to use for every request.
+         *
+         * Defaults to the production environment: `https://api.pugetsound.onebusaway.org`.
+         */
+        fun baseUrl(baseUrl: String?) = apply { clientOptions.baseUrl(baseUrl) }
+
+        /**
+         * Whether to call `validate` on every response before returning it.
+         *
+         * Setting this to `true` is _not_ forwards compatible with new types from the API for
+         * existing fields.
+         *
+         * Defaults to false, which means the shape of the response will not be validated upfront.
+         * Instead, validation will only occur for the parts of the response that are accessed.
+         */
+        fun responseValidation(responseValidation: Boolean) = apply {
+            clientOptions.responseValidation(responseValidation)
+        }
+
+        /**
+         * Sets the maximum time allowed for various parts of an HTTP call's lifecycle, excluding
+         * retries.
+         *
+         * Defaults to [Timeout.default].
+         */
+        fun timeout(timeout: Timeout) = apply { clientOptions.timeout(timeout) }
+
+        /**
+         * Sets the maximum time allowed for a complete HTTP call, not including retries.
+         *
+         * See [Timeout.request] for more details.
+         *
+         * For fine-grained control, pass a [Timeout] object.
+         */
+        fun timeout(timeout: Duration) = apply { clientOptions.timeout(timeout) }
+
+        /**
+         * The maximum number of times to retry failed requests, with a short exponential backoff
+         * between requests.
+         *
+         * Only the following error types are retried:
+         * - Connection errors (for example, due to a network connectivity problem)
+         * - 408 Request Timeout
+         * - 409 Conflict
+         * - 429 Rate Limit
+         * - 5xx Internal
+         *
+         * The API may also explicitly instruct the SDK to retry or not retry a request.
+         *
+         * Defaults to 2.
+         */
+        fun maxRetries(maxRetries: Int) = apply { clientOptions.maxRetries(maxRetries) }
+
+        /**
+         * The level at which to log request and response information.
+         *
+         * [fromEnv] will set the level from environment variables. See [LogLevel.fromEnv].
+         *
+         * Defaults to [LogLevel.fromEnv].
+         */
+        fun logLevel(logLevel: LogLevel) = apply { clientOptions.logLevel(logLevel) }
+
+        fun apiKey(apiKey: String) = apply { clientOptions.apiKey(apiKey) }
 
         fun headers(headers: Headers) = apply { clientOptions.headers(headers) }
 
@@ -130,30 +326,11 @@ class OnebusawaySdkOkHttpClientAsync private constructor() {
             clientOptions.removeAllQueryParams(keys)
         }
 
-        fun timeout(timeout: Timeout) = apply {
-            clientOptions.timeout(timeout)
-            this.timeout = timeout
-        }
-
         /**
-         * Sets the maximum time allowed for a complete HTTP call, not including retries.
+         * Updates configuration using system properties and environment variables.
          *
-         * See [Timeout.request] for more details.
-         *
-         * For fine-grained control, pass a [Timeout] object.
+         * @see ClientOptions.Builder.fromEnv
          */
-        fun timeout(timeout: Duration) = timeout(Timeout.builder().request(timeout).build())
-
-        fun maxRetries(maxRetries: Int) = apply { clientOptions.maxRetries(maxRetries) }
-
-        fun proxy(proxy: Proxy) = apply { this.proxy = proxy }
-
-        fun responseValidation(responseValidation: Boolean) = apply {
-            clientOptions.responseValidation(responseValidation)
-        }
-
-        fun apiKey(apiKey: String) = apply { clientOptions.apiKey(apiKey) }
-
         fun fromEnv() = apply { clientOptions.fromEnv() }
 
         /**
@@ -164,7 +341,19 @@ class OnebusawaySdkOkHttpClientAsync private constructor() {
         fun build(): OnebusawaySdkClientAsync =
             OnebusawaySdkClientAsyncImpl(
                 clientOptions
-                    .httpClient(OkHttpClient.builder().timeout(timeout).proxy(proxy).build())
+                    .httpClient(
+                        OkHttpClient.builder()
+                            .timeout(clientOptions.timeout())
+                            .proxy(proxy)
+                            .proxyAuthenticator(proxyAuthenticator)
+                            .maxIdleConnections(maxIdleConnections)
+                            .keepAliveDuration(keepAliveDuration)
+                            .dispatcherExecutorService(dispatcherExecutorService)
+                            .sslSocketFactory(sslSocketFactory)
+                            .trustManager(trustManager)
+                            .hostnameVerifier(hostnameVerifier)
+                            .build()
+                    )
                     .build()
             )
     }

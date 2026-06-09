@@ -18,6 +18,7 @@ import org.onebusaway.models.References
 import org.onebusaway.models.ResponseWrapper
 
 class AgencyRetrieveResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val code: JsonField<Long>,
     private val currentTime: JsonField<Long>,
@@ -258,6 +259,14 @@ private constructor(
 
     private var validated: Boolean = false
 
+    /**
+     * Validates that the types of all values in this object match their expected types recursively.
+     *
+     * This method is _not_ forwards compatible with new types from the API for existing fields.
+     *
+     * @throws OnebusawaySdkInvalidDataException if any value type in this object doesn't match its
+     *   expected type.
+     */
     fun validate(): AgencyRetrieveResponse = apply {
         if (validated) {
             return@apply
@@ -292,6 +301,7 @@ private constructor(
             (data.asKnown()?.validity() ?: 0)
 
     class Data
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val entry: JsonField<Entry>,
         private val limitExceeded: JsonField<Boolean>,
@@ -320,7 +330,7 @@ private constructor(
          * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
-        fun limitExceeded(): Boolean = limitExceeded.getRequired("limitExceeded")
+        fun limitExceeded(): Boolean? = limitExceeded.getNullable("limitExceeded")
 
         /**
          * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
@@ -385,7 +395,7 @@ private constructor(
         class Builder internal constructor() {
 
             private var entry: JsonField<Entry>? = null
-            private var limitExceeded: JsonField<Boolean>? = null
+            private var limitExceeded: JsonField<Boolean> = JsonMissing.of()
             private var references: JsonField<References>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -469,7 +479,7 @@ private constructor(
             fun build(): Data =
                 Data(
                     checkRequired("entry", entry),
-                    checkRequired("limitExceeded", limitExceeded),
+                    limitExceeded,
                     checkRequired("references", references),
                     additionalProperties.toMutableMap(),
                 )
@@ -477,6 +487,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws OnebusawaySdkInvalidDataException if any value type in this object doesn't match
+         *   its expected type.
+         */
         fun validate(): Data = apply {
             if (validated) {
                 return@apply
@@ -508,6 +527,7 @@ private constructor(
                 (references.asKnown()?.validity() ?: 0)
 
         class Entry
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val id: JsonField<String>,
             private val name: JsonField<String>,
@@ -924,6 +944,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws OnebusawaySdkInvalidDataException if any value type in this object doesn't
+             *   match its expected type.
+             */
             fun validate(): Entry = apply {
                 if (validated) {
                     return@apply
@@ -973,12 +1003,35 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is Entry && id == other.id && name == other.name && timezone == other.timezone && url == other.url && disclaimer == other.disclaimer && email == other.email && fareUrl == other.fareUrl && lang == other.lang && phone == other.phone && privateService == other.privateService && additionalProperties == other.additionalProperties /* spotless:on */
+                return other is Entry &&
+                    id == other.id &&
+                    name == other.name &&
+                    timezone == other.timezone &&
+                    url == other.url &&
+                    disclaimer == other.disclaimer &&
+                    email == other.email &&
+                    fareUrl == other.fareUrl &&
+                    lang == other.lang &&
+                    phone == other.phone &&
+                    privateService == other.privateService &&
+                    additionalProperties == other.additionalProperties
             }
 
-            /* spotless:off */
-            private val hashCode: Int by lazy { Objects.hash(id, name, timezone, url, disclaimer, email, fareUrl, lang, phone, privateService, additionalProperties) }
-            /* spotless:on */
+            private val hashCode: Int by lazy {
+                Objects.hash(
+                    id,
+                    name,
+                    timezone,
+                    url,
+                    disclaimer,
+                    email,
+                    fareUrl,
+                    lang,
+                    phone,
+                    privateService,
+                    additionalProperties,
+                )
+            }
 
             override fun hashCode(): Int = hashCode
 
@@ -991,12 +1044,16 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Data && entry == other.entry && limitExceeded == other.limitExceeded && references == other.references && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Data &&
+                entry == other.entry &&
+                limitExceeded == other.limitExceeded &&
+                references == other.references &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(entry, limitExceeded, references, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(entry, limitExceeded, references, additionalProperties)
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -1009,12 +1066,18 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is AgencyRetrieveResponse && code == other.code && currentTime == other.currentTime && text == other.text && version == other.version && data == other.data && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is AgencyRetrieveResponse &&
+            code == other.code &&
+            currentTime == other.currentTime &&
+            text == other.text &&
+            version == other.version &&
+            data == other.data &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(code, currentTime, text, version, data, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(code, currentTime, text, version, data, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 

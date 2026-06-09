@@ -5,10 +5,14 @@ package org.onebusaway.errors
 import org.onebusaway.core.JsonValue
 import org.onebusaway.core.checkRequired
 import org.onebusaway.core.http.Headers
+import org.onebusaway.core.jsonMapper
 
 class PermissionDeniedException
 private constructor(private val headers: Headers, private val body: JsonValue, cause: Throwable?) :
-    OnebusawaySdkServiceException("403: $body", cause) {
+    OnebusawaySdkServiceException(
+        "403: ${if (body.isMissing()) "Unknown" else jsonMapper().writeValueAsString(body)}",
+        cause,
+    ) {
 
     override fun statusCode(): Int = 403
 

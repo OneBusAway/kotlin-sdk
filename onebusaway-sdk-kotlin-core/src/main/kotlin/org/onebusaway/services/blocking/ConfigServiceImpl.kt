@@ -3,13 +3,13 @@
 package org.onebusaway.services.blocking
 
 import org.onebusaway.core.ClientOptions
-import org.onebusaway.core.JsonValue
 import org.onebusaway.core.RequestOptions
+import org.onebusaway.core.handlers.errorBodyHandler
 import org.onebusaway.core.handlers.errorHandler
 import org.onebusaway.core.handlers.jsonHandler
-import org.onebusaway.core.handlers.withErrorHandler
 import org.onebusaway.core.http.HttpMethod
 import org.onebusaway.core.http.HttpRequest
+import org.onebusaway.core.http.HttpResponse
 import org.onebusaway.core.http.HttpResponse.Handler
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.core.http.parseable
@@ -39,7 +39,8 @@ class ConfigServiceImpl internal constructor(private val clientOptions: ClientOp
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         ConfigService.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         override fun withOptions(
             modifier: (ClientOptions.Builder) -> Unit
@@ -48,7 +49,6 @@ class ConfigServiceImpl internal constructor(private val clientOptions: ClientOp
 
         private val retrieveHandler: Handler<ConfigRetrieveResponse> =
             jsonHandler<ConfigRetrieveResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun retrieve(
             params: ConfigRetrieveParams,
@@ -63,7 +63,7 @@ class ConfigServiceImpl internal constructor(private val clientOptions: ClientOp
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { retrieveHandler.handle(it) }
                     .also {

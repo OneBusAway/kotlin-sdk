@@ -31,13 +31,13 @@ interface VehiclesForAgencyService {
     ): VehiclesForAgencyListResponse =
         list(params.toBuilder().agencyId(agencyId).build(), requestOptions)
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: VehiclesForAgencyListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): VehiclesForAgencyListResponse
 
-    /** @see [list] */
+    /** @see list */
     fun list(agencyId: String, requestOptions: RequestOptions): VehiclesForAgencyListResponse =
         list(agencyId, VehiclesForAgencyListParams.none(), requestOptions)
 
@@ -68,14 +68,14 @@ interface VehiclesForAgencyService {
         ): HttpResponseFor<VehiclesForAgencyListResponse> =
             list(params.toBuilder().agencyId(agencyId).build(), requestOptions)
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: VehiclesForAgencyListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<VehiclesForAgencyListResponse>
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             agencyId: String,

@@ -16,6 +16,7 @@ import org.onebusaway.core.checkRequired
 import org.onebusaway.errors.OnebusawaySdkInvalidDataException
 
 class ResponseWrapper
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val code: JsonField<Long>,
     private val currentTime: JsonField<Long>,
@@ -218,6 +219,14 @@ private constructor(
 
     private var validated: Boolean = false
 
+    /**
+     * Validates that the types of all values in this object match their expected types recursively.
+     *
+     * This method is _not_ forwards compatible with new types from the API for existing fields.
+     *
+     * @throws OnebusawaySdkInvalidDataException if any value type in this object doesn't match its
+     *   expected type.
+     */
     fun validate(): ResponseWrapper = apply {
         if (validated) {
             return@apply
@@ -254,12 +263,17 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is ResponseWrapper && code == other.code && currentTime == other.currentTime && text == other.text && version == other.version && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is ResponseWrapper &&
+            code == other.code &&
+            currentTime == other.currentTime &&
+            text == other.text &&
+            version == other.version &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(code, currentTime, text, version, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(code, currentTime, text, version, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 

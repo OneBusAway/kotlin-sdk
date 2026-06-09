@@ -20,6 +20,7 @@ import org.onebusaway.models.References
 import org.onebusaway.models.ResponseWrapper
 
 class BlockRetrieveResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val code: JsonField<Long>,
     private val currentTime: JsonField<Long>,
@@ -260,6 +261,14 @@ private constructor(
 
     private var validated: Boolean = false
 
+    /**
+     * Validates that the types of all values in this object match their expected types recursively.
+     *
+     * This method is _not_ forwards compatible with new types from the API for existing fields.
+     *
+     * @throws OnebusawaySdkInvalidDataException if any value type in this object doesn't match its
+     *   expected type.
+     */
     fun validate(): BlockRetrieveResponse = apply {
         if (validated) {
             return@apply
@@ -294,6 +303,7 @@ private constructor(
             (data.asKnown()?.validity() ?: 0)
 
     class Data
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val entry: JsonField<Entry>,
         private val references: JsonField<References>,
@@ -441,6 +451,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws OnebusawaySdkInvalidDataException if any value type in this object doesn't match
+         *   its expected type.
+         */
         fun validate(): Data = apply {
             if (validated) {
                 return@apply
@@ -469,6 +488,7 @@ private constructor(
             (entry.asKnown()?.validity() ?: 0) + (references.asKnown()?.validity() ?: 0)
 
         class Entry
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val id: JsonField<String>,
             private val configurations: JsonField<List<Configuration>>,
@@ -635,6 +655,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws OnebusawaySdkInvalidDataException if any value type in this object doesn't
+             *   match its expected type.
+             */
             fun validate(): Entry = apply {
                 if (validated) {
                     return@apply
@@ -664,6 +694,7 @@ private constructor(
                     (configurations.asKnown()?.sumOf { it.validity().toInt() } ?: 0)
 
             class Configuration
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val activeServiceIds: JsonField<List<String>>,
                 private val trips: JsonField<List<Trip>>,
@@ -901,6 +932,16 @@ private constructor(
 
                 private var validated: Boolean = false
 
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws OnebusawaySdkInvalidDataException if any value type in this object
+                 *   doesn't match its expected type.
+                 */
                 fun validate(): Configuration = apply {
                     if (validated) {
                         return@apply
@@ -932,6 +973,7 @@ private constructor(
                         (inactiveServiceIds.asKnown()?.size ?: 0)
 
                 class Trip
+                @JsonCreator(mode = JsonCreator.Mode.DISABLED)
                 private constructor(
                     private val accumulatedSlackTime: JsonField<Float>,
                     private val blockStopTimes: JsonField<List<BlockStopTime>>,
@@ -1196,6 +1238,16 @@ private constructor(
 
                     private var validated: Boolean = false
 
+                    /**
+                     * Validates that the types of all values in this object match their expected
+                     * types recursively.
+                     *
+                     * This method is _not_ forwards compatible with new types from the API for
+                     * existing fields.
+                     *
+                     * @throws OnebusawaySdkInvalidDataException if any value type in this object
+                     *   doesn't match its expected type.
+                     */
                     fun validate(): Trip = apply {
                         if (validated) {
                             return@apply
@@ -1229,6 +1281,7 @@ private constructor(
                             (if (tripId.asKnown() == null) 0 else 1)
 
                     class BlockStopTime
+                    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
                     private constructor(
                         private val accumulatedSlackTime: JsonField<Float>,
                         private val blockSequence: JsonField<Long>,
@@ -1483,6 +1536,16 @@ private constructor(
 
                         private var validated: Boolean = false
 
+                        /**
+                         * Validates that the types of all values in this object match their
+                         * expected types recursively.
+                         *
+                         * This method is _not_ forwards compatible with new types from the API for
+                         * existing fields.
+                         *
+                         * @throws OnebusawaySdkInvalidDataException if any value type in this
+                         *   object doesn't match its expected type.
+                         */
                         fun validate(): BlockStopTime = apply {
                             if (validated) {
                                 return@apply
@@ -1516,6 +1579,7 @@ private constructor(
                                 (stopTime.asKnown()?.validity() ?: 0)
 
                         class StopTime
+                        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
                         private constructor(
                             private val arrivalTime: JsonField<Long>,
                             private val departureTime: JsonField<Long>,
@@ -1805,6 +1869,16 @@ private constructor(
 
                             private var validated: Boolean = false
 
+                            /**
+                             * Validates that the types of all values in this object match their
+                             * expected types recursively.
+                             *
+                             * This method is _not_ forwards compatible with new types from the API
+                             * for existing fields.
+                             *
+                             * @throws OnebusawaySdkInvalidDataException if any value type in this
+                             *   object doesn't match its expected type.
+                             */
                             fun validate(): StopTime = apply {
                                 if (validated) {
                                     return@apply
@@ -1844,12 +1918,25 @@ private constructor(
                                     return true
                                 }
 
-                                return /* spotless:off */ other is StopTime && arrivalTime == other.arrivalTime && departureTime == other.departureTime && stopId == other.stopId && dropOffType == other.dropOffType && pickupType == other.pickupType && additionalProperties == other.additionalProperties /* spotless:on */
+                                return other is StopTime &&
+                                    arrivalTime == other.arrivalTime &&
+                                    departureTime == other.departureTime &&
+                                    stopId == other.stopId &&
+                                    dropOffType == other.dropOffType &&
+                                    pickupType == other.pickupType &&
+                                    additionalProperties == other.additionalProperties
                             }
 
-                            /* spotless:off */
-                            private val hashCode: Int by lazy { Objects.hash(arrivalTime, departureTime, stopId, dropOffType, pickupType, additionalProperties) }
-                            /* spotless:on */
+                            private val hashCode: Int by lazy {
+                                Objects.hash(
+                                    arrivalTime,
+                                    departureTime,
+                                    stopId,
+                                    dropOffType,
+                                    pickupType,
+                                    additionalProperties,
+                                )
+                            }
 
                             override fun hashCode(): Int = hashCode
 
@@ -1862,12 +1949,23 @@ private constructor(
                                 return true
                             }
 
-                            return /* spotless:off */ other is BlockStopTime && accumulatedSlackTime == other.accumulatedSlackTime && blockSequence == other.blockSequence && distanceAlongBlock == other.distanceAlongBlock && stopTime == other.stopTime && additionalProperties == other.additionalProperties /* spotless:on */
+                            return other is BlockStopTime &&
+                                accumulatedSlackTime == other.accumulatedSlackTime &&
+                                blockSequence == other.blockSequence &&
+                                distanceAlongBlock == other.distanceAlongBlock &&
+                                stopTime == other.stopTime &&
+                                additionalProperties == other.additionalProperties
                         }
 
-                        /* spotless:off */
-                        private val hashCode: Int by lazy { Objects.hash(accumulatedSlackTime, blockSequence, distanceAlongBlock, stopTime, additionalProperties) }
-                        /* spotless:on */
+                        private val hashCode: Int by lazy {
+                            Objects.hash(
+                                accumulatedSlackTime,
+                                blockSequence,
+                                distanceAlongBlock,
+                                stopTime,
+                                additionalProperties,
+                            )
+                        }
 
                         override fun hashCode(): Int = hashCode
 
@@ -1880,12 +1978,23 @@ private constructor(
                             return true
                         }
 
-                        return /* spotless:off */ other is Trip && accumulatedSlackTime == other.accumulatedSlackTime && blockStopTimes == other.blockStopTimes && distanceAlongBlock == other.distanceAlongBlock && tripId == other.tripId && additionalProperties == other.additionalProperties /* spotless:on */
+                        return other is Trip &&
+                            accumulatedSlackTime == other.accumulatedSlackTime &&
+                            blockStopTimes == other.blockStopTimes &&
+                            distanceAlongBlock == other.distanceAlongBlock &&
+                            tripId == other.tripId &&
+                            additionalProperties == other.additionalProperties
                     }
 
-                    /* spotless:off */
-                    private val hashCode: Int by lazy { Objects.hash(accumulatedSlackTime, blockStopTimes, distanceAlongBlock, tripId, additionalProperties) }
-                    /* spotless:on */
+                    private val hashCode: Int by lazy {
+                        Objects.hash(
+                            accumulatedSlackTime,
+                            blockStopTimes,
+                            distanceAlongBlock,
+                            tripId,
+                            additionalProperties,
+                        )
+                    }
 
                     override fun hashCode(): Int = hashCode
 
@@ -1898,12 +2007,16 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is Configuration && activeServiceIds == other.activeServiceIds && trips == other.trips && inactiveServiceIds == other.inactiveServiceIds && additionalProperties == other.additionalProperties /* spotless:on */
+                    return other is Configuration &&
+                        activeServiceIds == other.activeServiceIds &&
+                        trips == other.trips &&
+                        inactiveServiceIds == other.inactiveServiceIds &&
+                        additionalProperties == other.additionalProperties
                 }
 
-                /* spotless:off */
-                private val hashCode: Int by lazy { Objects.hash(activeServiceIds, trips, inactiveServiceIds, additionalProperties) }
-                /* spotless:on */
+                private val hashCode: Int by lazy {
+                    Objects.hash(activeServiceIds, trips, inactiveServiceIds, additionalProperties)
+                }
 
                 override fun hashCode(): Int = hashCode
 
@@ -1916,12 +2029,15 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is Entry && id == other.id && configurations == other.configurations && additionalProperties == other.additionalProperties /* spotless:on */
+                return other is Entry &&
+                    id == other.id &&
+                    configurations == other.configurations &&
+                    additionalProperties == other.additionalProperties
             }
 
-            /* spotless:off */
-            private val hashCode: Int by lazy { Objects.hash(id, configurations, additionalProperties) }
-            /* spotless:on */
+            private val hashCode: Int by lazy {
+                Objects.hash(id, configurations, additionalProperties)
+            }
 
             override fun hashCode(): Int = hashCode
 
@@ -1934,12 +2050,13 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Data && entry == other.entry && references == other.references && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Data &&
+                entry == other.entry &&
+                references == other.references &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
         private val hashCode: Int by lazy { Objects.hash(entry, references, additionalProperties) }
-        /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
@@ -1952,12 +2069,18 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is BlockRetrieveResponse && code == other.code && currentTime == other.currentTime && text == other.text && version == other.version && data == other.data && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is BlockRetrieveResponse &&
+            code == other.code &&
+            currentTime == other.currentTime &&
+            text == other.text &&
+            version == other.version &&
+            data == other.data &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(code, currentTime, text, version, data, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(code, currentTime, text, version, data, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 

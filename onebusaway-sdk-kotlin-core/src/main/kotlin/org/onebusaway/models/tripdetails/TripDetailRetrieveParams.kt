@@ -39,8 +39,10 @@ private constructor(
     /** Time parameter to query the system at a specific time (optional). */
     fun time(): Long? = time
 
+    /** Additional headers to send with the request. */
     fun _additionalHeaders(): Headers = additionalHeaders
 
+    /** Additional query param to send with the request. */
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
     fun toBuilder() = Builder().from(this)
@@ -278,10 +280,28 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is TripDetailRetrieveParams && tripId == other.tripId && includeSchedule == other.includeSchedule && includeStatus == other.includeStatus && includeTrip == other.includeTrip && serviceDate == other.serviceDate && time == other.time && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is TripDetailRetrieveParams &&
+            tripId == other.tripId &&
+            includeSchedule == other.includeSchedule &&
+            includeStatus == other.includeStatus &&
+            includeTrip == other.includeTrip &&
+            serviceDate == other.serviceDate &&
+            time == other.time &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(tripId, includeSchedule, includeStatus, includeTrip, serviceDate, time, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(
+            tripId,
+            includeSchedule,
+            includeStatus,
+            includeTrip,
+            serviceDate,
+            time,
+            additionalHeaders,
+            additionalQueryParams,
+        )
 
     override fun toString() =
         "TripDetailRetrieveParams{tripId=$tripId, includeSchedule=$includeSchedule, includeStatus=$includeStatus, includeTrip=$includeTrip, serviceDate=$serviceDate, time=$time, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
