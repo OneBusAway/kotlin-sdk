@@ -972,9 +972,10 @@ private constructor(
                  * value instead. This method is primarily for setting the field to an undocumented
                  * or not yet supported value.
                  */
-                fun staticRouteIds(
-                    staticRouteIds: JsonField<kotlin.collections.List<String>>
-                ) = apply { this.staticRouteIds = staticRouteIds.map { it.toMutableList() } }
+                fun staticRouteIds(staticRouteIds: JsonField<kotlin.collections.List<String>>) =
+                    apply {
+                        this.staticRouteIds = staticRouteIds.map { it.toMutableList() }
+                    }
 
                 /**
                  * Adds a single [String] to [staticRouteIds].
