@@ -37,7 +37,7 @@ private constructor(
     /** Whether to include full schedule elements in the tripDetails section. Defaults to false. */
     fun includeSchedule(): Boolean? = includeSchedule
 
-    /** Whether to include full trip elements in the references section. Defaults to false. */
+    /** Whether to include full trip elements in the references section. Defaults to true. */
     fun includeTrip(): Boolean? = includeTrip
 
     /** Specific time for the query. Defaults to the current time. */
@@ -118,7 +118,7 @@ private constructor(
          */
         fun includeSchedule(includeSchedule: Boolean) = includeSchedule(includeSchedule as Boolean?)
 
-        /** Whether to include full trip elements in the references section. Defaults to false. */
+        /** Whether to include full trip elements in the references section. Defaults to true. */
         fun includeTrip(includeTrip: Boolean?) = apply { this.includeTrip = includeTrip }
 
         /**
