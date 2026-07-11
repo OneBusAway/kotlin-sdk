@@ -4,16 +4,15 @@ package org.onebusaway.models.routesforlocation
 
 import java.util.Objects
 import org.onebusaway.core.Params
-import org.onebusaway.core.checkRequired
 import org.onebusaway.core.http.Headers
 import org.onebusaway.core.http.QueryParams
 
 /** routes-for-location */
 class RoutesForLocationListParams
 private constructor(
-    private val lat: Double,
-    private val lon: Double,
+    private val lat: Double?,
     private val latSpan: Double?,
+    private val lon: Double?,
     private val lonSpan: Double?,
     private val query: String?,
     private val radius: Double?,
@@ -21,11 +20,13 @@ private constructor(
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun lat(): Double = lat
-
-    fun lon(): Double = lon
+    /** If omitted, defaults to 0.0. */
+    fun lat(): Double? = lat
 
     fun latSpan(): Double? = latSpan
+
+    /** If omitted, defaults to 0.0. */
+    fun lon(): Double? = lon
 
     fun lonSpan(): Double? = lonSpan
 
@@ -43,14 +44,10 @@ private constructor(
 
     companion object {
 
+        fun none(): RoutesForLocationListParams = builder().build()
+
         /**
          * Returns a mutable builder for constructing an instance of [RoutesForLocationListParams].
-         *
-         * The following fields are required:
-         * ```kotlin
-         * .lat()
-         * .lon()
-         * ```
          */
         fun builder() = Builder()
     }
@@ -59,8 +56,8 @@ private constructor(
     class Builder internal constructor() {
 
         private var lat: Double? = null
-        private var lon: Double? = null
         private var latSpan: Double? = null
+        private var lon: Double? = null
         private var lonSpan: Double? = null
         private var query: String? = null
         private var radius: Double? = null
@@ -69,8 +66,8 @@ private constructor(
 
         internal fun from(routesForLocationListParams: RoutesForLocationListParams) = apply {
             lat = routesForLocationListParams.lat
-            lon = routesForLocationListParams.lon
             latSpan = routesForLocationListParams.latSpan
+            lon = routesForLocationListParams.lon
             lonSpan = routesForLocationListParams.lonSpan
             query = routesForLocationListParams.query
             radius = routesForLocationListParams.radius
@@ -78,9 +75,15 @@ private constructor(
             additionalQueryParams = routesForLocationListParams.additionalQueryParams.toBuilder()
         }
 
-        fun lat(lat: Double) = apply { this.lat = lat }
+        /** If omitted, defaults to 0.0. */
+        fun lat(lat: Double?) = apply { this.lat = lat }
 
-        fun lon(lon: Double) = apply { this.lon = lon }
+        /**
+         * Alias for [Builder.lat].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun lat(lat: Double) = lat(lat as Double?)
 
         fun latSpan(latSpan: Double?) = apply { this.latSpan = latSpan }
 
@@ -90,6 +93,16 @@ private constructor(
          * This unboxed primitive overload exists for backwards compatibility.
          */
         fun latSpan(latSpan: Double) = latSpan(latSpan as Double?)
+
+        /** If omitted, defaults to 0.0. */
+        fun lon(lon: Double?) = apply { this.lon = lon }
+
+        /**
+         * Alias for [Builder.lon].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun lon(lon: Double) = lon(lon as Double?)
 
         fun lonSpan(lonSpan: Double?) = apply { this.lonSpan = lonSpan }
 
@@ -213,20 +226,12 @@ private constructor(
          * Returns an immutable instance of [RoutesForLocationListParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```kotlin
-         * .lat()
-         * .lon()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): RoutesForLocationListParams =
             RoutesForLocationListParams(
-                checkRequired("lat", lat),
-                checkRequired("lon", lon),
+                lat,
                 latSpan,
+                lon,
                 lonSpan,
                 query,
                 radius,
@@ -240,9 +245,9 @@ private constructor(
     override fun _queryParams(): QueryParams =
         QueryParams.builder()
             .apply {
-                put("lat", lat.toString())
-                put("lon", lon.toString())
+                lat?.let { put("lat", it.toString()) }
                 latSpan?.let { put("latSpan", it.toString()) }
+                lon?.let { put("lon", it.toString()) }
                 lonSpan?.let { put("lonSpan", it.toString()) }
                 query?.let { put("query", it) }
                 radius?.let { put("radius", it.toString()) }
@@ -257,8 +262,8 @@ private constructor(
 
         return other is RoutesForLocationListParams &&
             lat == other.lat &&
-            lon == other.lon &&
             latSpan == other.latSpan &&
+            lon == other.lon &&
             lonSpan == other.lonSpan &&
             query == other.query &&
             radius == other.radius &&
@@ -269,8 +274,8 @@ private constructor(
     override fun hashCode(): Int =
         Objects.hash(
             lat,
-            lon,
             latSpan,
+            lon,
             lonSpan,
             query,
             radius,
@@ -279,5 +284,5 @@ private constructor(
         )
 
     override fun toString() =
-        "RoutesForLocationListParams{lat=$lat, lon=$lon, latSpan=$latSpan, lonSpan=$lonSpan, query=$query, radius=$radius, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "RoutesForLocationListParams{lat=$lat, latSpan=$latSpan, lon=$lon, lonSpan=$lonSpan, query=$query, radius=$radius, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

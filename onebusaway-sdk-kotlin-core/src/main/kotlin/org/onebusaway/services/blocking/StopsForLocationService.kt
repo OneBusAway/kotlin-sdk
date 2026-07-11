@@ -25,9 +25,13 @@ interface StopsForLocationService {
 
     /** stops-for-location */
     fun list(
-        params: StopsForLocationListParams,
+        params: StopsForLocationListParams = StopsForLocationListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): StopsForLocationListResponse
+
+    /** @see list */
+    fun list(requestOptions: RequestOptions): StopsForLocationListResponse =
+        list(StopsForLocationListParams.none(), requestOptions)
 
     /**
      * A view of [StopsForLocationService] that provides access to raw HTTP responses for each
@@ -50,8 +54,13 @@ interface StopsForLocationService {
          */
         @MustBeClosed
         fun list(
-            params: StopsForLocationListParams,
+            params: StopsForLocationListParams = StopsForLocationListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<StopsForLocationListResponse>
+
+        /** @see list */
+        @MustBeClosed
+        fun list(requestOptions: RequestOptions): HttpResponseFor<StopsForLocationListResponse> =
+            list(StopsForLocationListParams.none(), requestOptions)
     }
 }
