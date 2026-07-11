@@ -25,9 +25,13 @@ interface RoutesForLocationService {
 
     /** routes-for-location */
     fun list(
-        params: RoutesForLocationListParams,
+        params: RoutesForLocationListParams = RoutesForLocationListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): RoutesForLocationListResponse
+
+    /** @see list */
+    fun list(requestOptions: RequestOptions): RoutesForLocationListResponse =
+        list(RoutesForLocationListParams.none(), requestOptions)
 
     /**
      * A view of [RoutesForLocationService] that provides access to raw HTTP responses for each
@@ -50,8 +54,13 @@ interface RoutesForLocationService {
          */
         @MustBeClosed
         fun list(
-            params: RoutesForLocationListParams,
+            params: RoutesForLocationListParams = RoutesForLocationListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<RoutesForLocationListResponse>
+
+        /** @see list */
+        @MustBeClosed
+        fun list(requestOptions: RequestOptions): HttpResponseFor<RoutesForLocationListResponse> =
+            list(RoutesForLocationListParams.none(), requestOptions)
     }
 }
