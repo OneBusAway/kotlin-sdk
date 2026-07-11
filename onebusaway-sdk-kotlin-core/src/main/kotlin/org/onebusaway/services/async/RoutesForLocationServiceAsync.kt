@@ -25,9 +25,13 @@ interface RoutesForLocationServiceAsync {
 
     /** routes-for-location */
     suspend fun list(
-        params: RoutesForLocationListParams,
+        params: RoutesForLocationListParams = RoutesForLocationListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): RoutesForLocationListResponse
+
+    /** @see list */
+    suspend fun list(requestOptions: RequestOptions): RoutesForLocationListResponse =
+        list(RoutesForLocationListParams.none(), requestOptions)
 
     /**
      * A view of [RoutesForLocationServiceAsync] that provides access to raw HTTP responses for each
@@ -50,8 +54,15 @@ interface RoutesForLocationServiceAsync {
          */
         @MustBeClosed
         suspend fun list(
-            params: RoutesForLocationListParams,
+            params: RoutesForLocationListParams = RoutesForLocationListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<RoutesForLocationListResponse>
+
+        /** @see list */
+        @MustBeClosed
+        suspend fun list(
+            requestOptions: RequestOptions
+        ): HttpResponseFor<RoutesForLocationListResponse> =
+            list(RoutesForLocationListParams.none(), requestOptions)
     }
 }
