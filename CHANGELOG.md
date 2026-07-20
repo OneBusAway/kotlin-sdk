@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.81 (2026-07-18)
+
+Full Changelog: [v0.1.0-alpha.80...v0.1.0-alpha.81](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.80...v0.1.0-alpha.81)
+
+### Features
+
+* **stlc:** configurable CI runner and private-production-repo support in workflow templates ([c37caa7](https://github.com/OneBusAway/kotlin-sdk/commit/c37caa780e1ff3293a4ad39b8b04cff78bfa25ff))
+
 ## 0.1.0-alpha.80 (2026-07-11)
 
 Full Changelog: [v0.1.0-alpha.79...v0.1.0-alpha.80](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.79...v0.1.0-alpha.80)
