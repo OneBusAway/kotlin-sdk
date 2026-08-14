@@ -3,7 +3,7 @@
 <!-- x-release-please-start-version -->
 
 [![Maven Central](https://img.shields.io/maven-central/v/org.onebusaway/onebusaway-sdk-kotlin)](https://central.sonatype.com/artifact/org.onebusaway/onebusaway-sdk-kotlin/0.1.0-alpha.81)
-[![javadoc](https://javadoc.io/badge2/org.onebusaway/onebusaway-sdk-kotlin/0.1.0-alpha.81/javadoc.svg)](https://javadoc.io/doc/org.onebusaway/onebusaway-sdk-kotlin/0.1.0-alpha.81)
+[![javadoc](https://javadoc.io/badge2/org.onebusaway/onebusaway-sdk-kotlin/javadoc.svg)](https://javadoc.io/doc/org.onebusaway/onebusaway-sdk-kotlin/0.1.0-alpha.81)
 
 <!-- x-release-please-end -->
 
