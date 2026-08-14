@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.82 (2026-08-14)
+
+Full Changelog: [v0.1.0-alpha.81...v0.1.0-alpha.82](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.81...v0.1.0-alpha.82)
+
+### Bug Fixes
+
+* **docs:** link the javadoc badge so the version stays current after release ([9206604](https://github.com/OneBusAway/kotlin-sdk/commit/9206604bc4f60076e9ec933f5a81e2db1826d15d))
+
 ## 0.1.0-alpha.81 (2026-07-18)
 
 Full Changelog: [v0.1.0-alpha.80...v0.1.0-alpha.81](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.80...v0.1.0-alpha.81)
