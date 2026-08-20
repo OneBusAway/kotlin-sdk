@@ -8,12 +8,11 @@ import org.onebusaway.core.RequestOptions
 import org.onebusaway.core.http.HttpResponseFor
 import org.onebusaway.models.stopsforroute.StopsForRouteListParams
 import org.onebusaway.models.stopsforroute.StopsForRouteListResponse
+import org.onebusaway.services.blocking.StopsForRouteService
 
 interface StopsForRouteService {
 
-    /**
-     * Returns a view of this service that provides access to raw HTTP responses for each method.
-     */
+    /** Returns a view of this service that provides access to raw HTTP responses for each method. */
     fun withRawResponse(): WithRawResponse
 
     /**
@@ -24,25 +23,25 @@ interface StopsForRouteService {
     fun withOptions(modifier: (ClientOptions.Builder) -> Unit): StopsForRouteService
 
     /** Get stops for a specific route */
-    fun list(
-        routeId: String,
-        params: StopsForRouteListParams = StopsForRouteListParams.none(),
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): StopsForRouteListResponse = list(params.toBuilder().routeId(routeId).build(), requestOptions)
+    fun list(routeId: String, params: StopsForRouteListParams = StopsForRouteListParams.none(), requestOptions: RequestOptions = RequestOptions.none()): StopsForRouteListResponse =
+        list(
+          params.toBuilder()
+              .routeId(routeId)
+              .build(), requestOptions
+        )
 
     /** @see list */
-    fun list(
-        params: StopsForRouteListParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): StopsForRouteListResponse
+    fun list(params: StopsForRouteListParams, requestOptions: RequestOptions = RequestOptions.none()): StopsForRouteListResponse
 
     /** @see list */
     fun list(routeId: String, requestOptions: RequestOptions): StopsForRouteListResponse =
-        list(routeId, StopsForRouteListParams.none(), requestOptions)
+        list(
+          routeId,
+          StopsForRouteListParams.none(),
+          requestOptions,
+        )
 
-    /**
-     * A view of [StopsForRouteService] that provides access to raw HTTP responses for each method.
-     */
+    /** A view of [StopsForRouteService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
 
         /**
@@ -50,35 +49,28 @@ interface StopsForRouteService {
          *
          * The original service is not modified.
          */
-        fun withOptions(
-            modifier: (ClientOptions.Builder) -> Unit
-        ): StopsForRouteService.WithRawResponse
+        fun withOptions(modifier: (ClientOptions.Builder) -> Unit): StopsForRouteService.WithRawResponse
 
-        /**
-         * Returns a raw HTTP response for `get /api/where/stops-for-route/{routeID}.json`, but is
-         * otherwise the same as [StopsForRouteService.list].
-         */
+        /** Returns a raw HTTP response for `get /api/where/stops-for-route/{routeID}.json`, but is otherwise the             same as [StopsForRouteService.list]. */
         @MustBeClosed
-        fun list(
-            routeId: String,
-            params: StopsForRouteListParams = StopsForRouteListParams.none(),
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<StopsForRouteListResponse> =
-            list(params.toBuilder().routeId(routeId).build(), requestOptions)
+        fun list(routeId: String, params: StopsForRouteListParams = StopsForRouteListParams.none(), requestOptions: RequestOptions = RequestOptions.none()): HttpResponseFor<StopsForRouteListResponse> =
+            list(
+              params.toBuilder()
+                  .routeId(routeId)
+                  .build(), requestOptions
+            )
 
         /** @see list */
         @MustBeClosed
-        fun list(
-            params: StopsForRouteListParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<StopsForRouteListResponse>
+        fun list(params: StopsForRouteListParams, requestOptions: RequestOptions = RequestOptions.none()): HttpResponseFor<StopsForRouteListResponse>
 
         /** @see list */
         @MustBeClosed
-        fun list(
-            routeId: String,
-            requestOptions: RequestOptions,
-        ): HttpResponseFor<StopsForRouteListResponse> =
-            list(routeId, StopsForRouteListParams.none(), requestOptions)
+        fun list(routeId: String, requestOptions: RequestOptions): HttpResponseFor<StopsForRouteListResponse> =
+            list(
+              routeId,
+              StopsForRouteListParams.none(),
+              requestOptions,
+            )
     }
 }

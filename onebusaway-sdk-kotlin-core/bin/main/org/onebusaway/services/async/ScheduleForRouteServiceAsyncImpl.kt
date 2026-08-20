@@ -17,61 +17,74 @@ import org.onebusaway.core.http.parseable
 import org.onebusaway.core.prepareAsync
 import org.onebusaway.models.scheduleforroute.ScheduleForRouteRetrieveParams
 import org.onebusaway.models.scheduleforroute.ScheduleForRouteRetrieveResponse
-import org.onebusaway.services.async.ScheduleForRouteServiceAsync
-import org.onebusaway.services.async.ScheduleForRouteServiceAsyncImpl
 
-class ScheduleForRouteServiceAsyncImpl internal constructor(
-    private val clientOptions: ClientOptions,
+class ScheduleForRouteServiceAsyncImpl
+internal constructor(private val clientOptions: ClientOptions) : ScheduleForRouteServiceAsync {
 
-) : ScheduleForRouteServiceAsync {
-
-    private val withRawResponse: ScheduleForRouteServiceAsync.WithRawResponse by lazy { WithRawResponseImpl(clientOptions) }
+    private val withRawResponse: ScheduleForRouteServiceAsync.WithRawResponse by lazy {
+        WithRawResponseImpl(clientOptions)
+    }
 
     override fun withRawResponse(): ScheduleForRouteServiceAsync.WithRawResponse = withRawResponse
 
-    override fun withOptions(modifier: (ClientOptions.Builder) -> Unit): ScheduleForRouteServiceAsync = ScheduleForRouteServiceAsyncImpl(clientOptions.toBuilder().apply(modifier).build())
+    override fun withOptions(
+        modifier: (ClientOptions.Builder) -> Unit
+    ): ScheduleForRouteServiceAsync =
+        ScheduleForRouteServiceAsyncImpl(clientOptions.toBuilder().apply(modifier).build())
 
-    override suspend fun retrieve(params: ScheduleForRouteRetrieveParams, requestOptions: RequestOptions): ScheduleForRouteRetrieveResponse =
+    override suspend fun retrieve(
+        params: ScheduleForRouteRetrieveParams,
+        requestOptions: RequestOptions,
+    ): ScheduleForRouteRetrieveResponse =
         // get /api/where/schedule-for-route/{routeID}.json
         withRawResponse().retrieve(params, requestOptions).parse()
 
-    class WithRawResponseImpl internal constructor(
-        private val clientOptions: ClientOptions,
+    class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
+        ScheduleForRouteServiceAsync.WithRawResponse {
 
-    ) : ScheduleForRouteServiceAsync.WithRawResponse {
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
-        private val errorHandler: Handler<HttpResponse> = errorHandler(errorBodyHandler(clientOptions.jsonMapper))
-
-        override fun withOptions(modifier: (ClientOptions.Builder) -> Unit): ScheduleForRouteServiceAsync.WithRawResponse = ScheduleForRouteServiceAsyncImpl.WithRawResponseImpl(clientOptions.toBuilder().apply(modifier).build())
-
-        private val retrieveHandler: Handler<ScheduleForRouteRetrieveResponse> = jsonHandler<ScheduleForRouteRetrieveResponse>(clientOptions.jsonMapper)
-
-        override suspend fun retrieve(params: ScheduleForRouteRetrieveParams, requestOptions: RequestOptions): HttpResponseFor<ScheduleForRouteRetrieveResponse> {
-          // We check here instead of in the params builder because this can be specified positionally or in the params class.
-          checkRequired("routeId", params.routeId())
-          val request = HttpRequest.builder()
-            .method(HttpMethod.GET)
-            .baseUrl(clientOptions.baseUrl())
-            .addPathSegments("api", "where", "schedule-for-route", "${params._pathParam(0)}.json")
-            .build()
-            .prepareAsync(
-              clientOptions, params
+        override fun withOptions(
+            modifier: (ClientOptions.Builder) -> Unit
+        ): ScheduleForRouteServiceAsync.WithRawResponse =
+            ScheduleForRouteServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier).build()
             )
-          val requestOptions = requestOptions
-              .applyDefaults(RequestOptions.from(clientOptions))
-          val response = clientOptions.httpClient.executeAsync(
-            request, requestOptions
-          )
-          return errorHandler.handle(response).parseable {
-              response.use {
-                  retrieveHandler.handle(it)
-              }
-              .also {
-                  if (requestOptions.responseValidation!!) {
-                    it.validate()
-                  }
-              }
-          }
+
+        private val retrieveHandler: Handler<ScheduleForRouteRetrieveResponse> =
+            jsonHandler<ScheduleForRouteRetrieveResponse>(clientOptions.jsonMapper)
+
+        override suspend fun retrieve(
+            params: ScheduleForRouteRetrieveParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<ScheduleForRouteRetrieveResponse> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("routeId", params.routeId())
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments(
+                        "api",
+                        "where",
+                        "schedule-for-route",
+                        "${params._pathParam(0)}.json",
+                    )
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.executeAsync(request, requestOptions)
+            return errorHandler.handle(response).parseable {
+                response
+                    .use { retrieveHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
         }
     }
 }

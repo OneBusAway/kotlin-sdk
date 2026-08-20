@@ -3,6 +3,7 @@
 package org.onebusaway.core.http
 
 import java.io.InputStream
+import org.onebusaway.core.http.Headers
 
 interface HttpResponse : AutoCloseable {
 
