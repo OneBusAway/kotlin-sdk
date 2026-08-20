@@ -9,13 +9,12 @@ object VehiclesForAgency {
 
     // Retrieve constants from environment variables or fallback to default values
     private val API_KEY: String = System.getenv("ONEBUSAWAY_API_KEY") ?: "TEST"
-    private val BASE_URL: String = System.getenv("ONEBUSAWAY_BASE_URL") ?: "https://api.pugetsound.onebusaway.org"
+    private val BASE_URL: String =
+        System.getenv("ONEBUSAWAY_BASE_URL") ?: "https://api.pugetsound.onebusaway.org"
 
     // Initialize the Onebusaway SDK client
-    private val client: OnebusawaySdkClient = OnebusawaySdkOkHttpClient.builder()
-        .apiKey(API_KEY)
-        .baseUrl(BASE_URL)
-        .build()
+    private val client: OnebusawaySdkClient =
+        OnebusawaySdkOkHttpClient.builder().apiKey(API_KEY).baseUrl(BASE_URL).build()
 
     @JvmStatic
     fun main(args: Array<String>) {
@@ -23,9 +22,7 @@ object VehiclesForAgency {
         val agencyId = "1"
 
         // Create the parameters for fetching vehicles for the agency
-        val params = VehiclesForAgencyListParams.builder()
-            .agencyId(agencyId)
-            .build()
+        val params = VehiclesForAgencyListParams.builder().agencyId(agencyId).build()
 
         // Get the vehicles for the agency
         val vehicles: VehiclesForAgencyListResponse = client.vehiclesForAgency().list(params)

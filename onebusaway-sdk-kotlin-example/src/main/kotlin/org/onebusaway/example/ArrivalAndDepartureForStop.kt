@@ -9,13 +9,12 @@ object ArrivalAndDepartureForStop {
 
     // Retrieve constants from environment variables or fallback to default values
     private val API_KEY: String = System.getenv("ONEBUSAWAY_API_KEY") ?: "TEST"
-    private val BASE_URL: String = System.getenv("ONEBUSAWAY_BASE_URL") ?: "https://api.pugetsound.onebusaway.org"
+    private val BASE_URL: String =
+        System.getenv("ONEBUSAWAY_BASE_URL") ?: "https://api.pugetsound.onebusaway.org"
 
     // Initialize the Onebusaway SDK client
-    private val client: OnebusawaySdkClient = OnebusawaySdkOkHttpClient.builder()
-        .apiKey(API_KEY)
-        .baseUrl(BASE_URL)
-        .build()
+    private val client: OnebusawaySdkClient =
+        OnebusawaySdkOkHttpClient.builder().apiKey(API_KEY).baseUrl(BASE_URL).build()
 
     @JvmStatic
     fun main(args: Array<String>) {
@@ -27,14 +26,16 @@ object ArrivalAndDepartureForStop {
         val serviceDate: Long = 1810918000 // Example timestamp
 
         // Create parameters for arrival and departure request
-        val params = ArrivalAndDepartureRetrieveParams.builder()
-            .stopId(stopId)
-            .tripId(tripId)
-            .serviceDate(serviceDate) // Use the Unix timestamp directly
-            .build()
+        val params =
+            ArrivalAndDepartureRetrieveParams.builder()
+                .stopId(stopId)
+                .tripId(tripId)
+                .serviceDate(serviceDate) // Use the Unix timestamp directly
+                .build()
 
         // Retrieve arrival and departure information
-        val arrivalAndDepartureForStop: ArrivalAndDepartureRetrieveResponse = client.arrivalAndDeparture().retrieve(params)
+        val arrivalAndDepartureForStop: ArrivalAndDepartureRetrieveResponse =
+            client.arrivalAndDeparture().retrieve(params)
         println(arrivalAndDepartureForStop)
     }
 }

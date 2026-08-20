@@ -9,13 +9,12 @@ object ArrivalsAndDeparturesForStop {
 
     // Retrieve constants from environment variables or fallback to default values
     private val API_KEY: String = System.getenv("ONEBUSAWAY_API_KEY") ?: "TEST"
-    private val BASE_URL: String = System.getenv("ONEBUSAWAY_BASE_URL") ?: "https://api.pugetsound.onebusaway.org"
+    private val BASE_URL: String =
+        System.getenv("ONEBUSAWAY_BASE_URL") ?: "https://api.pugetsound.onebusaway.org"
 
     // Initialize the Onebusaway SDK client
-    private val client: OnebusawaySdkClient = OnebusawaySdkOkHttpClient.builder()
-        .apiKey(API_KEY)
-        .baseUrl(BASE_URL)
-        .build()
+    private val client: OnebusawaySdkClient =
+        OnebusawaySdkOkHttpClient.builder().apiKey(API_KEY).baseUrl(BASE_URL).build()
 
     @JvmStatic
     fun main(args: Array<String>) {
@@ -24,18 +23,20 @@ object ArrivalsAndDeparturesForStop {
         val minutesBefore: Long = 5
         val minutesAfter: Long = 35
 
-
         // Define the parameters for the arrival and departure list request
-        val params = ArrivalAndDepartureListParams.builder()
-            .stopId(stopId)
-            .minutesBefore(minutesBefore)
-            .minutesAfter(minutesAfter)
-            .build()
+        val params =
+            ArrivalAndDepartureListParams.builder()
+                .stopId(stopId)
+                .minutesBefore(minutesBefore)
+                .minutesAfter(minutesAfter)
+                .build()
 
         // Retrieve arrival and departure information
-        val arrivalsAndDeparturesForStop: ArrivalAndDepartureListResponse = client.arrivalAndDeparture().list(params)
+        val arrivalsAndDeparturesForStop: ArrivalAndDepartureListResponse =
+            client.arrivalAndDeparture().list(params)
 
-        for (arrivalAndDeparture in arrivalsAndDeparturesForStop.data().entry().arrivalsAndDepartures()) {
+        for (arrivalAndDeparture in
+            arrivalsAndDeparturesForStop.data().entry().arrivalsAndDepartures()) {
             println(arrivalAndDeparture)
         }
     }

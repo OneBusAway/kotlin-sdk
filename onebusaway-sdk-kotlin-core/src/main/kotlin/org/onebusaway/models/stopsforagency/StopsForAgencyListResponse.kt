@@ -305,34 +305,28 @@ private constructor(
     class Data
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
-        private val limitExceeded: JsonField<Boolean>,
         private val list: JsonField<kotlin.collections.List<List>>,
         private val references: JsonField<References>,
+        private val limitExceeded: JsonField<Boolean>,
         private val outOfRange: JsonField<Boolean>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
         @JsonCreator
         private constructor(
-            @JsonProperty("limitExceeded")
-            @ExcludeMissing
-            limitExceeded: JsonField<Boolean> = JsonMissing.of(),
             @JsonProperty("list")
             @ExcludeMissing
             list: JsonField<kotlin.collections.List<List>> = JsonMissing.of(),
             @JsonProperty("references")
             @ExcludeMissing
             references: JsonField<References> = JsonMissing.of(),
+            @JsonProperty("limitExceeded")
+            @ExcludeMissing
+            limitExceeded: JsonField<Boolean> = JsonMissing.of(),
             @JsonProperty("outOfRange")
             @ExcludeMissing
             outOfRange: JsonField<Boolean> = JsonMissing.of(),
-        ) : this(limitExceeded, list, references, outOfRange, mutableMapOf())
-
-        /**
-         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
-         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-         */
-        fun limitExceeded(): Boolean? = limitExceeded.getNullable("limitExceeded")
+        ) : this(list, references, limitExceeded, outOfRange, mutableMapOf())
 
         /**
          * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type or is
@@ -350,17 +344,13 @@ private constructor(
          * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
          *   if the server responded with an unexpected value).
          */
-        fun outOfRange(): Boolean? = outOfRange.getNullable("outOfRange")
+        fun limitExceeded(): Boolean? = limitExceeded.getNullable("limitExceeded")
 
         /**
-         * Returns the raw JSON value of [limitExceeded].
-         *
-         * Unlike [limitExceeded], this method doesn't throw if the JSON field has an unexpected
-         * type.
+         * @throws OnebusawaySdkInvalidDataException if the JSON field has an unexpected type (e.g.
+         *   if the server responded with an unexpected value).
          */
-        @JsonProperty("limitExceeded")
-        @ExcludeMissing
-        fun _limitExceeded(): JsonField<Boolean> = limitExceeded
+        fun outOfRange(): Boolean? = outOfRange.getNullable("outOfRange")
 
         /**
          * Returns the raw JSON value of [list].
@@ -379,6 +369,16 @@ private constructor(
         @JsonProperty("references")
         @ExcludeMissing
         fun _references(): JsonField<References> = references
+
+        /**
+         * Returns the raw JSON value of [limitExceeded].
+         *
+         * Unlike [limitExceeded], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("limitExceeded")
+        @ExcludeMissing
+        fun _limitExceeded(): JsonField<Boolean> = limitExceeded
 
         /**
          * Returns the raw JSON value of [outOfRange].
@@ -408,7 +408,6 @@ private constructor(
              *
              * The following fields are required:
              * ```kotlin
-             * .limitExceeded()
              * .list()
              * .references()
              * ```
@@ -419,31 +418,18 @@ private constructor(
         /** A builder for [Data]. */
         class Builder internal constructor() {
 
-            private var limitExceeded: JsonField<Boolean> = JsonMissing.of()
             private var list: JsonField<MutableList<List>>? = null
             private var references: JsonField<References>? = null
+            private var limitExceeded: JsonField<Boolean> = JsonMissing.of()
             private var outOfRange: JsonField<Boolean> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             internal fun from(data: Data) = apply {
-                limitExceeded = data.limitExceeded
                 list = data.list.map { it.toMutableList() }
                 references = data.references
+                limitExceeded = data.limitExceeded
                 outOfRange = data.outOfRange
                 additionalProperties = data.additionalProperties.toMutableMap()
-            }
-
-            fun limitExceeded(limitExceeded: Boolean) = limitExceeded(JsonField.of(limitExceeded))
-
-            /**
-             * Sets [Builder.limitExceeded] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.limitExceeded] with a well-typed [Boolean] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun limitExceeded(limitExceeded: JsonField<Boolean>) = apply {
-                this.limitExceeded = limitExceeded
             }
 
             fun list(list: kotlin.collections.List<List>) = list(JsonField.of(list))
@@ -451,9 +437,9 @@ private constructor(
             /**
              * Sets [Builder.list] to an arbitrary JSON value.
              *
-             * You should usually call [Builder.list] with a well-typed `List<List>` value instead.
-             * This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
+             * You should usually call [Builder.list] with a well-typed
+             * `kotlin.collections.List<List>` value instead. This method is primarily for setting
+             * the field to an undocumented or not yet supported value.
              */
             fun list(list: JsonField<kotlin.collections.List<List>>) = apply {
                 this.list = list.map { it.toMutableList() }
@@ -482,6 +468,19 @@ private constructor(
              */
             fun references(references: JsonField<References>) = apply {
                 this.references = references
+            }
+
+            fun limitExceeded(limitExceeded: Boolean) = limitExceeded(JsonField.of(limitExceeded))
+
+            /**
+             * Sets [Builder.limitExceeded] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.limitExceeded] with a well-typed [Boolean] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun limitExceeded(limitExceeded: JsonField<Boolean>) = apply {
+                this.limitExceeded = limitExceeded
             }
 
             fun outOfRange(outOfRange: Boolean) = outOfRange(JsonField.of(outOfRange))
@@ -521,7 +520,6 @@ private constructor(
              *
              * The following fields are required:
              * ```kotlin
-             * .limitExceeded()
              * .list()
              * .references()
              * ```
@@ -530,9 +528,9 @@ private constructor(
              */
             fun build(): Data =
                 Data(
-                    limitExceeded,
                     checkRequired("list", list).map { it.toImmutable() },
                     checkRequired("references", references),
+                    limitExceeded,
                     outOfRange,
                     additionalProperties.toMutableMap(),
                 )
@@ -554,9 +552,9 @@ private constructor(
                 return@apply
             }
 
-            limitExceeded()
             list().forEach { it.validate() }
             references().validate()
+            limitExceeded()
             outOfRange()
             validated = true
         }
@@ -576,9 +574,9 @@ private constructor(
          * Used for best match union deserialization.
          */
         internal fun validity(): Int =
-            (if (limitExceeded.asKnown() == null) 0 else 1) +
-                (list.asKnown()?.sumOf { it.validity().toInt() } ?: 0) +
+            (list.asKnown()?.sumOf { it.validity().toInt() } ?: 0) +
                 (references.asKnown()?.validity() ?: 0) +
+                (if (limitExceeded.asKnown() == null) 0 else 1) +
                 (if (outOfRange.asKnown() == null) 0 else 1)
 
         class List
@@ -942,9 +940,9 @@ private constructor(
                 /**
                  * Sets [Builder.routeIds] to an arbitrary JSON value.
                  *
-                 * You should usually call [Builder.routeIds] with a well-typed `List<String>` value
-                 * instead. This method is primarily for setting the field to an undocumented or not
-                 * yet supported value.
+                 * You should usually call [Builder.routeIds] with a well-typed
+                 * `kotlin.collections.List<String>` value instead. This method is primarily for
+                 * setting the field to an undocumented or not yet supported value.
                  */
                 fun routeIds(routeIds: JsonField<kotlin.collections.List<String>>) = apply {
                     this.routeIds = routeIds.map { it.toMutableList() }
@@ -968,9 +966,9 @@ private constructor(
                 /**
                  * Sets [Builder.staticRouteIds] to an arbitrary JSON value.
                  *
-                 * You should usually call [Builder.staticRouteIds] with a well-typed `List<String>`
-                 * value instead. This method is primarily for setting the field to an undocumented
-                 * or not yet supported value.
+                 * You should usually call [Builder.staticRouteIds] with a well-typed
+                 * `kotlin.collections.List<String>` value instead. This method is primarily for
+                 * setting the field to an undocumented or not yet supported value.
                  */
                 fun staticRouteIds(staticRouteIds: JsonField<kotlin.collections.List<String>>) =
                     apply {
@@ -1190,21 +1188,21 @@ private constructor(
             }
 
             return other is Data &&
-                limitExceeded == other.limitExceeded &&
                 list == other.list &&
                 references == other.references &&
+                limitExceeded == other.limitExceeded &&
                 outOfRange == other.outOfRange &&
                 additionalProperties == other.additionalProperties
         }
 
         private val hashCode: Int by lazy {
-            Objects.hash(limitExceeded, list, references, outOfRange, additionalProperties)
+            Objects.hash(list, references, limitExceeded, outOfRange, additionalProperties)
         }
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Data{limitExceeded=$limitExceeded, list=$list, references=$references, outOfRange=$outOfRange, additionalProperties=$additionalProperties}"
+            "Data{list=$list, references=$references, limitExceeded=$limitExceeded, outOfRange=$outOfRange, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {
