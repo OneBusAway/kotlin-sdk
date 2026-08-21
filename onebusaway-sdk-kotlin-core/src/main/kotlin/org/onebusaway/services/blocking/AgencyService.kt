@@ -23,7 +23,7 @@ interface AgencyService {
      */
     fun withOptions(modifier: (ClientOptions.Builder) -> Unit): AgencyService
 
-    /** Retrieve information for a specific transit agency identified by its unique ID. */
+    /** Retrieve information for a specific transit agency identified by its ID. */
     fun retrieve(
         agencyId: String,
         params: AgencyRetrieveParams = AgencyRetrieveParams.none(),
