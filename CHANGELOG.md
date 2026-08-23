@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.1.0-alpha.82](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.81...v0.1.0-alpha.82) (2026-08-23)
+
+
+### Bug Fixes
+
+* add bin/ to .gitignore ([7226fe4](https://github.com/OneBusAway/kotlin-sdk/commit/7226fe4378b71670715b4b8431a0173c5e4a6c9c))
+* add bin/ to .gitignore ([1e6aaf3](https://github.com/OneBusAway/kotlin-sdk/commit/1e6aaf3ffe662128275e3cebf08fe95ed28d259b))
+* add release-please config to all targets ([04f95d0](https://github.com/OneBusAway/kotlin-sdk/commit/04f95d0509c3f6870019ac6d813f10d8c23071c3))
+* reformat with Gradle ktfmt 0.61 ([98fa5cc](https://github.com/OneBusAway/kotlin-sdk/commit/98fa5cc79a9caa9e0fbb68e514b4b3c9fb192cb9))
+* update agency endpoint description ([32b884c](https://github.com/OneBusAway/kotlin-sdk/commit/32b884c8a43f2b9d64b0e18859436c406bd990c1))
+
+
+### Chores
+
+* add stlc promote and sync workflows ([e34fae0](https://github.com/OneBusAway/kotlin-sdk/commit/e34fae0672d145a03b9da9582d83e1574d7cd683))
+
 ## 0.1.0-alpha.81 (2026-07-18)
 
 Full Changelog: [v0.1.0-alpha.80...v0.1.0-alpha.81](https://github.com/OneBusAway/kotlin-sdk/compare/v0.1.0-alpha.80...v0.1.0-alpha.81)
